@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Skrzynki", "Skrzynki.vbproj", "{0D424E42-3167-48D0-8220-56D0C2D978EB}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{0D424E42-3167-48D0-8220-56D0C2D978EB}.Debug.ActiveCfg = Debug|.NET
+		{0D424E42-3167-48D0-8220-56D0C2D978EB}.Debug.Build.0 = Debug|.NET
+		{0D424E42-3167-48D0-8220-56D0C2D978EB}.Release.ActiveCfg = Release|.NET
+		{0D424E42-3167-48D0-8220-56D0C2D978EB}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
