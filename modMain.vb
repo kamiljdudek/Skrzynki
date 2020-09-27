@@ -2,94 +2,80 @@ Option Strict Off
 Option Explicit On
 Imports VB = Microsoft.VisualBasic
 Module modMain
-	' -------------------------------------------------------------------------------------------
+    ' -------------------------------------------------------------------------------------------
     ' |                                         SKRZYNKI                                        |
-	' |                                 autor: Karol Kuczmarski                                 |
-	' -------------------------------------------------------------------------------------------
-	'
-	' Rodzaj: gra logiczna
-	' Typ: sokoban
-	'
-	' Nale¿y u³o¿yæ skrzynki na wyznaczony miejscach. Mo¿na poruszaæ tylko jedn¹ skrzynk¹ naraz,
-	' w kierunku "od siebie".
-	'
-	' Znaczenie procedur (P) i funkcji (F):
-	' Cofnij (P) - pozwala wróciæ do stanu sprzed ruchu (zapisanego w tablicy PoleGrySprzedRuchu
-	'              i zmiennej PozycjaGraczaSprzedRuchu
-	' Main (P) - procedura startowa, dba m. in. ¿eby nie by³o uruchomionych dwóch kopii gry
-	' NastepnyEtap (P) - jest wykonywana, kiedy gracz przejdzie etap
-	' NieMozna (P) - u¿ywana do generowania sygna³u ze speakera (poprzez funkcjê API MessageBeep)
-	' NowaGra (P) - startuje grê od wybranego etapu (okreœlonego w parametrze KtoryEtap)
-	' OdswiezPoleGry (P) - wyœwietla pole gry
-	' OdswiezPoleGryWokolGracza (P) - wykonywana po ka¿dym ruchu; wyœwietla pole gry wokó³ gracza
-	' PrzesunGracza (F) - u¿ywana, kiedy gracz wciœnie klawisz kursora; zwraca True, jeœli
-	'                     przesuniêcie jest mo¿liwe (jednoczeœnie je wykonuje); kierunek jest
-	'                     jest okreœlony parametrem Kierunek
-	' PrzesunSkrzynke (F) - czy mo¿na przesun¹æ skrzynkê na drodze gracza? (parametry: Kierunek
-	'                       okreœla kierunek przesuniêcia, PozycjaSkrzynki - któr¹ skrzynkê
-	'                       nale¿y przesun¹æ, zaœ ZMiejsca - czy skrzynka ta jest lub nie jest
-	'                       na miejscu
-	' RestartujEtap (P) - restartuje bie¿¹cy etap
-	' WczytajEtap (F) - wczytuje etap z pliku wskazanego w parametrze PlikEtapu; jednoczeœnie
-	'                   sprawdza jego poprawnoœæ (czy zawiera skrzynki, postaæ gracza itd.);
-	'                   parametr KanalPliku okreœla numer kana³u plikowego przypisanego do pliku
-	'                   etapu (zwykle jest to FreeFile())
-	' WczytajZestawEtapow (F) - wczytuje zestaw etapów
-	' ZakonczGre (P) - koñczy dzia³anie programu
-	'--------------------------------------------------------------------------------------------
-	' Dzia³anie gry opiera siê na tablicy 256 Image'ów oraz jej odpowiedniku w postaci jednowy-
-	' miarowego arrayu Byte'ów o nazwie PoleGry. Pozycja gracza jest zapisywana w zmiennej o tej
-	' nazwie. Do czego s³u¿¹ pozosta³e zmienne i sta³e - a jest ich du¿o - przy ich deklaracjach.
-	'--------------------------------------------------------------------------------------------
-	' Niniejszy program jest wolnym oprogramowaniem; mo¿esz go 
-	' rozprowadzaæ dalej i/lub modyfikowaæ na warunkach Powszechnej
-	' Licencji Publicznej GNU, wydanej przez Fundacjê Wolnego
-	' Oprogramowania - wed³ug wersji 2-giej tej Licencji lub którejœ
-	' z póŸniejszych wersji.
-	'
-	' Niniejszy program rozpowszechniany jest z nadziej¹, i¿ bêdzie on
-	' u¿yteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyœlnej
-	' gwarancji PRZYDATNOŒCI HANDLOWEJ albo PRZYDATNOŒCI DO OKREŒLONYCH
-	' ZASTOSOWAÑ. W celu uzyskania bli¿szych informacji - Powszechna
-	' Licencja Publiczna GNU.
-	'
-	' Z pewnoœci¹ wraz z niniejszym programem otrzyma³eœ te¿ egzemplarz
-	' Powszechnej Licencji Publicznej GNU (GNU General Public License);
-	' jeœli nie - napisz do Free Software Foundation, Inc., 675 Mass Ave,
-	' Cambridge, MA 02139, USA.
-	'--------------------------------------------------------------------------------------------
-	
-	
-	' dyrektywy
-	'----------
-	' ' wymóg deklaracji zmiennych ' indeks bazowy tablic na 1
-	
-	
-	' struktury
-	'----------
-	'
-	Structure Level ' dane etapu
+    ' |                                 autor: Karol Kuczmarski                                 |
+    ' -------------------------------------------------------------------------------------------
+    '
+    ' Rodzaj: gra logiczna
+    ' Typ: sokoban
+    '
+    ' Nale¿y u³o¿yæ skrzynki na wyznaczony miejscach. Mo¿na poruszaæ tylko jedn¹ skrzynk¹ naraz,
+    ' w kierunku "od siebie".
+    '
+    ' Znaczenie procedur (P) i funkcji (F):
+    ' Cofnij (P) - pozwala wróciæ do stanu sprzed ruchu (zapisanego w tablicy PoleGrySprzedRuchu
+    '              i zmiennej PozycjaGraczaSprzedRuchu
+    ' Main (P) - procedura startowa, dba m. in. ¿eby nie by³o uruchomionych dwóch kopii gry
+    ' NastepnyEtap (P) - jest wykonywana, kiedy gracz przejdzie etap
+    ' NieMozna (P) - u¿ywana do generowania sygna³u ze speakera (poprzez funkcjê API MessageBeep)
+    ' NowaGra (P) - startuje grê od wybranego etapu (okreœlonego w parametrze KtoryEtap)
+    ' OdswiezPoleGry (P) - wyœwietla pole gry
+    ' OdswiezPoleGryWokolGracza (P) - wykonywana po ka¿dym ruchu; wyœwietla pole gry wokó³ gracza
+    ' PrzesunGracza (F) - u¿ywana, kiedy gracz wciœnie klawisz kursora; zwraca True, jeœli
+    '                     przesuniêcie jest mo¿liwe (jednoczeœnie je wykonuje); kierunek jest
+    '                     jest okreœlony parametrem Kierunek
+    ' PrzesunSkrzynke (F) - czy mo¿na przesun¹æ skrzynkê na drodze gracza? (parametry: Kierunek
+    '                       okreœla kierunek przesuniêcia, PozycjaSkrzynki - któr¹ skrzynkê
+    '                       nale¿y przesun¹æ, zaœ ZMiejsca - czy skrzynka ta jest lub nie jest
+    '                       na miejscu
+    ' RestartujEtap (P) - restartuje bie¿¹cy etap
+    ' WczytajEtap (F) - wczytuje etap z pliku wskazanego w parametrze PlikEtapu; jednoczeœnie
+    '                   sprawdza jego poprawnoœæ (czy zawiera skrzynki, postaæ gracza itd.);
+    '                   parametr KanalPliku okreœla numer kana³u plikowego przypisanego do pliku
+    '                   etapu (zwykle jest to FreeFile())
+    ' WczytajZestawEtapow (F) - wczytuje zestaw etapów
+    ' ZakonczGre (P) - koñczy dzia³anie programu
+    '--------------------------------------------------------------------------------------------
+    ' Dzia³anie gry opiera siê na tablicy 256 Image'ów oraz jej odpowiedniku w postaci jednowy-
+    ' miarowego arrayu Byte'ów o nazwie PoleGry. Pozycja gracza jest zapisywana w zmiennej o tej
+    ' nazwie. Do czego s³u¿¹ pozosta³e zmienne i sta³e - a jest ich du¿o - przy ich deklaracjach.
+    '--------------------------------------------------------------------------------------------
+    ' Niniejszy program jest wolnym oprogramowaniem; mo¿esz go 
+    ' rozprowadzaæ dalej i/lub modyfikowaæ na warunkach Powszechnej
+    ' Licencji Publicznej GNU, wydanej przez Fundacjê Wolnego
+    ' Oprogramowania - wed³ug wersji 2-giej tej Licencji lub którejœ
+    ' z póŸniejszych wersji.
+    '
+    ' Niniejszy program rozpowszechniany jest z nadziej¹, i¿ bêdzie on
+    ' u¿yteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyœlnej
+    ' gwarancji PRZYDATNOŒCI HANDLOWEJ albo PRZYDATNOŒCI DO OKREŒLONYCH
+    ' ZASTOSOWAÑ. W celu uzyskania bli¿szych informacji - Powszechna
+    ' Licencja Publiczna GNU.
+    '
+    ' Z pewnoœci¹ wraz z niniejszym programem otrzyma³eœ te¿ egzemplarz
+    ' Powszechnej Licencji Publicznej GNU (GNU General Public License);
+    ' jeœli nie - napisz do Free Software Foundation, Inc., 675 Mass Ave,
+    ' Cambridge, MA 02139, USA.
+    '--------------------------------------------------------------------------------------------
+
+    Structure Level ' dane etapu
 		Dim LiczbaSkrzynek As Integer
 		Dim LiczbaMiejsc As Integer
 		Dim SkrzynkiNaMiejscach As Integer
 		Dim PostacGracza As Boolean
 	End Structure
-	
-	
-	' deklaracje sta³ych, zmiennych i funkcji API
-	'--------------------------------------------
-	'
-	' sta³e
-	'UPGRADE_NOTE: Lewo was changed from a Constant to a Variable. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1053"'
-	Public Lewo As System.Windows.Forms.Keys = System.Windows.Forms.Keys.Left ' kierunki
-	'UPGRADE_NOTE: Prawo was changed from a Constant to a Variable. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1053"'
-	Public Prawo As System.Windows.Forms.Keys = System.Windows.Forms.Keys.Right
-	'UPGRADE_NOTE: Gora was changed from a Constant to a Variable. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1053"'
-	Public Gora As System.Windows.Forms.Keys = System.Windows.Forms.Keys.Up
-	'UPGRADE_NOTE: Dol was changed from a Constant to a Variable. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1053"'
-	Public Dol As System.Windows.Forms.Keys = System.Windows.Forms.Keys.Down
-	'
-	Public Const Pusto As Short = 0 ' sta³e pola gry
+
+
+    ' deklaracje sta³ych, zmiennych i funkcji API
+    '--------------------------------------------
+    '
+    Public Lewo As System.Windows.Forms.Keys = System.Windows.Forms.Keys.Left
+    Public Prawo As System.Windows.Forms.Keys = System.Windows.Forms.Keys.Right
+    Public Gora As System.Windows.Forms.Keys = System.Windows.Forms.Keys.Up
+    Public Dol As System.Windows.Forms.Keys = System.Windows.Forms.Keys.Down
+    '
+    Public Const Pusto As Short = 0 ' sta³e pola gry
 	Public Const Murek As Short = 1
 	Public Const Skrzynka As Short = 2
 	Public Const Miejsce As Short = 3
@@ -147,13 +133,8 @@ Module modMain
 	Public Temp3 As Object ' j. w.
     Public Temp4 As String ' j. w.
 	Public Temp5 As Integer ' j. w.
-	Public Msg, Style As Object ' u¿ywane w komunikatach
-	Public KatalogWindows As String
-	Public DlugoscKataloguWindows As Integer
-	Public KatalogTemp As String
-	Public DlugoscKataloguTemp As Integer
-	'
-	Public NewPlayerFormAction As String
+    Public Msg, Style As Object ' u¿ywane w komunikatach
+    Public KatalogTemp As String
 
     Public RegKey As Microsoft.Win32.RegistryKey
     Public RegValue As Integer
@@ -162,14 +143,11 @@ Module modMain
 	' funkcje API
 	Public Declare Function MessageBeep Lib "USER32" (ByVal wType As Integer) As Integer ' do beepowania
 	Public Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Integer)
-	Public Declare Function ShellExecute Lib "shell32.dll"  Alias "ShellExecuteA"(ByVal hwnd As Integer, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Integer) As Integer ' do uruchamiania programów, np. HH.EXE w celu wyœwietlenia Pomocy
-	Public Declare Function DeleteFile Lib "kernel32"  Alias "DeleteFileA"(ByVal lpFileName As String) As Integer
-	Public Declare Function SetWindowPos Lib "USER32" (ByVal hwnd As Integer, ByVal hWndInsertAfter As Integer, ByVal x As Integer, ByVal y As Integer, ByVal cx As Integer, ByVal cy As Integer, ByVal wFlags As Integer) As Integer
-	Public Declare Function GetTempPath Lib "kernel32"  Alias "GetTempPathA"(ByVal nBufferLength As Integer, ByVal lpBuffer As String) As Integer
-	Public Declare Function GetWindowsDirectory Lib "kernel32"  Alias "GetWindowsDirectoryA"(ByVal lpBuffer As String, ByVal nSize As Integer) As Integer
-	
-	'UPGRADE_WARNING: Application will terminate when Sub Main() finishes. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1047"'
-	Public Sub Main()
+    'Public Declare Function ShellExecute Lib "shell32.dll"  Alias "ShellExecuteA"(ByVal hwnd As Integer, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Integer) As Integer ' do uruchamiania programów, np. HH.EXE w celu wyœwietlenia Pomocy
+    Public Declare Function DeleteFile Lib "kernel32" Alias "DeleteFileA" (ByVal lpFileName As String) As Integer
+
+    'UPGRADE_WARNING: Application will terminate when Sub Main() finishes. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1047"'
+    Public Sub Main()
 
         Dim RegKey As Microsoft.Win32.RegistryKey
         RegValue = 0
@@ -214,10 +192,9 @@ Module modMain
         WykonanoRuch = False
         EtapZaliczony = False
 
-        'PokazForme(frmMain.DefInstance)
-        PokazNaPaskuStanu(5, DaneGracza.Imie)
+        PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
 
-	End Sub
+    End Sub
 	Public Function AnalizujWierszPolecen() As String
 		On Error GoTo Blad
 		
@@ -456,66 +433,67 @@ BladWczytywaniaEtapu: 'coœ jest z plikiem
 		
 		If Temp3 = MsgBoxResult.OK Or Temp3 = MsgBoxResult.Cancel Then Exit Function Else Resume 
 	End Function
-	Public Function WczytajZestawEtapow(ByRef PlikZestawu As String, ByRef KanalPliku As Short) As Boolean
-		Dim LiczbaEtapowWZestawie As Short
-		Dim i As Short
-		Dim j As Short
-		Dim Kanal As Short
-		
-		FileOpen(KanalPliku, PlikZestawu, OpenMode.Input)
-		Input(KanalPliku, Temp1)
-		'UPGRADE_WARNING: Couldn't resolve default property of object Temp1. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		LiczbaEtapowWZestawie = Val(Temp1)
-		
-		'UPGRADE_WARNING: Lower bound of array Etapy was changed from 1,1 to 0,0. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1033"'
-		ReDim Etapy(LiczbaEtapowWZestawie, 256)
-		'UPGRADE_WARNING: Lower bound of array DaneEtapow was changed from 1 to 0. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1033"'
-		ReDim DaneEtapow(LiczbaEtapowWZestawie)
-		'UPGRADE_WARNING: Lower bound of array PozycjeGracza was changed from 1 to 0. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1033"'
-		ReDim PozycjeGracza(LiczbaEtapowWZestawie)
-		
-		For i = 1 To LiczbaEtapowWZestawie Step 1
-			Input(KanalPliku, Temp1)
-			
-			Kanal = FreeFile
-			FileOpen(Kanal, KatalogTemp & "\#" & Str(i) & ".box", OpenMode.Output)
-			For j = 1 To 16 Step 1
-				Temp1 = LineInput(KanalPliku)
-				PrintLine(Kanal, Temp1)
-			Next j
-			FileClose(Kanal)
-		Next i
-		FileClose(KanalPliku)
-		
-		For i = 1 To LiczbaEtapowWZestawie Step 1
-			If WczytajEtap(KatalogTemp & "\#" & Str(i) & ".box", FreeFile) Then
-				For j = 1 To 256 Step 1
-					Etapy(i, j) = PoleGry(j)
-				Next j
-				
-				'UPGRADE_WARNING: Couldn't resolve default property of object DaneEtapow(i). Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				DaneEtapow(i) = Etap
-				PozycjeGracza(i) = PozycjaGracza
-				
-				DeleteFile(KatalogTemp & "\#" & Str(i) & ".box")
-			Else : GoTo Blad
-			End If
-		Next i
-		
-		For i = 1 To 256 Step 1
-			PoleGry(i) = Etapy(1, i)
-		Next i
-		'UPGRADE_WARNING: Couldn't resolve default property of object Etap. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		Etap = DaneEtapow(1)
-		
-		WczytajZestawEtapow = True
-		Exit Function
-		
-Blad: 
-		MsgBox(ZwrocCiag("General#8"), MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-		WczytajZestawEtapow = False
-	End Function
-	Public Sub OdswiezPoleGry()
+    Public Function WczytajZestawEtapow(ByRef PlikZestawu As String, ByRef KanalPliku As Short) As Boolean
+        KatalogTemp = System.IO.Path.GetTempPath()
+        Dim LiczbaEtapowWZestawie As Short
+        Dim i As Short
+        Dim j As Short
+        Dim Kanal As Short
+
+        FileOpen(KanalPliku, PlikZestawu, OpenMode.Input)
+        Input(KanalPliku, Temp1)
+        'UPGRADE_WARNING: Couldn't resolve default property of object Temp1. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+        LiczbaEtapowWZestawie = Val(Temp1)
+
+        'UPGRADE_WARNING: Lower bound of array Etapy was changed from 1,1 to 0,0. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1033"'
+        ReDim Etapy(LiczbaEtapowWZestawie, 256)
+        'UPGRADE_WARNING: Lower bound of array DaneEtapow was changed from 1 to 0. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1033"'
+        ReDim DaneEtapow(LiczbaEtapowWZestawie)
+        'UPGRADE_WARNING: Lower bound of array PozycjeGracza was changed from 1 to 0. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1033"'
+        ReDim PozycjeGracza(LiczbaEtapowWZestawie)
+
+        For i = 1 To LiczbaEtapowWZestawie Step 1
+            Input(KanalPliku, Temp1)
+
+            Kanal = FreeFile()
+            FileOpen(Kanal, KatalogTemp & "\#" & Str(i) & ".box", OpenMode.Output)
+            For j = 1 To 16 Step 1
+                Temp1 = LineInput(KanalPliku)
+                PrintLine(Kanal, Temp1)
+            Next j
+            FileClose(Kanal)
+        Next i
+        FileClose(KanalPliku)
+
+        For i = 1 To LiczbaEtapowWZestawie Step 1
+            If WczytajEtap(KatalogTemp & "\#" & Str(i) & ".box", FreeFile) Then
+                For j = 1 To 256 Step 1
+                    Etapy(i, j) = PoleGry(j)
+                Next j
+
+                'UPGRADE_WARNING: Couldn't resolve default property of object DaneEtapow(i). Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+                DaneEtapow(i) = Etap
+                PozycjeGracza(i) = PozycjaGracza
+
+                DeleteFile(KatalogTemp & "\#" & Str(i) & ".box")
+            Else : GoTo Blad
+            End If
+        Next i
+
+        For i = 1 To 256 Step 1
+            PoleGry(i) = Etapy(1, i)
+        Next i
+        'UPGRADE_WARNING: Couldn't resolve default property of object Etap. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+        Etap = DaneEtapow(1)
+
+        WczytajZestawEtapow = True
+        Exit Function
+
+Blad:
+        MsgBox(ZwrocCiag("General#8"), MsgBoxStyle.OkOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+        WczytajZestawEtapow = False
+    End Function
+    Public Sub OdswiezPoleGry()
         Dim Skin As String
         RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\1", True)
         Skin = RegKey.GetValue("Skin", Nothing)
@@ -999,7 +977,7 @@ Blad:
             PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
             PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
             PokazNaPaskuStanu(4, "#" & NumerEtapu)
-            PokazNaPaskuStanu(5, DaneGracza.Imie)
+            PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
             frmMain.DefInstance.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
             EtapZaliczony = False
         End If

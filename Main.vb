@@ -41,9 +41,8 @@ Friend Class frmMain
 	Public WithEvents lblPushes As System.Windows.Forms.Label
 	Public WithEvents lblMoves As System.Windows.Forms.Label
 	Public WithEvents picStatusBar As System.Windows.Forms.Panel
-	Public WithEvents tmrMIDITimer As System.Windows.Forms.Timer
     Public WithEvents _imgGameField_256 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_255 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_255 As System.Windows.Forms.PictureBox
 	Public WithEvents _imgGameField_254 As System.Windows.Forms.PictureBox
 	Public WithEvents _imgGameField_253 As System.Windows.Forms.PictureBox
 	Public WithEvents _imgGameField_251 As System.Windows.Forms.PictureBox
@@ -328,300 +327,556 @@ Friend Class frmMain
 	'Do not modify it using the code editor.
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmMain))
+        Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.picStatusBar = New System.Windows.Forms.Panel
-        Me.imgStatusImage = New System.Windows.Forms.PictureBox
-        Me.lblPlayerName = New System.Windows.Forms.Label
-        Me.lblLevelNumber = New System.Windows.Forms.Label
-        Me.lblBoxes = New System.Windows.Forms.Label
-        Me.lblPushes = New System.Windows.Forms.Label
-        Me.lblMoves = New System.Windows.Forms.Label
-        Me.tmrMIDITimer = New System.Windows.Forms.Timer(Me.components)
-        Me._imgGameField_256 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_255 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_254 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_253 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_251 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_250 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_249 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_248 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_247 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_246 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_245 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_244 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_243 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_242 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_241 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_240 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_239 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_238 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_237 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_236 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_235 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_252 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_233 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_232 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_231 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_230 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_229 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_228 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_227 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_226 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_225 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_224 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_223 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_222 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_221 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_220 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_219 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_218 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_217 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_234 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_215 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_214 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_213 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_212 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_211 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_210 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_209 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_208 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_207 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_206 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_205 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_204 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_203 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_202 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_201 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_200 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_199 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_216 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_197 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_196 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_195 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_194 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_193 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_192 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_191 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_190 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_189 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_188 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_187 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_186 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_185 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_184 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_183 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_182 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_181 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_198 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_179 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_178 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_177 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_176 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_175 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_174 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_173 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_172 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_171 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_170 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_169 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_168 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_167 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_166 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_165 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_164 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_163 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_162 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_161 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_180 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_159 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_158 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_157 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_156 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_155 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_154 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_153 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_152 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_151 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_150 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_149 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_148 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_147 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_146 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_145 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_144 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_143 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_142 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_141 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_160 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_140 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_139 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_138 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_137 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_136 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_135 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_134 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_133 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_132 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_131 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_130 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_129 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_128 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_127 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_126 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_125 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_124 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_123 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_122 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_121 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_120 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_119 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_118 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_117 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_116 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_115 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_114 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_113 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_112 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_111 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_110 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_109 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_108 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_107 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_106 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_105 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_104 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_103 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_102 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_101 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_2 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_1 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_3 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_4 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_5 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_6 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_7 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_8 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_9 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_10 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_12 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_11 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_13 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_14 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_15 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_16 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_17 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_18 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_19 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_20 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_22 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_21 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_23 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_24 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_25 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_26 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_27 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_28 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_29 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_30 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_32 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_31 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_33 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_34 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_35 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_36 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_37 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_38 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_39 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_40 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_50 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_49 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_48 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_47 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_46 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_45 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_44 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_43 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_41 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_42 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_90 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_89 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_88 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_87 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_86 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_85 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_84 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_83 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_81 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_82 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_80 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_79 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_78 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_77 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_76 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_75 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_74 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_73 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_71 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_72 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_70 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_69 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_68 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_67 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_66 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_65 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_64 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_63 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_61 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_62 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_60 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_59 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_58 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_57 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_56 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_55 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_54 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_53 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_51 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_52 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_100 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_99 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_98 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_97 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_96 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_95 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_94 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_93 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_91 = New System.Windows.Forms.PictureBox
-        Me._imgGameField_92 = New System.Windows.Forms.PictureBox
+        Me.picStatusBar = New System.Windows.Forms.Panel()
+        Me.imgStatusImage = New System.Windows.Forms.PictureBox()
+        Me.lblPlayerName = New System.Windows.Forms.Label()
+        Me.lblLevelNumber = New System.Windows.Forms.Label()
+        Me.lblBoxes = New System.Windows.Forms.Label()
+        Me.lblPushes = New System.Windows.Forms.Label()
+        Me.lblMoves = New System.Windows.Forms.Label()
+        Me._imgGameField_256 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_255 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_254 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_253 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_251 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_250 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_249 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_248 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_247 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_246 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_245 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_244 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_243 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_242 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_241 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_240 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_239 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_238 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_237 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_236 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_235 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_252 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_233 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_232 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_231 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_230 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_229 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_228 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_227 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_226 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_225 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_224 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_223 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_222 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_221 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_220 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_219 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_218 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_217 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_234 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_215 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_214 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_213 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_212 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_211 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_210 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_209 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_208 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_207 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_206 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_205 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_204 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_203 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_202 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_201 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_200 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_199 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_216 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_197 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_196 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_195 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_194 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_193 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_192 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_191 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_190 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_189 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_188 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_187 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_186 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_185 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_184 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_183 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_182 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_181 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_198 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_179 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_178 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_177 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_176 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_175 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_174 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_173 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_172 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_171 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_170 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_169 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_168 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_167 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_166 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_165 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_164 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_163 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_162 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_161 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_180 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_159 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_158 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_157 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_156 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_155 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_154 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_153 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_152 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_151 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_150 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_149 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_148 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_147 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_146 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_145 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_144 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_143 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_142 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_141 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_160 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_140 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_139 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_138 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_137 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_136 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_135 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_134 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_133 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_132 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_131 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_130 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_129 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_128 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_127 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_126 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_125 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_124 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_123 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_122 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_121 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_120 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_119 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_118 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_117 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_116 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_115 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_114 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_113 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_112 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_111 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_110 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_109 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_108 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_107 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_106 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_105 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_104 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_103 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_102 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_101 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_2 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_1 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_3 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_4 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_5 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_6 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_7 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_8 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_9 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_10 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_12 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_11 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_13 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_14 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_15 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_16 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_17 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_18 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_19 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_20 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_22 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_21 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_23 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_24 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_25 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_26 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_27 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_28 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_29 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_30 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_32 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_31 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_33 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_34 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_35 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_36 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_37 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_38 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_39 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_40 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_50 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_49 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_48 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_47 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_46 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_45 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_44 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_43 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_41 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_42 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_90 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_89 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_88 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_87 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_86 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_85 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_84 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_83 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_81 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_82 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_80 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_79 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_78 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_77 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_76 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_75 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_74 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_73 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_71 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_72 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_70 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_69 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_68 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_67 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_66 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_65 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_64 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_63 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_61 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_62 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_60 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_59 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_58 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_57 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_56 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_55 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_54 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_53 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_51 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_52 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_100 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_99 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_98 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_97 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_96 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_95 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_94 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_93 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_91 = New System.Windows.Forms.PictureBox()
+        Me._imgGameField_92 = New System.Windows.Forms.PictureBox()
         Me.imgGameField = New Microsoft.VisualBasic.Compatibility.VB6.PictureBoxArray(Me.components)
-        Me.MainMenu1 = New System.Windows.Forms.MainMenu
-        Me.mnuGame = New System.Windows.Forms.MenuItem
-        Me.mnuGameNew = New System.Windows.Forms.MenuItem
-        Me.mnuGameWarp = New System.Windows.Forms.MenuItem
-        Me.mnuGameSet = New System.Windows.Forms.MenuItem
-        Me.mnuGameSetKlasyczne = New System.Windows.Forms.MenuItem
-        Me.mnuGameSetSuperTrudneXS = New System.Windows.Forms.MenuItem
-        Me.mnuGameOpen = New System.Windows.Forms.MenuItem
-        Me.mnuGameBar0 = New System.Windows.Forms.MenuItem
-        Me.mnuGameExit = New System.Windows.Forms.MenuItem
-        Me.mnuView = New System.Windows.Forms.MenuItem
-        Me.mnuViewStatusbar = New System.Windows.Forms.MenuItem
-        Me.mnuViewBar0 = New System.Windows.Forms.MenuItem
-        Me.mnuViewRefresh = New System.Windows.Forms.MenuItem
-        Me.mnuTools = New System.Windows.Forms.MenuItem
-        Me.mnuToolsUndo = New System.Windows.Forms.MenuItem
-        Me.mnuToolsRestart = New System.Windows.Forms.MenuItem
-        Me.mnuToolsBar0 = New System.Windows.Forms.MenuItem
-        Me.mnuToolsOptions = New System.Windows.Forms.MenuItem
-        Me.mnuHelp = New System.Windows.Forms.MenuItem
-        Me.mnuHelpContents = New System.Windows.Forms.MenuItem
-        Me.mnuHelpWeb = New System.Windows.Forms.MenuItem
-        Me.mnuHelpBar0 = New System.Windows.Forms.MenuItem
-        Me.mnuHelpAbout = New System.Windows.Forms.MenuItem
-        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
+        Me.MainMenu1 = New System.Windows.Forms.MainMenu(Me.components)
+        Me.mnuGame = New System.Windows.Forms.MenuItem()
+        Me.mnuGameNew = New System.Windows.Forms.MenuItem()
+        Me.mnuGameWarp = New System.Windows.Forms.MenuItem()
+        Me.mnuGameSet = New System.Windows.Forms.MenuItem()
+        Me.mnuGameSetKlasyczne = New System.Windows.Forms.MenuItem()
+        Me.mnuGameSetSuperTrudneXS = New System.Windows.Forms.MenuItem()
+        Me.mnuGameOpen = New System.Windows.Forms.MenuItem()
+        Me.mnuGameBar0 = New System.Windows.Forms.MenuItem()
+        Me.mnuGameExit = New System.Windows.Forms.MenuItem()
+        Me.mnuView = New System.Windows.Forms.MenuItem()
+        Me.mnuViewStatusbar = New System.Windows.Forms.MenuItem()
+        Me.mnuViewBar0 = New System.Windows.Forms.MenuItem()
+        Me.mnuViewRefresh = New System.Windows.Forms.MenuItem()
+        Me.mnuTools = New System.Windows.Forms.MenuItem()
+        Me.mnuToolsUndo = New System.Windows.Forms.MenuItem()
+        Me.mnuToolsRestart = New System.Windows.Forms.MenuItem()
+        Me.mnuToolsBar0 = New System.Windows.Forms.MenuItem()
+        Me.mnuToolsOptions = New System.Windows.Forms.MenuItem()
+        Me.mnuHelp = New System.Windows.Forms.MenuItem()
+        Me.mnuHelpContents = New System.Windows.Forms.MenuItem()
+        Me.mnuHelpWeb = New System.Windows.Forms.MenuItem()
+        Me.mnuHelpBar0 = New System.Windows.Forms.MenuItem()
+        Me.mnuHelpAbout = New System.Windows.Forms.MenuItem()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.picStatusBar.SuspendLayout()
+        CType(Me.imgStatusImage, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_256, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_255, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_254, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_253, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_251, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_250, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_249, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_248, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_247, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_246, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_245, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_244, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_243, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_242, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_241, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_240, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_239, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_238, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_237, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_236, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_235, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_252, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_233, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_232, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_231, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_230, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_229, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_228, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_227, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_226, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_225, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_224, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_223, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_222, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_221, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_220, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_219, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_218, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_217, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_234, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_215, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_214, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_213, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_212, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_211, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_210, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_209, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_208, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_207, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_206, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_205, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_204, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_203, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_202, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_201, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_200, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_199, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_216, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_197, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_196, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_195, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_194, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_193, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_192, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_191, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_190, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_189, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_188, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_187, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_186, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_185, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_184, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_183, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_182, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_181, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_198, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_179, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_178, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_177, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_176, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_175, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_174, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_173, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_172, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_171, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_170, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_169, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_168, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_167, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_166, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_165, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_164, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_163, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_162, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_161, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_180, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_159, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_158, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_157, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_156, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_155, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_154, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_153, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_152, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_151, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_150, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_149, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_148, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_147, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_146, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_145, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_144, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_143, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_142, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_141, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_160, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_140, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_139, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_138, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_137, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_136, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_135, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_134, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_133, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_132, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_131, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_130, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_129, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_128, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_127, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_126, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_125, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_124, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_123, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_122, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_121, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_120, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_119, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_118, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_117, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_116, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_115, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_114, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_113, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_112, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_111, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_110, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_109, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_108, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_107, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_106, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_105, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_104, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_103, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_102, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_101, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_18, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_22, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_21, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_24, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_25, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_26, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_27, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_28, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_29, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_30, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_32, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_31, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_33, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_34, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_35, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_36, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_37, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_38, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_39, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_40, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_50, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_49, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_48, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_47, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_46, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_45, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_44, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_43, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_41, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_42, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_90, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_89, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_88, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_87, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_86, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_85, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_84, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_83, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_81, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_82, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_80, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_79, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_78, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_77, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_76, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_75, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_74, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_73, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_71, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_72, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_70, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_69, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_68, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_67, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_66, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_65, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_64, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_63, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_61, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_62, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_60, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_59, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_58, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_57, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_56, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_55, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_54, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_53, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_51, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_52, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_100, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_99, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_98, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_97, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_96, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_95, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_94, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_93, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_91, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._imgGameField_92, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgGameField, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -727,10 +982,6 @@ Friend Class frmMain
         Me.lblMoves.TabIndex = 2
         Me.lblMoves.Text = "Ruchy: ###"
         Me.lblMoves.TextAlign = System.Drawing.ContentAlignment.TopCenter
-        '
-        'tmrMIDITimer
-        '
-        Me.tmrMIDITimer.Interval = 250
         '
         '_imgGameField_256
         '
@@ -3700,6 +3951,263 @@ Friend Class frmMain
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "Skrzynki"
         Me.picStatusBar.ResumeLayout(False)
+        CType(Me.imgStatusImage, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_256, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_255, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_254, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_253, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_251, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_250, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_249, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_248, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_247, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_246, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_245, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_244, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_243, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_242, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_241, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_240, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_239, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_238, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_237, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_236, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_235, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_252, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_233, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_232, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_231, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_230, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_229, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_228, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_227, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_226, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_225, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_224, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_223, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_222, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_221, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_220, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_219, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_218, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_217, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_234, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_215, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_214, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_213, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_212, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_211, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_210, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_209, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_208, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_207, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_206, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_205, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_204, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_203, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_202, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_201, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_200, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_199, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_216, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_197, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_196, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_195, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_194, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_193, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_192, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_191, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_190, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_189, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_188, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_187, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_186, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_185, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_184, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_183, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_182, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_181, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_198, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_179, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_178, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_177, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_176, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_175, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_174, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_173, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_172, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_171, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_170, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_169, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_168, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_167, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_166, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_165, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_164, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_163, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_162, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_161, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_180, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_159, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_158, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_157, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_156, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_155, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_154, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_153, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_152, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_151, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_150, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_149, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_148, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_147, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_146, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_145, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_144, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_143, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_142, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_141, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_160, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_140, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_139, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_138, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_137, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_136, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_135, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_134, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_133, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_132, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_131, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_130, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_129, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_128, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_127, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_126, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_125, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_124, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_123, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_122, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_121, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_120, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_119, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_118, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_117, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_116, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_115, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_114, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_113, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_112, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_111, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_110, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_109, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_108, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_107, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_106, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_105, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_104, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_103, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_102, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_101, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_18, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_22, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_21, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_24, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_25, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_26, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_27, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_28, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_29, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_30, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_32, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_31, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_33, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_34, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_35, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_36, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_37, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_38, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_39, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_40, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_50, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_49, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_48, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_47, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_46, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_45, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_44, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_43, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_41, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_42, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_90, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_89, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_88, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_87, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_86, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_85, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_84, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_83, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_81, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_82, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_80, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_79, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_78, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_77, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_76, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_75, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_74, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_73, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_71, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_72, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_70, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_69, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_68, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_67, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_66, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_65, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_64, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_63, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_61, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_62, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_60, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_59, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_58, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_57, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_56, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_55, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_54, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_53, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_51, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_52, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_100, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_99, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_98, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_97, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_96, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_95, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_94, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_93, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_91, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._imgGameField_92, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgGameField, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -3936,20 +4444,6 @@ Friend Class frmMain
         mnuHelpContents_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuHelpContents_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpContents.Click
-        Dim Plik As String
-        Dim HH As String
-        On Error GoTo BladPomocy
-
-        HH = KatalogWindows & "\hh.exe" & Chr(0)
-        'UPGRADE_ISSUE: App property App.HelpFile was not upgraded. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup2069"'
-        Plik = "FIXME_help.chm"
-
-        Temp5 = ShellExecute(frmMain.DefInstance.Handle.ToInt32, "open", HH, Plik, "", 3)
-        Exit Sub
-
-BladPomocy:
-        'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-        Temp3 = MsgBox("B³¹d nr " & Err.Number & ":" & Chr(10) & Err.Description, MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
     End Sub
     Public Sub mnuHelpTips_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs)
         mnuHelpTips_Click(eventSender, eventArgs)
@@ -3961,9 +4455,7 @@ BladPomocy:
         mnuHelpWeb_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuHelpWeb_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpWeb.Click
-        Dim url As String
-        url = "http://www.avc-soft.prv.pl/" & Chr(0)
-        ShellExecute(Me.Handle.ToInt32, "open" & Chr(0), url, "", "", 3)
+
     End Sub
     Public Sub mnuTools_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuTools.Popup
         mnuTools_Click(eventSender, eventArgs)
@@ -3976,8 +4468,6 @@ BladPomocy:
         mnuToolsOptions_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuToolsOptions_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuToolsOptions.Click
-        'PokazForme(frmOptions.DefInstance, VB6.FormShowConstants.Modal, frmMain.DefInstance)
-        'PokazForme(frmOptions.DefInstance, Nothing, frmMain.DefInstance)
         frmOptions.Show()
     End Sub
     Public Sub mnuViewRefresh_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuViewRefresh.Popup

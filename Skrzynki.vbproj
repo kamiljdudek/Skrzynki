@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.30319</ProductVersion>
@@ -25,11 +25,12 @@
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <MyType>WindowsFormsWithCustomSubMain</MyType>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>0.0</OldToolsVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -40,9 +41,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -62,6 +64,7 @@
     <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
     <DebugType>full</DebugType>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\</OutputPath>
@@ -80,9 +83,25 @@
     <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
     <DebugType>none</DebugType>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>79A22DC82405E092D92EF9B25C223D89A6EB9B07</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Skrzynki_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic.Compatibility" />
@@ -163,6 +182,20 @@
     <Content Include="resources\bmp101.bmp" />
     <Content Include="resources\bmp102.bmp" />
     <Content Include="resources\bmp201.bmp" />
+    <None Include="Skiny\%28Oryginalny%29\0.ico" />
+    <None Include="Skiny\%28Oryginalny%29\1.ico" />
+    <None Include="Skiny\%28Oryginalny%29\2.ico" />
+    <None Include="Skiny\%28Oryginalny%29\3.ico" />
+    <None Include="Skiny\%28Oryginalny%29\4.ico" />
+    <None Include="Skiny\%28Oryginalny%29\5.ico" />
+    <None Include="Skiny\%28Oryginalny%29\6.ico" />
+    <None Include="Skiny\Eksport\0.ico" />
+    <None Include="Skiny\Eksport\1.ico" />
+    <None Include="Skiny\Eksport\2.ico" />
+    <None Include="Skiny\Eksport\3.ico" />
+    <None Include="Skiny\Eksport\4.ico" />
+    <None Include="Skiny\Eksport\5.ico" />
+    <None Include="Skiny\Eksport\6.ico" />
     <Content Include="Skrzynki.ico" />
     <EmbeddedResource Include="About.resX">
       <DependentUpon>About.vb</DependentUpon>
@@ -186,6 +219,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <None Include="Skrzynki_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

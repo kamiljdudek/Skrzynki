@@ -6,25 +6,19 @@ Module modLogin
 		Dim Ruchy As Integer
 		Dim Pchniecia As Integer
 	End Structure
-	
-	Structure Player
-		Dim Numer As Short
-		Dim Imie As String
+
+    Structure Player
         Dim Zestaw As String
-		Dim Klasyczne As Results
-		Dim SuperTrudneXS As Results
-	End Structure
-	
-	Public LiczbaGraczy As Short
+        Dim Klasyczne As Results
+        Dim SuperTrudneXS As Results
+    End Structure
+
+    Public LiczbaGraczy As Short
 	Public DaneGracza As Player
 	Public Sub SprawdzLiczbeGraczy()
         LiczbaGraczy = 1
 	End Sub
     Public Sub Loguj(ByVal NumerGracza As Short)
-        DaneGracza.Numer = NumerGracza
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\1", True)
-        modMain.RegString = RegKey.GetValue("Name", 0)
-        DaneGracza.Imie = modMain.RegString
         OdczytajStatystyki()
     End Sub
     Public Sub ZapiszStatystyki()

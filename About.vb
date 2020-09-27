@@ -5,22 +5,9 @@ Friend Class frmAbout
 	Inherits System.Windows.Forms.Form
 #Region "Windows Form Designer generated code "
 	Public Sub New()
-		MyBase.New()
-		If m_vb6FormDefInstance Is Nothing Then
-			If m_InitializingDefInstance Then
-				m_vb6FormDefInstance = Me
-			Else
-				Try 
-					'For the start-up form, the first instance created is the default instance.
-					If System.Reflection.Assembly.GetExecutingAssembly.EntryPoint.DeclaringType Is Me.GetType Then
-						m_vb6FormDefInstance = Me
-					End If
-				Catch
-				End Try
-			End If
-		End If
-		'This call is required by the Windows Form Designer.
-		InitializeComponent()
+        MyBase.New()
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
 	End Sub
 	'Form overrides dispose to clean up the component list.
 	Protected Overloads Overrides Sub Dispose(ByVal Disposing As Boolean)
@@ -194,25 +181,9 @@ Friend Class frmAbout
         Me.ResumeLayout(False)
 
     End Sub
-#End Region 
-#Region "Upgrade Support "
-	Private Shared m_vb6FormDefInstance As frmAbout
-	Private Shared m_InitializingDefInstance As Boolean
-	Public Shared Property DefInstance() As frmAbout
-		Get
-			If m_vb6FormDefInstance Is Nothing OrElse m_vb6FormDefInstance.IsDisposed Then
-				m_InitializingDefInstance = True
-				m_vb6FormDefInstance = New frmAbout()
-				m_InitializingDefInstance = False
-			End If
-			DefInstance = m_vb6FormDefInstance
-		End Get
-		Set
-			m_vb6FormDefInstance = Value
-		End Set
-	End Property
-#End Region 
-	
+#End Region
+
+
     Private Sub cmdOK_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdOK.Click
         Me.Close()
     End Sub
