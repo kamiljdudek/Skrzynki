@@ -78,7 +78,7 @@ Friend Class CTrayIcon
 	Public WriteOnly Property Icon() As System.Drawing.Image
 		Set(ByVal Value As System.Drawing.Image)
 			'UPGRADE_WARNING: Couldn't resolve default property of object vData. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			TrayIcon.hIcon = CInt(Value)
+            'TrayIcon.hIcon = CInt(Value)
 		End Set
 	End Property
 	

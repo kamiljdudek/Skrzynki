@@ -254,7 +254,7 @@ Friend Class frmAbout
 		Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & ZwrocCiag("AboutDialog#0")
 		lblTitle.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name
 		'UPGRADE_ISSUE: App property App.Revision was not upgraded. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup2069"'
-		lblVersion.Text = ZwrocCiag("AboutDialog#1") & System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMajorPart & "." & System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMinorPart & "." & App.Revision
+        lblVersion.Text = ZwrocCiag("AboutDialog#1") & System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMajorPart & "." & System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMinorPart & "."
 		lblDescription.Text = "(c) 2001 - 2002, Karol Kuczmarski" & Chr(10) & ZwrocCiag("AboutDialog#4") & Chr(10) & ZwrocCiag("AboutDialog#2")
 		picIcon.Image = VB6.LoadResPicture(201, VB6.LoadResConstants.ResBitmap)
 	End Sub

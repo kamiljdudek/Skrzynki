@@ -124,11 +124,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CommonDlg.vb"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "FindMIDI.vb"
                     SubType = "Code"
                     BuildAction = "Compile"

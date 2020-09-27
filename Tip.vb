@@ -237,52 +237,49 @@ Friend Class frmTip
 		
 	End Function
 	
-	'UPGRADE_WARNING: Event chkLoadTipsAtStartup.CheckStateChanged may fire when form is initialized. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup2075"'
-	Private Sub chkLoadTipsAtStartup_CheckStateChanged(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles chkLoadTipsAtStartup.CheckStateChanged
-		' save whether or not this form should be displayed at startup
-		RegWartosc = RegSciezka & "\Options\Show Tips at Startup"
-		RegDaneInt = chkLoadTipsAtStartup.CheckState
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		RegObj.Set(RegWartosc, RegDaneInt, RegFlush)
-	End Sub
-	Private Sub cmdNextTip_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdNextTip.Click
-		DoNextTip()
-	End Sub
-	Private Sub cmdOK_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdOK.Click
-		Me.Hide()
-	End Sub
-	Private Sub frmTip_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
-		Me.SetBounds(VB6.TwipsToPixelsX((VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width)) / 2), VB6.TwipsToPixelsY((VB6.PixelsToTwipsY(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height) - VB6.PixelsToTwipsY(Me.Height)) / 2), 0, 0, Windows.Forms.BoundsSpecified.X Or Windows.Forms.BoundsSpecified.Y)
-		
-		Dim ShowAtStartup As Integer
-		
-		' See if we should be shown at startup
-		RegWartosc = RegSciezka & "\Options\Show Tips at Startup"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		ShowAtStartup = Val(RegObj.Get(RegWartosc))
-		If ShowAtStartup = 0 Then
-			Me.Hide()
-			Exit Sub
-		End If
-		
-		' Set the checkbox, this will force the value to be written back out to the registry
-		Me.chkLoadTipsAtStartup.CheckState = System.Windows.Forms.CheckState.Checked
-		
-		' Seed Rnd
-		Randomize()
-		
-		' Read in the tips file and display a tip at random.
-		If LoadTips(VB6.GetPath & "\" & TIP_FILE) = False Then
-			lblTipText.Text = "Plik " & TIP_FILE & " nie zosta³ znaleziony. " & vbCrLf & vbCrLf & "Zainstaluj ponownie program Skrzynki."
-		End If
-		
-		
-	End Sub
-	
-	Public Sub DisplayCurrentTip()
-		If Tips.Count() > 0 Then
-			'UPGRADE_WARNING: Couldn't resolve default property of object Tips.Item(). Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			lblTipText.Text = Tips.Item(CurrentTip)
-		End If
-	End Sub
+    Private Sub chkLoadTipsAtStartup_CheckStateChanged(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles chkLoadTipsAtStartup.CheckStateChanged
+        RegDaneInt = chkLoadTipsAtStartup.CheckState
+        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
+        RegKey.SetValue("Show Tips at Startup", RegDaneInt)
+    End Sub
+    Private Sub cmdNextTip_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdNextTip.Click
+        DoNextTip()
+    End Sub
+    Private Sub cmdOK_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdOK.Click
+        Me.Hide()
+    End Sub
+    Private Sub frmTip_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
+        Me.SetBounds(VB6.TwipsToPixelsX((VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width)) / 2), VB6.TwipsToPixelsY((VB6.PixelsToTwipsY(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height) - VB6.PixelsToTwipsY(Me.Height)) / 2), 0, 0, Windows.Forms.BoundsSpecified.X Or Windows.Forms.BoundsSpecified.Y)
+
+        Dim ShowAtStartup As Integer
+
+        ' See if we should be shown at startup
+        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
+        modMain.RegValue = RegKey.GetValue("Show Tips at Startup", 0)
+        ShowAtStartup = modMain.RegValue
+        If ShowAtStartup = 0 Then
+            Me.Hide()
+            Exit Sub
+        End If
+
+        ' Set the checkbox, this will force the value to be written back out to the registry
+        Me.chkLoadTipsAtStartup.CheckState = System.Windows.Forms.CheckState.Checked
+
+        ' Seed Rnd
+        Randomize()
+
+        ' Read in the tips file and display a tip at random.
+        If LoadTips(VB6.GetPath & "\" & TIP_FILE) = False Then
+            lblTipText.Text = "Plik " & TIP_FILE & " nie zosta³ znaleziony. " & vbCrLf & vbCrLf & "Zainstaluj ponownie program Skrzynki."
+        End If
+
+
+    End Sub
+
+    Public Sub DisplayCurrentTip()
+        If Tips.Count() > 0 Then
+            'UPGRADE_WARNING: Couldn't resolve default property of object Tips.Item(). Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+            lblTipText.Text = Tips.Item(CurrentTip)
+        End If
+    End Sub
 End Class

@@ -108,7 +108,7 @@ Module modMain
 	Public Const NieZnalezionoKatalogu As Short = 76
 	Public Const NieZnalezionoPliku As Short = 53
 	'
-	Public Const RegSciezka As String = "HKEY_LOCAL_MACHINE\Software\Karol Kuczmarski\Skrzynki"
+    Public Const RegSciezka As String = "Software\\Karol Kuczmarski\\Skrzynki"
 	'
 	Public Const SWP_NOSIZE As Short = &H1s ' sta³e API
 	Public Const SWP_NOMOVE As Short = &H2s
@@ -122,7 +122,7 @@ Module modMain
 	Public PoleGry(256) As Byte ' przechowuje aktualne ustawienie obiektów w polu gry
 	'UPGRADE_WARNING: Lower bound of array PoleGrySprzedRuchu was changed from 1 to 0. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1033"'
 	Public PoleGrySprzedRuchu(256) As Byte ' dziêki niemu mo¿liwe jest cofanie ruchów i nie tylko
-	Public Etapy() As Byte ' wszystkie etapy z danego zestawu
+    Public Etapy(1, 128) As Byte ' wszystkie etapy z danego zestawu
 	Public DaneEtapow() As Level ' dane wszystkich etapów z zestawu
 	Public Etap As Level ' przechowuje liczbê skrzynek i miejsc
 	Public EtapSprzedRuchu As Level ' tak jak PoleGrySprzedRuchu
@@ -153,18 +153,21 @@ Module modMain
 	Public KatalogTemp As String
 	Public DlugoscKataloguTemp As Integer
 	'
-	Public RegObj As RegistryTypeLibrary.CRegObj ' obiekt Rejestr
+    'Public RegObj As RegistryTypeLibrary.CRegObj ' obiekt Rejestr
 	Public RegWartosc, RegWartosc2 As String
 	Public RegDaneStr As String
 	Public RegDaneInt As Integer
 	Public RegFlush As Boolean
 	'
 	Public TIcon As New CTrayIcon ' ikonka w trayu
-	Public CDialog As New CCommonDlg ' Common Dialog
+    'Public CDialog As New CCommonDlg ' Common Dialog
 	'
 	Public iniMidi As Short
 	Public NewPlayerFormAction As String
-	
+
+    Public RegKey As Microsoft.Win32.RegistryKey
+    Public RegValue As Integer
+    Public RegString As String
 	
 	' funkcje API
 	Public Declare Function MessageBeep Lib "USER32" (ByVal wType As Integer) As Integer ' do beepowania
@@ -182,154 +185,108 @@ Module modMain
 		Dim SplashShown As Boolean
 		Dim Response As Short
 		
-		RegObj = New RegistryTypeLibrary.CRegObj
-		RegFlush = True
+        ' RegObj = New RegistryTypeLibrary.CRegObj
+        ' RegFlush = True
 		
-		RegWartosc = RegSciezka & "\Other\Started"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		If Val(RegObj.Get(RegWartosc)) = 0 Then
-			RegDaneInt = 1
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			RegObj.Set(RegWartosc, RegDaneInt, RegFlush)
-			
-			RegDaneStr = VB6.GetPath
-			RegWartosc = RegSciezka & "\Other\Path"
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			RegObj.Set(RegWartosc, RegDaneStr, RegFlush)
-			
-			SkojarzPlikiBOXZProgramem()
-			RozpoznajJezyk()
-			
-			RegWartosc = RegSciezka & "\Options\Show Splash at Startup"
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			RegObj.Set(RegWartosc, RegDaneInt, RegFlush)
-			
-			RegWartosc = RegSciezka & "\Options\Show Tips at Startup"
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			RegObj.Set(RegWartosc, RegDaneInt, RegFlush)
-			
-			RegWartosc = RegSciezka & "\Options\Want Closing Authorization"
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			RegObj.Set(RegWartosc, RegDaneInt, RegFlush)
-			
-			RegWartosc = RegSciezka & "\Options\Want Level Restarting Authorization"
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			RegObj.Set(RegWartosc, RegDaneInt, RegFlush)
-			
-			RegWartosc = RegSciezka & "\Options\Show Level Load Confirmation"
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			RegObj.Set(RegWartosc, RegDaneInt, RegFlush)
-			
-			RegWartosc = RegSciezka & "\Options\Show Status Bar"
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			RegObj.Set(RegWartosc, RegDaneInt, RegFlush)
-			
-			RegWartosc = RegSciezka & "\Options\Background Color"
-			RegDaneInt = &H0
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			RegObj.Set(RegWartosc, RegDaneInt, RegFlush)
-			
-			RegWartosc = RegSciezka & "\Options\Skin"
-			RegDaneStr = "(Oryginalny)"
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			RegObj.Set(RegWartosc, RegDaneStr, RegFlush)
-			
-			RegWartosc = RegSciezka & "\Options\Play Music"
-			RegDaneInt = 1
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			RegObj.Set(RegWartosc, RegDaneInt, RegFlush)
-			
-			RegWartosc = RegSciezka & "\Options\First Player Auto Logon"
-			RegDaneInt = 1
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			RegObj.Set(RegWartosc, RegDaneInt, RegFlush)
-			
-			Response = MsgBox(ZwrocCiag("General#11"), MsgBoxStyle.OKCancel + MsgBoxStyle.Question + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-			If Response = MsgBoxResult.OK Then
-				PokazForme(frmFindMIDI.DefInstance, VB6.FormShowConstants.Modal)
-			Else
-				'UPGRADE_WARNING: Untranslated statement in Main. Please check source code.
-			End If
-		End If
-		
-		DlugoscKataloguWindows = GetWindowsDirectory(Temp4.Value, 255)
-		KatalogWindows = Left(Temp4.Value, DlugoscKataloguWindows)
-		
-		DlugoscKataloguTemp = GetTempPath(255, Temp4.Value)
-		KatalogTemp = Left(Temp4.Value, DlugoscKataloguTemp)
-		
-		'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		Temp3 = AnalizujWierszPolecen
-		Select Case Temp3
-			Case "Logged"
-			Case Else
-				SprawdzLiczbeGraczy()
-				
-				RegWartosc = RegSciezka & "\Options\First Player Auto Logon"
-				RegWartosc2 = RegSciezka & "\Players\ 1\Password"
-				'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				'UPGRADE_WARNING: IsEmpty was upgraded to IsNothing and has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
-				If Val(RegObj.Get(RegWartosc)) = 1 And LiczbaGraczy = 1 And IsNothing(RegObj.Get(RegWartosc2)) Then
-					Loguj(1, "")
-				Else
-					PokazForme(frmLogin.DefInstance, VB6.FormShowConstants.Modal)
-				End If
-		End Select
-		
-		RegWartosc = RegSciezka & "\Other\Version"
-		'UPGRADE_ISSUE: App property App.Revision was not upgraded. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup2069"'
-		RegDaneStr = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMajorPart & "." & System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMinorPart & "." & App.Revision
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		RegObj.Set(RegWartosc, RegDaneStr, RegFlush)
-		
-		With TIcon
-			.hWndOwner = frmMain.DefInstance.picTrayObject.Handle.ToInt32
-			.Icon = frmMain.DefInstance.Icon
-			.Tip = "Skrzynki"
-		End With
-		
-		RegWartosc = RegSciezka & "\Options\Show in Tray"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		If Val(RegObj.Get(RegWartosc)) = 2 Then
-			TIcon.Show()
-		End If
-		
-		RegWartosc = RegSciezka & "\Options\Show Splash at Startup"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		If Val(RegObj.Get(RegWartosc)) = 1 Then
-			PokazForme(frmSplash.DefInstance)
-			frmSplash.DefInstance.Activate()
-			SplashShown = True
-		Else : SplashShown = False
-		End If
-		
-		If (UBound(Diagnostics.Process.GetProcessesByName(Diagnostics.Process.GetCurrentProcess.ProcessName)) > 0) = True Then
-			'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			Temp3 = MsgBox(ZwrocCiag("General#16"), MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.SystemModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-			End
-		End If
-		
-		RegWartosc = RegSciezka & "\Options\Show Tips at Startup"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		If Val(RegObj.Get(RegWartosc)) = 1 Then
-			PokazForme(frmTip.DefInstance)
-			frmTip.DefInstance.Activate()
-			TipsShown = True
-		Else : TipsShown = False
-		End If
-		
-		If SplashShown Then frmSplash.DefInstance.Activate()
-		
-		ZestawEtapow = DaneGracza.Zestaw
-		NumerEtapu = 1
-		WykonanoRuch = False
-		EtapZaliczony = False
-		
-		PokazForme(frmMain.DefInstance)
-		PokazNaPaskuStanu(5, DaneGracza.Imie)
-		
-		If TipsShown Then frmTip.DefInstance.Activate()
-		If SplashShown Then frmSplash.DefInstance.Activate()
+        RegWartosc = RegSciezka & "\\Other\\Started"
+        Dim RegKey As Microsoft.Win32.RegistryKey
+        RegValue = 0
+        RegString = ""
+
+        RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Other", True)
+        RegValue = RegKey.GetValue("Started", 0)
+
+        If RegValue = 0 Then
+            RegKey.SetValue("Started", 1)
+            RegValue = RegKey.GetValue("Path", 0)
+            RegKey.SetValue("Path", "Z:\\")
+
+            'SkojarzPlikiBOXZProgramem()
+            'RozpoznajJezyk()
+
+            RegKey.SetValue("Show Splash at Startup", 1)
+            RegKey.SetValue("Show Tips at Startup", 1)
+            RegKey.SetValue("Want Closing Authorization", 1)
+            RegKey.SetValue("Show Level Load Confirmation", 1)
+            RegKey.SetValue("Show Status Bar", 1)
+            RegKey.SetValue("Background Color", &H0)
+            RegKey.SetValue("Skin", "(Oryginalny)")
+            RegKey.SetValue("Play Music", 1)
+            RegKey.SetValue("First Player Auto Logon", 1)
+            RegKey.SetValue("Want Level Restarting Authorization", 1)
+            RegKey.SetValue("Want Level Restarting Authorization", 1)
+
+            Response = MsgBox(ZwrocCiag("General#11"), MsgBoxStyle.OKCancel + MsgBoxStyle.Question + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            If Response = MsgBoxResult.OK Then
+                PokazForme(frmFindMIDI.DefInstance, VB6.FormShowConstants.Modal)
+            Else
+                'UPGRADE_WARNING: Untranslated statement in Main. Please check source code.
+            End If
+        End If
+
+        DlugoscKataloguWindows = GetWindowsDirectory(Temp4.Value, 255)
+        KatalogWindows = Left(Temp4.Value, DlugoscKataloguWindows)
+
+        DlugoscKataloguTemp = GetTempPath(255, Temp4.Value)
+        KatalogTemp = Left(Temp4.Value, DlugoscKataloguTemp)
+
+        'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+        Temp3 = AnalizujWierszPolecen()
+        Select Case Temp3
+            Case "Logged"
+            Case Else
+                SprawdzLiczbeGraczy()
+
+                RegValue = RegKey.GetValue("First Player Auto Logon", 0)
+                RegWartosc2 = RegSciezka & "\Players\ 1\Password"
+                RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\1", True)
+                RegString = RegKey.GetValue("Password", "password")
+                'UPGRADE_WARNING: IsEmpty was upgraded to IsNothing and has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
+                If RegValue = 1 And LiczbaGraczy = 1 And IsNothing(RegString) Then
+                    Loguj(1, "")
+                Else
+                    PokazForme(frmLogin.DefInstance, VB6.FormShowConstants.Modal)
+                End If
+        End Select
+
+        RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Other", True)
+        RegDaneStr = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMajorPart & "." & System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMinorPart & ".999"
+        RegKey.SetValue("Version", RegDaneStr)
+
+        RegValue = RegKey.GetValue("Show Splash at Startup", Nothing)
+        If RegValue = 1 Then
+            PokazForme(frmSplash.DefInstance)
+            frmSplash.DefInstance.Activate()
+            SplashShown = True
+        Else : SplashShown = False
+        End If
+
+        If (UBound(Diagnostics.Process.GetProcessesByName(Diagnostics.Process.GetCurrentProcess.ProcessName)) > 0) = True Then
+            'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+            Temp3 = MsgBox(ZwrocCiag("General#16"), MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.SystemModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            End
+        End If
+
+        RegValue = RegKey.GetValue("Show Splash at Startup", Nothing)
+        If RegValue = 1 Then
+            PokazForme(frmTip.DefInstance)
+            frmTip.DefInstance.Activate()
+            TipsShown = True
+        Else : TipsShown = False
+        End If
+
+        If SplashShown Then frmSplash.DefInstance.Activate()
+
+        ZestawEtapow = DaneGracza.Zestaw
+        NumerEtapu = 1
+        WykonanoRuch = False
+        EtapZaliczony = False
+
+        PokazForme(frmMain.DefInstance)
+        PokazNaPaskuStanu(5, DaneGracza.Imie)
+
+        If TipsShown Then frmTip.DefInstance.Activate()
+        If SplashShown Then frmSplash.DefInstance.Activate()
 	End Sub
 	Public Function AnalizujWierszPolecen() As String
 		On Error GoTo Blad
@@ -383,13 +340,12 @@ Module modMain
 					'UPGRADE_WARNING: Dir has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
 					PokazNaPaskuStanu(4, Left(Dir(NazwaPliku), Len(Dir(NazwaPliku)) - 4))
 					
-					RegWartosc = RegSciezka & "\Options\Show Level Load Confirmation"
-					'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-					If Val(RegObj.Get(RegWartosc)) = 1 Then
-						'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-						Temp3 = MsgBox(Replace(ZwrocCiag("General#6"), "<filename>", NazwaPliku), MsgBoxStyle.OKOnly + MsgBoxStyle.Information + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-					End If
-				End If
+                    RegValue = RegKey.GetValue("Show Level Load Confirmation", Nothing)
+                    If RegValue = 1 Then
+                        'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+                        Temp3 = MsgBox(Replace(ZwrocCiag("General#6"), "<filename>", NazwaPliku), MsgBoxStyle.OKOnly + MsgBoxStyle.Information + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+                    End If
+                End If
 		End Select
 		
 		Exit Function
@@ -657,10 +613,7 @@ Blad:
 	End Function
 	Public Sub OdswiezPoleGry()
 		Dim Skin As String
-		
-		RegWartosc = RegSciezka & "\Options\Skin"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		Skin = RegObj.Get(RegWartosc)
+        Skin = RegKey.GetValue("Skin", Nothing)
 		
 		For Licznik = 1 To 256 Step 1
 			If PoleGry(Licznik) < 7 Then
@@ -1198,9 +1151,7 @@ Blad:
 	Public Sub OdswiezPoleGryWokolGracza()
 		Dim Skin As String
 		
-		RegWartosc = RegSciezka & "\Options\Skin"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		Skin = RegObj.Get(RegWartosc)
+        Skin = RegKey.GetValue("Path", "")
 		
 		With frmMain.DefInstance
 			If PoleGry(PozycjaGracza - 16) < 7 Then
@@ -1281,30 +1232,7 @@ Blad:
 		KonwertujEtap = False
 	End Function
 	Public Sub SkojarzPlikiBOXZProgramem()
-		RegWartosc = "HKLM\Software\CLASSES\.box\"
-		RegDaneStr = "SkrzynkiLevelFile"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		RegObj.Set(RegWartosc, RegDaneStr, RegFlush)
-		
-		RegWartosc = "HKLM\Software\CLASSES\.box\Content Type"
-		RegDaneStr = "text/plain"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		RegObj.Set(RegWartosc, RegDaneStr, RegFlush)
-		
-		RegWartosc = "HKLM\Software\CLASSES\SkrzynkiLevelFile\"
-		RegDaneStr = "Etap gry Skrzynki"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		RegObj.Set(RegWartosc, RegDaneStr, RegFlush)
-		
-		RegWartosc = "HKLM\Software\CLASSES\SkrzynkiLevelFile\DefaultIcon\"
-		RegDaneStr = Trim(VB6.GetPath & "\" & VB6.GetExeName() & ".exe,5")
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		RegObj.Set(RegWartosc, RegDaneStr, RegFlush)
-		
-		RegWartosc = "HKLM\Software\CLASSES\SkrzynkiLevelFile\Shell\Graj\command\"
-		RegDaneStr = Chr(34) & VB6.GetPath & "\" & VB6.GetExeName() & ".exe" & Chr(34) & " " & Chr(34) & "%1" & Chr(34)
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		RegObj.Set(RegWartosc, RegDaneStr, RegFlush)
+        ' Requires rewrite for new APIs
 	End Sub
 	Public Sub PokazNaPaskuStanu(ByVal NumerPanelu As Byte, ByVal Napis As String)
 		With frmMain.DefInstance
@@ -1324,6 +1252,6 @@ Blad:
 	End Sub
 	Public Sub PokazForme(ByRef frm As System.Windows.Forms.Form, Optional ByRef Modality As Object = Nothing, Optional ByRef Owner As Object = Nothing)
 		PrzetlumaczForme(frm)
-		VB6.ShowForm(frm, Modality, Owner)
+        VB6.ShowForm(frm, Modality, Owner)
 	End Sub
 End Module

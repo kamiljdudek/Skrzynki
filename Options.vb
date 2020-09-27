@@ -1261,297 +1261,257 @@ Friend Class frmOptions
 	End Sub
 	
 	Private Sub cmdBackgroundColor_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdBackgroundColor.Click
-		Dim Color As Integer
+        Dim MyColor As System.Drawing.Color
 		
-		Color = System.Drawing.ColorTranslator.ToOle(cmdBackgroundColor.BackColor)
-		CDialog.VBChooseColor(Color,  ,  ,  , Me.Handle.ToInt32)
-		If Color >= 0 Then cmdBackgroundColor.BackColor = System.Drawing.ColorTranslator.FromOle(Color)
-	End Sub
-	Private Sub cmdCancel_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdCancel.Click
-		Me.Close()
-	End Sub
-	Sub ZapiszOpcje()
-		Dim ctrl As System.Windows.Forms.Control
-		Dim Temp As Object
-		
-		For	Each ctrl In Me.Controls
-			'UPGRADE_WARNING: TypeName has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
-			If TypeName(ctrl) = "CheckBox" Then
-				'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				Temp = Split(ctrl.Tag, "#")
-				
-				'UPGRADE_WARNING: Couldn't resolve default property of object Temp(). Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				RegWartosc = RegSciezka & "\Options\" & Temp(2)
-				'UPGRADE_WARNING: Couldn't resolve default property of object ctrl.Value. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				RegDaneInt = ctrl.Value
-				'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				RegObj.Set(RegWartosc, RegDaneInt, RegFlush)
-			End If
-		Next ctrl
-		WczytajListeMIDI()
-		GrajMidi()
-		
-		RegWartosc = RegSciezka & "\Options\Show in Tray"
-		RegDaneInt = cmbShowInTray.SelectedIndex
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		RegObj.Set(RegWartosc, RegDaneInt, RegFlush)
-		Select Case RegDaneInt
-			Case 0 : TIcon.Hide()
-			Case 2 : If TIcon.Visible = False Then TIcon.Show()
-		End Select
-		
-		' Wygl¹d
-		'-------
-		RegWartosc = RegSciezka & "\Options\Background Color"
-		RegDaneInt = Val(CStr(System.Drawing.ColorTranslator.ToOle(cmdBackgroundColor.BackColor)))
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		RegObj.Set(RegWartosc, RegDaneInt, RegFlush)
-		
-		RegWartosc = RegSciezka & "\Options\Skin"
-		RegDaneStr = lstSkins.Text
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		RegObj.Set(RegWartosc, RegDaneStr, RegFlush)
-		
-		' Jêzyk
-		'------
-		RegWartosc = RegSciezka & "\Options\Language"
-		RegDaneStr = lstLanguages.Text
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		RegObj.Set(RegWartosc, RegDaneStr, RegFlush)
-		
-		frmMain.DefInstance.BackColor = cmdBackgroundColor.BackColor
-		OdswiezPoleGry()
-	End Sub
-	Sub WczytajOpcje()
-		Dim ctrl As System.Windows.Forms.Control
-		Dim Temp As Object
-		
-		cmbShowInTray.Items.Insert(0, ZwrocCiag("OptionsDialog#14"))
-		cmbShowInTray.Items.Insert(1, ZwrocCiag("OptionsDialog#15"))
-		cmbShowInTray.Items.Insert(2, ZwrocCiag("OptionsDialog#16"))
-		
-		For	Each ctrl In Me.Controls
-			'UPGRADE_WARNING: TypeName has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
-			If TypeName(ctrl) = "CheckBox" Then
-				'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				Temp = Split(ctrl.Tag, "#")
-				
-				'UPGRADE_WARNING: Couldn't resolve default property of object Temp(). Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				RegWartosc = RegSciezka & "\Options\" & Temp(2)
-				'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				If Val(RegObj.Get(RegWartosc)) = 1 Then
-					'UPGRADE_WARNING: Couldn't resolve default property of object ctrl.Value. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-					ctrl.Value = System.Windows.Forms.CheckState.Checked
-				Else
-					'UPGRADE_WARNING: Couldn't resolve default property of object ctrl.Value. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-					ctrl.Value = System.Windows.Forms.CheckState.Unchecked
-				End If
-			End If
-		Next ctrl
-		
-		RegWartosc = RegSciezka & "\Options\Show in Tray"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		cmbShowInTray.SelectedIndex = Val(RegObj.Get(RegWartosc))
-		
-		' Wygl¹d
-		'-------
-		RegWartosc = RegSciezka & "\Options\Background Color"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		cmdBackgroundColor.BackColor = System.Drawing.ColorTranslator.FromOle(Val(RegObj.Get(RegWartosc)))
-		
-		lstSkins.Items.Add("(Oryginalny)")
-		FileOpen(1, VB6.GetPath & "\Ini\Skiny.ini", OpenMode.Input)
-		Do Until EOF(1)
-			Temp = LineInput(1)
-			'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			lstSkins.Items.Add(Temp)
-		Loop 
-		FileClose(1)
-		RegWartosc = RegSciezka & "\Options\Skin"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		lstSkins.Text = RegObj.Get(RegWartosc)
-		
-		' Jêzyk
-		'------
-		FileOpen(1, VB6.GetPath & "\Ini\Jezyki.ini", OpenMode.Input)
-		Do Until EOF(1)
-			Temp = LineInput(1)
-			'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			lstLanguages.Items.Add(Temp)
-		Loop 
-		FileClose(1)
-		RegWartosc = RegSciezka & "\Options\Language"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		lstLanguages.Text = RegObj.Get(RegWartosc)
-	End Sub
-	
-	Private Sub cmdChangePassword_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdChangePassword.Click
-		RegWartosc = RegSciezka & "\Players\" & Str(PodajNumerGracza(lstPlayers.Text)) & "\Password"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		If Odszyfruj(CStr(RegObj.Get(RegWartosc))) <> txtPassword.Text Then
-			MsgBox("Stare has³o jest nieprawid³owe!", MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, "B³ad w haœle")
-			Exit Sub
-		End If
-		
-		NewPlayerFormAction = "Password"
-		PokazForme(frmNewPlayer.DefInstance, VB6.FormShowConstants.Modal, frmOptions.DefInstance)
-	End Sub
-	
-	Private Sub cmdChangePlayerID_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdChangePlayerID.Click
-		RegWartosc = RegSciezka & "\Players\" & Str(PodajNumerGracza(lstPlayers.Text)) & "\Password"
-		'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		If Odszyfruj(RegObj.Get(RegWartosc)) <> txtPassword.Text Then
-			MsgBox(ZwrocCiag("LoginDialog#4"), MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-			Exit Sub
-		End If
-		
-		'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		Temp = InputBox(ZwrocCiag("OptionsDialog#33"), ZwrocCiag("OptionsDialog#32"), DaneGracza.Imie)
-		'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		If Temp <> "" Then
-			'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			DaneGracza.Imie = Temp
-			RegWartosc = RegSciezka & "\Players\" & Str(DaneGracza.Numer) & "\Name"
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			RegObj.Set(RegWartosc, DaneGracza.Imie, RegFlush)
-		End If
-		
-		WczytajListeGraczy()
-	End Sub
-	Private Sub cmdDeletePlayer_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdDeletePlayer.Click
-		If lstPlayers.Text <> DaneGracza.Imie Then
-			If MsgBox(Replace(ZwrocCiag("OptionsDialog#43"), "<player>", lstPlayers.Text), MsgBoxStyle.YesNo + MsgBoxStyle.Exclamation + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name) = MsgBoxResult.Yes Then
-				UsunGracza(PodajNumerGracza(lstPlayers.Text))
-			End If
-		Else
-			If MsgBox(Replace(ZwrocCiag("OptionsDialog#44"), "<player>", lstPlayers.Text), MsgBoxStyle.YesNo + MsgBoxStyle.Exclamation + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name) = MsgBoxResult.Yes Then
-				UsunGracza(PodajNumerGracza(lstPlayers.Text))
-				ZatrzymajMidi()
-				ZamknijMidi()
-				TIcon.Hide()
-				End
-			End If
-		End If
-		
-		SprawdzLiczbeGraczy()
-		WczytajListeGraczy()
-	End Sub
-	Private Sub cmdFindMIDIAgain_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdFindMIDIAgain.Click
-		If MsgBox(ZwrocCiag("OptionsDialog#45"), MsgBoxStyle.YesNo + MsgBoxStyle.Question + MsgBoxStyle.ApplicationModal, "Wyszukiwanie") = MsgBoxResult.Yes Then
-			PokazForme(frmFindMIDI.DefInstance, VB6.FormShowConstants.Modal, frmOptions.DefInstance)
-		End If
-	End Sub
-	
-	Private Sub cmdNewPlayer_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdNewPlayer.Click
-		NewPlayerFormAction = "New Player"
-		PokazForme(frmNewPlayer.DefInstance, VB6.FormShowConstants.Modal, frmOptions.DefInstance)
-		WczytajListeGraczy()
-	End Sub
-	
-	Private Sub cmdNextSet_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdNextSet.Click
-		cmdNextSet.Enabled = False
-		cmdPrevSet.Enabled = True
-		WyswietlStatystyki(2)
-	End Sub
-	
-	Private Sub cmdOK_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdOK.Click
-		ZapiszOpcje()
-		PrzetlumaczForme(frmOptions.DefInstance)
-		PrzetlumaczForme(frmMain.DefInstance)
-		
-		Me.Close()
-	End Sub
-	
-	Private Sub cmdPrevSet_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdPrevSet.Click
-		cmdPrevSet.Enabled = False
-		cmdNextSet.Enabled = True
-		WyswietlStatystyki(1)
-	End Sub
-	
-	Private Sub cmdUseOnlyOwnMIDI_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdUseOnlyOwnMIDI.Click
-		If MsgBox(ZwrocCiag("OptionsDialog#46"), MsgBoxStyle.YesNo + MsgBoxStyle.Exclamation + MsgBoxStyle.ApplicationModal, "Reesetowanie listy plików") = MsgBoxResult.Yes Then
-			PrzywrocOryginalnyINI()
-		End If
-	End Sub
-	
-	Private Sub frmOptions_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
-		tabOptions.SelectedIndex = 0
-		
-		WczytajOpcje()
-		WyswietlPodgladSkinu()
-		
-		SprawdzLiczbeGraczy()
-		WczytajListeGraczy()
-		
-		cmdPrevSet.Enabled = False
-		cmdNextSet.Enabled = True
-		WyswietlStatystyki(1)
-		
-		'center the form
-		Me.SetBounds(VB6.TwipsToPixelsX((VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width)) / 2), VB6.TwipsToPixelsY((VB6.PixelsToTwipsY(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height) - VB6.PixelsToTwipsY(Me.Height)) / 2), 0, 0, Windows.Forms.BoundsSpecified.X Or Windows.Forms.BoundsSpecified.Y)
-	End Sub
-	Sub WyswietlPodgladSkinu()
-		Dim i As Short
-		
-		For i = 0 To 6
-			picPreview(i).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & lstSkins.Text & "\" & i & ".ico")
-		Next i
-	End Sub
-	
-	'UPGRADE_WARNING: Event lstPlayers.SelectedIndexChanged may fire when form is initialized. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup2075"'
-	Private Sub lstPlayers_SelectedIndexChanged(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles lstPlayers.SelectedIndexChanged
-		cmdPrevSet.Enabled = False
-		cmdNextSet.Enabled = True
-		WyswietlStatystyki(1)
-	End Sub
-	
-	'UPGRADE_WARNING: Event lstSkins.SelectedIndexChanged may fire when form is initialized. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup2075"'
-	Private Sub lstSkins_SelectedIndexChanged(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles lstSkins.SelectedIndexChanged
-		WyswietlPodgladSkinu()
-	End Sub
-	Public Sub WczytajListeGraczy()
-		If LiczbaGraczy = 0 Then Exit Sub
-		
-		lstPlayers.Items.Clear()
-		lstPlayers.Items.Insert(0, "")
-		For Licznik = 1 To LiczbaGraczy
-			RegWartosc = RegSciezka & "\Players\" & Str(Licznik) & "\Name"
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			lstPlayers.Items.Add(CStr(RegObj.Get(RegWartosc))) 'Licznik
-		Next Licznik
-		lstPlayers.Items.RemoveAt(0)
-		lstPlayers.SetSelected(0, True)
-	End Sub
-	Public Sub WyswietlStatystyki(ByVal NrZestawu As Byte)
-		Select Case NrZestawu
-			Case 1
-				lblLevelSet.Text = ZwrocCiag("OptionsDialog#25") & " " & UCase(ZwrocCiag("Sets#0"))
-				
-				RegWartosc = RegSciezka & "\Players\" & Str(PodajNumerGracza(lstPlayers.Text)) & "\Klasyczne\Arrived Level"
-				'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				lblArrivedLevel.Text = RegObj.Get(RegWartosc)
-				
-				RegWartosc = RegSciezka & "\Players\" & Str(PodajNumerGracza(lstPlayers.Text)) & "\Klasyczne\Moves"
-				'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				lblMoves.Text = RegObj.Get(RegWartosc)
-				
-				RegWartosc = RegSciezka & "\Players\" & Str(PodajNumerGracza(lstPlayers.Text)) & "\Klasyczne\Pushes"
-				'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				lblPushes.Text = RegObj.Get(RegWartosc)
-			Case 2
-				lblLevelSet.Text = ZwrocCiag("OptionsDialog#25") & " " & UCase(ZwrocCiag("Sets#1"))
-				
-				RegWartosc = RegSciezka & "\Players\" & Str(PodajNumerGracza(lstPlayers.Text)) & "\Super Trudne XS\Arrived Level"
-				'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				lblArrivedLevel.Text = RegObj.Get(RegWartosc)
-				
-				RegWartosc = RegSciezka & "\Players\" & Str(PodajNumerGracza(lstPlayers.Text)) & "\Super Trudne XS\Moves"
-				'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				lblMoves.Text = RegObj.Get(RegWartosc)
-				
-				RegWartosc = RegSciezka & "\Players\" & Str(PodajNumerGracza(lstPlayers.Text)) & "\Super Trudne XS\Pushes"
-				'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				lblPushes.Text = RegObj.Get(RegWartosc)
-		End Select
-	End Sub
+        'MyColor = System.Drawing.ColorTranslator.ToOle(cmdBackgroundColor.BackColor)
+        Dim ColorDialog1 As ColorDialog = New ColorDialog
+        With ColorDialog1
+            MyColor = ColorDialog1.Color
+            cmdBackgroundColor.BackColor = MyColor
+        End With
+    End Sub
+    Private Sub cmdCancel_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdCancel.Click
+        Me.Close()
+    End Sub
+    Sub ZapiszOpcje()
+        Dim ctrl As System.Windows.Forms.Control
+        Dim Temp As Object
+        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
+        For Each ctrl In Me.Controls
+            'UPGRADE_WARNING: TypeName has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
+            If TypeName(ctrl) = "CheckBox" Then
+                'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+                Temp = Split(ctrl.Tag, "#")
+
+                'UPGRADE_WARNING: Couldn't resolve default property of object Temp(). Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+                RegKey.SetValue(Temp(2), ctrl.Visible)
+            End If
+        Next ctrl
+
+
+        RegKey.SetValue("Background Color", Val(CStr(System.Drawing.ColorTranslator.ToOle(cmdBackgroundColor.BackColor))))
+        RegKey.SetValue("Skin", lstSkins.Text)
+        RegKey.SetValue("Language", lstLanguages.Text)
+
+        frmMain.DefInstance.BackColor = cmdBackgroundColor.BackColor
+        OdswiezPoleGry()
+    End Sub
+    Sub WczytajOpcje()
+        Dim ctrl As System.Windows.Forms.Control
+        Dim Temp As Object
+
+        cmbShowInTray.Items.Insert(0, ZwrocCiag("OptionsDialog#14"))
+        cmbShowInTray.Items.Insert(1, ZwrocCiag("OptionsDialog#15"))
+        cmbShowInTray.Items.Insert(2, ZwrocCiag("OptionsDialog#16"))
+
+        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
+
+        For Each ctrl In Me.Controls
+            'UPGRADE_WARNING: TypeName has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
+            If TypeName(ctrl) = "CheckBox" Then
+                'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+                Temp = Split(ctrl.Tag, "#")
+
+                modMain.RegValue = RegKey.GetValue(Temp(2), 0)
+                If modMain.RegValue = 1 Then
+                    'UPGRADE_WARNING: Couldn't resolve default property of object ctrl.Value. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+                    ctrl.Visible = System.Windows.Forms.CheckState.Checked
+                Else
+                    'UPGRADE_WARNING: Couldn't resolve default property of object ctrl.Value. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+                    ctrl.Visible = System.Windows.Forms.CheckState.Unchecked
+                End If
+            End If
+        Next ctrl
+
+        modMain.RegValue = RegKey.GetValue("Show in Tray", 0)
+        cmbShowInTray.SelectedIndex = modMain.RegValue
+
+        ' Wygl¹d
+        '-------
+        modMain.RegValue = RegKey.GetValue("Background Color", 0)
+        cmdBackgroundColor.BackColor = System.Drawing.ColorTranslator.FromOle(Val(modMain.RegValue))
+
+        lstSkins.Items.Add("(Oryginalny)")
+        FileOpen(1, VB6.GetPath & "\Ini\Skiny.ini", OpenMode.Input)
+        Do Until EOF(1)
+            Temp = LineInput(1)
+            'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+            lstSkins.Items.Add(Temp)
+        Loop
+        FileClose(1)
+        modMain.RegString = RegKey.GetValue("Skin", "(Oryginalny)")
+        lstSkins.Text = modMain.RegString
+
+        ' Jêzyk
+        '------
+        FileOpen(1, VB6.GetPath & "\Ini\Jezyki.ini", OpenMode.Input)
+        Do Until EOF(1)
+            Temp = LineInput(1)
+            'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+            lstLanguages.Items.Add(Temp)
+        Loop
+        FileClose(1)
+        RegWartosc = RegSciezka & "\Options\Language"
+        modMain.RegString = RegKey.GetValue("Language", "Klingon")
+        lstLanguages.Text = modMain.RegString
+    End Sub
+
+    Private Sub cmdChangePassword_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdChangePassword.Click
+        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\" & Str(PodajNumerGracza(lstPlayers.Text)), True)
+        modMain.RegString = RegKey.GetValue("Password", "password")
+        If Odszyfruj(CStr(modMain.RegString)) <> txtPassword.Text Then
+            MsgBox("Stare has³o jest nieprawid³owe!", MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, "B³ad w haœle")
+            Exit Sub
+        End If
+
+        NewPlayerFormAction = "Password"
+        PokazForme(frmNewPlayer.DefInstance, VB6.FormShowConstants.Modal, frmOptions.DefInstance)
+    End Sub
+
+    Private Sub cmdChangePlayerID_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdChangePlayerID.Click
+        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\" & Str(PodajNumerGracza(lstPlayers.Text)), True)
+        modMain.RegString = RegKey.GetValue("Password", "password")
+        RegWartosc = RegSciezka & "\Players\" & Str(PodajNumerGracza(lstPlayers.Text)) & "\Password"
+        If Odszyfruj(modMain.RegString) <> txtPassword.Text Then
+            MsgBox(ZwrocCiag("LoginDialog#4"), MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            Exit Sub
+        End If
+
+        'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+        Temp = InputBox(ZwrocCiag("OptionsDialog#33"), ZwrocCiag("OptionsDialog#32"), DaneGracza.Imie)
+        'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+        If Temp <> "" Then
+            'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+            DaneGracza.Imie = Temp
+            modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\" & Str(DaneGracza.Numer), True)
+            modMain.RegKey.SetValue("Name", DaneGracza.Imie)
+
+        End If
+
+        WczytajListeGraczy()
+    End Sub
+    Private Sub cmdDeletePlayer_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdDeletePlayer.Click
+        If lstPlayers.Text <> DaneGracza.Imie Then
+            If MsgBox(Replace(ZwrocCiag("OptionsDialog#43"), "<player>", lstPlayers.Text), MsgBoxStyle.YesNo + MsgBoxStyle.Exclamation + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name) = MsgBoxResult.Yes Then
+                UsunGracza(PodajNumerGracza(lstPlayers.Text))
+            End If
+        Else
+            If MsgBox(Replace(ZwrocCiag("OptionsDialog#44"), "<player>", lstPlayers.Text), MsgBoxStyle.YesNo + MsgBoxStyle.Exclamation + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name) = MsgBoxResult.Yes Then
+                UsunGracza(PodajNumerGracza(lstPlayers.Text))
+                ZatrzymajMidi()
+                ZamknijMidi()
+                TIcon.Hide()
+                End
+            End If
+        End If
+
+        SprawdzLiczbeGraczy()
+        WczytajListeGraczy()
+    End Sub
+    Private Sub cmdFindMIDIAgain_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdFindMIDIAgain.Click
+        If MsgBox(ZwrocCiag("OptionsDialog#45"), MsgBoxStyle.YesNo + MsgBoxStyle.Question + MsgBoxStyle.ApplicationModal, "Wyszukiwanie") = MsgBoxResult.Yes Then
+            PokazForme(frmFindMIDI.DefInstance, VB6.FormShowConstants.Modal, frmOptions.DefInstance)
+        End If
+    End Sub
+
+    Private Sub cmdNewPlayer_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdNewPlayer.Click
+        NewPlayerFormAction = "New Player"
+        PokazForme(frmNewPlayer.DefInstance, VB6.FormShowConstants.Modal, frmOptions.DefInstance)
+        WczytajListeGraczy()
+    End Sub
+
+    Private Sub cmdNextSet_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdNextSet.Click
+        cmdNextSet.Enabled = False
+        cmdPrevSet.Enabled = True
+        WyswietlStatystyki(2)
+    End Sub
+
+    Private Sub cmdOK_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdOK.Click
+        ZapiszOpcje()
+        PrzetlumaczForme(frmOptions.DefInstance)
+        PrzetlumaczForme(frmMain.DefInstance)
+
+        Me.Close()
+    End Sub
+
+    Private Sub cmdPrevSet_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdPrevSet.Click
+        cmdPrevSet.Enabled = False
+        cmdNextSet.Enabled = True
+        WyswietlStatystyki(1)
+    End Sub
+
+    Private Sub cmdUseOnlyOwnMIDI_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdUseOnlyOwnMIDI.Click
+        If MsgBox(ZwrocCiag("OptionsDialog#46"), MsgBoxStyle.YesNo + MsgBoxStyle.Exclamation + MsgBoxStyle.ApplicationModal, "Reesetowanie listy plików") = MsgBoxResult.Yes Then
+            PrzywrocOryginalnyINI()
+        End If
+    End Sub
+
+    Private Sub frmOptions_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
+        tabOptions.SelectedIndex = 0
+
+        WczytajOpcje()
+        WyswietlPodgladSkinu()
+
+        SprawdzLiczbeGraczy()
+        WczytajListeGraczy()
+
+        cmdPrevSet.Enabled = False
+        cmdNextSet.Enabled = True
+        WyswietlStatystyki(1)
+
+        'center the form
+        Me.SetBounds(VB6.TwipsToPixelsX((VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width)) / 2), VB6.TwipsToPixelsY((VB6.PixelsToTwipsY(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height) - VB6.PixelsToTwipsY(Me.Height)) / 2), 0, 0, Windows.Forms.BoundsSpecified.X Or Windows.Forms.BoundsSpecified.Y)
+    End Sub
+    Sub WyswietlPodgladSkinu()
+        Dim i As Short
+
+        For i = 0 To 6
+            picPreview(i).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & lstSkins.Text & "\" & i & ".ico")
+        Next i
+    End Sub
+
+    'UPGRADE_WARNING: Event lstPlayers.SelectedIndexChanged may fire when form is initialized. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup2075"'
+    Private Sub lstPlayers_SelectedIndexChanged(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles lstPlayers.SelectedIndexChanged
+        cmdPrevSet.Enabled = False
+        cmdNextSet.Enabled = True
+        WyswietlStatystyki(1)
+    End Sub
+
+    'UPGRADE_WARNING: Event lstSkins.SelectedIndexChanged may fire when form is initialized. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup2075"'
+    Private Sub lstSkins_SelectedIndexChanged(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles lstSkins.SelectedIndexChanged
+        WyswietlPodgladSkinu()
+    End Sub
+    Public Sub WczytajListeGraczy()
+        If LiczbaGraczy = 0 Then Exit Sub
+
+        lstPlayers.Items.Clear()
+        lstPlayers.Items.Insert(0, "")
+        For Licznik = 1 To LiczbaGraczy
+            modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\" & Str(Licznik), True)
+            modMain.RegString = RegKey.GetValue("Name", "imie")
+            lstPlayers.Items.Add(CStr(modMain.RegString))
+        Next Licznik
+        lstPlayers.Items.RemoveAt(0)
+        lstPlayers.SetSelected(0, True)
+    End Sub
+    Public Sub WyswietlStatystyki(ByVal NrZestawu As Byte)
+        Select Case NrZestawu
+            Case 1
+                lblLevelSet.Text = ZwrocCiag("OptionsDialog#25") & " " & UCase(ZwrocCiag("Sets#0"))
+                modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\" & Str(PodajNumerGracza(lstPlayers.Text)) & "\\Klasyczne", True)
+
+                lblArrivedLevel.Text = RegKey.GetValue("Arrived Level", 0)
+                lblMoves.Text = RegKey.GetValue("Moves", 0)
+                lblPushes.Text = RegKey.GetValue("Pushes", 0)
+
+            Case 2
+                lblLevelSet.Text = ZwrocCiag("OptionsDialog#25") & " " & UCase(ZwrocCiag("Sets#1"))
+                modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\" & Str(PodajNumerGracza(lstPlayers.Text)) & "\\Super Trudne XS", True)
+
+                lblArrivedLevel.Text = RegKey.GetValue("Arrived Level", 0)
+                lblMoves.Text = RegKey.GetValue("Moves", 0)
+                lblPushes.Text = RegKey.GetValue("Pushes", 0)
+
+        End Select
+    End Sub
 End Class

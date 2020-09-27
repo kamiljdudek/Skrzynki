@@ -280,23 +280,22 @@ Friend Class frmNewPlayer
 			Exit Sub
 		End If
 		
-		If NewPlayerFormAction = "Password" Then
-			RegWartosc = RegSciezka & "\Players\" & Str(PodajNumerGracza(frmOptions.DefInstance.lstPlayers.Text)) & "\Password"
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			If Odszyfruj(RegObj.Get(RegWartosc)) = txtEditBoxes(0).Text Then
-				RegDaneStr = Zaszyfruj(txtEditBoxes(1).Text)
-				'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Set. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				RegObj.Set(RegWartosc, RegDaneStr, RegFlush)
-				DaneGracza.Haslo = txtEditBoxes(1).Text
-			Else
-				MsgBox("Stare has³o nie jest prawid³owe!", MsgBoxStyle.OKCancel + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, "B³ad w haœle")
-				Exit Sub
-			End If
-		Else
-			StworzNowyProfil(txtEditBoxes(0).Text, txtEditBoxes(1).Text)
-		End If
-		
-		Me.Hide()
+        If NewPlayerFormAction = "Password" Then
+            modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\" & Str(PodajNumerGracza(frmOptions.DefInstance.lstPlayers.Text)), True)
+            modMain.RegString = RegKey.GetValue("Password", "password")
+            If Odszyfruj(modMain.RegString) = txtEditBoxes(0).Text Then
+                RegDaneStr = Zaszyfruj(txtEditBoxes(1).Text)
+                RegKey.SetValue("Password", RegDaneStr)
+                DaneGracza.Haslo = txtEditBoxes(1).Text
+            Else
+                MsgBox("Stare has³o nie jest prawid³owe!", MsgBoxStyle.OKCancel + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, "B³ad w haœle")
+                Exit Sub
+            End If
+        Else
+            StworzNowyProfil(txtEditBoxes(0).Text, txtEditBoxes(1).Text)
+        End If
+
+        Me.Hide()
 	End Sub
 	Private Sub frmNewPlayer_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
 		If NewPlayerFormAction = "Password" Then

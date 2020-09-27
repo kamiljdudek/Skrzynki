@@ -265,38 +265,37 @@ Friend Class frmLogin
 		Dim i As Short
 		Dim j As Short
 		
-		For i = 0 To LiczbaGraczy
-			RegWartosc = RegSciezka & "\Players\" & Str(i) & "\Name"
-			'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			Login = RegObj.Get(RegWartosc)
-			If txtPlayerName.Text = Login Then
-				RegWartosc = RegSciezka & "\Players\" & Str(i) & "\Password"
-				'UPGRADE_WARNING: Couldn't resolve default property of object RegObj.Get. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				PasswordChk = RegObj.Get(RegWartosc)
-				Password = Odszyfruj(PasswordChk)
-				If txtPassword.Text = Password Then
-					Loguj(i, Password)
-					frmLogin.DefInstance.Close()
-					Exit Sub
-				Else
-					MsgBox(ZwrocCiag("LoginDialog#4"), MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-					txtPassword.Focus()
-					System.Windows.Forms.SendKeys.Send("{Home}+{End}")
-					Exit Sub
-				End If
-			End If
-		Next i
-		
-		Response = MsgBox(ZwrocCiag("LoginDialog#5"), MsgBoxStyle.YesNoCancel + MsgBoxStyle.Exclamation + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-		If Response = MsgBoxResult.Yes Then
-			StworzNowyProfil(txtPlayerName.Text, txtPassword.Text)
-			SprawdzLiczbeGraczy()
-			Loguj(LiczbaGraczy, txtPassword.Text)
-			frmLogin.DefInstance.Close()
-		ElseIf Response = MsgBoxResult.No Then 
-			End
-		Else : Exit Sub
-		End If
+        For i = 0 To LiczbaGraczy
+            modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\" & Str(i), True)
+            modMain.RegString = RegKey.GetValue("Name", "name")
+            Login = modMain.RegString
+            If txtPlayerName.Text = Login Then
+                modMain.RegString = RegKey.GetValue("Password", "password")
+                PasswordChk = modMain.RegString
+                Password = Odszyfruj(PasswordChk)
+                If txtPassword.Text = Password Then
+                    Loguj(i, Password)
+                    frmLogin.DefInstance.Close()
+                    Exit Sub
+                Else
+                    MsgBox(ZwrocCiag("LoginDialog#4"), MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+                    txtPassword.Focus()
+                    System.Windows.Forms.SendKeys.Send("{Home}+{End}")
+                    Exit Sub
+                End If
+            End If
+        Next i
+
+        Response = MsgBox(ZwrocCiag("LoginDialog#5"), MsgBoxStyle.YesNoCancel + MsgBoxStyle.Exclamation + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+        If Response = MsgBoxResult.Yes Then
+            StworzNowyProfil(txtPlayerName.Text, txtPassword.Text)
+            SprawdzLiczbeGraczy()
+            Loguj(LiczbaGraczy, txtPassword.Text)
+            frmLogin.DefInstance.Close()
+        ElseIf Response = MsgBoxResult.No Then
+            End
+        Else : Exit Sub
+        End If
 	End Sub
 	Private Sub frmLogin_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
 		Me.SetBounds(VB6.TwipsToPixelsX((VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width)) / 2), VB6.TwipsToPixelsY((VB6.PixelsToTwipsY(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height) - VB6.PixelsToTwipsY(Me.Height)) / 2), 0, 0, Windows.Forms.BoundsSpecified.X Or Windows.Forms.BoundsSpecified.Y)
