@@ -42,8 +42,7 @@ Friend Class frmMain
 	Public WithEvents lblMoves As System.Windows.Forms.Label
 	Public WithEvents picStatusBar As System.Windows.Forms.Panel
 	Public WithEvents tmrMIDITimer As System.Windows.Forms.Timer
-	Public WithEvents picTrayObject As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_256 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_256 As System.Windows.Forms.PictureBox
 	Public WithEvents _imgGameField_255 As System.Windows.Forms.PictureBox
 	Public WithEvents _imgGameField_254 As System.Windows.Forms.PictureBox
 	Public WithEvents _imgGameField_253 As System.Windows.Forms.PictureBox
@@ -319,8 +318,7 @@ Friend Class frmMain
 	Public WithEvents mnuToolsOptions As System.Windows.Forms.MenuItem
 	Public WithEvents mnuTools As System.Windows.Forms.MenuItem
 	Public WithEvents mnuHelpContents As System.Windows.Forms.MenuItem
-	Public WithEvents mnuHelpTips As System.Windows.Forms.MenuItem
-	Public WithEvents mnuHelpWeb As System.Windows.Forms.MenuItem
+    Public WithEvents mnuHelpWeb As System.Windows.Forms.MenuItem
 	Public WithEvents mnuHelpBar0 As System.Windows.Forms.MenuItem
 	Public WithEvents mnuHelpAbout As System.Windows.Forms.MenuItem
 	Public WithEvents mnuHelp As System.Windows.Forms.MenuItem
@@ -341,7 +339,6 @@ Friend Class frmMain
         Me.lblPushes = New System.Windows.Forms.Label
         Me.lblMoves = New System.Windows.Forms.Label
         Me.tmrMIDITimer = New System.Windows.Forms.Timer(Me.components)
-        Me.picTrayObject = New System.Windows.Forms.PictureBox
         Me._imgGameField_256 = New System.Windows.Forms.PictureBox
         Me._imgGameField_255 = New System.Windows.Forms.PictureBox
         Me._imgGameField_254 = New System.Windows.Forms.PictureBox
@@ -620,7 +617,6 @@ Friend Class frmMain
         Me.mnuToolsOptions = New System.Windows.Forms.MenuItem
         Me.mnuHelp = New System.Windows.Forms.MenuItem
         Me.mnuHelpContents = New System.Windows.Forms.MenuItem
-        Me.mnuHelpTips = New System.Windows.Forms.MenuItem
         Me.mnuHelpWeb = New System.Windows.Forms.MenuItem
         Me.mnuHelpBar0 = New System.Windows.Forms.MenuItem
         Me.mnuHelpAbout = New System.Windows.Forms.MenuItem
@@ -735,20 +731,6 @@ Friend Class frmMain
         'tmrMIDITimer
         '
         Me.tmrMIDITimer.Interval = 250
-        '
-        'picTrayObject
-        '
-        Me.picTrayObject.BackColor = System.Drawing.SystemColors.Control
-        Me.picTrayObject.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.picTrayObject.Cursor = System.Windows.Forms.Cursors.Default
-        Me.picTrayObject.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.picTrayObject.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.picTrayObject.Location = New System.Drawing.Point(224, 192)
-        Me.picTrayObject.Name = "picTrayObject"
-        Me.picTrayObject.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.picTrayObject.Size = New System.Drawing.Size(33, 33)
-        Me.picTrayObject.TabIndex = 0
-        Me.picTrayObject.Visible = False
         '
         '_imgGameField_256
         '
@@ -3419,7 +3401,7 @@ Friend Class frmMain
         'mnuHelp
         '
         Me.mnuHelp.Index = 3
-        Me.mnuHelp.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuHelpContents, Me.mnuHelpTips, Me.mnuHelpWeb, Me.mnuHelpBar0, Me.mnuHelpAbout})
+        Me.mnuHelp.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuHelpContents, Me.mnuHelpWeb, Me.mnuHelpBar0, Me.mnuHelpAbout})
         Me.mnuHelp.Text = "Pomo&c"
         '
         'mnuHelpContents
@@ -3428,24 +3410,19 @@ Friend Class frmMain
         Me.mnuHelpContents.Shortcut = System.Windows.Forms.Shortcut.F1
         Me.mnuHelpContents.Text = "&Tematy Pomocy..."
         '
-        'mnuHelpTips
-        '
-        Me.mnuHelpTips.Index = 1
-        Me.mnuHelpTips.Text = "&Porada dnia..."
-        '
         'mnuHelpWeb
         '
-        Me.mnuHelpWeb.Index = 2
+        Me.mnuHelpWeb.Index = 1
         Me.mnuHelpWeb.Text = "Skrzynki w &sieci..."
         '
         'mnuHelpBar0
         '
-        Me.mnuHelpBar0.Index = 3
+        Me.mnuHelpBar0.Index = 2
         Me.mnuHelpBar0.Text = "-"
         '
         'mnuHelpAbout
         '
-        Me.mnuHelpAbout.Index = 4
+        Me.mnuHelpAbout.Index = 3
         Me.mnuHelpAbout.Text = "Skrzynki - &informacje..."
         '
         'frmMain
@@ -3454,7 +3431,6 @@ Friend Class frmMain
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(511, 527)
         Me.Controls.Add(Me.picStatusBar)
-        Me.Controls.Add(Me.picTrayObject)
         Me.Controls.Add(Me._imgGameField_256)
         Me.Controls.Add(Me._imgGameField_255)
         Me.Controls.Add(Me._imgGameField_254)
@@ -3746,7 +3722,7 @@ Friend Class frmMain
         End Set
     End Property
 #End Region
-    Dim TrayControlVar As Boolean
+
     Private Sub frmMain_KeyDown(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         Dim KeyCode As Short = eventArgs.KeyCode
         Dim Shift As Short = eventArgs.KeyData \ &H10000
@@ -3771,9 +3747,9 @@ Friend Class frmMain
         End If
     End Sub
     Private Sub frmMain_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
-        modMain.RegString = RegKey.GetValue("Background Color", "0x0000")
-        frmMain.DefInstance.BackColor = System.Drawing.ColorTranslator.FromOle(modMain.RegString)
+        modMain.Main()
+
+        frmMain.DefInstance.BackColor = Color.Black
 
         modMain.RegValue = RegKey.GetValue("Show Status Bar", 0)
         If modMain.RegValue = 1 Then
@@ -3791,15 +3767,14 @@ Friend Class frmMain
             End If
         End If
 
-        TrayControlVar = True
         Me.SetBounds(VB6.TwipsToPixelsX((VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width)) / 2), VB6.TwipsToPixelsY((VB6.PixelsToTwipsY(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height) - VB6.PixelsToTwipsY(Me.Height)) / 2), 0, 0, Windows.Forms.BoundsSpecified.X Or Windows.Forms.BoundsSpecified.Y)
     End Sub
     Private Sub frmMain_Resize(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Resize
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
-        modMain.RegString = RegKey.GetValue("Show in Tray", 0)
+
     End Sub
     'UPGRADE_WARNING: Form event frmMain.Unload has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup2065"'
     Private Sub frmMain_Closed(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Closed
+        ZapiszStatystyki()
         Dim Cancel As Integer = 0
         modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
         modMain.RegValue = 0 ' = RegKey.GetValue("Want Closing Authorization", 0)
@@ -3975,15 +3950,11 @@ BladPomocy:
         'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
         Temp3 = MsgBox("B³¹d nr " & Err.Number & ":" & Chr(10) & Err.Description, MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
     End Sub
-    Public Sub mnuHelpTips_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpTips.Popup
+    Public Sub mnuHelpTips_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs)
         mnuHelpTips_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuHelpTips_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpTips.Click
-        RegWartosc = RegSciezka & "\Options\Show Tips at Startup"
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
-        RegKey.SetValue("Show Tips at Startup", 1)
+    Public Sub mnuHelpTips_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs)
 
-        PokazForme(frmTip.DefInstance)
     End Sub
     Public Sub mnuHelpWeb_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpWeb.Popup
         mnuHelpWeb_Click(eventSender, eventArgs)
@@ -4038,7 +4009,6 @@ BladPomocy:
         mnuView_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuView_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuView.Click
-        RegWartosc = RegSciezka & "\Options\Show Status Bar"
         modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
         modMain.RegValue = RegKey.GetValue("Show Status Bar", 0)
         If modMain.RegValue = 1 Then
@@ -4065,40 +4035,5 @@ BladPomocy:
             RegKey.SetValue("Show Status Bar", 1)
         End If
     End Sub
-    Private Sub picTrayObject_MouseMove(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.MouseEventArgs) Handles picTrayObject.MouseMove
-        Dim Button As Short = eventArgs.Button \ &H100000
-        Dim Shift As Short = System.Windows.Forms.Control.ModifierKeys \ &H10000
-        Dim x As Single = VB6.PixelsToTwipsX(eventArgs.X)
-        Dim y As Single = VB6.PixelsToTwipsY(eventArgs.Y)
-        Dim Msg As Integer
-        Msg = x / VB6.TwipsPerPixelX
-
-        Select Case Msg
-            Case CTrayIcon.TI_EVENT.WM_LBUTTONDOWN
-                If frmMain.DefInstance.Visible = False Then
-                    frmMain.DefInstance.Visible = True
-                    TrayControlVar = True
-                    frmMain.DefInstance.WindowState = System.Windows.Forms.FormWindowState.Normal
-                End If
-        End Select
-    End Sub
-    Private Sub tmrMIDITimer_Tick(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles tmrMIDITimer.Tick
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
-        modMain.RegValue = RegKey.GetValue("Play Music", 0)
-        If modMain.RegValue = 0 Then
-            tmrMIDITimer.Enabled = False
-            ZatrzymajMidi()
-            Exit Sub
-        End If
-
-        If PozycjaMidi() = DlugoscPlikuMidi Then
-            ZatrzymajMidi()
-            ZamknijMidi()
-            OtworzMidi(WybierzLosowyUtwor)
-            DlugoscPlikuMidi = DlugoscMidi()
-        End If
-    End Sub
-
-
 
 End Class

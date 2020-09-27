@@ -42,97 +42,101 @@ Friend Class frmSplash
 	'It can be modified using the Windows Form Designer.
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-		Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmSplash))
-		Me.components = New System.ComponentModel.Container()
-		Me.ToolTip1 = New System.Windows.Forms.ToolTip(components)
-		Me.ToolTip1.Active = True
-		Me.tmrTimer = New System.Windows.Forms.Timer(components)
-		Me.imgTitle = New System.Windows.Forms.PictureBox
-		Me.lblPlatform = New System.Windows.Forms.Label
-		Me.lblVersion = New System.Windows.Forms.Label
-		Me.lblCopyright = New System.Windows.Forms.Label
-		Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
-		Me.ControlBox = False
-		Me.BackColor = System.Drawing.SystemColors.ActiveBorder
-		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
-		Me.ClientSize = New System.Drawing.Size(401, 248)
-		Me.Location = New System.Drawing.Point(162, 227)
-		Me.KeyPreview = True
-		Me.MaximizeBox = False
-		Me.MinimizeBox = False
-		Me.ShowInTaskbar = False
-		Me.Font = New System.Drawing.Font("Arial", 8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-		Me.Enabled = True
-		Me.Cursor = System.Windows.Forms.Cursors.Default
-		Me.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.HelpButton = False
-		Me.WindowState = System.Windows.Forms.FormWindowState.Normal
-		Me.Name = "frmSplash"
-		Me.tmrTimer.Interval = 2000
-		Me.tmrTimer.Enabled = True
-		Me.imgTitle.Size = New System.Drawing.Size(288, 61)
-		Me.imgTitle.Location = New System.Drawing.Point(96, 40)
-		Me.imgTitle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-		Me.imgTitle.Enabled = True
-		Me.imgTitle.Cursor = System.Windows.Forms.Cursors.Default
-		Me.imgTitle.Visible = True
-		Me.imgTitle.BorderStyle = System.Windows.Forms.BorderStyle.None
-		Me.imgTitle.Name = "imgTitle"
-		Me.lblPlatform.TextAlign = System.Drawing.ContentAlignment.TopRight
-		Me.lblPlatform.Text = "dla Windows 95/98/NT/2000/ME"
-		Me.lblPlatform.Font = New System.Drawing.Font("Arial", 15.75!, System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.lblPlatform.Size = New System.Drawing.Size(312, 24)
-		Me.lblPlatform.Location = New System.Drawing.Point(82, 137)
-		Me.lblPlatform.TabIndex = 2
-		Me.lblPlatform.Tag = "SplashScreen#0"
-		Me.lblPlatform.BackColor = System.Drawing.Color.Transparent
-		Me.lblPlatform.Enabled = True
-		Me.lblPlatform.ForeColor = System.Drawing.SystemColors.ControlText
-		Me.lblPlatform.Cursor = System.Windows.Forms.Cursors.Default
-		Me.lblPlatform.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.lblPlatform.UseMnemonic = True
-		Me.lblPlatform.Visible = True
-		Me.lblPlatform.AutoSize = True
-		Me.lblPlatform.BorderStyle = System.Windows.Forms.BorderStyle.None
-		Me.lblPlatform.Name = "lblPlatform"
-		Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopRight
-		Me.lblVersion.Text = "Wersja"
-		Me.lblVersion.Font = New System.Drawing.Font("Arial", 12!, System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.lblVersion.Size = New System.Drawing.Size(52, 19)
-		Me.lblVersion.Location = New System.Drawing.Point(342, 163)
-		Me.lblVersion.TabIndex = 1
-		Me.lblVersion.BackColor = System.Drawing.Color.Transparent
-		Me.lblVersion.Enabled = True
-		Me.lblVersion.ForeColor = System.Drawing.SystemColors.ControlText
-		Me.lblVersion.Cursor = System.Windows.Forms.Cursors.Default
-		Me.lblVersion.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.lblVersion.UseMnemonic = True
-		Me.lblVersion.Visible = True
-		Me.lblVersion.AutoSize = True
-		Me.lblVersion.BorderStyle = System.Windows.Forms.BorderStyle.None
-		Me.lblVersion.Name = "lblVersion"
-		Me.lblCopyright.Text = "Copyright (c) 2000 - 2001, Karol Kuczmarski"
-		Me.lblCopyright.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.lblCopyright.Size = New System.Drawing.Size(215, 17)
-		Me.lblCopyright.Location = New System.Drawing.Point(180, 205)
-		Me.lblCopyright.TabIndex = 0
-		Me.lblCopyright.TextAlign = System.Drawing.ContentAlignment.TopLeft
-		Me.lblCopyright.BackColor = System.Drawing.Color.Transparent
-		Me.lblCopyright.Enabled = True
-		Me.lblCopyright.ForeColor = System.Drawing.SystemColors.ControlText
-		Me.lblCopyright.Cursor = System.Windows.Forms.Cursors.Default
-		Me.lblCopyright.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.lblCopyright.UseMnemonic = True
-		Me.lblCopyright.Visible = True
-		Me.lblCopyright.AutoSize = False
-		Me.lblCopyright.BorderStyle = System.Windows.Forms.BorderStyle.None
-		Me.lblCopyright.Name = "lblCopyright"
-		Me.Controls.Add(imgTitle)
-		Me.Controls.Add(lblPlatform)
-		Me.Controls.Add(lblVersion)
-		Me.Controls.Add(lblCopyright)
-	End Sub
+        Me.components = New System.ComponentModel.Container
+        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmSplash))
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.tmrTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.imgTitle = New System.Windows.Forms.PictureBox
+        Me.lblPlatform = New System.Windows.Forms.Label
+        Me.lblVersion = New System.Windows.Forms.Label
+        Me.lblCopyright = New System.Windows.Forms.Label
+        Me.SuspendLayout()
+        '
+        'tmrTimer
+        '
+        Me.tmrTimer.Enabled = True
+        Me.tmrTimer.Interval = 2000
+        '
+        'imgTitle
+        '
+        Me.imgTitle.Cursor = System.Windows.Forms.Cursors.Default
+        Me.imgTitle.Image = CType(resources.GetObject("imgTitle.Image"), System.Drawing.Image)
+        Me.imgTitle.Location = New System.Drawing.Point(96, 40)
+        Me.imgTitle.Name = "imgTitle"
+        Me.imgTitle.Size = New System.Drawing.Size(288, 61)
+        Me.imgTitle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.imgTitle.TabIndex = 0
+        Me.imgTitle.TabStop = False
+        '
+        'lblPlatform
+        '
+        Me.lblPlatform.AutoSize = True
+        Me.lblPlatform.BackColor = System.Drawing.Color.Transparent
+        Me.lblPlatform.Cursor = System.Windows.Forms.Cursors.Default
+        Me.lblPlatform.Font = New System.Drawing.Font("Arial", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPlatform.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.lblPlatform.Location = New System.Drawing.Point(256, 136)
+        Me.lblPlatform.Name = "lblPlatform"
+        Me.lblPlatform.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.lblPlatform.Size = New System.Drawing.Size(140, 28)
+        Me.lblPlatform.TabIndex = 2
+        Me.lblPlatform.Tag = "SplashScreen#0"
+        Me.lblPlatform.Text = "dla Windows"
+        Me.lblPlatform.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'lblVersion
+        '
+        Me.lblVersion.AutoSize = True
+        Me.lblVersion.BackColor = System.Drawing.Color.Transparent
+        Me.lblVersion.Cursor = System.Windows.Forms.Cursors.Default
+        Me.lblVersion.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVersion.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.lblVersion.Location = New System.Drawing.Point(342, 163)
+        Me.lblVersion.Name = "lblVersion"
+        Me.lblVersion.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.lblVersion.Size = New System.Drawing.Size(60, 22)
+        Me.lblVersion.TabIndex = 1
+        Me.lblVersion.Text = "Wersja"
+        Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'lblCopyright
+        '
+        Me.lblCopyright.BackColor = System.Drawing.Color.Transparent
+        Me.lblCopyright.Cursor = System.Windows.Forms.Cursors.Default
+        Me.lblCopyright.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCopyright.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.lblCopyright.Location = New System.Drawing.Point(152, 205)
+        Me.lblCopyright.Name = "lblCopyright"
+        Me.lblCopyright.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.lblCopyright.Size = New System.Drawing.Size(240, 17)
+        Me.lblCopyright.TabIndex = 0
+        Me.lblCopyright.Text = "Copyright (c) 2000 - 2001, Karol Kuczmarski"
+        '
+        'frmSplash
+        '
+        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+        Me.BackColor = System.Drawing.SystemColors.ActiveBorder
+        Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
+        Me.ClientSize = New System.Drawing.Size(401, 248)
+        Me.ControlBox = False
+        Me.Controls.Add(Me.imgTitle)
+        Me.Controls.Add(Me.lblPlatform)
+        Me.Controls.Add(Me.lblVersion)
+        Me.Controls.Add(Me.lblCopyright)
+        Me.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.KeyPreview = True
+        Me.Location = New System.Drawing.Point(162, 227)
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
+        Me.Name = "frmSplash"
+        Me.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.ShowInTaskbar = False
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
+        Me.ResumeLayout(False)
+
+    End Sub
 #End Region 
 #Region "Upgrade Support "
 	Private Shared m_vb6FormDefInstance As frmSplash

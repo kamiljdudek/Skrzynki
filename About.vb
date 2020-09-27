@@ -47,159 +47,153 @@ Friend Class frmAbout
 	'It can be modified using the Windows Form Designer.
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-		Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmAbout))
-		Me.components = New System.ComponentModel.Container()
-		Me.ToolTip1 = New System.Windows.Forms.ToolTip(components)
-		Me.ToolTip1.Active = True
-		Me.picIcon = New System.Windows.Forms.PictureBox
-		Me.cmdOK = New System.Windows.Forms.Button
-		Me.cmdSysInfo = New System.Windows.Forms.Button
-		Me.lblTitle = New System.Windows.Forms.Label
-		Me._Line1_1 = New System.Windows.Forms.Label
-		Me.lblDescription = New System.Windows.Forms.Label
-		Me._Line1_0 = New System.Windows.Forms.Label
-		Me.lblVersion = New System.Windows.Forms.Label
-		Me.Line1 = New Microsoft.VisualBasic.Compatibility.VB6.LabelArray(components)
-		CType(Me.Line1, System.ComponentModel.ISupportInitialize).BeginInit()
-		Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
-		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-		Me.Text = "Skrzynki - informacje"
-		Me.ClientSize = New System.Drawing.Size(403, 237)
-		Me.Location = New System.Drawing.Point(156, 129)
-		Me.ControlBox = False
-		Me.MaximizeBox = False
-		Me.MinimizeBox = False
-		Me.ShowInTaskbar = False
-		Me.Font = New System.Drawing.Font("Arial", 8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-		Me.BackColor = System.Drawing.SystemColors.Control
-		Me.Enabled = True
-		Me.KeyPreview = False
-		Me.Cursor = System.Windows.Forms.Cursors.Default
-		Me.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.HelpButton = False
-		Me.WindowState = System.Windows.Forms.FormWindowState.Normal
-		Me.Name = "frmAbout"
-		Me.picIcon.Size = New System.Drawing.Size(104, 104)
-		Me.picIcon.Location = New System.Drawing.Point(11, 16)
-		Me.picIcon.TabIndex = 1
-		Me.picIcon.Font = New System.Drawing.Font("Arial", 8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.picIcon.Dock = System.Windows.Forms.DockStyle.None
-		Me.picIcon.BackColor = System.Drawing.SystemColors.Control
-		Me.picIcon.CausesValidation = True
-		Me.picIcon.Enabled = True
-		Me.picIcon.ForeColor = System.Drawing.SystemColors.ControlText
-		Me.picIcon.Cursor = System.Windows.Forms.Cursors.Default
-		Me.picIcon.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.picIcon.TabStop = True
-		Me.picIcon.Visible = True
-		Me.picIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-		Me.picIcon.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-		Me.picIcon.Name = "picIcon"
-		Me.cmdOK.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-		Me.CancelButton = Me.cmdOK
-		Me.cmdOK.Text = "&OK"
-		Me.AcceptButton = Me.cmdOK
-		Me.cmdOK.Size = New System.Drawing.Size(350, 23)
-		Me.cmdOK.Location = New System.Drawing.Point(25, 175)
-		Me.cmdOK.TabIndex = 0
-		Me.cmdOK.Tag = "Buttons#0"
-		Me.cmdOK.Font = New System.Drawing.Font("Arial", 8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.cmdOK.BackColor = System.Drawing.SystemColors.Control
-		Me.cmdOK.CausesValidation = True
-		Me.cmdOK.Enabled = True
-		Me.cmdOK.ForeColor = System.Drawing.SystemColors.ControlText
-		Me.cmdOK.Cursor = System.Windows.Forms.Cursors.Default
-		Me.cmdOK.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.cmdOK.TabStop = True
-		Me.cmdOK.Name = "cmdOK"
-		Me.cmdSysInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-		Me.cmdSysInfo.Text = "&Informacje o systemie..."
-		Me.cmdSysInfo.Size = New System.Drawing.Size(351, 23)
-		Me.cmdSysInfo.Location = New System.Drawing.Point(25, 205)
-		Me.cmdSysInfo.TabIndex = 2
-		Me.cmdSysInfo.Tag = "AboutDialog#3"
-		Me.cmdSysInfo.Font = New System.Drawing.Font("Arial", 8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.cmdSysInfo.BackColor = System.Drawing.SystemColors.Control
-		Me.cmdSysInfo.CausesValidation = True
-		Me.cmdSysInfo.Enabled = True
-		Me.cmdSysInfo.ForeColor = System.Drawing.SystemColors.ControlText
-		Me.cmdSysInfo.Cursor = System.Windows.Forms.Cursors.Default
-		Me.cmdSysInfo.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.cmdSysInfo.TabStop = True
-		Me.cmdSysInfo.Name = "cmdSysInfo"
-		Me.lblTitle.Text = "Skrzynki"
-		Me.lblTitle.Font = New System.Drawing.Font("Arial", 24!, System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(238, Byte))
-		Me.lblTitle.ForeColor = System.Drawing.SystemColors.Highlight
-		Me.lblTitle.Size = New System.Drawing.Size(261, 37)
-		Me.lblTitle.Location = New System.Drawing.Point(116, 16)
-		Me.lblTitle.TabIndex = 5
-		Me.lblTitle.TextAlign = System.Drawing.ContentAlignment.TopLeft
-		Me.lblTitle.BackColor = System.Drawing.SystemColors.Control
-		Me.lblTitle.Enabled = True
-		Me.lblTitle.Cursor = System.Windows.Forms.Cursors.Default
-		Me.lblTitle.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.lblTitle.UseMnemonic = True
-		Me.lblTitle.Visible = True
-		Me.lblTitle.AutoSize = False
-		Me.lblTitle.BorderStyle = System.Windows.Forms.BorderStyle.None
-		Me.lblTitle.Name = "lblTitle"
-		Me._Line1_1.BackColor = System.Drawing.Color.FromARGB(128, 128, 128)
-		Me._Line1_1.Visible = True
-		Me._Line1_1.Location = New System.Drawing.Point(11, 147)
-		Me._Line1_1.Width = 288
-		Me._Line1_1.Height = 1
-		Me._Line1_1.Name = "_Line1_1"
-		Me.lblDescription.Text = "App Description"
-		Me.lblDescription.ForeColor = System.Drawing.Color.Black
-		Me.lblDescription.Size = New System.Drawing.Size(259, 78)
-		Me.lblDescription.Location = New System.Drawing.Point(118, 82)
-		Me.lblDescription.TabIndex = 3
-		Me.lblDescription.Font = New System.Drawing.Font("Arial", 8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.lblDescription.TextAlign = System.Drawing.ContentAlignment.TopLeft
-		Me.lblDescription.BackColor = System.Drawing.SystemColors.Control
-		Me.lblDescription.Enabled = True
-		Me.lblDescription.Cursor = System.Windows.Forms.Cursors.Default
-		Me.lblDescription.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.lblDescription.UseMnemonic = True
-		Me.lblDescription.Visible = True
-		Me.lblDescription.AutoSize = False
-		Me.lblDescription.BorderStyle = System.Windows.Forms.BorderStyle.None
-		Me.lblDescription.Name = "lblDescription"
-		Me._Line1_0.BackColor = System.Drawing.Color.White
-		Me._Line1_0.Visible = True
-		Me._Line1_0.Location = New System.Drawing.Point(12, 148)
-		Me._Line1_0.Width = 287
-		Me._Line1_0.Height = 1
-		Me._Line1_0.Name = "_Line1_0"
-		Me.lblVersion.Text = "Wersja"
-		Me.lblVersion.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(238, Byte))
-		Me.lblVersion.Size = New System.Drawing.Size(259, 15)
-		Me.lblVersion.Location = New System.Drawing.Point(119, 59)
-		Me.lblVersion.TabIndex = 4
-		Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopLeft
-		Me.lblVersion.BackColor = System.Drawing.SystemColors.Control
-		Me.lblVersion.Enabled = True
-		Me.lblVersion.ForeColor = System.Drawing.SystemColors.ControlText
-		Me.lblVersion.Cursor = System.Windows.Forms.Cursors.Default
-		Me.lblVersion.RightToLeft = System.Windows.Forms.RightToLeft.No
-		Me.lblVersion.UseMnemonic = True
-		Me.lblVersion.Visible = True
-		Me.lblVersion.AutoSize = False
-		Me.lblVersion.BorderStyle = System.Windows.Forms.BorderStyle.None
-		Me.lblVersion.Name = "lblVersion"
-		Me.Controls.Add(picIcon)
-		Me.Controls.Add(cmdOK)
-		Me.Controls.Add(cmdSysInfo)
-		Me.Controls.Add(lblTitle)
-		Me.Controls.Add(_Line1_1)
-		Me.Controls.Add(lblDescription)
-		Me.Controls.Add(_Line1_0)
-		Me.Controls.Add(lblVersion)
-		Me.Line1.SetIndex(_Line1_1, CType(1, Short))
-		Me.Line1.SetIndex(_Line1_0, CType(0, Short))
-		CType(Me.Line1, System.ComponentModel.ISupportInitialize).EndInit()
-	End Sub
+        Me.components = New System.ComponentModel.Container
+        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmAbout))
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.picIcon = New System.Windows.Forms.PictureBox
+        Me.cmdOK = New System.Windows.Forms.Button
+        Me.cmdSysInfo = New System.Windows.Forms.Button
+        Me.lblTitle = New System.Windows.Forms.Label
+        Me._Line1_1 = New System.Windows.Forms.Label
+        Me.lblDescription = New System.Windows.Forms.Label
+        Me._Line1_0 = New System.Windows.Forms.Label
+        Me.lblVersion = New System.Windows.Forms.Label
+        Me.Line1 = New Microsoft.VisualBasic.Compatibility.VB6.LabelArray(Me.components)
+        CType(Me.Line1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
+        '
+        'picIcon
+        '
+        Me.picIcon.BackColor = System.Drawing.SystemColors.Control
+        Me.picIcon.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.picIcon.Cursor = System.Windows.Forms.Cursors.Default
+        Me.picIcon.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.picIcon.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.picIcon.Image = CType(resources.GetObject("picIcon.Image"), System.Drawing.Image)
+        Me.picIcon.Location = New System.Drawing.Point(11, 16)
+        Me.picIcon.Name = "picIcon"
+        Me.picIcon.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.picIcon.Size = New System.Drawing.Size(104, 104)
+        Me.picIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.picIcon.TabIndex = 1
+        '
+        'cmdOK
+        '
+        Me.cmdOK.BackColor = System.Drawing.SystemColors.Control
+        Me.cmdOK.Cursor = System.Windows.Forms.Cursors.Default
+        Me.cmdOK.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.cmdOK.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdOK.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.cmdOK.Location = New System.Drawing.Point(25, 175)
+        Me.cmdOK.Name = "cmdOK"
+        Me.cmdOK.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.cmdOK.Size = New System.Drawing.Size(350, 23)
+        Me.cmdOK.TabIndex = 0
+        Me.cmdOK.Tag = "Buttons#0"
+        Me.cmdOK.Text = "&OK"
+        '
+        'cmdSysInfo
+        '
+        Me.cmdSysInfo.BackColor = System.Drawing.SystemColors.Control
+        Me.cmdSysInfo.Cursor = System.Windows.Forms.Cursors.Default
+        Me.cmdSysInfo.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdSysInfo.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.cmdSysInfo.Location = New System.Drawing.Point(25, 205)
+        Me.cmdSysInfo.Name = "cmdSysInfo"
+        Me.cmdSysInfo.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.cmdSysInfo.Size = New System.Drawing.Size(351, 23)
+        Me.cmdSysInfo.TabIndex = 2
+        Me.cmdSysInfo.Tag = "AboutDialog#3"
+        Me.cmdSysInfo.Text = "&Informacje o systemie..."
+        '
+        'lblTitle
+        '
+        Me.lblTitle.BackColor = System.Drawing.SystemColors.Control
+        Me.lblTitle.Cursor = System.Windows.Forms.Cursors.Default
+        Me.lblTitle.Font = New System.Drawing.Font("Arial", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(238, Byte))
+        Me.lblTitle.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.lblTitle.Location = New System.Drawing.Point(116, 16)
+        Me.lblTitle.Name = "lblTitle"
+        Me.lblTitle.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.lblTitle.Size = New System.Drawing.Size(261, 37)
+        Me.lblTitle.TabIndex = 5
+        Me.lblTitle.Text = "Skrzynki"
+        '
+        '_Line1_1
+        '
+        Me._Line1_1.BackColor = System.Drawing.Color.FromArgb(CType(128, Byte), CType(128, Byte), CType(128, Byte))
+        Me.Line1.SetIndex(Me._Line1_1, CType(1, Short))
+        Me._Line1_1.Location = New System.Drawing.Point(11, 147)
+        Me._Line1_1.Name = "_Line1_1"
+        Me._Line1_1.Size = New System.Drawing.Size(288, 1)
+        Me._Line1_1.TabIndex = 6
+        '
+        'lblDescription
+        '
+        Me.lblDescription.BackColor = System.Drawing.SystemColors.Control
+        Me.lblDescription.Cursor = System.Windows.Forms.Cursors.Default
+        Me.lblDescription.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDescription.ForeColor = System.Drawing.Color.Black
+        Me.lblDescription.Location = New System.Drawing.Point(118, 82)
+        Me.lblDescription.Name = "lblDescription"
+        Me.lblDescription.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.lblDescription.Size = New System.Drawing.Size(259, 78)
+        Me.lblDescription.TabIndex = 3
+        Me.lblDescription.Text = "App Description"
+        '
+        '_Line1_0
+        '
+        Me._Line1_0.BackColor = System.Drawing.Color.White
+        Me.Line1.SetIndex(Me._Line1_0, CType(0, Short))
+        Me._Line1_0.Location = New System.Drawing.Point(12, 148)
+        Me._Line1_0.Name = "_Line1_0"
+        Me._Line1_0.Size = New System.Drawing.Size(287, 1)
+        Me._Line1_0.TabIndex = 7
+        '
+        'lblVersion
+        '
+        Me.lblVersion.BackColor = System.Drawing.SystemColors.Control
+        Me.lblVersion.Cursor = System.Windows.Forms.Cursors.Default
+        Me.lblVersion.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(238, Byte))
+        Me.lblVersion.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.lblVersion.Location = New System.Drawing.Point(119, 59)
+        Me.lblVersion.Name = "lblVersion"
+        Me.lblVersion.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.lblVersion.Size = New System.Drawing.Size(259, 15)
+        Me.lblVersion.TabIndex = 4
+        Me.lblVersion.Text = "Wersja"
+        '
+        'frmAbout
+        '
+        Me.AcceptButton = Me.cmdOK
+        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+        Me.BackColor = System.Drawing.SystemColors.Control
+        Me.CancelButton = Me.cmdOK
+        Me.ClientSize = New System.Drawing.Size(403, 237)
+        Me.ControlBox = False
+        Me.Controls.Add(Me.picIcon)
+        Me.Controls.Add(Me.cmdOK)
+        Me.Controls.Add(Me.cmdSysInfo)
+        Me.Controls.Add(Me.lblTitle)
+        Me.Controls.Add(Me._Line1_1)
+        Me.Controls.Add(Me.lblDescription)
+        Me.Controls.Add(Me._Line1_0)
+        Me.Controls.Add(Me.lblVersion)
+        Me.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.Location = New System.Drawing.Point(156, 129)
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
+        Me.Name = "frmAbout"
+        Me.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.ShowInTaskbar = False
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
+        Me.Text = "Skrzynki - informacje"
+        CType(Me.Line1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
+
+    End Sub
 #End Region 
 #Region "Upgrade Support "
 	Private Shared m_vb6FormDefInstance As frmAbout
@@ -256,7 +250,6 @@ Friend Class frmAbout
 		'UPGRADE_ISSUE: App property App.Revision was not upgraded. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup2069"'
         lblVersion.Text = ZwrocCiag("AboutDialog#1") & System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMajorPart & "." & System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMinorPart & "."
 		lblDescription.Text = "(c) 2001 - 2002, Karol Kuczmarski" & Chr(10) & ZwrocCiag("AboutDialog#4") & Chr(10) & ZwrocCiag("AboutDialog#2")
-		picIcon.Image = VB6.LoadResPicture(201, VB6.LoadResConstants.ResBitmap)
 	End Sub
 	Public Sub StartSysInfo()
 		On Error GoTo SysInfoErr

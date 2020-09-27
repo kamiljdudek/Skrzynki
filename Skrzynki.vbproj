@@ -21,7 +21,7 @@
                 OptionExplicit = "On"
                 OptionStrict = "Off"
                 RootNamespace = "Skrzynki"
-                StartupObject = "Skrzynki.modMain"
+                StartupObject = "Skrzynki.frmMain"
             >
                 <Config
                     Name = "Debug"
@@ -104,11 +104,6 @@
         <Files>
             <Include>
                 <File
-                    RelPath = "_UpgradeReport.htm"
-                    SubType = "Preview"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "About.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -124,34 +119,9 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "FindMIDI.vb"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "frmFindMIDI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "frmFindMIDI.resX"
-                    DependentUpon = "frmFindMIDI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "Languages.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Login.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Login.resX"
-                    DependentUpon = "Login.vb"
-                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "Main.vb"
@@ -174,16 +144,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "NewPlayer.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "NewPlayer.resX"
-                    DependentUpon = "NewPlayer.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "Options.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -192,11 +152,6 @@
                     RelPath = "Options.resX"
                     DependentUpon = "Options.vb"
                     BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "PlayMIDI.vb"
-                    SubType = "Code"
-                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "ProjectResources.resx"
@@ -217,19 +172,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Tip.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
+                    RelPath = "resources\bmp101.bmp"
+                    BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Tip.resX"
-                    DependentUpon = "Tip.vb"
-                    BuildAction = "EmbeddedResource"
+                    RelPath = "resources\bmp102.bmp"
+                    BuildAction = "Content"
                 />
                 <File
-                    RelPath = "TrayIcon.vb"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                    RelPath = "resources\bmp201.bmp"
+                    BuildAction = "Content"
                 />
             </Include>
         </Files>

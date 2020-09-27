@@ -3,7 +3,7 @@ Option Explicit On
 Imports VB = Microsoft.VisualBasic
 Module modMain
 	' -------------------------------------------------------------------------------------------
-	' |                                      SKRZYNKI 3.6                                       |
+    ' |                                         SKRZYNKI                                        |
 	' |                                 autor: Karol Kuczmarski                                 |
 	' -------------------------------------------------------------------------------------------
 	'
@@ -137,7 +137,7 @@ Module modMain
 	' przejœciu nie powinien byæ wyœwietlony nastêpny)
 	Public EtapZaliczony As Boolean ' czy etap spoza zestawu zaliczony?
 	Public NumerEtapu As Integer ' numer aktualnie rozgrywanego etapu
-	Public ZestawEtapow As Byte ' aktualnie rozgrywany zestaw etapów
+    Public ZestawEtapow As String ' aktualnie rozgrywany zestaw etapów
 	Public Ruchy As Integer ' ruchy wykonane w etapie
 	Public Pchniecia As Integer ' ruchy skrzynek wykonane w etapie
 	Public NazwaPliku As String ' nazwa pliku etapu
@@ -153,16 +153,6 @@ Module modMain
 	Public KatalogTemp As String
 	Public DlugoscKataloguTemp As Integer
 	'
-    'Public RegObj As RegistryTypeLibrary.CRegObj ' obiekt Rejestr
-	Public RegWartosc, RegWartosc2 As String
-	Public RegDaneStr As String
-	Public RegDaneInt As Integer
-	Public RegFlush As Boolean
-	'
-	Public TIcon As New CTrayIcon ' ikonka w trayu
-    'Public CDialog As New CCommonDlg ' Common Dialog
-	'
-	Public iniMidi As Short
 	Public NewPlayerFormAction As String
 
     Public RegKey As Microsoft.Win32.RegistryKey
@@ -185,10 +175,6 @@ Module modMain
 		Dim SplashShown As Boolean
 		Dim Response As Short
 		
-        ' RegObj = New RegistryTypeLibrary.CRegObj
-        ' RegFlush = True
-		
-        RegWartosc = RegSciezka & "\\Other\\Started"
         Dim RegKey As Microsoft.Win32.RegistryKey
         RegValue = 0
         RegString = ""
@@ -198,9 +184,6 @@ Module modMain
 
         If RegValue = 0 Then
             RegKey.SetValue("Started", 1)
-            RegValue = RegKey.GetValue("Path", 0)
-            RegKey.SetValue("Path", "Z:\\")
-
             'SkojarzPlikiBOXZProgramem()
             'RozpoznajJezyk()
 
@@ -215,13 +198,10 @@ Module modMain
             RegKey.SetValue("First Player Auto Logon", 1)
             RegKey.SetValue("Want Level Restarting Authorization", 1)
             RegKey.SetValue("Want Level Restarting Authorization", 1)
+            modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
+            RegKey.SetValue("Language", "English")
+            RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Other", True)
 
-            Response = MsgBox(ZwrocCiag("General#11"), MsgBoxStyle.OKCancel + MsgBoxStyle.Question + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-            If Response = MsgBoxResult.OK Then
-                PokazForme(frmFindMIDI.DefInstance, VB6.FormShowConstants.Modal)
-            Else
-                'UPGRADE_WARNING: Untranslated statement in Main. Please check source code.
-            End If
         End If
 
         DlugoscKataloguWindows = GetWindowsDirectory(Temp4.Value, 255)
@@ -230,36 +210,7 @@ Module modMain
         DlugoscKataloguTemp = GetTempPath(255, Temp4.Value)
         KatalogTemp = Left(Temp4.Value, DlugoscKataloguTemp)
 
-        'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-        Temp3 = AnalizujWierszPolecen()
-        Select Case Temp3
-            Case "Logged"
-            Case Else
-                SprawdzLiczbeGraczy()
-
-                RegValue = RegKey.GetValue("First Player Auto Logon", 0)
-                RegWartosc2 = RegSciezka & "\Players\ 1\Password"
-                RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\1", True)
-                RegString = RegKey.GetValue("Password", "password")
-                'UPGRADE_WARNING: IsEmpty was upgraded to IsNothing and has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
-                If RegValue = 1 And LiczbaGraczy = 1 And IsNothing(RegString) Then
-                    Loguj(1, "")
-                Else
-                    PokazForme(frmLogin.DefInstance, VB6.FormShowConstants.Modal)
-                End If
-        End Select
-
-        RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Other", True)
-        RegDaneStr = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMajorPart & "." & System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMinorPart & ".999"
-        RegKey.SetValue("Version", RegDaneStr)
-
-        RegValue = RegKey.GetValue("Show Splash at Startup", Nothing)
-        If RegValue = 1 Then
-            PokazForme(frmSplash.DefInstance)
-            frmSplash.DefInstance.Activate()
-            SplashShown = True
-        Else : SplashShown = False
-        End If
+        Loguj(1)
 
         If (UBound(Diagnostics.Process.GetProcessesByName(Diagnostics.Process.GetCurrentProcess.ProcessName)) > 0) = True Then
             'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
@@ -267,26 +218,14 @@ Module modMain
             End
         End If
 
-        RegValue = RegKey.GetValue("Show Splash at Startup", Nothing)
-        If RegValue = 1 Then
-            PokazForme(frmTip.DefInstance)
-            frmTip.DefInstance.Activate()
-            TipsShown = True
-        Else : TipsShown = False
-        End If
-
-        If SplashShown Then frmSplash.DefInstance.Activate()
-
         ZestawEtapow = DaneGracza.Zestaw
         NumerEtapu = 1
         WykonanoRuch = False
         EtapZaliczony = False
 
-        PokazForme(frmMain.DefInstance)
+        'PokazForme(frmMain.DefInstance)
         PokazNaPaskuStanu(5, DaneGracza.Imie)
 
-        If TipsShown Then frmTip.DefInstance.Activate()
-        If SplashShown Then frmSplash.DefInstance.Activate()
 	End Sub
 	Public Function AnalizujWierszPolecen() As String
 		On Error GoTo Blad
@@ -302,32 +241,6 @@ Module modMain
 		'UPGRADE_WARNING: Couldn't resolve default property of object Parametry. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
 		Parametry = Split(VB.Command(), " ")
 		Select Case Left(VB.Command(), 2)
-			Case "/l"
-				'UPGRADE_WARNING: Couldn't resolve default property of object Parametry(). Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				Temp = PodajNumerGracza(Parametry(1))
-				'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				If Temp = 0 Then
-					MsgBox(ZwrocCiag("General#3"), MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-					End
-				End If
-				
-				'UPGRADE_WARNING: Couldn't resolve default property of object Parametry(2). Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				Loguj(Val(Temp), Parametry(2))
-				AnalizujWierszPolecen = "Logged"
-				Exit Function
-			Case "/k"
-				'UPGRADE_WARNING: Couldn't resolve default property of object Parametry(2). Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				'UPGRADE_WARNING: Couldn't resolve default property of object Parametry(). Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				If KonwertujEtap(Parametry(1), Parametry(2)) = False Then
-					MsgBox(ZwrocCiag("General#4"), MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-					End
-				Else
-					MsgBox(ZwrocCiag("General#5"), MsgBoxStyle.OKOnly + MsgBoxStyle.Information + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-					AnalizujWierszPolecen = "Converted"
-					Exit Function
-				End If
 			Case Else
 				NazwaPliku = Mid(VB.Command(), 2, Len(VB.Command()) - 2)
 				
@@ -612,7 +525,8 @@ Blad:
 		WczytajZestawEtapow = False
 	End Function
 	Public Sub OdswiezPoleGry()
-		Dim Skin As String
+        Dim Skin As String
+        RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\1", True)
         Skin = RegKey.GetValue("Skin", Nothing)
 		
 		For Licznik = 1 To 256 Step 1
@@ -1078,180 +992,168 @@ Blad:
 		'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
 		Temp3 = MessageBeep(-1)
 	End Sub
-	Public Sub NowaGra(ByVal KtoryEtap As Integer, Optional ByVal Zestaw As Byte = 0)
-		Dim ZE As String
-		NumerEtapu = KtoryEtap
-		Ruchy = 0
-		Pchniecia = 0
-		WykonanoRuch = False
-		EtapSpozaZestawu = False
-		frmMain.DefInstance.mnuToolsUndo.Enabled = False
-		
-		If Zestaw = 0 Then Zestaw = DaneGracza.Zestaw
-		Select Case Zestaw
-			Case 1
-				ZE = "Klasyczne"
-			Case 2
-				ZE = "Super Trudne XS"
-		End Select
-		
-		If WczytajZestawEtapow(VB6.GetPath & "\Etapy\" & ZE & ".bxp", FreeFile) Then
-			PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
-			PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
-			PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
-			PokazNaPaskuStanu(4, "#" & NumerEtapu)
-			PokazNaPaskuStanu(5, DaneGracza.Imie)
-			frmMain.DefInstance.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
-			EtapZaliczony = False
-		End If
-		
-		For Licznik = 1 To 256 Step 1
-			PoleGry(Licznik) = Etapy(NumerEtapu, Licznik)
-		Next Licznik
-		
-		For Licznik = 1 To 256 Step 1
-			If PoleGry(Licznik) = Gracz Or PoleGry(Licznik) = GraczNaMiejscu Then PozycjaGracza = Licznik
-		Next Licznik
-		
-		ZestawEtapow = DaneGracza.Zestaw
-		OdswiezPoleGry()
-	End Sub
-	Public Sub Cofnij()
-		For Licznik = 1 To 256 Step 1
-			PoleGry(Licznik) = PoleGrySprzedRuchu(Licznik)
-		Next Licznik
-		PozycjaGracza = PozycjaGraczaSprzedRuchu
-		Etap.SkrzynkiNaMiejscach = EtapSprzedRuchu.SkrzynkiNaMiejscach
-		PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
-		
-		WykonanoRuch = False
-		frmMain.DefInstance.mnuToolsUndo.Enabled = False
-		OdswiezPoleGry()
-	End Sub
-	Public Sub RestartujEtap()
-		For Licznik = 1 To 256
-			PoleGry(Licznik) = Etapy(NumerEtapu, Licznik)
-			'UPGRADE_WARNING: Couldn't resolve default property of object Etap. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-			Etap = DaneEtapow(NumerEtapu)
-			PozycjaGracza = PozycjeGracza(NumerEtapu)
-		Next Licznik
-		
-		Ruchy = 0
-		Pchniecia = 0
-		WykonanoRuch = False
-		frmMain.DefInstance.mnuToolsUndo.Enabled = False
-		
-		PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
-		PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
-		PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
-		PokazNaPaskuStanu(4, "#" & NumerEtapu)
-		frmMain.DefInstance.Text = "Skrzynki - #" & NumerEtapu
-		OdswiezPoleGry()
-	End Sub
-	Public Sub OdswiezPoleGryWokolGracza()
-		Dim Skin As String
-		
-        Skin = RegKey.GetValue("Path", "")
-		
-		With frmMain.DefInstance
-			If PoleGry(PozycjaGracza - 16) < 7 Then
-				frmMain.DefInstance.imgGameField(PozycjaGracza - 16).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza - 16) & ".ico")
-			Else
-				frmMain.DefInstance.imgGameField(PozycjaGracza - 16).Image = Nothing
-			End If
-			
-			If PoleGry(PozycjaGracza - 1) < 7 Then
-				frmMain.DefInstance.imgGameField(PozycjaGracza - 1).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza - 1) & ".ico")
-			Else
-				frmMain.DefInstance.imgGameField(PozycjaGracza - 1).Image = Nothing
-			End If
-			
-			If PoleGry(PozycjaGracza) < 7 Then
-				frmMain.DefInstance.imgGameField(PozycjaGracza).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza) & ".ico")
-			Else
-				frmMain.DefInstance.imgGameField(PozycjaGracza).Image = Nothing
-			End If
-			
-			If PoleGry(PozycjaGracza + 1) < 7 Then
-				frmMain.DefInstance.imgGameField(PozycjaGracza + 1).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza + 1) & ".ico")
-			Else
-				frmMain.DefInstance.imgGameField(PozycjaGracza + 1).Image = Nothing
-			End If
-			
-			If PoleGry(PozycjaGracza + 16) < 7 Then
-				frmMain.DefInstance.imgGameField(PozycjaGracza + 16).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza + 16) & ".ico")
-			Else
-				frmMain.DefInstance.imgGameField(PozycjaGracza + 16).Image = Nothing
-			End If
-		End With
-	End Sub
-	Public Sub ZakonczGre()
-		ZatrzymajMidi()
-		ZamknijMidi()
-		ZapiszStatystyki()
-		TIcon.Hide()
-		End
-	End Sub
-	Public Function NajdalszyEtap() As Short
-		Select Case ZestawEtapow
-			Case 1
-				NajdalszyEtap = DaneGracza.Klasyczne.OsiagnietyEtap
-			Case 2
-				NajdalszyEtap = DaneGracza.SuperTrudneXS.OsiagnietyEtap
-		End Select
-	End Function
-	Public Function KonwertujEtap(ByVal PlikZrodlowy As String, ByVal PlikDocelowy As String) As Boolean
-		On Error GoTo Blad
-		'UPGRADE_WARNING: Lower bound of array Etap was changed from 1 to 0. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1033"'
-		Dim Etap(10) As String
-		
-		FileOpen(10, PlikZrodlowy, OpenMode.Input)
-		For Licznik = 1 To 10 Step 1
-			Etap(Licznik) = LineInput(1)
-		Next Licznik
-		FileClose(10)
-		
-		FileOpen(20, PlikDocelowy, OpenMode.Output)
-		For Licznik = 1 To 3 Step 1
-			PrintLine(2, "''''''''''''''''")
-		Next Licznik
-		
-		For Licznik = 1 To 10 Step 1
-			PrintLine(2, "'''" & Etap(Licznik) & "'''")
-		Next Licznik
-		
-		For Licznik = 1 To 3 Step 1
-			PrintLine(2, "''''''''''''''''")
-		Next Licznik
-		FileClose(20)
-		
-		KonwertujEtap = True
-		Exit Function
-		
-Blad: 
-		KonwertujEtap = False
-	End Function
-	Public Sub SkojarzPlikiBOXZProgramem()
-        ' Requires rewrite for new APIs
-	End Sub
-	Public Sub PokazNaPaskuStanu(ByVal NumerPanelu As Byte, ByVal Napis As String)
-		With frmMain.DefInstance
-			Select Case NumerPanelu
-				Case 1
-					.lblMoves.Text = Napis
-				Case 2
-					.lblPushes.Text = Napis
-				Case 3
-					.lblBoxes.Text = Napis
-				Case 4
-					.lblLevelNumber.Text = Napis
-				Case 5
-					.lblPlayerName.Text = Napis
-			End Select
-		End With
-	End Sub
-	Public Sub PokazForme(ByRef frm As System.Windows.Forms.Form, Optional ByRef Modality As Object = Nothing, Optional ByRef Owner As Object = Nothing)
-		PrzetlumaczForme(frm)
+    Public Sub NowaGra(ByVal KtoryEtap As Integer, Optional ByVal Zestaw As String = "Klasyczne")
+        Dim ZE As String
+        NumerEtapu = KtoryEtap
+        Ruchy = 0
+        Pchniecia = 0
+        WykonanoRuch = False
+        EtapSpozaZestawu = False
+        frmMain.DefInstance.mnuToolsUndo.Enabled = False
+
+        ZE = Zestaw
+
+        If WczytajZestawEtapow(VB6.GetPath & "\Etapy\" & ZE & ".bxp", FreeFile) Then
+            PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
+            PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
+            PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+            PokazNaPaskuStanu(4, "#" & NumerEtapu)
+            PokazNaPaskuStanu(5, DaneGracza.Imie)
+            frmMain.DefInstance.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
+            EtapZaliczony = False
+        End If
+
+        For Licznik = 1 To 256 Step 1
+            PoleGry(Licznik) = Etapy(NumerEtapu, Licznik)
+        Next Licznik
+
+        For Licznik = 1 To 256 Step 1
+            If PoleGry(Licznik) = Gracz Or PoleGry(Licznik) = GraczNaMiejscu Then PozycjaGracza = Licznik
+        Next Licznik
+
+        ZestawEtapow = DaneGracza.Zestaw
+        OdswiezPoleGry()
+    End Sub
+    Public Sub Cofnij()
+        For Licznik = 1 To 256 Step 1
+            PoleGry(Licznik) = PoleGrySprzedRuchu(Licznik)
+        Next Licznik
+        PozycjaGracza = PozycjaGraczaSprzedRuchu
+        Etap.SkrzynkiNaMiejscach = EtapSprzedRuchu.SkrzynkiNaMiejscach
+        PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+
+        WykonanoRuch = False
+        frmMain.DefInstance.mnuToolsUndo.Enabled = False
+        OdswiezPoleGry()
+    End Sub
+    Public Sub RestartujEtap()
+        For Licznik = 1 To 256
+            PoleGry(Licznik) = Etapy(NumerEtapu, Licznik)
+            'UPGRADE_WARNING: Couldn't resolve default property of object Etap. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+            Etap = DaneEtapow(NumerEtapu)
+            PozycjaGracza = PozycjeGracza(NumerEtapu)
+        Next Licznik
+
+        Ruchy = 0
+        Pchniecia = 0
+        WykonanoRuch = False
+        frmMain.DefInstance.mnuToolsUndo.Enabled = False
+
+        PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
+        PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
+        PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+        PokazNaPaskuStanu(4, "#" & NumerEtapu)
+        frmMain.DefInstance.Text = "Skrzynki - #" & NumerEtapu
+        OdswiezPoleGry()
+    End Sub
+    Public Sub OdswiezPoleGryWokolGracza()
+        Dim Skin As String
+
+        RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\1", True)
+        Skin = RegKey.GetValue("Skin", Nothing)
+
+        With frmMain.DefInstance
+            If PoleGry(PozycjaGracza - 16) < 7 Then
+                frmMain.DefInstance.imgGameField(PozycjaGracza - 16).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza - 16) & ".ico")
+            Else
+                frmMain.DefInstance.imgGameField(PozycjaGracza - 16).Image = Nothing
+            End If
+
+            If PoleGry(PozycjaGracza - 1) < 7 Then
+                frmMain.DefInstance.imgGameField(PozycjaGracza - 1).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza - 1) & ".ico")
+            Else
+                frmMain.DefInstance.imgGameField(PozycjaGracza - 1).Image = Nothing
+            End If
+
+            If PoleGry(PozycjaGracza) < 7 Then
+                frmMain.DefInstance.imgGameField(PozycjaGracza).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza) & ".ico")
+            Else
+                frmMain.DefInstance.imgGameField(PozycjaGracza).Image = Nothing
+            End If
+
+            If PoleGry(PozycjaGracza + 1) < 7 Then
+                frmMain.DefInstance.imgGameField(PozycjaGracza + 1).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza + 1) & ".ico")
+            Else
+                frmMain.DefInstance.imgGameField(PozycjaGracza + 1).Image = Nothing
+            End If
+
+            If PoleGry(PozycjaGracza + 16) < 7 Then
+                frmMain.DefInstance.imgGameField(PozycjaGracza + 16).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza + 16) & ".ico")
+            Else
+                frmMain.DefInstance.imgGameField(PozycjaGracza + 16).Image = Nothing
+            End If
+        End With
+    End Sub
+    Public Sub ZakonczGre()
+        ZapiszStatystyki()
+        End
+    End Sub
+    Public Function NajdalszyEtap() As Short
+        Select Case ZestawEtapow
+            Case 1
+                NajdalszyEtap = DaneGracza.Klasyczne.OsiagnietyEtap
+            Case 2
+                NajdalszyEtap = DaneGracza.SuperTrudneXS.OsiagnietyEtap
+        End Select
+    End Function
+    Public Function KonwertujEtap(ByVal PlikZrodlowy As String, ByVal PlikDocelowy As String) As Boolean
+        On Error GoTo Blad
+        'UPGRADE_WARNING: Lower bound of array Etap was changed from 1 to 0. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1033"'
+        Dim Etap(10) As String
+
+        FileOpen(10, PlikZrodlowy, OpenMode.Input)
+        For Licznik = 1 To 10 Step 1
+            Etap(Licznik) = LineInput(1)
+        Next Licznik
+        FileClose(10)
+
+        FileOpen(20, PlikDocelowy, OpenMode.Output)
+        For Licznik = 1 To 3 Step 1
+            PrintLine(2, "''''''''''''''''")
+        Next Licznik
+
+        For Licznik = 1 To 10 Step 1
+            PrintLine(2, "'''" & Etap(Licznik) & "'''")
+        Next Licznik
+
+        For Licznik = 1 To 3 Step 1
+            PrintLine(2, "''''''''''''''''")
+        Next Licznik
+        FileClose(20)
+
+        KonwertujEtap = True
+        Exit Function
+
+Blad:
+        KonwertujEtap = False
+    End Function
+    Public Sub PokazNaPaskuStanu(ByVal NumerPanelu As Byte, ByVal Napis As String)
+        With frmMain.DefInstance
+            Select Case NumerPanelu
+                Case 1
+                    .lblMoves.Text = Napis
+                Case 2
+                    .lblPushes.Text = Napis
+                Case 3
+                    .lblBoxes.Text = Napis
+                Case 4
+                    .lblLevelNumber.Text = Napis
+                Case 5
+                    .lblPlayerName.Text = Napis
+            End Select
+        End With
+    End Sub
+    Public Sub PokazForme(ByRef frm As System.Windows.Forms.Form, Optional ByRef Modality As Object = Nothing, Optional ByRef Owner As Object = Nothing)
         VB6.ShowForm(frm, Modality, Owner)
-	End Sub
+    End Sub
 End Module
