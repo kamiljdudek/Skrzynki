@@ -145,7 +145,7 @@ Module modMain
 	Public Temp1 As Object
 	Public Temp2 As String ' zmienne do danych tymczasowych lub niepotrzebnych
 	Public Temp3 As Object ' j. w.
-	Public Temp4 As New VB6.FixedLengthString(255) ' j. w.
+    Public Temp4 As String ' j. w.
 	Public Temp5 As Integer ' j. w.
 	Public Msg, Style As Object ' u¿ywane w komunikatach
 	Public KatalogWindows As String
@@ -170,11 +170,7 @@ Module modMain
 	
 	'UPGRADE_WARNING: Application will terminate when Sub Main() finishes. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1047"'
 	Public Sub Main()
-		Dim RegistryTypeLibrary As Object
-		Dim TipsShown As Boolean
-		Dim SplashShown As Boolean
-		Dim Response As Short
-		
+
         Dim RegKey As Microsoft.Win32.RegistryKey
         RegValue = 0
         RegString = ""
@@ -204,11 +200,6 @@ Module modMain
 
         End If
 
-        DlugoscKataloguWindows = GetWindowsDirectory(Temp4.Value, 255)
-        KatalogWindows = Left(Temp4.Value, DlugoscKataloguWindows)
-
-        DlugoscKataloguTemp = GetTempPath(255, Temp4.Value)
-        KatalogTemp = Left(Temp4.Value, DlugoscKataloguTemp)
 
         Loguj(1)
 
@@ -531,7 +522,7 @@ Blad:
 		
 		For Licznik = 1 To 256 Step 1
 			If PoleGry(Licznik) < 7 Then
-				frmMain.DefInstance.imgGameField(Licznik).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(Licznik) & ".ico")
+                frmMain.DefInstance.imgGameField(Licznik).Image = System.Drawing.Image.FromFile(".\Skiny\" & Skin & "\" & PoleGry(Licznik) & ".ico")
 			Else
 				frmMain.DefInstance.imgGameField(Licznik).Image = Nothing
 			End If
@@ -1003,7 +994,7 @@ Blad:
 
         ZE = Zestaw
 
-        If WczytajZestawEtapow(VB6.GetPath & "\Etapy\" & ZE & ".bxp", FreeFile) Then
+        If WczytajZestawEtapow(".\Etapy\" & ZE & ".bxp", FreeFile) Then
             PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
             PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
             PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
@@ -1064,31 +1055,31 @@ Blad:
 
         With frmMain.DefInstance
             If PoleGry(PozycjaGracza - 16) < 7 Then
-                frmMain.DefInstance.imgGameField(PozycjaGracza - 16).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza - 16) & ".ico")
+                frmMain.DefInstance.imgGameField(PozycjaGracza - 16).Image = System.Drawing.Image.FromFile(".\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza - 16) & ".ico")
             Else
                 frmMain.DefInstance.imgGameField(PozycjaGracza - 16).Image = Nothing
             End If
 
             If PoleGry(PozycjaGracza - 1) < 7 Then
-                frmMain.DefInstance.imgGameField(PozycjaGracza - 1).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza - 1) & ".ico")
+                frmMain.DefInstance.imgGameField(PozycjaGracza - 1).Image = System.Drawing.Image.FromFile(".\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza - 1) & ".ico")
             Else
                 frmMain.DefInstance.imgGameField(PozycjaGracza - 1).Image = Nothing
             End If
 
             If PoleGry(PozycjaGracza) < 7 Then
-                frmMain.DefInstance.imgGameField(PozycjaGracza).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza) & ".ico")
+                frmMain.DefInstance.imgGameField(PozycjaGracza).Image = System.Drawing.Image.FromFile(".\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza) & ".ico")
             Else
                 frmMain.DefInstance.imgGameField(PozycjaGracza).Image = Nothing
             End If
 
             If PoleGry(PozycjaGracza + 1) < 7 Then
-                frmMain.DefInstance.imgGameField(PozycjaGracza + 1).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza + 1) & ".ico")
+                frmMain.DefInstance.imgGameField(PozycjaGracza + 1).Image = System.Drawing.Image.FromFile(".\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza + 1) & ".ico")
             Else
                 frmMain.DefInstance.imgGameField(PozycjaGracza + 1).Image = Nothing
             End If
 
             If PoleGry(PozycjaGracza + 16) < 7 Then
-                frmMain.DefInstance.imgGameField(PozycjaGracza + 16).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza + 16) & ".ico")
+                frmMain.DefInstance.imgGameField(PozycjaGracza + 16).Image = System.Drawing.Image.FromFile(".\Skiny\" & Skin & "\" & PoleGry(PozycjaGracza + 16) & ".ico")
             Else
                 frmMain.DefInstance.imgGameField(PozycjaGracza + 16).Image = Nothing
             End If
@@ -1154,6 +1145,6 @@ Blad:
         End With
     End Sub
     Public Sub PokazForme(ByRef frm As System.Windows.Forms.Form, Optional ByRef Modality As Object = Nothing, Optional ByRef Owner As Object = Nothing)
-        VB6.ShowForm(frm, Modality, Owner)
+        'VB6.ShowForm(frm, Modality, Owner)
     End Sub
 End Module

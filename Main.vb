@@ -3767,7 +3767,7 @@ Friend Class frmMain
             End If
         End If
 
-        Me.SetBounds(VB6.TwipsToPixelsX((VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width)) / 2), VB6.TwipsToPixelsY((VB6.PixelsToTwipsY(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height) - VB6.PixelsToTwipsY(Me.Height)) / 2), 0, 0, Windows.Forms.BoundsSpecified.X Or Windows.Forms.BoundsSpecified.Y)
+        'Me.SetBounds(VB6.TwipsToPixelsX((VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width)) / 2), VB6.TwipsToPixelsY((VB6.PixelsToTwipsY(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height) - VB6.PixelsToTwipsY(Me.Height)) / 2), 0, 0, Windows.Forms.BoundsSpecified.X Or Windows.Forms.BoundsSpecified.Y)
     End Sub
     Private Sub frmMain_Resize(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Resize
 
@@ -3928,7 +3928,8 @@ Friend Class frmMain
         mnuHelpAbout_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuHelpAbout_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpAbout.Click
-        PokazForme(frmAbout.DefInstance, VB6.FormShowConstants.Modal, frmMain.DefInstance)
+        'PokazForme(frmAbout.DefInstance, Nothing, frmMain.DefInstance)
+        frmAbout.Show()
     End Sub
 
     Public Sub mnuHelpContents_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpContents.Popup
@@ -3975,7 +3976,9 @@ BladPomocy:
         mnuToolsOptions_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuToolsOptions_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuToolsOptions.Click
-        PokazForme(frmOptions.DefInstance, VB6.FormShowConstants.Modal, frmMain.DefInstance)
+        'PokazForme(frmOptions.DefInstance, VB6.FormShowConstants.Modal, frmMain.DefInstance)
+        'PokazForme(frmOptions.DefInstance, Nothing, frmMain.DefInstance)
+        frmOptions.Show()
     End Sub
     Public Sub mnuViewRefresh_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuViewRefresh.Popup
         mnuViewRefresh_Click(eventSender, eventArgs)

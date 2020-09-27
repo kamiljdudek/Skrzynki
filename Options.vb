@@ -85,8 +85,8 @@ Friend Class frmOptions
 	Public WithEvents _picOptions_1 As System.Windows.Forms.Panel
 	Public WithEvents cmdCancel As System.Windows.Forms.Button
 	Public WithEvents cmdOK As System.Windows.Forms.Button
-	Public WithEvents picOptions As Microsoft.VisualBasic.Compatibility.VB6.PanelArray
-	Public WithEvents picPreview As Microsoft.VisualBasic.Compatibility.VB6.PictureBoxArray
+    'Public WithEvents picOptions As Microsoft.VisualBasic.Compatibility.VB6.PanelArray
+    'Public WithEvents picPreview As Microsoft.VisualBasic.Compatibility.VB6.PictureBoxArray
 	'NOTE: The following procedure is required by the Windows Form Designer
 	'It can be modified using the Windows Form Designer.
 	'Do not modify it using the code editor.
@@ -145,8 +145,8 @@ Friend Class frmOptions
         Me.fraSample2 = New System.Windows.Forms.GroupBox
         Me.cmdCancel = New System.Windows.Forms.Button
         Me.cmdOK = New System.Windows.Forms.Button
-        Me.picOptions = New Microsoft.VisualBasic.Compatibility.VB6.PanelArray(Me.components)
-        Me.picPreview = New Microsoft.VisualBasic.Compatibility.VB6.PictureBoxArray(Me.components)
+        'Me.picOptions = New Microsoft.VisualBasic.Compatibility.VB6.PanelArray(Me.components)
+        'Me.picPreview = New Microsoft.VisualBasic.Compatibility.VB6.PictureBoxArray(Me.components)
         Me.tabOptions.SuspendLayout()
         Me._tabOptions_TabPage0.SuspendLayout()
         Me.Frame2.SuspendLayout()
@@ -161,8 +161,8 @@ Friend Class frmOptions
         Me._picOptions_3.SuspendLayout()
         Me._picOptions_2.SuspendLayout()
         Me._picOptions_1.SuspendLayout()
-        CType(Me.picOptions, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picPreview, System.ComponentModel.ISupportInitialize).BeginInit()
+        'CType(Me.picOptions, System.ComponentModel.ISupportInitialize).BeginInit()
+        'CType(Me.picPreview, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'cmdApply
@@ -389,7 +389,7 @@ Friend Class frmOptions
         Me._picPreview_6.Cursor = System.Windows.Forms.Cursors.Default
         Me._picPreview_6.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me._picPreview_6.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.picPreview.SetIndex(Me._picPreview_6, CType(6, Short))
+        'Me.picPreview.SetIndex(Me._picPreview_6, CType(6, Short))
         Me._picPreview_6.Location = New System.Drawing.Point(224, 20)
         Me._picPreview_6.Name = "_picPreview_6"
         Me._picPreview_6.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -403,7 +403,7 @@ Friend Class frmOptions
         Me._picPreview_5.Cursor = System.Windows.Forms.Cursors.Default
         Me._picPreview_5.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me._picPreview_5.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.picPreview.SetIndex(Me._picPreview_5, CType(5, Short))
+        'Me.picPreview.SetIndex(Me._picPreview_5, CType(5, Short))
         Me._picPreview_5.Location = New System.Drawing.Point(188, 20)
         Me._picPreview_5.Name = "_picPreview_5"
         Me._picPreview_5.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -417,7 +417,7 @@ Friend Class frmOptions
         Me._picPreview_4.Cursor = System.Windows.Forms.Cursors.Default
         Me._picPreview_4.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me._picPreview_4.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.picPreview.SetIndex(Me._picPreview_4, CType(4, Short))
+        'Me.picPreview.SetIndex(Me._picPreview_4, CType(4, Short))
         Me._picPreview_4.Location = New System.Drawing.Point(152, 20)
         Me._picPreview_4.Name = "_picPreview_4"
         Me._picPreview_4.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -431,7 +431,7 @@ Friend Class frmOptions
         Me._picPreview_3.Cursor = System.Windows.Forms.Cursors.Default
         Me._picPreview_3.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me._picPreview_3.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.picPreview.SetIndex(Me._picPreview_3, CType(3, Short))
+        'Me.picPreview.SetIndex(Me._picPreview_3, CType(3, Short))
         Me._picPreview_3.Location = New System.Drawing.Point(116, 20)
         Me._picPreview_3.Name = "_picPreview_3"
         Me._picPreview_3.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -445,7 +445,7 @@ Friend Class frmOptions
         Me._picPreview_2.Cursor = System.Windows.Forms.Cursors.Default
         Me._picPreview_2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me._picPreview_2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.picPreview.SetIndex(Me._picPreview_2, CType(2, Short))
+        'Me.picPreview.SetIndex(Me._picPreview_2, CType(2, Short))
         Me._picPreview_2.Location = New System.Drawing.Point(80, 20)
         Me._picPreview_2.Name = "_picPreview_2"
         Me._picPreview_2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -459,7 +459,7 @@ Friend Class frmOptions
         Me._picPreview_0.Cursor = System.Windows.Forms.Cursors.Default
         Me._picPreview_0.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me._picPreview_0.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.picPreview.SetIndex(Me._picPreview_0, CType(0, Short))
+        'Me.picPreview.SetIndex(Me._picPreview_0, CType(0, Short))
         Me._picPreview_0.Location = New System.Drawing.Point(8, 20)
         Me._picPreview_0.Name = "_picPreview_0"
         Me._picPreview_0.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -473,7 +473,7 @@ Friend Class frmOptions
         Me._picPreview_1.Cursor = System.Windows.Forms.Cursors.Default
         Me._picPreview_1.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me._picPreview_1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.picPreview.SetIndex(Me._picPreview_1, CType(1, Short))
+        'Me.picPreview.SetIndex(Me._picPreview_1, CType(1, Short))
         Me._picPreview_1.Location = New System.Drawing.Point(44, 20)
         Me._picPreview_1.Name = "_picPreview_1"
         Me._picPreview_1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -801,7 +801,7 @@ Friend Class frmOptions
         Me._picOptions_3.Cursor = System.Windows.Forms.Cursors.Default
         Me._picOptions_3.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me._picOptions_3.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.picOptions.SetIndex(Me._picOptions_3, CType(3, Short))
+        'Me.picOptions.SetIndex(Me._picOptions_3, CType(3, Short))
         Me._picOptions_3.Location = New System.Drawing.Point(-1333, 32)
         Me._picOptions_3.Name = "_picOptions_3"
         Me._picOptions_3.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -828,7 +828,7 @@ Friend Class frmOptions
         Me._picOptions_2.Cursor = System.Windows.Forms.Cursors.Default
         Me._picOptions_2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me._picOptions_2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.picOptions.SetIndex(Me._picOptions_2, CType(2, Short))
+        'Me.picOptions.SetIndex(Me._picOptions_2, CType(2, Short))
         Me._picOptions_2.Location = New System.Drawing.Point(-1333, 32)
         Me._picOptions_2.Name = "_picOptions_2"
         Me._picOptions_2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -855,7 +855,7 @@ Friend Class frmOptions
         Me._picOptions_1.Cursor = System.Windows.Forms.Cursors.Default
         Me._picOptions_1.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me._picOptions_1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.picOptions.SetIndex(Me._picOptions_1, CType(1, Short))
+        'Me.picOptions.SetIndex(Me._picOptions_1, CType(1, Short))
         Me._picOptions_1.Location = New System.Drawing.Point(-1333, 32)
         Me._picOptions_1.Name = "_picOptions_1"
         Me._picOptions_1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -946,8 +946,8 @@ Friend Class frmOptions
         Me._picOptions_3.ResumeLayout(False)
         Me._picOptions_2.ResumeLayout(False)
         Me._picOptions_1.ResumeLayout(False)
-        CType(Me.picOptions, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picPreview, System.ComponentModel.ISupportInitialize).EndInit()
+        'CType(Me.picOptions, System.ComponentModel.ISupportInitialize).EndInit()
+        'CType(Me.picPreview, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1046,7 +1046,7 @@ Friend Class frmOptions
         cmdBackgroundColor.BackColor = System.Drawing.ColorTranslator.FromOle(Val(modMain.RegValue))
 
         lstSkins.Items.Add("(Oryginalny)")
-        FileOpen(1, VB6.GetPath & "\Ini\Skiny.ini", OpenMode.Input)
+        FileOpen(1, ".\Ini\Skiny.ini", OpenMode.Input)
         Do Until EOF(1)
             Temp = LineInput(1)
             'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
@@ -1089,13 +1089,13 @@ Friend Class frmOptions
         WyswietlStatystyki(1)
 
         'center the form
-        Me.SetBounds(VB6.TwipsToPixelsX((VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width)) / 2), VB6.TwipsToPixelsY((VB6.PixelsToTwipsY(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height) - VB6.PixelsToTwipsY(Me.Height)) / 2), 0, 0, Windows.Forms.BoundsSpecified.X Or Windows.Forms.BoundsSpecified.Y)
+        'Me.SetBounds(VB6.TwipsToPixelsX((VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width)) / 2), VB6.TwipsToPixelsY((VB6.PixelsToTwipsY(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height) - VB6.PixelsToTwipsY(Me.Height)) / 2), 0, 0, Windows.Forms.BoundsSpecified.X Or Windows.Forms.BoundsSpecified.Y)
     End Sub
     Sub WyswietlPodgladSkinu()
         Dim i As Short
 
         For i = 0 To 6
-            picPreview(i).Image = System.Drawing.Image.FromFile(VB6.GetPath & "\Skiny\" & lstSkins.Text & "\" & i & ".ico")
+            'picPreview(i).Image = System.Drawing.Image.FromFile(".\Skiny\" & lstSkins.Text & "\" & i & ".ico")
         Next i
     End Sub
 
