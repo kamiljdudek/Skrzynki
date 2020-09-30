@@ -1,0 +1,6 @@
+*.suo
+*.pfx
+.vs/
+bin/
+obj/
+resources/Thumbs.db
