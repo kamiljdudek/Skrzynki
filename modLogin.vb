@@ -13,64 +13,30 @@ Module modLogin
         Dim SuperTrudneXS As Results
     End Structure
 
-    Public LiczbaGraczy As Short
-	Public DaneGracza As Player
-	Public Sub SprawdzLiczbeGraczy()
-        LiczbaGraczy = 1
-	End Sub
-    Public Sub Loguj(ByVal NumerGracza As Short)
-        OdczytajStatystyki()
-    End Sub
+    Public DaneGracza As Player
+
     Public Sub ZapiszStatystyki()
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\1", True)
-        RegKey.SetValue("Level Set", DaneGracza.Zestaw)
+        My.Settings.LevelSet = DaneGracza.Zestaw
 
-        ' Zestaw Klasyczne
-        '-----------------
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\1\\Klasyczne", True)
-        RegKey.SetValue("Arrived Level", DaneGracza.Klasyczne.OsiagnietyEtap)
-        RegKey.SetValue("Moves", DaneGracza.Klasyczne.Ruchy)
-        RegKey.SetValue("Pushes", DaneGracza.Klasyczne.Pchniecia)
+        My.Settings.ArrivedLevelKlasyczne = DaneGracza.Klasyczne.OsiagnietyEtap
+        My.Settings.MovesKlasyczne = DaneGracza.Klasyczne.Ruchy
+        My.Settings.PushesKlasyczne = DaneGracza.Klasyczne.Pchniecia
 
-
-        ' Zestaw Super Trudne XS
-        '-----------------------
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\1\\Super Trudne XS", True)
-        RegKey.SetValue("Arrived Level", DaneGracza.Klasyczne.OsiagnietyEtap)
-        RegKey.SetValue("Moves", DaneGracza.Klasyczne.Ruchy)
-        RegKey.SetValue("Pushes", DaneGracza.Klasyczne.Pchniecia)
-
+        My.Settings.ArrivedLevelSupertrudne = DaneGracza.Klasyczne.OsiagnietyEtap
+        My.Settings.MovesSupertrudne = DaneGracza.Klasyczne.Ruchy
+        My.Settings.PushesSupertrudne = DaneGracza.Klasyczne.Pchniecia
     End Sub
+
     Public Sub OdczytajStatystyki()
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\1", True)
-        DaneGracza.Zestaw = RegKey.GetValue("Level Set", "set")
-        ZestawEtapow = DaneGracza.Zestaw
+        DaneGracza.Zestaw = My.Settings.LevelSet
 
-        ' Zestaw Klasyczne
-        '-----------------
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\1\\Klasyczne", True)
-        modMain.RegValue = RegKey.GetValue("Arrived Level", 0)
-        DaneGracza.Klasyczne.OsiagnietyEtap = modMain.RegValue
+        DaneGracza.Klasyczne.OsiagnietyEtap = My.Settings.ArrivedLevelKlasyczne
+        DaneGracza.Klasyczne.Ruchy = My.Settings.MovesKlasyczne
+        DaneGracza.Klasyczne.Pchniecia = My.Settings.PushesKlasyczne
 
-        modMain.RegValue = RegKey.GetValue("Moves", 0)
-        DaneGracza.Klasyczne.Ruchy = modMain.RegValue
-
-        modMain.RegValue = RegKey.GetValue("Pushes", 0)
-        DaneGracza.Klasyczne.Pchniecia = modMain.RegValue
-
-
-        ' Zestaw Super Trudne XS
-        '-----------------------
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\1\\Super Trudne XS", True)
-        modMain.RegValue = RegKey.GetValue("Arrived Level", 0)
-        DaneGracza.SuperTrudneXS.OsiagnietyEtap = modMain.RegValue
-
-        modMain.RegValue = RegKey.GetValue("Moves", 0)
-        DaneGracza.SuperTrudneXS.Ruchy = modMain.RegValue
-
-        modMain.RegValue = RegKey.GetValue("Pushes", 0)
-        DaneGracza.SuperTrudneXS.Pchniecia = modMain.RegValue
-
+        DaneGracza.Klasyczne.OsiagnietyEtap = My.Settings.ArrivedLevelSupertrudne
+        DaneGracza.Klasyczne.Ruchy = My.Settings.MovesSupertrudne
+        DaneGracza.Klasyczne.Pchniecia = My.Settings.PushesSupertrudne
     End Sub
 
 End Module

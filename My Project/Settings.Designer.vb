@@ -77,6 +77,138 @@ Namespace My
                 Me("Skin") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("5")>  _
+        Public Property ArrivedLevelKlasyczne() As Integer
+            Get
+                Return CType(Me("ArrivedLevelKlasyczne"),Integer)
+            End Get
+            Set
+                Me("ArrivedLevelKlasyczne") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("15")>  _
+        Public Property ArrivedLevelSupertrudne() As Integer
+            Get
+                Return CType(Me("ArrivedLevelSupertrudne"),Integer)
+            End Get
+            Set
+                Me("ArrivedLevelSupertrudne") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property MovesKlasyczne() As Integer
+            Get
+                Return CType(Me("MovesKlasyczne"),Integer)
+            End Get
+            Set
+                Me("MovesKlasyczne") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property MovesSupertrudne() As Integer
+            Get
+                Return CType(Me("MovesSupertrudne"),Integer)
+            End Get
+            Set
+                Me("MovesSupertrudne") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property PushesKlasyczne() As Integer
+            Get
+                Return CType(Me("PushesKlasyczne"),Integer)
+            End Get
+            Set
+                Me("PushesKlasyczne") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property PushesSupertrudne() As Integer
+            Get
+                Return CType(Me("PushesSupertrudne"),Integer)
+            End Get
+            Set
+                Me("PushesSupertrudne") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Klasyczne")>  _
+        Public Property LevelSet() As String
+            Get
+                Return CType(Me("LevelSet"),String)
+            End Get
+            Set
+                Me("LevelSet") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property BeginFromArrivedLevel() As Boolean
+            Get
+                Return CType(Me("BeginFromArrivedLevel"),Boolean)
+            End Get
+            Set
+                Me("BeginFromArrivedLevel") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property LevelRestartingAuthorization() As Boolean
+            Get
+                Return CType(Me("LevelRestartingAuthorization"),Boolean)
+            End Get
+            Set
+                Me("LevelRestartingAuthorization") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property LevelLoadConfirmation() As Boolean
+            Get
+                Return CType(Me("LevelLoadConfirmation"),Boolean)
+            End Get
+            Set
+                Me("LevelLoadConfirmation") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("64, 64, 64")>  _
+        Public Property BackgroundColor() As Global.System.Drawing.Color
+            Get
+                Return CType(Me("BackgroundColor"),Global.System.Drawing.Color)
+            End Get
+            Set
+                Me("BackgroundColor") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

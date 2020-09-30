@@ -1,342 +1,344 @@
 Option Strict Off
 Option Explicit On
 Imports VB = Microsoft.VisualBasic
-Friend Class frmMain
-	Inherits System.Windows.Forms.Form
+Friend Class FrmMain
+    Inherits System.Windows.Forms.Form
 #Region "Windows Form Designer generated code "
-	Public Sub New()
-		MyBase.New()
-		If m_vb6FormDefInstance Is Nothing Then
-			If m_InitializingDefInstance Then
-				m_vb6FormDefInstance = Me
-			Else
-				Try 
-					'For the start-up form, the first instance created is the default instance.
-					If System.Reflection.Assembly.GetExecutingAssembly.EntryPoint.DeclaringType Is Me.GetType Then
-						m_vb6FormDefInstance = Me
-					End If
-				Catch
-				End Try
-			End If
-		End If
-		'This call is required by the Windows Form Designer.
-		InitializeComponent()
-	End Sub
-	'Form overrides dispose to clean up the component list.
-	Protected Overloads Overrides Sub Dispose(ByVal Disposing As Boolean)
-		If Disposing Then
-			If Not components Is Nothing Then
-				components.Dispose()
-			End If
-		End If
-		MyBase.Dispose(Disposing)
-	End Sub
-	'Required by the Windows Form Designer
-	Private components As System.ComponentModel.IContainer
-	Public ToolTip1 As System.Windows.Forms.ToolTip
-	Public WithEvents imgStatusImage As System.Windows.Forms.PictureBox
-	Public WithEvents lblPlayerName As System.Windows.Forms.Label
-	Public WithEvents lblLevelNumber As System.Windows.Forms.Label
-	Public WithEvents lblBoxes As System.Windows.Forms.Label
-	Public WithEvents lblPushes As System.Windows.Forms.Label
-	Public WithEvents lblMoves As System.Windows.Forms.Label
-	Public WithEvents picStatusBar As System.Windows.Forms.Panel
+    Public Sub New()
+        MyBase.New()
+        If m_vb6FormDefInstance Is Nothing Then
+            If m_InitializingDefInstance Then
+                m_vb6FormDefInstance = Me
+            Else
+                Try
+                    'For the start-up form, the first instance created is the default instance.
+                    If System.Reflection.Assembly.GetExecutingAssembly.EntryPoint.DeclaringType Is Me.GetType Then
+                        m_vb6FormDefInstance = Me
+                    End If
+                Catch
+                End Try
+            End If
+        End If
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
+    End Sub
+    'Form overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal Disposing As Boolean)
+        If Disposing Then
+            If Not components Is Nothing Then
+                components.Dispose()
+            End If
+        End If
+        MyBase.Dispose(Disposing)
+    End Sub
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+    Public ToolTip1 As System.Windows.Forms.ToolTip
+    Public WithEvents ImgStatusImage As System.Windows.Forms.PictureBox
+    Public WithEvents LblPlayerName As System.Windows.Forms.Label
+    Public WithEvents LblLevelNumber As System.Windows.Forms.Label
+    Public WithEvents LblBoxes As System.Windows.Forms.Label
+    Public WithEvents LblPushes As System.Windows.Forms.Label
+    Public WithEvents LblMoves As System.Windows.Forms.Label
+    Public WithEvents PicStatusBar As System.Windows.Forms.Panel
     Public WithEvents _imgGameField_256 As System.Windows.Forms.PictureBox
     Public WithEvents _imgGameField_255 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_254 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_253 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_251 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_250 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_249 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_248 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_247 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_246 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_245 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_244 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_243 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_242 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_241 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_240 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_239 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_238 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_237 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_236 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_235 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_252 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_233 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_232 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_231 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_230 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_229 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_228 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_227 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_226 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_225 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_224 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_223 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_222 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_221 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_220 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_219 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_218 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_217 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_234 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_215 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_214 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_213 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_212 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_211 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_210 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_209 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_208 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_207 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_206 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_205 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_204 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_203 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_202 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_201 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_200 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_199 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_216 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_197 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_196 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_195 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_194 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_193 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_192 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_191 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_190 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_189 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_188 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_187 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_186 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_185 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_184 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_183 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_182 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_181 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_198 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_179 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_178 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_177 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_176 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_175 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_174 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_173 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_172 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_171 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_170 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_169 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_168 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_167 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_166 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_165 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_164 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_163 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_162 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_161 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_180 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_159 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_158 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_157 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_156 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_155 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_154 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_153 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_152 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_151 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_150 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_149 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_148 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_147 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_146 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_145 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_144 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_143 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_142 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_141 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_160 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_140 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_139 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_138 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_137 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_136 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_135 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_134 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_133 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_132 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_131 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_130 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_129 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_128 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_127 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_126 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_125 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_124 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_123 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_122 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_121 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_120 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_119 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_118 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_117 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_116 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_115 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_114 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_113 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_112 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_111 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_110 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_109 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_108 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_107 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_106 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_105 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_104 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_103 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_102 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_101 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_2 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_1 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_3 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_4 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_5 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_6 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_7 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_8 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_9 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_10 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_12 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_11 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_13 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_14 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_15 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_16 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_17 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_18 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_19 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_20 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_22 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_21 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_23 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_24 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_25 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_26 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_27 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_28 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_29 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_30 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_32 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_31 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_33 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_34 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_35 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_36 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_37 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_38 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_39 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_40 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_50 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_49 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_48 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_47 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_46 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_45 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_44 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_43 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_41 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_42 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_90 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_89 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_88 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_87 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_86 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_85 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_84 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_83 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_81 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_82 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_80 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_79 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_78 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_77 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_76 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_75 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_74 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_73 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_71 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_72 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_70 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_69 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_68 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_67 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_66 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_65 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_64 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_63 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_61 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_62 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_60 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_59 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_58 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_57 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_56 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_55 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_54 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_53 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_51 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_52 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_100 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_99 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_98 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_97 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_96 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_95 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_94 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_93 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_91 As System.Windows.Forms.PictureBox
-	Public WithEvents _imgGameField_92 As System.Windows.Forms.PictureBox
-	Public WithEvents imgGameField As Microsoft.VisualBasic.Compatibility.VB6.PictureBoxArray
-	Public WithEvents mnuGameNew As System.Windows.Forms.MenuItem
-	Public WithEvents mnuGameWarp As System.Windows.Forms.MenuItem
-	Public WithEvents mnuGameSetKlasyczne As System.Windows.Forms.MenuItem
-	Public WithEvents mnuGameSetSuperTrudneXS As System.Windows.Forms.MenuItem
-	Public WithEvents mnuGameSet As System.Windows.Forms.MenuItem
-	Public WithEvents mnuGameOpen As System.Windows.Forms.MenuItem
-	Public WithEvents mnuGameBar0 As System.Windows.Forms.MenuItem
-	Public WithEvents mnuGameExit As System.Windows.Forms.MenuItem
-	Public WithEvents mnuGame As System.Windows.Forms.MenuItem
-	Public WithEvents mnuViewStatusbar As System.Windows.Forms.MenuItem
-	Public WithEvents mnuViewBar0 As System.Windows.Forms.MenuItem
-	Public WithEvents mnuViewRefresh As System.Windows.Forms.MenuItem
-	Public WithEvents mnuView As System.Windows.Forms.MenuItem
-	Public WithEvents mnuToolsUndo As System.Windows.Forms.MenuItem
-	Public WithEvents mnuToolsRestart As System.Windows.Forms.MenuItem
-	Public WithEvents mnuToolsBar0 As System.Windows.Forms.MenuItem
-	Public WithEvents mnuToolsOptions As System.Windows.Forms.MenuItem
-	Public WithEvents mnuTools As System.Windows.Forms.MenuItem
-	Public WithEvents mnuHelpContents As System.Windows.Forms.MenuItem
+    Public WithEvents _imgGameField_254 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_253 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_251 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_250 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_249 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_248 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_247 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_246 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_245 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_244 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_243 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_242 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_241 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_240 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_239 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_238 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_237 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_236 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_235 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_252 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_233 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_232 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_231 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_230 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_229 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_228 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_227 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_226 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_225 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_224 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_223 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_222 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_221 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_220 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_219 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_218 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_217 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_234 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_215 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_214 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_213 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_212 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_211 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_210 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_209 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_208 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_207 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_206 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_205 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_204 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_203 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_202 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_201 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_200 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_199 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_216 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_197 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_196 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_195 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_194 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_193 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_192 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_191 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_190 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_189 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_188 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_187 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_186 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_185 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_184 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_183 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_182 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_181 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_198 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_179 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_178 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_177 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_176 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_175 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_174 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_173 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_172 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_171 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_170 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_169 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_168 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_167 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_166 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_165 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_164 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_163 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_162 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_161 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_180 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_159 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_158 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_157 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_156 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_155 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_154 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_153 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_152 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_151 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_150 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_149 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_148 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_147 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_146 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_145 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_144 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_143 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_142 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_141 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_160 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_140 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_139 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_138 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_137 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_136 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_135 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_134 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_133 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_132 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_131 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_130 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_129 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_128 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_127 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_126 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_125 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_124 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_123 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_122 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_121 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_120 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_119 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_118 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_117 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_116 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_115 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_114 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_113 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_112 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_111 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_110 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_109 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_108 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_107 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_106 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_105 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_104 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_103 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_102 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_101 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_2 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_1 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_3 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_4 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_5 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_6 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_7 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_8 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_9 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_10 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_12 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_11 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_13 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_14 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_15 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_16 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_17 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_18 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_19 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_20 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_22 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_21 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_23 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_24 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_25 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_26 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_27 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_28 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_29 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_30 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_32 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_31 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_33 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_34 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_35 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_36 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_37 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_38 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_39 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_40 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_50 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_49 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_48 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_47 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_46 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_45 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_44 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_43 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_41 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_42 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_90 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_89 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_88 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_87 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_86 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_85 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_84 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_83 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_81 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_82 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_80 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_79 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_78 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_77 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_76 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_75 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_74 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_73 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_71 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_72 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_70 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_69 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_68 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_67 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_66 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_65 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_64 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_63 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_61 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_62 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_60 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_59 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_58 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_57 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_56 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_55 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_54 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_53 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_51 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_52 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_100 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_99 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_98 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_97 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_96 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_95 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_94 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_93 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_91 As System.Windows.Forms.PictureBox
+    Public WithEvents _imgGameField_92 As System.Windows.Forms.PictureBox
+    Public WithEvents imgGameField As Microsoft.VisualBasic.Compatibility.VB6.PictureBoxArray
+    Public WithEvents mnuGameNew As System.Windows.Forms.MenuItem
+    Public WithEvents mnuGameWarp As System.Windows.Forms.MenuItem
+    Public WithEvents mnuGameSetKlasyczne As System.Windows.Forms.MenuItem
+    Public WithEvents mnuGameSetSuperTrudneXS As System.Windows.Forms.MenuItem
+    Public WithEvents mnuGameSet As System.Windows.Forms.MenuItem
+    Public WithEvents mnuGameOpen As System.Windows.Forms.MenuItem
+    Public WithEvents mnuGameBar0 As System.Windows.Forms.MenuItem
+    Public WithEvents mnuGameExit As System.Windows.Forms.MenuItem
+    Public WithEvents mnuGame As System.Windows.Forms.MenuItem
+    Public WithEvents mnuViewBar0 As System.Windows.Forms.MenuItem
+    Public WithEvents mnuViewRefresh As System.Windows.Forms.MenuItem
+    Public WithEvents mnuView As System.Windows.Forms.MenuItem
+    Public WithEvents mnuToolsUndo As System.Windows.Forms.MenuItem
+    Public WithEvents mnuToolsRestart As System.Windows.Forms.MenuItem
+    Public WithEvents mnuToolsBar0 As System.Windows.Forms.MenuItem
+    Public WithEvents mnuToolsOptions As System.Windows.Forms.MenuItem
+    Public WithEvents mnuTools As System.Windows.Forms.MenuItem
+    Public WithEvents mnuHelpContents As System.Windows.Forms.MenuItem
     Public WithEvents mnuHelpWeb As System.Windows.Forms.MenuItem
-	Public WithEvents mnuHelpBar0 As System.Windows.Forms.MenuItem
-	Public WithEvents mnuHelpAbout As System.Windows.Forms.MenuItem
-	Public WithEvents mnuHelp As System.Windows.Forms.MenuItem
-	Public MainMenu1 As System.Windows.Forms.MainMenu
-	'NOTE: The following procedure is required by the Windows Form Designer
-	'It can be modified using the Windows Form Designer.
-	'Do not modify it using the code editor.
+    Public WithEvents mnuHelpBar0 As System.Windows.Forms.MenuItem
+    Public WithEvents mnuHelpAbout As System.Windows.Forms.MenuItem
+    Public WithEvents mnuHelp As System.Windows.Forms.MenuItem
+    Public MainMenu1 As System.Windows.Forms.MainMenu
+    Friend WithEvents MenuItem1 As MenuItem
+    Friend WithEvents MenuItem2 As MenuItem
+    Friend WithEvents MenuItem3 As MenuItem
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.
+    'Do not modify it using the code editor.
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmMain))
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.picStatusBar = New System.Windows.Forms.Panel()
-        Me.imgStatusImage = New System.Windows.Forms.PictureBox()
-        Me.lblPlayerName = New System.Windows.Forms.Label()
-        Me.lblLevelNumber = New System.Windows.Forms.Label()
-        Me.lblBoxes = New System.Windows.Forms.Label()
-        Me.lblPushes = New System.Windows.Forms.Label()
-        Me.lblMoves = New System.Windows.Forms.Label()
+        Me.PicStatusBar = New System.Windows.Forms.Panel()
+        Me.ImgStatusImage = New System.Windows.Forms.PictureBox()
+        Me.LblPlayerName = New System.Windows.Forms.Label()
+        Me.LblLevelNumber = New System.Windows.Forms.Label()
+        Me.LblBoxes = New System.Windows.Forms.Label()
+        Me.LblPushes = New System.Windows.Forms.Label()
+        Me.LblMoves = New System.Windows.Forms.Label()
         Me._imgGameField_256 = New System.Windows.Forms.PictureBox()
         Me._imgGameField_255 = New System.Windows.Forms.PictureBox()
         Me._imgGameField_254 = New System.Windows.Forms.PictureBox()
@@ -605,9 +607,11 @@ Friend Class frmMain
         Me.mnuGameBar0 = New System.Windows.Forms.MenuItem()
         Me.mnuGameExit = New System.Windows.Forms.MenuItem()
         Me.mnuView = New System.Windows.Forms.MenuItem()
-        Me.mnuViewStatusbar = New System.Windows.Forms.MenuItem()
+        Me.MenuItem1 = New System.Windows.Forms.MenuItem()
+        Me.MenuItem2 = New System.Windows.Forms.MenuItem()
         Me.mnuViewBar0 = New System.Windows.Forms.MenuItem()
         Me.mnuViewRefresh = New System.Windows.Forms.MenuItem()
+        Me.MenuItem3 = New System.Windows.Forms.MenuItem()
         Me.mnuTools = New System.Windows.Forms.MenuItem()
         Me.mnuToolsUndo = New System.Windows.Forms.MenuItem()
         Me.mnuToolsRestart = New System.Windows.Forms.MenuItem()
@@ -619,8 +623,8 @@ Friend Class frmMain
         Me.mnuHelpBar0 = New System.Windows.Forms.MenuItem()
         Me.mnuHelpAbout = New System.Windows.Forms.MenuItem()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.picStatusBar.SuspendLayout()
-        CType(Me.imgStatusImage, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.PicStatusBar.SuspendLayout()
+        CType(Me.ImgStatusImage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me._imgGameField_256, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me._imgGameField_255, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me._imgGameField_254, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -882,106 +886,106 @@ Friend Class frmMain
         '
         'picStatusBar
         '
-        Me.picStatusBar.BackColor = System.Drawing.SystemColors.Control
-        Me.picStatusBar.Controls.Add(Me.imgStatusImage)
-        Me.picStatusBar.Controls.Add(Me.lblPlayerName)
-        Me.picStatusBar.Controls.Add(Me.lblLevelNumber)
-        Me.picStatusBar.Controls.Add(Me.lblBoxes)
-        Me.picStatusBar.Controls.Add(Me.lblPushes)
-        Me.picStatusBar.Controls.Add(Me.lblMoves)
-        Me.picStatusBar.Cursor = System.Windows.Forms.Cursors.Default
-        Me.picStatusBar.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.picStatusBar.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.picStatusBar.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.picStatusBar.Location = New System.Drawing.Point(0, 510)
-        Me.picStatusBar.Name = "picStatusBar"
-        Me.picStatusBar.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.picStatusBar.Size = New System.Drawing.Size(511, 17)
-        Me.picStatusBar.TabIndex = 1
-        Me.picStatusBar.TabStop = True
+        Me.PicStatusBar.BackColor = System.Drawing.SystemColors.Control
+        Me.PicStatusBar.Controls.Add(Me.ImgStatusImage)
+        Me.PicStatusBar.Controls.Add(Me.LblPlayerName)
+        Me.PicStatusBar.Controls.Add(Me.LblLevelNumber)
+        Me.PicStatusBar.Controls.Add(Me.LblBoxes)
+        Me.PicStatusBar.Controls.Add(Me.LblPushes)
+        Me.PicStatusBar.Controls.Add(Me.LblMoves)
+        Me.PicStatusBar.Cursor = System.Windows.Forms.Cursors.Default
+        Me.PicStatusBar.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PicStatusBar.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PicStatusBar.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.PicStatusBar.Location = New System.Drawing.Point(0, 510)
+        Me.PicStatusBar.Name = "picStatusBar"
+        Me.PicStatusBar.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.PicStatusBar.Size = New System.Drawing.Size(511, 17)
+        Me.PicStatusBar.TabIndex = 1
+        Me.PicStatusBar.TabStop = True
         '
         'imgStatusImage
         '
-        Me.imgStatusImage.Cursor = System.Windows.Forms.Cursors.Default
-        Me.imgStatusImage.Image = CType(resources.GetObject("imgStatusImage.Image"), System.Drawing.Image)
-        Me.imgStatusImage.Location = New System.Drawing.Point(0, 0)
-        Me.imgStatusImage.Name = "imgStatusImage"
-        Me.imgStatusImage.Size = New System.Drawing.Size(16, 16)
-        Me.imgStatusImage.TabIndex = 0
-        Me.imgStatusImage.TabStop = False
+        Me.ImgStatusImage.Cursor = System.Windows.Forms.Cursors.Default
+        Me.ImgStatusImage.Image = CType(resources.GetObject("imgStatusImage.Image"), System.Drawing.Image)
+        Me.ImgStatusImage.Location = New System.Drawing.Point(0, 0)
+        Me.ImgStatusImage.Name = "imgStatusImage"
+        Me.ImgStatusImage.Size = New System.Drawing.Size(16, 16)
+        Me.ImgStatusImage.TabIndex = 0
+        Me.ImgStatusImage.TabStop = False
         '
         'lblPlayerName
         '
-        Me.lblPlayerName.BackColor = System.Drawing.SystemColors.Control
-        Me.lblPlayerName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblPlayerName.Cursor = System.Windows.Forms.Cursors.Default
-        Me.lblPlayerName.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPlayerName.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblPlayerName.Location = New System.Drawing.Point(372, 0)
-        Me.lblPlayerName.Name = "lblPlayerName"
-        Me.lblPlayerName.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lblPlayerName.Size = New System.Drawing.Size(137, 17)
-        Me.lblPlayerName.TabIndex = 6
-        Me.lblPlayerName.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.LblPlayerName.BackColor = System.Drawing.SystemColors.Control
+        Me.LblPlayerName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.LblPlayerName.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LblPlayerName.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblPlayerName.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LblPlayerName.Location = New System.Drawing.Point(372, 0)
+        Me.LblPlayerName.Name = "lblPlayerName"
+        Me.LblPlayerName.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LblPlayerName.Size = New System.Drawing.Size(137, 17)
+        Me.LblPlayerName.TabIndex = 6
+        Me.LblPlayerName.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
         'lblLevelNumber
         '
-        Me.lblLevelNumber.BackColor = System.Drawing.SystemColors.Control
-        Me.lblLevelNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblLevelNumber.Cursor = System.Windows.Forms.Cursors.Default
-        Me.lblLevelNumber.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLevelNumber.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblLevelNumber.Location = New System.Drawing.Point(272, 0)
-        Me.lblLevelNumber.Name = "lblLevelNumber"
-        Me.lblLevelNumber.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lblLevelNumber.Size = New System.Drawing.Size(101, 17)
-        Me.lblLevelNumber.TabIndex = 5
-        Me.lblLevelNumber.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.LblLevelNumber.BackColor = System.Drawing.SystemColors.Control
+        Me.LblLevelNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.LblLevelNumber.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LblLevelNumber.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblLevelNumber.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LblLevelNumber.Location = New System.Drawing.Point(272, 0)
+        Me.LblLevelNumber.Name = "lblLevelNumber"
+        Me.LblLevelNumber.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LblLevelNumber.Size = New System.Drawing.Size(101, 17)
+        Me.LblLevelNumber.TabIndex = 5
+        Me.LblLevelNumber.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
         'lblBoxes
         '
-        Me.lblBoxes.BackColor = System.Drawing.SystemColors.Control
-        Me.lblBoxes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblBoxes.Cursor = System.Windows.Forms.Cursors.Default
-        Me.lblBoxes.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBoxes.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblBoxes.Location = New System.Drawing.Point(176, 0)
-        Me.lblBoxes.Name = "lblBoxes"
-        Me.lblBoxes.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lblBoxes.Size = New System.Drawing.Size(97, 17)
-        Me.lblBoxes.TabIndex = 4
-        Me.lblBoxes.Text = "Skrzynki: ##/##"
-        Me.lblBoxes.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.LblBoxes.BackColor = System.Drawing.SystemColors.Control
+        Me.LblBoxes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.LblBoxes.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LblBoxes.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblBoxes.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LblBoxes.Location = New System.Drawing.Point(176, 0)
+        Me.LblBoxes.Name = "lblBoxes"
+        Me.LblBoxes.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LblBoxes.Size = New System.Drawing.Size(97, 17)
+        Me.LblBoxes.TabIndex = 4
+        Me.LblBoxes.Text = "Skrzynki: ##/##"
+        Me.LblBoxes.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
         'lblPushes
         '
-        Me.lblPushes.BackColor = System.Drawing.SystemColors.Control
-        Me.lblPushes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblPushes.Cursor = System.Windows.Forms.Cursors.Default
-        Me.lblPushes.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPushes.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblPushes.Location = New System.Drawing.Point(88, 0)
-        Me.lblPushes.Name = "lblPushes"
-        Me.lblPushes.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lblPushes.Size = New System.Drawing.Size(89, 17)
-        Me.lblPushes.TabIndex = 3
-        Me.lblPushes.Text = "Pchniêcia: ###"
-        Me.lblPushes.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.LblPushes.BackColor = System.Drawing.SystemColors.Control
+        Me.LblPushes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.LblPushes.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LblPushes.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblPushes.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LblPushes.Location = New System.Drawing.Point(88, 0)
+        Me.LblPushes.Name = "lblPushes"
+        Me.LblPushes.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LblPushes.Size = New System.Drawing.Size(89, 17)
+        Me.LblPushes.TabIndex = 3
+        Me.LblPushes.Text = "Pchniêcia: ###"
+        Me.LblPushes.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
         'lblMoves
         '
-        Me.lblMoves.BackColor = System.Drawing.SystemColors.Control
-        Me.lblMoves.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblMoves.Cursor = System.Windows.Forms.Cursors.Default
-        Me.lblMoves.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMoves.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblMoves.Location = New System.Drawing.Point(16, 0)
-        Me.lblMoves.Name = "lblMoves"
-        Me.lblMoves.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lblMoves.Size = New System.Drawing.Size(73, 17)
-        Me.lblMoves.TabIndex = 2
-        Me.lblMoves.Text = "Ruchy: ###"
-        Me.lblMoves.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.LblMoves.BackColor = System.Drawing.SystemColors.Control
+        Me.LblMoves.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.LblMoves.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LblMoves.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblMoves.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LblMoves.Location = New System.Drawing.Point(16, 0)
+        Me.LblMoves.Name = "lblMoves"
+        Me.LblMoves.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LblMoves.Size = New System.Drawing.Size(73, 17)
+        Me.LblMoves.TabIndex = 2
+        Me.LblMoves.Text = "Ruchy: ###"
+        Me.LblMoves.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
         '_imgGameField_256
         '
@@ -3600,14 +3604,19 @@ Friend Class frmMain
         'mnuView
         '
         Me.mnuView.Index = 1
-        Me.mnuView.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuViewStatusbar, Me.mnuViewBar0, Me.mnuViewRefresh})
+        Me.mnuView.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem1, Me.mnuViewBar0, Me.mnuViewRefresh, Me.MenuItem3})
         Me.mnuView.Text = "&Widok"
         '
-        'mnuViewStatusbar
+        'MenuItem1
         '
-        Me.mnuViewStatusbar.Checked = True
-        Me.mnuViewStatusbar.Index = 0
-        Me.mnuViewStatusbar.Text = "Pasek &stanu"
+        Me.MenuItem1.Index = 0
+        Me.MenuItem1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem2})
+        Me.MenuItem1.Text = "Skin"
+        '
+        'MenuItem2
+        '
+        Me.MenuItem2.Index = 0
+        Me.MenuItem2.Text = "(Oryginalny)"
         '
         'mnuViewBar0
         '
@@ -3619,6 +3628,11 @@ Friend Class frmMain
         Me.mnuViewRefresh.Index = 2
         Me.mnuViewRefresh.Shortcut = System.Windows.Forms.Shortcut.F9
         Me.mnuViewRefresh.Text = "O&dœwie¿"
+        '
+        'MenuItem3
+        '
+        Me.MenuItem3.Index = 3
+        Me.MenuItem3.Text = "Ukryj"
         '
         'mnuTools
         '
@@ -3681,7 +3695,7 @@ Friend Class frmMain
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(511, 527)
-        Me.Controls.Add(Me.picStatusBar)
+        Me.Controls.Add(Me.PicStatusBar)
         Me.Controls.Add(Me._imgGameField_256)
         Me.Controls.Add(Me._imgGameField_255)
         Me.Controls.Add(Me._imgGameField_254)
@@ -3950,8 +3964,8 @@ Friend Class frmMain
         Me.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "Skrzynki"
-        Me.picStatusBar.ResumeLayout(False)
-        CType(Me.imgStatusImage, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.PicStatusBar.ResumeLayout(False)
+        CType(Me.ImgStatusImage, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me._imgGameField_256, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me._imgGameField_255, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me._imgGameField_254, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4214,18 +4228,18 @@ Friend Class frmMain
     End Sub
 #End Region
 #Region "Upgrade Support "
-    Private Shared m_vb6FormDefInstance As frmMain
+    Private Shared m_vb6FormDefInstance As FrmMain
     Private Shared m_InitializingDefInstance As Boolean
-    Public Shared Property DefInstance() As frmMain
+    Public Shared Property DefInstance() As FrmMain
         Get
             If m_vb6FormDefInstance Is Nothing OrElse m_vb6FormDefInstance.IsDisposed Then
                 m_InitializingDefInstance = True
-                m_vb6FormDefInstance = New frmMain
+                m_vb6FormDefInstance = New FrmMain
                 m_InitializingDefInstance = False
             End If
             DefInstance = m_vb6FormDefInstance
         End Get
-        Set(ByVal Value As frmMain)
+        Set(ByVal Value As FrmMain)
             m_vb6FormDefInstance = Value
         End Set
     End Property
@@ -4237,7 +4251,7 @@ Friend Class frmMain
         If KeyCode = modMain.Lewo Or KeyCode = modMain.Prawo Or KeyCode = modMain.Gora Or KeyCode = modMain.Dol Then
             If PrzesunGracza(KeyCode) Then
                 OdswiezPoleGryWokolGracza()
-                Ruchy = Ruchy + 1
+                Ruchy += 1
 
                 PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
                 PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
@@ -4245,7 +4259,7 @@ Friend Class frmMain
 
                 If WykonanoRuch = False Then
                     WykonanoRuch = True
-                    frmMain.DefInstance.mnuToolsUndo.Enabled = True
+                    FrmMain.DefInstance.mnuToolsUndo.Enabled = True
                 End If
 
                 If Etap.SkrzynkiNaMiejscach = Etap.LiczbaSkrzynek Then NastepnyEtap()
@@ -4256,50 +4270,25 @@ Friend Class frmMain
     End Sub
     Private Sub frmMain_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
         modMain.Main()
+        modLogin.OdczytajStatystyki()
 
-        frmMain.DefInstance.BackColor = Color.Black
-
-        modMain.RegValue = RegKey.GetValue("Show Status Bar", 0)
-        If modMain.RegValue = 1 Then
-            frmMain.DefInstance.picStatusBar.Visible = True
-        Else
-            frmMain.DefInstance.picStatusBar.Visible = False
-        End If
+        FrmMain.DefInstance.BackColor = Color.Black
+        FrmMain.DefInstance.PicStatusBar.Visible = True
 
         If EtapSpozaZestawu = False Then
-            modMain.RegValue = RegKey.GetValue("Begin From Arrived Level", 0)
-            If modMain.RegValue = 1 Then
+            If My.Settings.BeginFromArrivedLevel = True Then
                 NowaGra((NajdalszyEtap()))
             Else
                 NowaGra((1))
             End If
         End If
 
-        'Me.SetBounds(VB6.TwipsToPixelsX((VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width)) / 2), VB6.TwipsToPixelsY((VB6.PixelsToTwipsY(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height) - VB6.PixelsToTwipsY(Me.Height)) / 2), 0, 0, Windows.Forms.BoundsSpecified.X Or Windows.Forms.BoundsSpecified.Y)
     End Sub
-    Private Sub frmMain_Resize(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Resize
 
-    End Sub
     'UPGRADE_WARNING: Form event frmMain.Unload has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup2065"'
     Private Sub frmMain_Closed(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Closed
         ZapiszStatystyki()
-        Dim Cancel As Integer = 0
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
-        modMain.RegValue = 0 ' = RegKey.GetValue("Want Closing Authorization", 0)
-
-        If modMain.RegValue = 1 Then
-            'UPGRADE_ISSUE: Event parameter Cancel was not upgraded. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1057"'
-            Cancel = 1
-
-            'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-            Temp3 = MsgBox(ZwrocCiag("General#2"), MsgBoxStyle.YesNo + MsgBoxStyle.Question + MsgBoxStyle.ApplicationModal + MsgBoxStyle.DefaultButton2, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-            If Temp3 = MsgBoxResult.Yes Then
-                'UPGRADE_ISSUE: Event parameter Cancel was not upgraded. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1057"'
-                Cancel = 0
-                ZakonczGre()
-            End If
-        Else : End
-        End If
+        End
     End Sub
     Public Sub mnuGame_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGame.Popup
         mnuGame_Click(eventSender, eventArgs)
@@ -4315,7 +4304,7 @@ Friend Class frmMain
         mnuGameExit_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuGameExit_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameExit.Click
-        frmMain.DefInstance.Close()
+        FrmMain.DefInstance.Close()
     End Sub
     Public Sub mnuGameNew_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameNew.Popup
         mnuGameNew_Click(eventSender, eventArgs)
@@ -4334,21 +4323,17 @@ Friend Class frmMain
             End If
         End With
 
-
         If WczytajEtap(NazwaPliku, FreeFile) Then
             OdswiezPoleGry()
             'UPGRADE_WARNING: Dir has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
-            frmMain.DefInstance.Text = "Skrzynki - " & VB.Left(Dir(NazwaPliku), Len(Dir(NazwaPliku)) - 4)
+            FrmMain.DefInstance.Text = "Skrzynki - " & VB.Left(Dir(NazwaPliku), Len(Dir(NazwaPliku)) - 4)
             PokazNaPaskuStanu(3, "Skrzynki: " & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
             'UPGRADE_WARNING: Dir has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
             PokazNaPaskuStanu(4, VB.Left(Dir(NazwaPliku), Len(Dir(NazwaPliku)) - 4))
             EtapSpozaZestawu = True
 
-            modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
-            modMain.RegValue = RegKey.GetValue("Show Level Load Confirmation", 0)
-            If modMain.RegValue = 1 Then
-                'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-                Temp3 = MsgBox(Replace(ZwrocCiag("General#6"), "<filename>", NazwaPliku), MsgBoxStyle.OKOnly + MsgBoxStyle.Information + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            If My.Settings.LevelLoadConfirmation = True Then
+                MsgBox(Replace(ZwrocCiag("General#6"), "<filename>", NazwaPliku), MsgBoxStyle.OkOnly + MsgBoxStyle.Information + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
             End If
         End If
 
@@ -4357,7 +4342,7 @@ Friend Class frmMain
         mnuGameSet_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuGameSet_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameSet.Click
-        If DaneGracza.Zestaw = 1 Then
+        If DaneGracza.Zestaw = "Klasyczne" Then
             mnuGameSetKlasyczne.Checked = True
             mnuGameSetSuperTrudneXS.Checked = False
         Else
@@ -4388,33 +4373,26 @@ Friend Class frmMain
         mnuGameWarp_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuGameWarp_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameWarp.Click
-        'UPGRADE_WARNING: Couldn't resolve default property of object Temp1. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-        Temp1 = InputBox(ZwrocCiag("General#12"), System.Reflection.Assembly.GetExecutingAssembly.GetName.Name, CStr(NajdalszyEtap()))
-
-        'UPGRADE_WARNING: Couldn't resolve default property of object Temp1. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-        If Temp1 = "" Then Exit Sub
-
-        If IsNumeric(Temp1) = False Then
-            'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-            Temp3 = MsgBox(ZwrocCiag("General#13"), MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+        Dim IB As String = InputBox(ZwrocCiag("General#12"), System.Reflection.Assembly.GetExecutingAssembly.GetName.Name, CStr(NajdalszyEtap()))
+        If IB = "" Then
             Exit Sub
         End If
 
-        'UPGRADE_WARNING: Couldn't resolve default property of object Temp1. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-        If (Val(Temp1) > Val(CStr(NajdalszyEtap()))) And (Temp1 <= Val(CStr(UBound(Etapy, 1)))) Then
-            'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-            Temp3 = MsgBox(ZwrocCiag("General#14"), MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+        If IsNumeric(IB) = False Then
+            MsgBox(ZwrocCiag("General#13"), MsgBoxStyle.OkOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            Exit Sub
+        End If
+
+        If (Val(IB) > Val(CStr(NajdalszyEtap()))) And (IB <= Val(CStr(UBound(Etapy, 1)))) Then
+            MsgBox(ZwrocCiag("General#14"), MsgBoxStyle.OkOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
             Exit Sub
         Else
-            'UPGRADE_WARNING: Couldn't resolve default property of object Temp1. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-            If (Val(Temp1) > Val(CStr(UBound(Etapy, 1)))) Or Val(Temp1) <= 0 Then
-                'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-                Temp3 = MsgBox(ZwrocCiag("General#15"), MsgBoxStyle.OKOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            If (Val(IB) > Val(CStr(UBound(Etapy, 1)))) Or Val(IB) <= 0 Then
+                MsgBox(ZwrocCiag("General#15"), MsgBoxStyle.OkOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
                 Exit Sub
             End If
 
-            'UPGRADE_WARNING: Couldn't resolve default property of object Temp1. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-            NumerEtapu = Val(Temp1)
+            NumerEtapu = Val(IB)
             For Licznik = 1 To 256
                 PoleGry(Licznik) = Etapy(NumerEtapu, Licznik)
                 'UPGRADE_WARNING: Couldn't resolve default property of object Etap. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
@@ -4426,7 +4404,7 @@ Friend Class frmMain
             PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
             PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
             PokazNaPaskuStanu(4, "#" & NumerEtapu)
-            frmMain.DefInstance.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
+            FrmMain.DefInstance.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
             OdswiezPoleGry()
             EtapSpozaZestawu = False
         End If
@@ -4436,8 +4414,7 @@ Friend Class frmMain
         mnuHelpAbout_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuHelpAbout_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpAbout.Click
-        'PokazForme(frmAbout.DefInstance, Nothing, frmMain.DefInstance)
-        frmAbout.Show()
+        frmSplash.Show()
     End Sub
 
     Public Sub mnuHelpContents_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpContents.Popup
@@ -4480,12 +4457,9 @@ Friend Class frmMain
         mnuToolsRestart_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuToolsRestart_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuToolsRestart.Click
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
-        modMain.RegValue = RegKey.GetValue("Want Level Restarting Authorization", 0)
-        If modMain.RegValue = 1 Then
-            'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-            Temp3 = MsgBox(ZwrocCiag("General#1"), MsgBoxStyle.YesNo + MsgBoxStyle.Question + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-            If Temp3 = MsgBoxResult.Yes Then
+        If My.Settings.LevelRestartingAuthorization = True Then
+            Dim TempX As MsgBoxResult = MsgBox(ZwrocCiag("General#1"), MsgBoxStyle.YesNo + MsgBoxStyle.Question + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            If TempX = MsgBoxResult.Yes Then
                 RestartujEtap()
             End If
         Else
@@ -4499,34 +4473,15 @@ Friend Class frmMain
         Cofnij()
     End Sub
     Public Sub mnuView_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuView.Popup
-        mnuView_Click(eventSender, eventArgs)
+        ' mnuView_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuView_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuView.Click
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
-        modMain.RegValue = RegKey.GetValue("Show Status Bar", 0)
-        If modMain.RegValue = 1 Then
-            mnuViewStatusbar.Checked = True
-        Else
-            mnuViewStatusbar.Checked = False
-        End If
-    End Sub
-    Public Sub mnuViewStatusbar_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuViewStatusbar.Popup
+    Public Sub mnuViewStatusbar_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs)
         mnuViewStatusbar_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuViewStatusbar_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuViewStatusbar.Click
-        If mnuViewStatusbar.Checked Then
-            mnuViewStatusbar.Checked = False
-            picStatusBar.Visible = False
+    Public Sub mnuViewStatusbar_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs)
 
-            modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
-            RegKey.SetValue("Show Status Bar", 0)
-        Else
-            mnuViewStatusbar.Checked = True
-            picStatusBar.Visible = True
+        PicStatusBar.Visible = True
 
-            modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
-            RegKey.SetValue("Show Status Bar", 1)
-        End If
     End Sub
 
 End Class

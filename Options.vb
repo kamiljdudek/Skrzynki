@@ -21,31 +21,26 @@ Friend Class frmOptions
 	Private components As System.ComponentModel.IContainer
 	Public ToolTip1 As System.Windows.Forms.ToolTip
 	Public WithEvents cmdApply As System.Windows.Forms.Button
-    Public WithEvents chkShowTipsAtStartup As System.Windows.Forms.CheckBox
-	Public WithEvents chkShowSplashAtStartup As System.Windows.Forms.CheckBox
-	Public WithEvents Frame2 As System.Windows.Forms.GroupBox
-	Public WithEvents chkWantClosingAuthorization As System.Windows.Forms.CheckBox
-	Public WithEvents chkWantLevelRestartingAuthorization As System.Windows.Forms.CheckBox
-	Public WithEvents chkShowLevelLoadConfirmation As System.Windows.Forms.CheckBox
+    Public WithEvents chkWantLevelRestartingAuthorization As System.Windows.Forms.CheckBox
+    Public WithEvents chkShowLevelLoadConfirmation As System.Windows.Forms.CheckBox
 	Public WithEvents Frame1 As System.Windows.Forms.GroupBox
 	Public WithEvents chkBeginFromArrivedLevel As System.Windows.Forms.CheckBox
-	Public WithEvents cmbShowInTray As System.Windows.Forms.ComboBox
-	Public WithEvents _tabOptions_TabPage0 As System.Windows.Forms.TabPage
-	Public WithEvents _picPreview_6 As System.Windows.Forms.PictureBox
-	Public WithEvents _picPreview_5 As System.Windows.Forms.PictureBox
-	Public WithEvents _picPreview_4 As System.Windows.Forms.PictureBox
-	Public WithEvents _picPreview_3 As System.Windows.Forms.PictureBox
-	Public WithEvents _picPreview_2 As System.Windows.Forms.PictureBox
-	Public WithEvents _picPreview_0 As System.Windows.Forms.PictureBox
-	Public WithEvents _picPreview_1 As System.Windows.Forms.PictureBox
-	Public WithEvents Label2 As System.Windows.Forms.Label
-	Public WithEvents Frame4 As System.Windows.Forms.GroupBox
-	Public WithEvents lstSkins As System.Windows.Forms.ListBox
-	Public WithEvents Frame3 As System.Windows.Forms.GroupBox
-	Public WithEvents cmdBackgroundColor As System.Windows.Forms.Button
-	Public WithEvents Label1 As System.Windows.Forms.Label
-	Public WithEvents Frame5 As System.Windows.Forms.GroupBox
-	Public WithEvents _tabOptions_TabPage1 As System.Windows.Forms.TabPage
+    Public WithEvents _tabOptions_TabPage0 As System.Windows.Forms.TabPage
+    Public WithEvents _picPreview_6 As System.Windows.Forms.PictureBox
+    Public WithEvents _picPreview_5 As System.Windows.Forms.PictureBox
+    Public WithEvents _picPreview_4 As System.Windows.Forms.PictureBox
+    Public WithEvents _picPreview_3 As System.Windows.Forms.PictureBox
+    Public WithEvents _picPreview_2 As System.Windows.Forms.PictureBox
+    Public WithEvents _picPreview_0 As System.Windows.Forms.PictureBox
+    Public WithEvents _picPreview_1 As System.Windows.Forms.PictureBox
+    Public WithEvents Label2 As System.Windows.Forms.Label
+    Public WithEvents Frame4 As System.Windows.Forms.GroupBox
+    Public WithEvents lstSkins As System.Windows.Forms.ListBox
+    Public WithEvents Frame3 As System.Windows.Forms.GroupBox
+    Public WithEvents cmdBackgroundColor As System.Windows.Forms.Button
+    Public WithEvents Label1 As System.Windows.Forms.Label
+    Public WithEvents Frame5 As System.Windows.Forms.GroupBox
+    Public WithEvents _tabOptions_TabPage1 As System.Windows.Forms.TabPage
     Public WithEvents cmdPrevSet As System.Windows.Forms.Button
     Public WithEvents cmdNextSet As System.Windows.Forms.Button
     Public WithEvents lblPushes As System.Windows.Forms.Label
@@ -56,7 +51,6 @@ Friend Class frmOptions
     Public WithEvents Label6 As System.Windows.Forms.Label
     Public WithEvents lblLevelSet As System.Windows.Forms.Label
     Public WithEvents Frame8 As System.Windows.Forms.GroupBox
-    Public WithEvents chkFirstPlayerAutoLogon As System.Windows.Forms.CheckBox
     Public WithEvents _tabOptions_TabPage2 As System.Windows.Forms.TabPage
     Public WithEvents tabOptions As System.Windows.Forms.TabControl
 	Public WithEvents fraSample4 As System.Windows.Forms.GroupBox
@@ -78,15 +72,10 @@ Friend Class frmOptions
         Me.cmdApply = New System.Windows.Forms.Button()
         Me.tabOptions = New System.Windows.Forms.TabControl()
         Me._tabOptions_TabPage0 = New System.Windows.Forms.TabPage()
-        Me.Frame2 = New System.Windows.Forms.GroupBox()
-        Me.chkShowTipsAtStartup = New System.Windows.Forms.CheckBox()
-        Me.chkShowSplashAtStartup = New System.Windows.Forms.CheckBox()
         Me.Frame1 = New System.Windows.Forms.GroupBox()
-        Me.chkWantClosingAuthorization = New System.Windows.Forms.CheckBox()
         Me.chkWantLevelRestartingAuthorization = New System.Windows.Forms.CheckBox()
         Me.chkShowLevelLoadConfirmation = New System.Windows.Forms.CheckBox()
         Me.chkBeginFromArrivedLevel = New System.Windows.Forms.CheckBox()
-        Me.cmbShowInTray = New System.Windows.Forms.ComboBox()
         Me._tabOptions_TabPage1 = New System.Windows.Forms.TabPage()
         Me.Frame3 = New System.Windows.Forms.GroupBox()
         Me.Frame4 = New System.Windows.Forms.GroupBox()
@@ -113,7 +102,6 @@ Friend Class frmOptions
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.lblLevelSet = New System.Windows.Forms.Label()
-        Me.chkFirstPlayerAutoLogon = New System.Windows.Forms.CheckBox()
         Me._picOptions_3 = New System.Windows.Forms.Panel()
         Me.fraSample4 = New System.Windows.Forms.GroupBox()
         Me._picOptions_2 = New System.Windows.Forms.Panel()
@@ -124,7 +112,6 @@ Friend Class frmOptions
         Me.cmdOK = New System.Windows.Forms.Button()
         Me.tabOptions.SuspendLayout()
         Me._tabOptions_TabPage0.SuspendLayout()
-        Me.Frame2.SuspendLayout()
         Me.Frame1.SuspendLayout()
         Me._tabOptions_TabPage1.SuspendLayout()
         Me.Frame3.SuspendLayout()
@@ -150,7 +137,7 @@ Friend Class frmOptions
         Me.cmdApply.Cursor = System.Windows.Forms.Cursors.Default
         Me.cmdApply.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdApply.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdApply.Location = New System.Drawing.Point(267, 312)
+        Me.cmdApply.Location = New System.Drawing.Point(265, 358)
         Me.cmdApply.Name = "cmdApply"
         Me.cmdApply.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.cmdApply.Size = New System.Drawing.Size(73, 25)
@@ -170,71 +157,22 @@ Friend Class frmOptions
         Me.tabOptions.Location = New System.Drawing.Point(8, 4)
         Me.tabOptions.Name = "tabOptions"
         Me.tabOptions.SelectedIndex = 0
-        Me.tabOptions.Size = New System.Drawing.Size(427, 301)
+        Me.tabOptions.Size = New System.Drawing.Size(425, 339)
         Me.tabOptions.TabIndex = 8
         '
         '_tabOptions_TabPage0
         '
-        Me._tabOptions_TabPage0.Controls.Add(Me.Frame2)
         Me._tabOptions_TabPage0.Controls.Add(Me.Frame1)
         Me._tabOptions_TabPage0.Controls.Add(Me.chkBeginFromArrivedLevel)
-        Me._tabOptions_TabPage0.Controls.Add(Me.cmbShowInTray)
         Me._tabOptions_TabPage0.Location = New System.Drawing.Point(4, 22)
         Me._tabOptions_TabPage0.Name = "_tabOptions_TabPage0"
-        Me._tabOptions_TabPage0.Size = New System.Drawing.Size(419, 275)
+        Me._tabOptions_TabPage0.Size = New System.Drawing.Size(417, 313)
         Me._tabOptions_TabPage0.TabIndex = 0
         Me._tabOptions_TabPage0.Text = "&Ogólne"
-        '
-        'Frame2
-        '
-        Me.Frame2.BackColor = System.Drawing.SystemColors.Control
-        Me.Frame2.Controls.Add(Me.chkShowTipsAtStartup)
-        Me.Frame2.Controls.Add(Me.chkShowSplashAtStartup)
-        Me.Frame2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Frame2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Frame2.Location = New System.Drawing.Point(14, 39)
-        Me.Frame2.Name = "Frame2"
-        Me.Frame2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Frame2.Size = New System.Drawing.Size(340, 75)
-        Me.Frame2.TabIndex = 9
-        Me.Frame2.TabStop = False
-        Me.Frame2.Tag = "OptionsDialog#5"
-        Me.Frame2.Text = "Porady dnia i ekran tytu³owy"
-        '
-        'chkShowTipsAtStartup
-        '
-        Me.chkShowTipsAtStartup.BackColor = System.Drawing.SystemColors.Control
-        Me.chkShowTipsAtStartup.Cursor = System.Windows.Forms.Cursors.Default
-        Me.chkShowTipsAtStartup.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkShowTipsAtStartup.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.chkShowTipsAtStartup.Location = New System.Drawing.Point(9, 23)
-        Me.chkShowTipsAtStartup.Name = "chkShowTipsAtStartup"
-        Me.chkShowTipsAtStartup.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.chkShowTipsAtStartup.Size = New System.Drawing.Size(320, 16)
-        Me.chkShowTipsAtStartup.TabIndex = 11
-        Me.chkShowTipsAtStartup.Tag = "OptionsDialog#6#Show Tips at Startup"
-        Me.chkShowTipsAtStartup.Text = "Pokazuj &porady dnia"
-        Me.chkShowTipsAtStartup.UseVisualStyleBackColor = False
-        '
-        'chkShowSplashAtStartup
-        '
-        Me.chkShowSplashAtStartup.BackColor = System.Drawing.SystemColors.Control
-        Me.chkShowSplashAtStartup.Cursor = System.Windows.Forms.Cursors.Default
-        Me.chkShowSplashAtStartup.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkShowSplashAtStartup.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.chkShowSplashAtStartup.Location = New System.Drawing.Point(9, 49)
-        Me.chkShowSplashAtStartup.Name = "chkShowSplashAtStartup"
-        Me.chkShowSplashAtStartup.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.chkShowSplashAtStartup.Size = New System.Drawing.Size(319, 15)
-        Me.chkShowSplashAtStartup.TabIndex = 10
-        Me.chkShowSplashAtStartup.Tag = "OptionsDialog#7#Show Splash at Startup"
-        Me.chkShowSplashAtStartup.Text = "Pokazuj ekran &tytu³owy"
-        Me.chkShowSplashAtStartup.UseVisualStyleBackColor = False
         '
         'Frame1
         '
         Me.Frame1.BackColor = System.Drawing.SystemColors.Control
-        Me.Frame1.Controls.Add(Me.chkWantClosingAuthorization)
         Me.Frame1.Controls.Add(Me.chkWantLevelRestartingAuthorization)
         Me.Frame1.Controls.Add(Me.chkShowLevelLoadConfirmation)
         Me.Frame1.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -248,21 +186,6 @@ Friend Class frmOptions
         Me.Frame1.Tag = "OptionsDialog#8"
         Me.Frame1.Text = "Potwierdzenia"
         '
-        'chkWantClosingAuthorization
-        '
-        Me.chkWantClosingAuthorization.BackColor = System.Drawing.SystemColors.Control
-        Me.chkWantClosingAuthorization.Cursor = System.Windows.Forms.Cursors.Default
-        Me.chkWantClosingAuthorization.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkWantClosingAuthorization.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.chkWantClosingAuthorization.Location = New System.Drawing.Point(8, 18)
-        Me.chkWantClosingAuthorization.Name = "chkWantClosingAuthorization"
-        Me.chkWantClosingAuthorization.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.chkWantClosingAuthorization.Size = New System.Drawing.Size(283, 18)
-        Me.chkWantClosingAuthorization.TabIndex = 15
-        Me.chkWantClosingAuthorization.Tag = "OptionsDialog#9#Want Closing Authorization"
-        Me.chkWantClosingAuthorization.Text = "Pytaj o potwierdzenie z&akoñczenia dzia³ania programu"
-        Me.chkWantClosingAuthorization.UseVisualStyleBackColor = False
-        '
         'chkWantLevelRestartingAuthorization
         '
         Me.chkWantLevelRestartingAuthorization.BackColor = System.Drawing.SystemColors.Control
@@ -272,7 +195,7 @@ Friend Class frmOptions
         Me.chkWantLevelRestartingAuthorization.Location = New System.Drawing.Point(8, 43)
         Me.chkWantLevelRestartingAuthorization.Name = "chkWantLevelRestartingAuthorization"
         Me.chkWantLevelRestartingAuthorization.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.chkWantLevelRestartingAuthorization.Size = New System.Drawing.Size(277, 18)
+        Me.chkWantLevelRestartingAuthorization.Size = New System.Drawing.Size(303, 18)
         Me.chkWantLevelRestartingAuthorization.TabIndex = 14
         Me.chkWantLevelRestartingAuthorization.Tag = "OptionsDialog#10#Want Level Restarting Authorization"
         Me.chkWantLevelRestartingAuthorization.Text = "Pytaj o potwierdzenie &restartowania aktualnego etapu"
@@ -308,26 +231,13 @@ Friend Class frmOptions
         Me.chkBeginFromArrivedLevel.Text = "Przy uruchomieniu programu wyœwietlaj najdalszy dostêpny &etap"
         Me.chkBeginFromArrivedLevel.UseVisualStyleBackColor = False
         '
-        'cmbShowInTray
-        '
-        Me.cmbShowInTray.BackColor = System.Drawing.SystemColors.Window
-        Me.cmbShowInTray.Cursor = System.Windows.Forms.Cursors.Default
-        Me.cmbShowInTray.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbShowInTray.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmbShowInTray.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.cmbShowInTray.Location = New System.Drawing.Point(198, 259)
-        Me.cmbShowInTray.Name = "cmbShowInTray"
-        Me.cmbShowInTray.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.cmbShowInTray.Size = New System.Drawing.Size(157, 22)
-        Me.cmbShowInTray.TabIndex = 33
-        '
         '_tabOptions_TabPage1
         '
         Me._tabOptions_TabPage1.Controls.Add(Me.Frame3)
         Me._tabOptions_TabPage1.Controls.Add(Me.Frame5)
         Me._tabOptions_TabPage1.Location = New System.Drawing.Point(4, 22)
         Me._tabOptions_TabPage1.Name = "_tabOptions_TabPage1"
-        Me._tabOptions_TabPage1.Size = New System.Drawing.Size(419, 275)
+        Me._tabOptions_TabPage1.Size = New System.Drawing.Size(417, 313)
         Me._tabOptions_TabPage1.TabIndex = 1
         Me._tabOptions_TabPage1.Text = "&Wygl¹d"
         '
@@ -533,10 +443,9 @@ Friend Class frmOptions
         '_tabOptions_TabPage2
         '
         Me._tabOptions_TabPage2.Controls.Add(Me.Frame8)
-        Me._tabOptions_TabPage2.Controls.Add(Me.chkFirstPlayerAutoLogon)
         Me._tabOptions_TabPage2.Location = New System.Drawing.Point(4, 22)
         Me._tabOptions_TabPage2.Name = "_tabOptions_TabPage2"
-        Me._tabOptions_TabPage2.Size = New System.Drawing.Size(419, 275)
+        Me._tabOptions_TabPage2.Size = New System.Drawing.Size(417, 313)
         Me._tabOptions_TabPage2.TabIndex = 2
         Me._tabOptions_TabPage2.Text = "&Gracze"
         '
@@ -688,21 +597,6 @@ Friend Class frmOptions
         Me.lblLevelSet.TabIndex = 43
         Me.lblLevelSet.Text = "#Zestaw Etapów#"
         '
-        'chkFirstPlayerAutoLogon
-        '
-        Me.chkFirstPlayerAutoLogon.BackColor = System.Drawing.SystemColors.Control
-        Me.chkFirstPlayerAutoLogon.Cursor = System.Windows.Forms.Cursors.Default
-        Me.chkFirstPlayerAutoLogon.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkFirstPlayerAutoLogon.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.chkFirstPlayerAutoLogon.Location = New System.Drawing.Point(12, 274)
-        Me.chkFirstPlayerAutoLogon.Name = "chkFirstPlayerAutoLogon"
-        Me.chkFirstPlayerAutoLogon.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.chkFirstPlayerAutoLogon.Size = New System.Drawing.Size(397, 17)
-        Me.chkFirstPlayerAutoLogon.TabIndex = 59
-        Me.chkFirstPlayerAutoLogon.Tag = "OptionsDialog#35#First Player Auto Logon"
-        Me.chkFirstPlayerAutoLogon.Text = "&Automatycznie loguj pierwszego gracza, je¿eli jest on jedynym"
-        Me.chkFirstPlayerAutoLogon.UseVisualStyleBackColor = False
-        '
         '_picOptions_3
         '
         Me._picOptions_3.BackColor = System.Drawing.SystemColors.Control
@@ -788,7 +682,7 @@ Friend Class frmOptions
         Me.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdCancel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdCancel.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdCancel.Location = New System.Drawing.Point(176, 312)
+        Me.cmdCancel.Location = New System.Drawing.Point(174, 358)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.cmdCancel.Size = New System.Drawing.Size(73, 25)
@@ -803,7 +697,7 @@ Friend Class frmOptions
         Me.cmdOK.Cursor = System.Windows.Forms.Cursors.Default
         Me.cmdOK.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdOK.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdOK.Location = New System.Drawing.Point(84, 312)
+        Me.cmdOK.Location = New System.Drawing.Point(82, 358)
         Me.cmdOK.Name = "cmdOK"
         Me.cmdOK.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.cmdOK.Size = New System.Drawing.Size(73, 25)
@@ -818,7 +712,7 @@ Friend Class frmOptions
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.CancelButton = Me.cmdCancel
-        Me.ClientSize = New System.Drawing.Size(445, 342)
+        Me.ClientSize = New System.Drawing.Size(445, 417)
         Me.ControlBox = False
         Me.Controls.Add(Me.cmdApply)
         Me.Controls.Add(Me.tabOptions)
@@ -842,7 +736,6 @@ Friend Class frmOptions
         Me.Text = "Opcje"
         Me.tabOptions.ResumeLayout(False)
         Me._tabOptions_TabPage0.ResumeLayout(False)
-        Me.Frame2.ResumeLayout(False)
         Me.Frame1.ResumeLayout(False)
         Me._tabOptions_TabPage1.ResumeLayout(False)
         Me.Frame3.ResumeLayout(False)
@@ -865,8 +758,6 @@ Friend Class frmOptions
     End Sub
 #End Region
 
-    Dim Temp As Object
-
     Private Sub cmdApply_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdApply.Click
         ZapiszOpcje()
     End Sub
@@ -885,72 +776,16 @@ Friend Class frmOptions
         Me.Close()
     End Sub
     Sub ZapiszOpcje()
-        Dim ctrl As System.Windows.Forms.Control
-        Dim Temp As Object
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
-        For Each ctrl In Me.Controls
-            'UPGRADE_WARNING: TypeName has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
-            If TypeName(ctrl) = "CheckBox" Then
-                'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-                Temp = Split(ctrl.Tag, "#")
 
-                'UPGRADE_WARNING: Couldn't resolve default property of object Temp(). Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-                RegKey.SetValue(Temp(2), ctrl.Visible)
-            End If
-        Next ctrl
-
-
-        RegKey.SetValue("Background Color", Val(CStr(System.Drawing.ColorTranslator.ToOle(cmdBackgroundColor.BackColor))))
-        RegKey.SetValue("Skin", lstSkins.Text)
-
-        frmMain.DefInstance.BackColor = cmdBackgroundColor.BackColor
+        FrmMain.DefInstance.BackColor = cmdBackgroundColor.BackColor
         OdswiezPoleGry()
     End Sub
     Sub WczytajOpcje()
-        Dim ctrl As System.Windows.Forms.Control
-        Dim Temp As Object
 
-        cmbShowInTray.Items.Insert(0, ZwrocCiag("OptionsDialog#14"))
-        cmbShowInTray.Items.Insert(1, ZwrocCiag("OptionsDialog#15"))
-        cmbShowInTray.Items.Insert(2, ZwrocCiag("OptionsDialog#16"))
-
-        modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Options", True)
-
-        For Each ctrl In Me.Controls
-            'UPGRADE_WARNING: TypeName has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
-            If TypeName(ctrl) = "CheckBox" Then
-                'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-                Temp = Split(ctrl.Tag, "#")
-
-                modMain.RegValue = RegKey.GetValue(Temp(2), 0)
-                If modMain.RegValue = 1 Then
-                    'UPGRADE_WARNING: Couldn't resolve default property of object ctrl.Value. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-                    ctrl.Visible = System.Windows.Forms.CheckState.Checked
-                Else
-                    'UPGRADE_WARNING: Couldn't resolve default property of object ctrl.Value. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-                    ctrl.Visible = System.Windows.Forms.CheckState.Unchecked
-                End If
-            End If
-        Next ctrl
-
-        modMain.RegValue = RegKey.GetValue("Show in Tray", 0)
-        cmbShowInTray.SelectedIndex = modMain.RegValue
 
         ' Wygl¹d
         '-------
-        modMain.RegValue = RegKey.GetValue("Background Color", 0)
-        cmdBackgroundColor.BackColor = System.Drawing.ColorTranslator.FromOle(Val(modMain.RegValue))
 
-        lstSkins.Items.Add("(Oryginalny)")
-        FileOpen(1, ".\Ini\Skiny.ini", OpenMode.Input)
-        Do Until EOF(1)
-            Temp = LineInput(1)
-            'UPGRADE_WARNING: Couldn't resolve default property of object Temp. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-            lstSkins.Items.Add(Temp)
-        Loop
-        FileClose(1)
-        modMain.RegString = RegKey.GetValue("Skin", "(Oryginalny)")
-        lstSkins.Text = modMain.RegString
 
     End Sub
 
@@ -975,23 +810,11 @@ Friend Class frmOptions
         tabOptions.SelectedIndex = 0
 
         WczytajOpcje()
-        WyswietlPodgladSkinu()
-
-        SprawdzLiczbeGraczy()
 
         cmdPrevSet.Enabled = False
         cmdNextSet.Enabled = True
         WyswietlStatystyki(1)
 
-        'center the form
-        'Me.SetBounds(VB6.TwipsToPixelsX((VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width)) / 2), VB6.TwipsToPixelsY((VB6.PixelsToTwipsY(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height) - VB6.PixelsToTwipsY(Me.Height)) / 2), 0, 0, Windows.Forms.BoundsSpecified.X Or Windows.Forms.BoundsSpecified.Y)
-    End Sub
-    Sub WyswietlPodgladSkinu()
-        Dim i As Short
-
-        For i = 0 To 6
-            'picPreview(i).Image = System.Drawing.Image.FromFile(".\Skiny\" & lstSkins.Text & "\" & i & ".ico")
-        Next i
     End Sub
 
     'UPGRADE_WARNING: Event lstPlayers.SelectedIndexChanged may fire when form is initialized. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup2075"'
@@ -1001,27 +824,21 @@ Friend Class frmOptions
         WyswietlStatystyki(1)
     End Sub
 
-    'UPGRADE_WARNING: Event lstSkins.SelectedIndexChanged may fire when form is initialized. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup2075"'
-    Private Sub lstSkins_SelectedIndexChanged(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles lstSkins.SelectedIndexChanged
-        WyswietlPodgladSkinu()
-    End Sub
     Public Sub WyswietlStatystyki(ByVal NrZestawu As Byte)
         Select Case NrZestawu
             Case 1
                 lblLevelSet.Text = ZwrocCiag("OptionsDialog#25") & " " & UCase(ZwrocCiag("Sets#0"))
-                modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\1\\Klasyczne", True)
 
-                lblArrivedLevel.Text = RegKey.GetValue("Arrived Level", 0)
-                lblMoves.Text = RegKey.GetValue("Moves", 0)
-                lblPushes.Text = RegKey.GetValue("Pushes", 0)
+                lblArrivedLevel.Text = My.Settings.ArrivedLevelKlasyczne
+                lblMoves.Text = My.Settings.MovesKlasyczne
+                lblPushes.Text = My.Settings.PushesKlasyczne
 
             Case 2
                 lblLevelSet.Text = ZwrocCiag("OptionsDialog#25") & " " & UCase(ZwrocCiag("Sets#1"))
-                modMain.RegKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegSciezka & "\\Players\\1\\Super Trudne XS", True)
 
-                lblArrivedLevel.Text = RegKey.GetValue("Arrived Level", 0)
-                lblMoves.Text = RegKey.GetValue("Moves", 0)
-                lblPushes.Text = RegKey.GetValue("Pushes", 0)
+                lblArrivedLevel.Text = My.Settings.ArrivedLevelSupertrudne
+                lblMoves.Text = My.Settings.MovesSupertrudne
+                lblPushes.Text = My.Settings.PushesSupertrudne
 
         End Select
     End Sub

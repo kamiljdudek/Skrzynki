@@ -65,6 +65,7 @@
     <DebugType>full</DebugType>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\</OutputPath>
@@ -95,13 +96,13 @@
     <ManifestKeyFile>Skrzynki_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic.Compatibility" />
@@ -131,9 +132,7 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ApplicationEvents.vb" />
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -166,6 +165,7 @@
     <Compile Include="Options.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Skin.vb" />
     <Compile Include="Splash.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -174,32 +174,10 @@
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
-    <Content Include="icons\ico101.ico" />
-    <Content Include="icons\ico102.ico" />
-    <Content Include="icons\ico103.ico" />
-    <Content Include="icons\ico104.ico" />
-    <Content Include="icons\ico105.ico" />
     <Content Include="resources\bmp101.bmp" />
     <Content Include="resources\bmp102.bmp" />
     <Content Include="resources\bmp201.bmp" />
-    <None Include="Skiny\%28Oryginalny%29\0.ico" />
-    <None Include="Skiny\%28Oryginalny%29\1.ico" />
-    <None Include="Skiny\%28Oryginalny%29\2.ico" />
-    <None Include="Skiny\%28Oryginalny%29\3.ico" />
-    <None Include="Skiny\%28Oryginalny%29\4.ico" />
-    <None Include="Skiny\%28Oryginalny%29\5.ico" />
-    <None Include="Skiny\%28Oryginalny%29\6.ico" />
-    <None Include="Skiny\Eksport\0.ico" />
-    <None Include="Skiny\Eksport\1.ico" />
-    <None Include="Skiny\Eksport\2.ico" />
-    <None Include="Skiny\Eksport\3.ico" />
-    <None Include="Skiny\Eksport\4.ico" />
-    <None Include="Skiny\Eksport\5.ico" />
-    <None Include="Skiny\Eksport\6.ico" />
     <Content Include="Skrzynki.ico" />
-    <EmbeddedResource Include="About.resX">
-      <DependentUpon>About.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Main.resX">
       <DependentUpon>Main.vb</DependentUpon>
     </EmbeddedResource>

@@ -8,5 +8,38 @@
     <Setting Name="Skin" Type="System.String" Scope="User">
       <Value Profile="(Default)">(Oryginalny)</Value>
     </Setting>
+    <Setting Name="ArrivedLevelKlasyczne" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="ArrivedLevelSupertrudne" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="MovesKlasyczne" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="MovesSupertrudne" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PushesKlasyczne" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PushesSupertrudne" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="LevelSet" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Klasyczne</Value>
+    </Setting>
+    <Setting Name="BeginFromArrivedLevel" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="LevelRestartingAuthorization" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="LevelLoadConfirmation" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="BackgroundColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">64, 64, 64</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

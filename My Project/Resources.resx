@@ -142,25 +142,67 @@
   <data name="ico105" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\ico105.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Skiny\(Oryginalny)\0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Eksport0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Eksport0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Skiny\(Oryginalny)\1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Eksport1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Eksport1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Skiny\(Oryginalny)\2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Eksport2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Eksport2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Skiny\(Oryginalny)\3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Eksport3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Eksport3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Skiny\(Oryginalny)\4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Eksport4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Eksport4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Skiny\(Oryginalny)\5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Eksport5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Eksport5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Skiny\(Oryginalny)\6.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Eksport6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Eksport6.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Oryginalny0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Oryginalny0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Oryginalny1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Oryginalny1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Oryginalny2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Oryginalny2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Oryginalny3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Oryginalny3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Oryginalny4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Oryginalny4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Oryginalny5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Oryginalny5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Oryginalny6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Oryginalny6.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Serowy0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Serowy0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Serowy1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Serowy1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Serowy2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Serowy2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Serowy3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Serowy3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Serowy4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Serowy4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Serowy5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Serowy5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Serowy6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\Serowy6.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
