@@ -20,7 +20,6 @@ Friend Class FrmMain
     End Sub
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
-    Public ToolTip1 As System.Windows.Forms.ToolTip
     Public WithEvents LblPlayerName As System.Windows.Forms.Label
     Public WithEvents LblLevelNumber As System.Windows.Forms.Label
     Public WithEvents LblBoxes As System.Windows.Forms.Label
@@ -319,8 +318,6 @@ Friend Class FrmMain
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmMain))
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.PicStatusBar = New System.Windows.Forms.Panel()
         Me.LblPlayerName = New System.Windows.Forms.Label()
         Me.LblLevelNumber = New System.Windows.Forms.Label()
@@ -3951,7 +3948,6 @@ Friend Class FrmMain
         Me.Cursor = System.Windows.Forms.Cursors.Default
         Me.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.Location = New System.Drawing.Point(87, 140)
         Me.MaximizeBox = False
@@ -4256,6 +4252,7 @@ Friend Class FrmMain
         End If
     End Sub
     Private Sub frmMain_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
+        Me.Icon = My.Resources.ico101
         modMain.Main()
         Stats.OdczytajStatystyki()
 

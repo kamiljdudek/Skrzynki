@@ -19,7 +19,6 @@ Friend Class frmOptions
 	End Sub
 	'Required by the Windows Form Designer
 	Private components As System.ComponentModel.IContainer
-	Public ToolTip1 As System.Windows.Forms.ToolTip
     Public WithEvents chkWantLevelRestartingAuthorization As System.Windows.Forms.CheckBox
     Public WithEvents chkShowLevelLoadConfirmation As System.Windows.Forms.CheckBox
     Public WithEvents Frame1 As System.Windows.Forms.GroupBox
@@ -50,8 +49,6 @@ Friend Class frmOptions
     'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.tabOptions = New System.Windows.Forms.TabControl()
         Me._tabOptions_TabPage0 = New System.Windows.Forms.TabPage()
         Me.Frame1 = New System.Windows.Forms.GroupBox()
