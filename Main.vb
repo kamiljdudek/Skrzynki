@@ -21,7 +21,6 @@ Friend Class FrmMain
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
     Public ToolTip1 As System.Windows.Forms.ToolTip
-    Public WithEvents ImgStatusImage As System.Windows.Forms.PictureBox
     Public WithEvents LblPlayerName As System.Windows.Forms.Label
     Public WithEvents LblLevelNumber As System.Windows.Forms.Label
     Public WithEvents LblBoxes As System.Windows.Forms.Label
@@ -323,7 +322,6 @@ Friend Class FrmMain
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmMain))
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.PicStatusBar = New System.Windows.Forms.Panel()
-        Me.ImgStatusImage = New System.Windows.Forms.PictureBox()
         Me.LblPlayerName = New System.Windows.Forms.Label()
         Me.LblLevelNumber = New System.Windows.Forms.Label()
         Me.LblBoxes = New System.Windows.Forms.Label()
@@ -617,7 +615,6 @@ Friend Class FrmMain
         Me.mnuHelpAbout = New System.Windows.Forms.MenuItem()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.PicStatusBar.SuspendLayout()
-        CType(Me.ImgStatusImage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me._imgGameField_256, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me._imgGameField_255, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me._imgGameField_254, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -880,7 +877,6 @@ Friend Class FrmMain
         'PicStatusBar
         '
         Me.PicStatusBar.BackColor = System.Drawing.SystemColors.Control
-        Me.PicStatusBar.Controls.Add(Me.ImgStatusImage)
         Me.PicStatusBar.Controls.Add(Me.LblPlayerName)
         Me.PicStatusBar.Controls.Add(Me.LblLevelNumber)
         Me.PicStatusBar.Controls.Add(Me.LblBoxes)
@@ -896,16 +892,6 @@ Friend Class FrmMain
         Me.PicStatusBar.Size = New System.Drawing.Size(511, 17)
         Me.PicStatusBar.TabIndex = 1
         Me.PicStatusBar.TabStop = True
-        '
-        'ImgStatusImage
-        '
-        Me.ImgStatusImage.Cursor = System.Windows.Forms.Cursors.Default
-        Me.ImgStatusImage.Image = CType(resources.GetObject("ImgStatusImage.Image"), System.Drawing.Image)
-        Me.ImgStatusImage.Location = New System.Drawing.Point(0, 0)
-        Me.ImgStatusImage.Name = "ImgStatusImage"
-        Me.ImgStatusImage.Size = New System.Drawing.Size(16, 16)
-        Me.ImgStatusImage.TabIndex = 0
-        Me.ImgStatusImage.TabStop = False
         '
         'LblPlayerName
         '
@@ -3975,7 +3961,6 @@ Friend Class FrmMain
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "Skrzynki"
         Me.PicStatusBar.ResumeLayout(False)
-        CType(Me.ImgStatusImage, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me._imgGameField_256, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me._imgGameField_255, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me._imgGameField_254, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4337,39 +4322,39 @@ Friend Class FrmMain
         Dim Skin As String = My.Settings.Skin
 
         If PoleGry(PozycjaGracza - 16) < 7 Then
-                Me.imgGameField(PozycjaGracza - 16).Image =
+            Me.imgGameField(PozycjaGracza - 16).Image =
                     Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza - 16))
-            Else
-                Me.imgGameField(PozycjaGracza - 16).Image = Nothing
-            End If
+        Else
+            Me.imgGameField(PozycjaGracza - 16).Image = Nothing
+        End If
 
-            If PoleGry(PozycjaGracza - 1) < 7 Then
-                Me.imgGameField(PozycjaGracza - 1).Image =
+        If PoleGry(PozycjaGracza - 1) < 7 Then
+            Me.imgGameField(PozycjaGracza - 1).Image =
                     Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza - 1))
-            Else
-                Me.imgGameField(PozycjaGracza - 1).Image = Nothing
-            End If
+        Else
+            Me.imgGameField(PozycjaGracza - 1).Image = Nothing
+        End If
 
-            If PoleGry(PozycjaGracza) < 7 Then
-                Me.imgGameField(PozycjaGracza).Image =
+        If PoleGry(PozycjaGracza) < 7 Then
+            Me.imgGameField(PozycjaGracza).Image =
                     Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza))
-            Else
-                Me.imgGameField(PozycjaGracza).Image = Nothing
-            End If
+        Else
+            Me.imgGameField(PozycjaGracza).Image = Nothing
+        End If
 
-            If PoleGry(PozycjaGracza + 1) < 7 Then
-                Me.imgGameField(PozycjaGracza + 1).Image =
+        If PoleGry(PozycjaGracza + 1) < 7 Then
+            Me.imgGameField(PozycjaGracza + 1).Image =
                     Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza + 1))
-            Else
-                Me.imgGameField(PozycjaGracza + 1).Image = Nothing
-            End If
+        Else
+            Me.imgGameField(PozycjaGracza + 1).Image = Nothing
+        End If
 
-            If PoleGry(PozycjaGracza + 16) < 7 Then
-                Me.imgGameField(PozycjaGracza + 16).Image =
+        If PoleGry(PozycjaGracza + 16) < 7 Then
+            Me.imgGameField(PozycjaGracza + 16).Image =
                     Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza + 16))
-            Else
-                Me.imgGameField(PozycjaGracza + 16).Image = Nothing
-            End If
+        Else
+            Me.imgGameField(PozycjaGracza + 16).Image = Nothing
+        End If
 
     End Sub
 
@@ -4645,4 +4630,5 @@ Friend Class FrmMain
             OdswiezPoleGry()
         End With
     End Sub
+
 End Class
