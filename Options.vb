@@ -20,27 +20,11 @@ Friend Class frmOptions
 	'Required by the Windows Form Designer
 	Private components As System.ComponentModel.IContainer
 	Public ToolTip1 As System.Windows.Forms.ToolTip
-	Public WithEvents cmdApply As System.Windows.Forms.Button
     Public WithEvents chkWantLevelRestartingAuthorization As System.Windows.Forms.CheckBox
     Public WithEvents chkShowLevelLoadConfirmation As System.Windows.Forms.CheckBox
-	Public WithEvents Frame1 As System.Windows.Forms.GroupBox
-	Public WithEvents chkBeginFromArrivedLevel As System.Windows.Forms.CheckBox
+    Public WithEvents Frame1 As System.Windows.Forms.GroupBox
+    Public WithEvents chkBeginFromArrivedLevel As System.Windows.Forms.CheckBox
     Public WithEvents _tabOptions_TabPage0 As System.Windows.Forms.TabPage
-    Public WithEvents _picPreview_6 As System.Windows.Forms.PictureBox
-    Public WithEvents _picPreview_5 As System.Windows.Forms.PictureBox
-    Public WithEvents _picPreview_4 As System.Windows.Forms.PictureBox
-    Public WithEvents _picPreview_3 As System.Windows.Forms.PictureBox
-    Public WithEvents _picPreview_2 As System.Windows.Forms.PictureBox
-    Public WithEvents _picPreview_0 As System.Windows.Forms.PictureBox
-    Public WithEvents _picPreview_1 As System.Windows.Forms.PictureBox
-    Public WithEvents Label2 As System.Windows.Forms.Label
-    Public WithEvents Frame4 As System.Windows.Forms.GroupBox
-    Public WithEvents lstSkins As System.Windows.Forms.ListBox
-    Public WithEvents Frame3 As System.Windows.Forms.GroupBox
-    Public WithEvents cmdBackgroundColor As System.Windows.Forms.Button
-    Public WithEvents Label1 As System.Windows.Forms.Label
-    Public WithEvents Frame5 As System.Windows.Forms.GroupBox
-    Public WithEvents _tabOptions_TabPage1 As System.Windows.Forms.TabPage
     Public WithEvents cmdPrevSet As System.Windows.Forms.Button
     Public WithEvents cmdNextSet As System.Windows.Forms.Button
     Public WithEvents lblPushes As System.Windows.Forms.Label
@@ -53,44 +37,27 @@ Friend Class frmOptions
     Public WithEvents Frame8 As System.Windows.Forms.GroupBox
     Public WithEvents _tabOptions_TabPage2 As System.Windows.Forms.TabPage
     Public WithEvents tabOptions As System.Windows.Forms.TabControl
-	Public WithEvents fraSample4 As System.Windows.Forms.GroupBox
-	Public WithEvents _picOptions_3 As System.Windows.Forms.Panel
-	Public WithEvents fraSample3 As System.Windows.Forms.GroupBox
-	Public WithEvents _picOptions_2 As System.Windows.Forms.Panel
-	Public WithEvents fraSample2 As System.Windows.Forms.GroupBox
-	Public WithEvents _picOptions_1 As System.Windows.Forms.Panel
-	Public WithEvents cmdCancel As System.Windows.Forms.Button
-	Public WithEvents cmdOK As System.Windows.Forms.Button
+    Public WithEvents fraSample4 As System.Windows.Forms.GroupBox
+    Public WithEvents _picOptions_3 As System.Windows.Forms.Panel
+    Public WithEvents fraSample3 As System.Windows.Forms.GroupBox
+    Public WithEvents _picOptions_2 As System.Windows.Forms.Panel
+    Public WithEvents fraSample2 As System.Windows.Forms.GroupBox
+    Public WithEvents _picOptions_1 As System.Windows.Forms.Panel
+    Public WithEvents cmdOK As System.Windows.Forms.Button
     'Public WithEvents picOptions As Microsoft.VisualBasic.Compatibility.VB6.PanelArray
     'Public WithEvents picPreview As Microsoft.VisualBasic.Compatibility.VB6.PictureBoxArray
-	'NOTE: The following procedure is required by the Windows Form Designer
-	'It can be modified using the Windows Form Designer.
-	'Do not modify it using the code editor.
-	<System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.cmdApply = New System.Windows.Forms.Button()
         Me.tabOptions = New System.Windows.Forms.TabControl()
         Me._tabOptions_TabPage0 = New System.Windows.Forms.TabPage()
         Me.Frame1 = New System.Windows.Forms.GroupBox()
         Me.chkWantLevelRestartingAuthorization = New System.Windows.Forms.CheckBox()
         Me.chkShowLevelLoadConfirmation = New System.Windows.Forms.CheckBox()
         Me.chkBeginFromArrivedLevel = New System.Windows.Forms.CheckBox()
-        Me._tabOptions_TabPage1 = New System.Windows.Forms.TabPage()
-        Me.Frame3 = New System.Windows.Forms.GroupBox()
-        Me.Frame4 = New System.Windows.Forms.GroupBox()
-        Me._picPreview_6 = New System.Windows.Forms.PictureBox()
-        Me._picPreview_5 = New System.Windows.Forms.PictureBox()
-        Me._picPreview_4 = New System.Windows.Forms.PictureBox()
-        Me._picPreview_3 = New System.Windows.Forms.PictureBox()
-        Me._picPreview_2 = New System.Windows.Forms.PictureBox()
-        Me._picPreview_0 = New System.Windows.Forms.PictureBox()
-        Me._picPreview_1 = New System.Windows.Forms.PictureBox()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.lstSkins = New System.Windows.Forms.ListBox()
-        Me.Frame5 = New System.Windows.Forms.GroupBox()
-        Me.cmdBackgroundColor = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me._tabOptions_TabPage2 = New System.Windows.Forms.TabPage()
         Me.Frame8 = New System.Windows.Forms.GroupBox()
         Me.cmdPrevSet = New System.Windows.Forms.Button()
@@ -108,22 +75,10 @@ Friend Class frmOptions
         Me.fraSample3 = New System.Windows.Forms.GroupBox()
         Me._picOptions_1 = New System.Windows.Forms.Panel()
         Me.fraSample2 = New System.Windows.Forms.GroupBox()
-        Me.cmdCancel = New System.Windows.Forms.Button()
         Me.cmdOK = New System.Windows.Forms.Button()
         Me.tabOptions.SuspendLayout()
         Me._tabOptions_TabPage0.SuspendLayout()
         Me.Frame1.SuspendLayout()
-        Me._tabOptions_TabPage1.SuspendLayout()
-        Me.Frame3.SuspendLayout()
-        Me.Frame4.SuspendLayout()
-        CType(Me._picPreview_6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me._picPreview_5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me._picPreview_4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me._picPreview_3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me._picPreview_2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me._picPreview_0, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me._picPreview_1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Frame5.SuspendLayout()
         Me._tabOptions_TabPage2.SuspendLayout()
         Me.Frame8.SuspendLayout()
         Me._picOptions_3.SuspendLayout()
@@ -131,26 +86,10 @@ Friend Class frmOptions
         Me._picOptions_1.SuspendLayout()
         Me.SuspendLayout()
         '
-        'cmdApply
-        '
-        Me.cmdApply.BackColor = System.Drawing.SystemColors.Control
-        Me.cmdApply.Cursor = System.Windows.Forms.Cursors.Default
-        Me.cmdApply.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdApply.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdApply.Location = New System.Drawing.Point(265, 358)
-        Me.cmdApply.Name = "cmdApply"
-        Me.cmdApply.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.cmdApply.Size = New System.Drawing.Size(73, 25)
-        Me.cmdApply.TabIndex = 28
-        Me.cmdApply.Tag = "Buttons#2"
-        Me.cmdApply.Text = "&Zastosuj"
-        Me.cmdApply.UseVisualStyleBackColor = False
-        '
         'tabOptions
         '
         Me.tabOptions.Appearance = System.Windows.Forms.TabAppearance.FlatButtons
         Me.tabOptions.Controls.Add(Me._tabOptions_TabPage0)
-        Me.tabOptions.Controls.Add(Me._tabOptions_TabPage1)
         Me.tabOptions.Controls.Add(Me._tabOptions_TabPage2)
         Me.tabOptions.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tabOptions.ItemSize = New System.Drawing.Size(42, 18)
@@ -230,215 +169,6 @@ Friend Class frmOptions
         Me.chkBeginFromArrivedLevel.Tag = "OptionsDialog#12#Begin From Arrived Level"
         Me.chkBeginFromArrivedLevel.Text = "Przy uruchomieniu programu wyœwietlaj najdalszy dostêpny &etap"
         Me.chkBeginFromArrivedLevel.UseVisualStyleBackColor = False
-        '
-        '_tabOptions_TabPage1
-        '
-        Me._tabOptions_TabPage1.Controls.Add(Me.Frame3)
-        Me._tabOptions_TabPage1.Controls.Add(Me.Frame5)
-        Me._tabOptions_TabPage1.Location = New System.Drawing.Point(4, 22)
-        Me._tabOptions_TabPage1.Name = "_tabOptions_TabPage1"
-        Me._tabOptions_TabPage1.Size = New System.Drawing.Size(417, 313)
-        Me._tabOptions_TabPage1.TabIndex = 1
-        Me._tabOptions_TabPage1.Text = "&Wygl¹d"
-        '
-        'Frame3
-        '
-        Me.Frame3.BackColor = System.Drawing.SystemColors.Control
-        Me.Frame3.Controls.Add(Me.Frame4)
-        Me.Frame3.Controls.Add(Me.lstSkins)
-        Me.Frame3.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Frame3.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Frame3.Location = New System.Drawing.Point(12, 103)
-        Me.Frame3.Name = "Frame3"
-        Me.Frame3.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Frame3.Size = New System.Drawing.Size(405, 177)
-        Me.Frame3.TabIndex = 17
-        Me.Frame3.TabStop = False
-        Me.Frame3.Tag = "OptionsDialog#19"
-        Me.Frame3.Text = "Skiny"
-        '
-        'Frame4
-        '
-        Me.Frame4.BackColor = System.Drawing.SystemColors.Control
-        Me.Frame4.Controls.Add(Me._picPreview_6)
-        Me.Frame4.Controls.Add(Me._picPreview_5)
-        Me.Frame4.Controls.Add(Me._picPreview_4)
-        Me.Frame4.Controls.Add(Me._picPreview_3)
-        Me.Frame4.Controls.Add(Me._picPreview_2)
-        Me.Frame4.Controls.Add(Me._picPreview_0)
-        Me.Frame4.Controls.Add(Me._picPreview_1)
-        Me.Frame4.Controls.Add(Me.Label2)
-        Me.Frame4.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Frame4.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Frame4.Location = New System.Drawing.Point(132, 44)
-        Me.Frame4.Name = "Frame4"
-        Me.Frame4.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Frame4.Size = New System.Drawing.Size(265, 89)
-        Me.Frame4.TabIndex = 19
-        Me.Frame4.TabStop = False
-        Me.Frame4.Tag = "OptionsDialog#20"
-        Me.Frame4.Text = "Podgl¹d"
-        '
-        '_picPreview_6
-        '
-        Me._picPreview_6.BackColor = System.Drawing.SystemColors.Control
-        Me._picPreview_6.Cursor = System.Windows.Forms.Cursors.Default
-        Me._picPreview_6.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me._picPreview_6.ForeColor = System.Drawing.SystemColors.ControlText
-        Me._picPreview_6.Location = New System.Drawing.Point(224, 20)
-        Me._picPreview_6.Name = "_picPreview_6"
-        Me._picPreview_6.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me._picPreview_6.Size = New System.Drawing.Size(34, 33)
-        Me._picPreview_6.TabIndex = 26
-        Me._picPreview_6.TabStop = False
-        '
-        '_picPreview_5
-        '
-        Me._picPreview_5.BackColor = System.Drawing.SystemColors.Control
-        Me._picPreview_5.Cursor = System.Windows.Forms.Cursors.Default
-        Me._picPreview_5.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me._picPreview_5.ForeColor = System.Drawing.SystemColors.ControlText
-        Me._picPreview_5.Location = New System.Drawing.Point(188, 20)
-        Me._picPreview_5.Name = "_picPreview_5"
-        Me._picPreview_5.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me._picPreview_5.Size = New System.Drawing.Size(34, 33)
-        Me._picPreview_5.TabIndex = 25
-        Me._picPreview_5.TabStop = False
-        '
-        '_picPreview_4
-        '
-        Me._picPreview_4.BackColor = System.Drawing.SystemColors.Control
-        Me._picPreview_4.Cursor = System.Windows.Forms.Cursors.Default
-        Me._picPreview_4.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me._picPreview_4.ForeColor = System.Drawing.SystemColors.ControlText
-        Me._picPreview_4.Location = New System.Drawing.Point(152, 20)
-        Me._picPreview_4.Name = "_picPreview_4"
-        Me._picPreview_4.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me._picPreview_4.Size = New System.Drawing.Size(34, 33)
-        Me._picPreview_4.TabIndex = 24
-        Me._picPreview_4.TabStop = False
-        '
-        '_picPreview_3
-        '
-        Me._picPreview_3.BackColor = System.Drawing.SystemColors.Control
-        Me._picPreview_3.Cursor = System.Windows.Forms.Cursors.Default
-        Me._picPreview_3.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me._picPreview_3.ForeColor = System.Drawing.SystemColors.ControlText
-        Me._picPreview_3.Location = New System.Drawing.Point(116, 20)
-        Me._picPreview_3.Name = "_picPreview_3"
-        Me._picPreview_3.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me._picPreview_3.Size = New System.Drawing.Size(34, 33)
-        Me._picPreview_3.TabIndex = 23
-        Me._picPreview_3.TabStop = False
-        '
-        '_picPreview_2
-        '
-        Me._picPreview_2.BackColor = System.Drawing.SystemColors.Control
-        Me._picPreview_2.Cursor = System.Windows.Forms.Cursors.Default
-        Me._picPreview_2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me._picPreview_2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me._picPreview_2.Location = New System.Drawing.Point(80, 20)
-        Me._picPreview_2.Name = "_picPreview_2"
-        Me._picPreview_2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me._picPreview_2.Size = New System.Drawing.Size(34, 33)
-        Me._picPreview_2.TabIndex = 22
-        Me._picPreview_2.TabStop = False
-        '
-        '_picPreview_0
-        '
-        Me._picPreview_0.BackColor = System.Drawing.SystemColors.Control
-        Me._picPreview_0.Cursor = System.Windows.Forms.Cursors.Default
-        Me._picPreview_0.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me._picPreview_0.ForeColor = System.Drawing.SystemColors.ControlText
-        Me._picPreview_0.Location = New System.Drawing.Point(8, 20)
-        Me._picPreview_0.Name = "_picPreview_0"
-        Me._picPreview_0.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me._picPreview_0.Size = New System.Drawing.Size(34, 33)
-        Me._picPreview_0.TabIndex = 21
-        Me._picPreview_0.TabStop = False
-        '
-        '_picPreview_1
-        '
-        Me._picPreview_1.BackColor = System.Drawing.SystemColors.Control
-        Me._picPreview_1.Cursor = System.Windows.Forms.Cursors.Default
-        Me._picPreview_1.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me._picPreview_1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me._picPreview_1.Location = New System.Drawing.Point(44, 20)
-        Me._picPreview_1.Name = "_picPreview_1"
-        Me._picPreview_1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me._picPreview_1.Size = New System.Drawing.Size(34, 33)
-        Me._picPreview_1.TabIndex = 20
-        Me._picPreview_1.TabStop = False
-        '
-        'Label2
-        '
-        Me.Label2.BackColor = System.Drawing.SystemColors.Control
-        Me.Label2.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Label2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label2.Location = New System.Drawing.Point(20, 60)
-        Me.Label2.Name = "Label2"
-        Me.Label2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label2.Size = New System.Drawing.Size(225, 17)
-        Me.Label2.TabIndex = 27
-        Me.Label2.Text = "0          1          2          3           4         5           6"
-        '
-        'lstSkins
-        '
-        Me.lstSkins.BackColor = System.Drawing.SystemColors.Window
-        Me.lstSkins.Cursor = System.Windows.Forms.Cursors.Default
-        Me.lstSkins.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lstSkins.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.lstSkins.ItemHeight = 14
-        Me.lstSkins.Location = New System.Drawing.Point(12, 24)
-        Me.lstSkins.Name = "lstSkins"
-        Me.lstSkins.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lstSkins.Size = New System.Drawing.Size(113, 130)
-        Me.lstSkins.Sorted = True
-        Me.lstSkins.TabIndex = 18
-        '
-        'Frame5
-        '
-        Me.Frame5.BackColor = System.Drawing.SystemColors.Control
-        Me.Frame5.Controls.Add(Me.cmdBackgroundColor)
-        Me.Frame5.Controls.Add(Me.Label1)
-        Me.Frame5.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Frame5.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Frame5.Location = New System.Drawing.Point(12, 35)
-        Me.Frame5.Name = "Frame5"
-        Me.Frame5.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Frame5.Size = New System.Drawing.Size(401, 49)
-        Me.Frame5.TabIndex = 29
-        Me.Frame5.TabStop = False
-        Me.Frame5.Tag = "OptionsDialog#17"
-        Me.Frame5.Text = "T³o"
-        '
-        'cmdBackgroundColor
-        '
-        Me.cmdBackgroundColor.BackColor = System.Drawing.SystemColors.Control
-        Me.cmdBackgroundColor.Cursor = System.Windows.Forms.Cursors.Default
-        Me.cmdBackgroundColor.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdBackgroundColor.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdBackgroundColor.Location = New System.Drawing.Point(184, 20)
-        Me.cmdBackgroundColor.Name = "cmdBackgroundColor"
-        Me.cmdBackgroundColor.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.cmdBackgroundColor.Size = New System.Drawing.Size(82, 17)
-        Me.cmdBackgroundColor.TabIndex = 30
-        Me.cmdBackgroundColor.UseVisualStyleBackColor = False
-        '
-        'Label1
-        '
-        Me.Label1.BackColor = System.Drawing.SystemColors.Control
-        Me.Label1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Label1.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label1.Location = New System.Drawing.Point(104, 20)
-        Me.Label1.Name = "Label1"
-        Me.Label1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label1.Size = New System.Drawing.Size(69, 17)
-        Me.Label1.TabIndex = 31
-        Me.Label1.Tag = "OptionsDialog#18"
-        Me.Label1.Text = "Kolor t³a:"
         '
         '_tabOptions_TabPage2
         '
@@ -675,22 +405,6 @@ Friend Class frmOptions
         Me.fraSample2.TabStop = False
         Me.fraSample2.Text = "Sample 2"
         '
-        'cmdCancel
-        '
-        Me.cmdCancel.BackColor = System.Drawing.SystemColors.Control
-        Me.cmdCancel.Cursor = System.Windows.Forms.Cursors.Default
-        Me.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.cmdCancel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdCancel.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdCancel.Location = New System.Drawing.Point(174, 358)
-        Me.cmdCancel.Name = "cmdCancel"
-        Me.cmdCancel.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.cmdCancel.Size = New System.Drawing.Size(73, 25)
-        Me.cmdCancel.TabIndex = 1
-        Me.cmdCancel.Tag = "Buttons#1"
-        Me.cmdCancel.Text = "&Anuluj"
-        Me.cmdCancel.UseVisualStyleBackColor = False
-        '
         'cmdOK
         '
         Me.cmdOK.BackColor = System.Drawing.SystemColors.Control
@@ -711,15 +425,12 @@ Friend Class frmOptions
         Me.AcceptButton = Me.cmdOK
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.CancelButton = Me.cmdCancel
         Me.ClientSize = New System.Drawing.Size(445, 417)
         Me.ControlBox = False
-        Me.Controls.Add(Me.cmdApply)
         Me.Controls.Add(Me.tabOptions)
         Me.Controls.Add(Me._picOptions_3)
         Me.Controls.Add(Me._picOptions_2)
         Me.Controls.Add(Me._picOptions_1)
-        Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.cmdOK)
         Me.Cursor = System.Windows.Forms.Cursors.Default
         Me.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -737,17 +448,6 @@ Friend Class frmOptions
         Me.tabOptions.ResumeLayout(False)
         Me._tabOptions_TabPage0.ResumeLayout(False)
         Me.Frame1.ResumeLayout(False)
-        Me._tabOptions_TabPage1.ResumeLayout(False)
-        Me.Frame3.ResumeLayout(False)
-        Me.Frame4.ResumeLayout(False)
-        CType(Me._picPreview_6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me._picPreview_5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me._picPreview_4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me._picPreview_3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me._picPreview_2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me._picPreview_0, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me._picPreview_1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Frame5.ResumeLayout(False)
         Me._tabOptions_TabPage2.ResumeLayout(False)
         Me.Frame8.ResumeLayout(False)
         Me._picOptions_3.ResumeLayout(False)
@@ -757,38 +457,6 @@ Friend Class frmOptions
 
     End Sub
 #End Region
-
-    Private Sub cmdApply_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdApply.Click
-        ZapiszOpcje()
-    End Sub
-
-    Private Sub cmdBackgroundColor_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdBackgroundColor.Click
-        Dim MyColor As System.Drawing.Color
-
-        'MyColor = System.Drawing.ColorTranslator.ToOle(cmdBackgroundColor.BackColor)
-        Dim ColorDialog1 As ColorDialog = New ColorDialog
-        With ColorDialog1
-            MyColor = ColorDialog1.Color
-            cmdBackgroundColor.BackColor = MyColor
-        End With
-    End Sub
-    Private Sub cmdCancel_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdCancel.Click
-        Me.Close()
-    End Sub
-    Sub ZapiszOpcje()
-
-        FrmMain.DefInstance.BackColor = cmdBackgroundColor.BackColor
-        OdswiezPoleGry()
-    End Sub
-    Sub WczytajOpcje()
-
-
-        ' Wygl¹d
-        '-------
-
-
-    End Sub
-
     Private Sub cmdNextSet_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdNextSet.Click
         cmdNextSet.Enabled = False
         cmdPrevSet.Enabled = True
@@ -796,7 +464,6 @@ Friend Class frmOptions
     End Sub
 
     Private Sub cmdOK_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdOK.Click
-        ZapiszOpcje()
         Me.Close()
     End Sub
 
@@ -808,8 +475,6 @@ Friend Class frmOptions
 
     Private Sub frmOptions_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
         tabOptions.SelectedIndex = 0
-
-        WczytajOpcje()
 
         cmdPrevSet.Enabled = False
         cmdNextSet.Enabled = True

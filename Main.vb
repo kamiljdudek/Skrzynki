@@ -6,19 +6,6 @@ Friend Class FrmMain
 #Region "Windows Form Designer generated code "
     Public Sub New()
         MyBase.New()
-        If m_vb6FormDefInstance Is Nothing Then
-            If m_InitializingDefInstance Then
-                m_vb6FormDefInstance = Me
-            Else
-                Try
-                    'For the start-up form, the first instance created is the default instance.
-                    If System.Reflection.Assembly.GetExecutingAssembly.EntryPoint.DeclaringType Is Me.GetType Then
-                        m_vb6FormDefInstance = Me
-                    End If
-                Catch
-                End Try
-            End If
-        End If
         'This call is required by the Windows Form Designer.
         InitializeComponent()
     End Sub
@@ -322,8 +309,11 @@ Friend Class FrmMain
     Public WithEvents mnuHelp As System.Windows.Forms.MenuItem
     Public MainMenu1 As System.Windows.Forms.MainMenu
     Friend WithEvents MenuItem1 As MenuItem
-    Friend WithEvents MenuItem2 As MenuItem
+    Friend WithEvents mnuSkinOryginalny As MenuItem
     Friend WithEvents MenuItem3 As MenuItem
+    Friend WithEvents mnuSkinEksport As MenuItem
+    Friend WithEvents mnuSkinSerowy As MenuItem
+    Friend WithEvents mnuColor As MenuItem
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
@@ -608,7 +598,10 @@ Friend Class FrmMain
         Me.mnuGameExit = New System.Windows.Forms.MenuItem()
         Me.mnuView = New System.Windows.Forms.MenuItem()
         Me.MenuItem1 = New System.Windows.Forms.MenuItem()
-        Me.MenuItem2 = New System.Windows.Forms.MenuItem()
+        Me.mnuSkinOryginalny = New System.Windows.Forms.MenuItem()
+        Me.mnuSkinEksport = New System.Windows.Forms.MenuItem()
+        Me.mnuSkinSerowy = New System.Windows.Forms.MenuItem()
+        Me.mnuColor = New System.Windows.Forms.MenuItem()
         Me.mnuViewBar0 = New System.Windows.Forms.MenuItem()
         Me.mnuViewRefresh = New System.Windows.Forms.MenuItem()
         Me.MenuItem3 = New System.Windows.Forms.MenuItem()
@@ -884,7 +877,7 @@ Friend Class FrmMain
         CType(Me.imgGameField, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'picStatusBar
+        'PicStatusBar
         '
         Me.PicStatusBar.BackColor = System.Drawing.SystemColors.Control
         Me.PicStatusBar.Controls.Add(Me.ImgStatusImage)
@@ -897,24 +890,24 @@ Friend Class FrmMain
         Me.PicStatusBar.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.PicStatusBar.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PicStatusBar.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.PicStatusBar.Location = New System.Drawing.Point(0, 510)
-        Me.PicStatusBar.Name = "picStatusBar"
+        Me.PicStatusBar.Location = New System.Drawing.Point(0, 490)
+        Me.PicStatusBar.Name = "PicStatusBar"
         Me.PicStatusBar.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.PicStatusBar.Size = New System.Drawing.Size(511, 17)
         Me.PicStatusBar.TabIndex = 1
         Me.PicStatusBar.TabStop = True
         '
-        'imgStatusImage
+        'ImgStatusImage
         '
         Me.ImgStatusImage.Cursor = System.Windows.Forms.Cursors.Default
-        Me.ImgStatusImage.Image = CType(resources.GetObject("imgStatusImage.Image"), System.Drawing.Image)
+        Me.ImgStatusImage.Image = CType(resources.GetObject("ImgStatusImage.Image"), System.Drawing.Image)
         Me.ImgStatusImage.Location = New System.Drawing.Point(0, 0)
-        Me.ImgStatusImage.Name = "imgStatusImage"
+        Me.ImgStatusImage.Name = "ImgStatusImage"
         Me.ImgStatusImage.Size = New System.Drawing.Size(16, 16)
         Me.ImgStatusImage.TabIndex = 0
         Me.ImgStatusImage.TabStop = False
         '
-        'lblPlayerName
+        'LblPlayerName
         '
         Me.LblPlayerName.BackColor = System.Drawing.SystemColors.Control
         Me.LblPlayerName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
@@ -922,13 +915,13 @@ Friend Class FrmMain
         Me.LblPlayerName.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblPlayerName.ForeColor = System.Drawing.SystemColors.ControlText
         Me.LblPlayerName.Location = New System.Drawing.Point(372, 0)
-        Me.LblPlayerName.Name = "lblPlayerName"
+        Me.LblPlayerName.Name = "LblPlayerName"
         Me.LblPlayerName.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.LblPlayerName.Size = New System.Drawing.Size(137, 17)
         Me.LblPlayerName.TabIndex = 6
         Me.LblPlayerName.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'lblLevelNumber
+        'LblLevelNumber
         '
         Me.LblLevelNumber.BackColor = System.Drawing.SystemColors.Control
         Me.LblLevelNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
@@ -936,13 +929,13 @@ Friend Class FrmMain
         Me.LblLevelNumber.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblLevelNumber.ForeColor = System.Drawing.SystemColors.ControlText
         Me.LblLevelNumber.Location = New System.Drawing.Point(272, 0)
-        Me.LblLevelNumber.Name = "lblLevelNumber"
+        Me.LblLevelNumber.Name = "LblLevelNumber"
         Me.LblLevelNumber.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.LblLevelNumber.Size = New System.Drawing.Size(101, 17)
         Me.LblLevelNumber.TabIndex = 5
         Me.LblLevelNumber.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'lblBoxes
+        'LblBoxes
         '
         Me.LblBoxes.BackColor = System.Drawing.SystemColors.Control
         Me.LblBoxes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
@@ -950,14 +943,14 @@ Friend Class FrmMain
         Me.LblBoxes.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblBoxes.ForeColor = System.Drawing.SystemColors.ControlText
         Me.LblBoxes.Location = New System.Drawing.Point(176, 0)
-        Me.LblBoxes.Name = "lblBoxes"
+        Me.LblBoxes.Name = "LblBoxes"
         Me.LblBoxes.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.LblBoxes.Size = New System.Drawing.Size(97, 17)
         Me.LblBoxes.TabIndex = 4
         Me.LblBoxes.Text = "Skrzynki: ##/##"
         Me.LblBoxes.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'lblPushes
+        'LblPushes
         '
         Me.LblPushes.BackColor = System.Drawing.SystemColors.Control
         Me.LblPushes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
@@ -965,14 +958,14 @@ Friend Class FrmMain
         Me.LblPushes.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblPushes.ForeColor = System.Drawing.SystemColors.ControlText
         Me.LblPushes.Location = New System.Drawing.Point(88, 0)
-        Me.LblPushes.Name = "lblPushes"
+        Me.LblPushes.Name = "LblPushes"
         Me.LblPushes.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.LblPushes.Size = New System.Drawing.Size(89, 17)
         Me.LblPushes.TabIndex = 3
         Me.LblPushes.Text = "Pchniêcia: ###"
         Me.LblPushes.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'lblMoves
+        'LblMoves
         '
         Me.LblMoves.BackColor = System.Drawing.SystemColors.Control
         Me.LblMoves.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
@@ -980,7 +973,7 @@ Friend Class FrmMain
         Me.LblMoves.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblMoves.ForeColor = System.Drawing.SystemColors.ControlText
         Me.LblMoves.Location = New System.Drawing.Point(16, 0)
-        Me.LblMoves.Name = "lblMoves"
+        Me.LblMoves.Name = "LblMoves"
         Me.LblMoves.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.LblMoves.Size = New System.Drawing.Size(73, 17)
         Me.LblMoves.TabIndex = 2
@@ -3576,6 +3569,7 @@ Friend Class FrmMain
         '
         'mnuGameSetKlasyczne
         '
+        Me.mnuGameSetKlasyczne.Checked = True
         Me.mnuGameSetKlasyczne.Index = 0
         Me.mnuGameSetKlasyczne.Text = "&Klasyczne"
         '
@@ -3604,34 +3598,50 @@ Friend Class FrmMain
         'mnuView
         '
         Me.mnuView.Index = 1
-        Me.mnuView.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem1, Me.mnuViewBar0, Me.mnuViewRefresh, Me.MenuItem3})
+        Me.mnuView.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem1, Me.mnuColor, Me.mnuViewBar0, Me.mnuViewRefresh, Me.MenuItem3})
         Me.mnuView.Text = "&Widok"
         '
         'MenuItem1
         '
         Me.MenuItem1.Index = 0
-        Me.MenuItem1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem2})
+        Me.MenuItem1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuSkinOryginalny, Me.mnuSkinEksport, Me.mnuSkinSerowy})
         Me.MenuItem1.Text = "Skin"
         '
-        'MenuItem2
+        'mnuSkinOryginalny
         '
-        Me.MenuItem2.Index = 0
-        Me.MenuItem2.Text = "(Oryginalny)"
+        Me.mnuSkinOryginalny.Checked = True
+        Me.mnuSkinOryginalny.Index = 0
+        Me.mnuSkinOryginalny.Text = "(Oryginalny)"
+        '
+        'mnuSkinEksport
+        '
+        Me.mnuSkinEksport.Index = 1
+        Me.mnuSkinEksport.Text = "Eksport"
+        '
+        'mnuSkinSerowy
+        '
+        Me.mnuSkinSerowy.Index = 2
+        Me.mnuSkinSerowy.Text = "Serowy"
+        '
+        'mnuColor
+        '
+        Me.mnuColor.Index = 1
+        Me.mnuColor.Text = "Kolor t³a..."
         '
         'mnuViewBar0
         '
-        Me.mnuViewBar0.Index = 1
+        Me.mnuViewBar0.Index = 2
         Me.mnuViewBar0.Text = "-"
         '
         'mnuViewRefresh
         '
-        Me.mnuViewRefresh.Index = 2
+        Me.mnuViewRefresh.Index = 3
         Me.mnuViewRefresh.Shortcut = System.Windows.Forms.Shortcut.F9
         Me.mnuViewRefresh.Text = "O&dœwie¿"
         '
         'MenuItem3
         '
-        Me.MenuItem3.Index = 3
+        Me.MenuItem3.Index = 4
         Me.MenuItem3.Text = "Ukryj"
         '
         'mnuTools
@@ -3690,11 +3700,11 @@ Friend Class FrmMain
         Me.mnuHelpAbout.Index = 3
         Me.mnuHelpAbout.Text = "Skrzynki - &informacje..."
         '
-        'frmMain
+        'FrmMain
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(511, 527)
+        Me.ClientSize = New System.Drawing.Size(511, 507)
         Me.Controls.Add(Me.PicStatusBar)
         Me.Controls.Add(Me._imgGameField_256)
         Me.Controls.Add(Me._imgGameField_255)
@@ -3960,7 +3970,7 @@ Friend Class FrmMain
         Me.Location = New System.Drawing.Point(87, 140)
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenu1
-        Me.Name = "frmMain"
+        Me.Name = "FrmMain"
         Me.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "Skrzynki"
@@ -4227,23 +4237,6 @@ Friend Class FrmMain
 
     End Sub
 #End Region
-#Region "Upgrade Support "
-    Private Shared m_vb6FormDefInstance As FrmMain
-    Private Shared m_InitializingDefInstance As Boolean
-    Public Shared Property DefInstance() As FrmMain
-        Get
-            If m_vb6FormDefInstance Is Nothing OrElse m_vb6FormDefInstance.IsDisposed Then
-                m_InitializingDefInstance = True
-                m_vb6FormDefInstance = New FrmMain
-                m_InitializingDefInstance = False
-            End If
-            DefInstance = m_vb6FormDefInstance
-        End Get
-        Set(ByVal Value As FrmMain)
-            m_vb6FormDefInstance = Value
-        End Set
-    End Property
-#End Region
 
     Private Sub frmMain_KeyDown(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         Dim KeyCode As Short = eventArgs.KeyCode
@@ -4259,10 +4252,19 @@ Friend Class FrmMain
 
                 If WykonanoRuch = False Then
                     WykonanoRuch = True
-                    FrmMain.DefInstance.mnuToolsUndo.Enabled = True
+                    Me.mnuToolsUndo.Enabled = True
                 End If
 
-                If Etap.SkrzynkiNaMiejscach = Etap.LiczbaSkrzynek Then NastepnyEtap()
+                If Etap.SkrzynkiNaMiejscach = Etap.LiczbaSkrzynek Then
+                    NastepnyEtap()
+                    Me.mnuToolsUndo.Enabled = False
+                    OdswiezPoleGry()
+                    PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
+                    PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
+                    PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & DaneEtapow(NumerEtapu).SkrzynkiNaMiejscach & "/" & DaneEtapow(NumerEtapu).LiczbaSkrzynek)
+                    PokazNaPaskuStanu(4, "#" & NumerEtapu)
+                    Me.Text = "Skrzynki - #" & NumerEtapu
+                End If
             Else
                 NieMozna()
             End If
@@ -4270,10 +4272,12 @@ Friend Class FrmMain
     End Sub
     Private Sub frmMain_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
         modMain.Main()
-        modLogin.OdczytajStatystyki()
+        Stats.OdczytajStatystyki()
 
-        FrmMain.DefInstance.BackColor = Color.Black
-        FrmMain.DefInstance.PicStatusBar.Visible = True
+        Me.BackColor = Color.Black
+        Me.PicStatusBar.Visible = True
+
+        PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
 
         If EtapSpozaZestawu = False Then
             If My.Settings.BeginFromArrivedLevel = True Then
@@ -4281,6 +4285,17 @@ Friend Class FrmMain
             Else
                 NowaGra((1))
             End If
+
+            OdswiezPoleGry()
+
+            Me.mnuToolsUndo.Enabled = False
+
+            PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
+            PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
+            PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+            PokazNaPaskuStanu(4, "#" & NumerEtapu)
+            PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
+            Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
         End If
 
     End Sub
@@ -4290,6 +4305,74 @@ Friend Class FrmMain
         ZapiszStatystyki()
         End
     End Sub
+
+    Public Sub PokazNaPaskuStanu(ByVal NumerPanelu As Byte, ByVal Napis As String)
+        Select Case NumerPanelu
+            Case 1
+                LblMoves.Text = Napis
+            Case 2
+                LblPushes.Text = Napis
+            Case 3
+                LblBoxes.Text = Napis
+            Case 4
+                LblLevelNumber.Text = Napis
+            Case 5
+                LblPlayerName.Text = Napis
+        End Select
+    End Sub
+
+    Public Sub OdswiezPoleGry()
+        Dim Skin As String = My.Settings.Skin
+        For Licznik = 1 To 256 Step 1
+            If PoleGry(Licznik) < 7 Then
+                Me.imgGameField(Licznik).Image = Skrzynki.Skin.GetIcon(PoleGry(Licznik))
+            Else
+                Me.imgGameField(Licznik).Image = Nothing
+                Me.imgGameField(Licznik).BackColor = My.Settings.BackgroundColor
+            End If
+        Next Licznik
+    End Sub
+
+    Public Sub OdswiezPoleGryWokolGracza()
+        Dim Skin As String = My.Settings.Skin
+
+        If PoleGry(PozycjaGracza - 16) < 7 Then
+                Me.imgGameField(PozycjaGracza - 16).Image =
+                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza - 16))
+            Else
+                Me.imgGameField(PozycjaGracza - 16).Image = Nothing
+            End If
+
+            If PoleGry(PozycjaGracza - 1) < 7 Then
+                Me.imgGameField(PozycjaGracza - 1).Image =
+                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza - 1))
+            Else
+                Me.imgGameField(PozycjaGracza - 1).Image = Nothing
+            End If
+
+            If PoleGry(PozycjaGracza) < 7 Then
+                Me.imgGameField(PozycjaGracza).Image =
+                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza))
+            Else
+                Me.imgGameField(PozycjaGracza).Image = Nothing
+            End If
+
+            If PoleGry(PozycjaGracza + 1) < 7 Then
+                Me.imgGameField(PozycjaGracza + 1).Image =
+                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza + 1))
+            Else
+                Me.imgGameField(PozycjaGracza + 1).Image = Nothing
+            End If
+
+            If PoleGry(PozycjaGracza + 16) < 7 Then
+                Me.imgGameField(PozycjaGracza + 16).Image =
+                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza + 16))
+            Else
+                Me.imgGameField(PozycjaGracza + 16).Image = Nothing
+            End If
+
+    End Sub
+
     Public Sub mnuGame_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGame.Popup
         mnuGame_Click(eventSender, eventArgs)
     End Sub
@@ -4304,13 +4387,24 @@ Friend Class FrmMain
         mnuGameExit_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuGameExit_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameExit.Click
-        FrmMain.DefInstance.Close()
+        Me.Close()
     End Sub
     Public Sub mnuGameNew_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameNew.Popup
         mnuGameNew_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuGameNew_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameNew.Click
         NowaGra((1))
+
+        OdswiezPoleGry()
+
+        Me.mnuToolsUndo.Enabled = False
+
+        PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
+        PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
+        PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+        PokazNaPaskuStanu(4, "#" & NumerEtapu)
+        PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
+        Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
     End Sub
     Public Sub mnuGameOpen_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameOpen.Popup
         mnuGameOpen_Click(eventSender, eventArgs)
@@ -4326,7 +4420,7 @@ Friend Class FrmMain
         If WczytajEtap(NazwaPliku, FreeFile) Then
             OdswiezPoleGry()
             'UPGRADE_WARNING: Dir has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
-            FrmMain.DefInstance.Text = "Skrzynki - " & VB.Left(Dir(NazwaPliku), Len(Dir(NazwaPliku)) - 4)
+            Me.Text = "Skrzynki - " & VB.Left(Dir(NazwaPliku), Len(Dir(NazwaPliku)) - 4)
             PokazNaPaskuStanu(3, "Skrzynki: " & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
             'UPGRADE_WARNING: Dir has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
             PokazNaPaskuStanu(4, VB.Left(Dir(NazwaPliku), Len(Dir(NazwaPliku)) - 4))
@@ -4342,7 +4436,7 @@ Friend Class FrmMain
         mnuGameSet_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuGameSet_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameSet.Click
-        If DaneGracza.Zestaw = "Klasyczne" Then
+        If My.Settings.LevelSet = "Klasyczne" Then
             mnuGameSetKlasyczne.Checked = True
             mnuGameSetSuperTrudneXS.Checked = False
         Else
@@ -4355,18 +4449,42 @@ Friend Class FrmMain
         mnuGameSetKlasyczne_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuGameSetKlasyczne_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameSetKlasyczne.Click
+        My.Settings.LevelSet = "Klasyczne"
+        mnuGameSetKlasyczne.Checked = True
+        mnuGameSetSuperTrudneXS.Checked = False
         NowaGra(1, 1)
-        DaneGracza.Zestaw = 1
-        ZestawEtapow = 1
+
+        OdswiezPoleGry()
+
+        Me.mnuToolsUndo.Enabled = False
+
+        PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
+        PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
+        PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+        PokazNaPaskuStanu(4, "#" & NumerEtapu)
+        PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
+        Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
     End Sub
 
     Public Sub mnuGameSetSuperTrudneXS_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameSetSuperTrudneXS.Popup
         mnuGameSetSuperTrudneXS_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuGameSetSuperTrudneXS_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameSetSuperTrudneXS.Click
+        My.Settings.LevelSet = "SuperTrudneXS"
+        mnuGameSetKlasyczne.Checked = False
+        mnuGameSetSuperTrudneXS.Checked = True
         NowaGra(1, 2)
-        DaneGracza.Zestaw = 2
-        ZestawEtapow = 2
+
+        OdswiezPoleGry()
+
+        Me.mnuToolsUndo.Enabled = False
+
+        PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
+        PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
+        PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+        PokazNaPaskuStanu(4, "#" & NumerEtapu)
+        PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
+        Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
     End Sub
 
     Public Sub mnuGameWarp_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameWarp.Popup
@@ -4404,7 +4522,7 @@ Friend Class FrmMain
             PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
             PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
             PokazNaPaskuStanu(4, "#" & NumerEtapu)
-            FrmMain.DefInstance.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
+            Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
             OdswiezPoleGry()
             EtapSpozaZestawu = False
         End If
@@ -4461,16 +4579,27 @@ Friend Class FrmMain
             Dim TempX As MsgBoxResult = MsgBox(ZwrocCiag("General#1"), MsgBoxStyle.YesNo + MsgBoxStyle.Question + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
             If TempX = MsgBoxResult.Yes Then
                 RestartujEtap()
+                OdswiezPoleGry()
             End If
         Else
             RestartujEtap()
+            OdswiezPoleGry()
         End If
+        Me.mnuToolsUndo.Enabled = False
+        PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
+        PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
+        PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+        PokazNaPaskuStanu(4, "#" & NumerEtapu)
+        Me.Text = "Skrzynki - #" & NumerEtapu
     End Sub
     Public Sub mnuToolsUndo_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuToolsUndo.Popup
         mnuToolsUndo_Click(eventSender, eventArgs)
     End Sub
     Public Sub mnuToolsUndo_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuToolsUndo.Click
         Cofnij()
+        OdswiezPoleGry()
+        PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+        Me.mnuToolsUndo.Enabled = False
     End Sub
     Public Sub mnuView_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuView.Popup
         ' mnuView_Click(eventSender, eventArgs)
@@ -4484,4 +4613,36 @@ Friend Class FrmMain
 
     End Sub
 
+    Private Sub MenuItem4_Click(sender As Object, e As EventArgs) Handles mnuSkinEksport.Click
+        mnuSkinSerowy.Checked = False
+        mnuSkinOryginalny.Checked = False
+        My.Settings.Skin = "Eksport"
+        OdswiezPoleGry()
+    End Sub
+
+    Private Sub MenuItem2_Click(sender As Object, e As EventArgs) Handles mnuSkinOryginalny.Click
+        mnuSkinSerowy.Checked = False
+        mnuSkinEksport.Checked = False
+        My.Settings.Skin = "(Oryginalny)"
+        OdswiezPoleGry()
+    End Sub
+
+    Private Sub mnuSkinSerowy_Click(sender As Object, e As EventArgs) Handles mnuSkinSerowy.Click
+        mnuSkinSerowy.Checked = False
+        mnuSkinEksport.Checked = False
+        My.Settings.Skin = "Serowy"
+        OdswiezPoleGry()
+    End Sub
+
+    Private Sub mnuColor_Click(sender As Object, e As EventArgs) Handles mnuColor.Click
+        Dim MyColor As Color
+        Dim ColorDialog1 As ColorDialog = New ColorDialog
+        ColorDialog1.ShowDialog()
+
+        With ColorDialog1
+            MyColor = ColorDialog1.Color
+            My.Settings.BackgroundColor = MyColor
+            OdswiezPoleGry()
+        End With
+    End Sub
 End Class

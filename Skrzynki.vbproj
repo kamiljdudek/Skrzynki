@@ -142,7 +142,7 @@
     <Compile Include="Main.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="modLogin.vb">
+    <Compile Include="Stats.vb">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="modMain.vb">

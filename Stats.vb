@@ -1,11 +1,23 @@
 Option Strict Off
 Option Explicit On
-Module modLogin
-	Structure Results
-		Dim OsiagnietyEtap As Short
-		Dim Ruchy As Integer
-		Dim Pchniecia As Integer
-	End Structure
+Module Stats
+
+    Class LevelsetStats
+        Public ReachedLevel As Integer
+        Public Moves As Integer
+        Public Pushes As Integer
+
+        Sub New(Optional ByVal R = 1, Optional ByVal M = 0, Optional ByVal P = 0)
+            ReachedLevel = R
+            Moves = M
+            Pushes = P
+        End Sub
+    End Class
+    Structure Results
+        Dim OsiagnietyEtap As Short
+        Dim Ruchy As Integer
+        Dim Pchniecia As Integer
+    End Structure
 
     Structure Player
         Dim Zestaw As String
@@ -16,8 +28,6 @@ Module modLogin
     Public DaneGracza As Player
 
     Public Sub ZapiszStatystyki()
-        My.Settings.LevelSet = DaneGracza.Zestaw
-
         My.Settings.ArrivedLevelKlasyczne = DaneGracza.Klasyczne.OsiagnietyEtap
         My.Settings.MovesKlasyczne = DaneGracza.Klasyczne.Ruchy
         My.Settings.PushesKlasyczne = DaneGracza.Klasyczne.Pchniecia
@@ -28,7 +38,6 @@ Module modLogin
     End Sub
 
     Public Sub OdczytajStatystyki()
-        DaneGracza.Zestaw = My.Settings.LevelSet
 
         DaneGracza.Klasyczne.OsiagnietyEtap = My.Settings.ArrivedLevelKlasyczne
         DaneGracza.Klasyczne.Ruchy = My.Settings.MovesKlasyczne

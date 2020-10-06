@@ -137,40 +137,14 @@ Module modMain
             End
         End If
 
-        ZestawEtapow = DaneGracza.Zestaw
+        ZestawEtapow = My.Settings.LevelSet
         NumerEtapu = 1
         WykonanoRuch = False
         EtapZaliczony = False
 
-        PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
-
     End Sub
-    Public Function AnalizujWierszPolecen() As String
-        ' Replace this with the .NET file open handler
-        On Error GoTo Blad
 
-        NazwaPliku = Mid(Microsoft.VisualBasic.Command(), 2, Len(Microsoft.VisualBasic.Command()) - 2)
-
-        If WczytajEtap(NazwaPliku, FreeFile) Then
-            EtapSpozaZestawu = True
-            OdswiezPoleGry()
-			'UPGRADE_WARNING: Dir has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
-			FrmMain.DefInstance.Text = "Skrzynki - " & Left(Dir(NazwaPliku), Len(Dir(NazwaPliku)) - 4)
-			PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
-			'UPGRADE_WARNING: Dir has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1041"'
-			PokazNaPaskuStanu(4, Left(Dir(NazwaPliku), Len(Dir(NazwaPliku)) - 4))
-
-			If My.Settings.LevelLoadConfirmation = True Then
-				'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-				MsgBox(Replace(ZwrocCiag("General#6"), "<filename>", NazwaPliku), MsgBoxStyle.OkOnly + MsgBoxStyle.Information + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-			End If
-		End If
-
-		Exit Function
-
-Blad:
-	End Function
-	Public Function WczytajEtap(ByRef PlikEtapu As String, ByRef KanalPliku As Short) As Boolean
+    Public Function WczytajEtap(ByRef PlikEtapu As String, ByRef KanalPliku As Short) As Boolean
 		On Error GoTo BladWczytywaniaEtapu
 
 		Const ZaDuzoGraczy As Short = 1
@@ -398,62 +372,43 @@ Blad:
 		MsgBox(ZwrocCiag("General#8"), MsgBoxStyle.OkOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
 		WczytajZestawEtapow = False
 	End Function
-	Public Sub OdswiezPoleGry()
-		Dim Skin As String = My.Settings.Skin
-		For Licznik = 1 To 256 Step 1
-			If PoleGry(Licznik) < 7 Then
-                FrmMain.DefInstance.imgGameField(Licznik).Image = Skrzynki.Skin.GetIcon(PoleGry(Licznik))
-            Else
-				FrmMain.DefInstance.imgGameField(Licznik).Image = Nothing
-			End If
-		Next Licznik
-	End Sub
-	Public Sub NastepnyEtap()
-		MsgBox(ZwrocCiag("General#0"), MsgBoxStyle.OkOnly + MsgBoxStyle.Information + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-		EtapZaliczony = True
-		If EtapSpozaZestawu Then Exit Sub
+    Public Sub NastepnyEtap()
+        MsgBox(ZwrocCiag("General#0"), MsgBoxStyle.OkOnly + MsgBoxStyle.Information + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+        EtapZaliczony = True
+        If EtapSpozaZestawu Then Exit Sub
 
-		NumerEtapu += 1
+        NumerEtapu += 1
 
-		If NumerEtapu > NajdalszyEtap() Then
-			Select Case ZestawEtapow
-				Case 1
-					DaneGracza.Klasyczne.OsiagnietyEtap = NumerEtapu
-					DaneGracza.Klasyczne.Pchniecia += Pchniecia
-					DaneGracza.Klasyczne.Ruchy += Ruchy
-				Case 2
-					DaneGracza.SuperTrudneXS.OsiagnietyEtap = NumerEtapu
-					DaneGracza.SuperTrudneXS.Pchniecia += Pchniecia
-					DaneGracza.SuperTrudneXS.Ruchy += Ruchy
-			End Select
-		End If
-		Ruchy = 0
-		Pchniecia = 0
-		WykonanoRuch = False
-		FrmMain.DefInstance.mnuToolsUndo.Enabled = False
+        If NumerEtapu > NajdalszyEtap() Then
+            Select Case ZestawEtapow
+                Case 1
+                    DaneGracza.Klasyczne.OsiagnietyEtap = NumerEtapu
+                    DaneGracza.Klasyczne.Pchniecia += Pchniecia
+                    DaneGracza.Klasyczne.Ruchy += Ruchy
+                Case 2
+                    DaneGracza.SuperTrudneXS.OsiagnietyEtap = NumerEtapu
+                    DaneGracza.SuperTrudneXS.Pchniecia += Pchniecia
+                    DaneGracza.SuperTrudneXS.Ruchy += Ruchy
+            End Select
+        End If
+        Ruchy = 0
+        Pchniecia = 0
+        WykonanoRuch = False
 
-		If NumerEtapu > UBound(Etapy, 1) Then
-			MsgBox(ZwrocCiag("General#7"), MsgBoxStyle.OkOnly + MsgBoxStyle.Information + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-			NowaGra((1))
-			Exit Sub
-		End If
+        If NumerEtapu > UBound(Etapy, 1) Then
+            MsgBox(ZwrocCiag("General#7"), MsgBoxStyle.OkOnly + MsgBoxStyle.Information + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            Exit Sub
+        End If
 
-		For Licznik = 1 To 256 Step 1
-			PoleGry(Licznik) = Etapy(NumerEtapu, Licznik)
-		Next Licznik
-		'UPGRADE_WARNING: Couldn't resolve default property of object Etap. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-		Etap = DaneEtapow(NumerEtapu)
-		PozycjaGracza = PozycjeGracza(NumerEtapu)
-
-		PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
-		PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
-		PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
-		PokazNaPaskuStanu(4, "#" & NumerEtapu)
-		FrmMain.DefInstance.Text = "Skrzynki - #" & NumerEtapu
-		EtapZaliczony = False
-		OdswiezPoleGry()
-	End Sub
-	Public Function PrzesunGracza(ByVal Kierunek As Byte) As Boolean
+        For Licznik = 1 To 256 Step 1
+            PoleGry(Licznik) = Etapy(NumerEtapu, Licznik)
+        Next Licznik
+        'UPGRADE_WARNING: Couldn't resolve default property of object Etap. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
+        Etap = DaneEtapow(NumerEtapu)
+        PozycjaGracza = PozycjeGracza(NumerEtapu)
+        EtapZaliczony = False
+    End Sub
+    Public Function PrzesunGracza(ByVal Kierunek As Byte) As Boolean
 		If EtapZaliczony Then
 			PrzesunGracza = False
 			Exit Function
@@ -868,18 +823,12 @@ Blad:
 		Pchniecia = 0
 		WykonanoRuch = False
 		EtapSpozaZestawu = False
-		FrmMain.DefInstance.mnuToolsUndo.Enabled = False
 
-		ZE = Zestaw
+        ZE = My.Settings.LevelSet
 
-		If WczytajZestawEtapow(".\Etapy\" & ZE & ".bxp", FreeFile) Then
-			PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
-			PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
-			PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
-			PokazNaPaskuStanu(4, "#" & NumerEtapu)
-			PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
-			FrmMain.DefInstance.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
-			EtapZaliczony = False
+        If WczytajZestawEtapow(".\Etapy\" & ZE & ".bxp", FreeFile) Then
+
+            EtapZaliczony = False
 		End If
 
 		For Licznik = 1 To 256 Step 1
@@ -890,21 +839,17 @@ Blad:
 			If PoleGry(Licznik) = Gracz Or PoleGry(Licznik) = GraczNaMiejscu Then PozycjaGracza = Licznik
 		Next Licznik
 
-		ZestawEtapow = DaneGracza.Zestaw
-		OdswiezPoleGry()
-	End Sub
+        ZestawEtapow = My.Settings.LevelSet
+    End Sub
 	Public Sub Cofnij()
 		For Licznik = 1 To 256 Step 1
 			PoleGry(Licznik) = PoleGrySprzedRuchu(Licznik)
 		Next Licznik
 		PozycjaGracza = PozycjaGraczaSprzedRuchu
 		Etap.SkrzynkiNaMiejscach = EtapSprzedRuchu.SkrzynkiNaMiejscach
-		PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
 
-		WykonanoRuch = False
-		FrmMain.DefInstance.mnuToolsUndo.Enabled = False
-		OdswiezPoleGry()
-	End Sub
+        WykonanoRuch = False
+    End Sub
 	Public Sub RestartujEtap()
 		For Licznik = 1 To 256
 			PoleGry(Licznik) = Etapy(NumerEtapu, Licznik)
@@ -915,79 +860,15 @@ Blad:
 
 		Ruchy = 0
 		Pchniecia = 0
-		WykonanoRuch = False
-		FrmMain.DefInstance.mnuToolsUndo.Enabled = False
+        WykonanoRuch = False
+    End Sub
 
-		PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
-		PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
-		PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
-		PokazNaPaskuStanu(4, "#" & NumerEtapu)
-		FrmMain.DefInstance.Text = "Skrzynki - #" & NumerEtapu
-		OdswiezPoleGry()
-	End Sub
-	Public Sub OdswiezPoleGryWokolGracza()
-		Dim Skin As String = My.Settings.Skin
-
-		With FrmMain.DefInstance
-			If PoleGry(PozycjaGracza - 16) < 7 Then
-                FrmMain.DefInstance.imgGameField(PozycjaGracza - 16).Image =
-                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza - 16))
-            Else
-				FrmMain.DefInstance.imgGameField(PozycjaGracza - 16).Image = Nothing
-			End If
-
-			If PoleGry(PozycjaGracza - 1) < 7 Then
-                FrmMain.DefInstance.imgGameField(PozycjaGracza - 1).Image =
-                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza - 1))
-            Else
-				FrmMain.DefInstance.imgGameField(PozycjaGracza - 1).Image = Nothing
-			End If
-
-			If PoleGry(PozycjaGracza) < 7 Then
-                FrmMain.DefInstance.imgGameField(PozycjaGracza).Image =
-                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza))
-            Else
-				FrmMain.DefInstance.imgGameField(PozycjaGracza).Image = Nothing
-			End If
-
-			If PoleGry(PozycjaGracza + 1) < 7 Then
-                FrmMain.DefInstance.imgGameField(PozycjaGracza + 1).Image =
-                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza + 1))
-            Else
-				FrmMain.DefInstance.imgGameField(PozycjaGracza + 1).Image = Nothing
-			End If
-
-			If PoleGry(PozycjaGracza + 16) < 7 Then
-                FrmMain.DefInstance.imgGameField(PozycjaGracza + 16).Image =
-                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza + 16))
-            Else
-				FrmMain.DefInstance.imgGameField(PozycjaGracza + 16).Image = Nothing
-			End If
-		End With
-	End Sub
-	Public Function NajdalszyEtap() As Short
-		If My.Settings.LevelSet = "Klasyczne" Then
-			NajdalszyEtap = My.Settings.ArrivedLevelKlasyczne
-		Else
-			NajdalszyEtap = My.Settings.ArrivedLevelSupertrudne
-		End If
-	End Function
-	Public Sub PokazNaPaskuStanu(ByVal NumerPanelu As Byte, ByVal Napis As String)
-		With FrmMain.DefInstance
-			' Move to form in order to remove "definstance"
-			Select Case NumerPanelu
-				Case 1
-					.LblMoves.Text = Napis
-				Case 2
-					.LblPushes.Text = Napis
-				Case 3
-					.LblBoxes.Text = Napis
-				Case 4
-					.LblLevelNumber.Text = Napis
-				Case 5
-					.LblPlayerName.Text = Napis
-			End Select
-		End With
-	End Sub
+    Public Function NajdalszyEtap() As Short
+        If My.Settings.LevelSet = "Klasyczne" Then
+            NajdalszyEtap = My.Settings.ArrivedLevelKlasyczne
+        Else
+            NajdalszyEtap = My.Settings.ArrivedLevelSupertrudne
+        End If
+    End Function
 
 End Module
