@@ -32,30 +32,21 @@ Friend Class frmSplash
 	End Sub
 	'Required by the Windows Form Designer
 	Private components As System.ComponentModel.IContainer
-	Public ToolTip1 As System.Windows.Forms.ToolTip
-	Public WithEvents tmrTimer As System.Windows.Forms.Timer
-	Public WithEvents imgTitle As System.Windows.Forms.PictureBox
-	Public WithEvents lblPlatform As System.Windows.Forms.Label
+    Public WithEvents imgTitle As System.Windows.Forms.PictureBox
+    Public WithEvents lblPlatform As System.Windows.Forms.Label
 	Public WithEvents lblVersion As System.Windows.Forms.Label
 	Public WithEvents lblCopyright As System.Windows.Forms.Label
 	'NOTE: The following procedure is required by the Windows Form Designer
 	'It can be modified using the Windows Form Designer.
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmSplash))
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.tmrTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.imgTitle = New System.Windows.Forms.PictureBox
-        Me.lblPlatform = New System.Windows.Forms.Label
-        Me.lblVersion = New System.Windows.Forms.Label
-        Me.lblCopyright = New System.Windows.Forms.Label
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSplash))
+        Me.imgTitle = New System.Windows.Forms.PictureBox()
+        Me.lblPlatform = New System.Windows.Forms.Label()
+        Me.lblVersion = New System.Windows.Forms.Label()
+        Me.lblCopyright = New System.Windows.Forms.Label()
+        CType(Me.imgTitle, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'tmrTimer
-        '
-        Me.tmrTimer.Enabled = True
-        Me.tmrTimer.Interval = 2000
         '
         'imgTitle
         '
@@ -78,7 +69,7 @@ Friend Class frmSplash
         Me.lblPlatform.Location = New System.Drawing.Point(256, 136)
         Me.lblPlatform.Name = "lblPlatform"
         Me.lblPlatform.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lblPlatform.Size = New System.Drawing.Size(140, 28)
+        Me.lblPlatform.Size = New System.Drawing.Size(138, 24)
         Me.lblPlatform.TabIndex = 2
         Me.lblPlatform.Tag = "SplashScreen#0"
         Me.lblPlatform.Text = "dla Windows"
@@ -94,7 +85,7 @@ Friend Class frmSplash
         Me.lblVersion.Location = New System.Drawing.Point(342, 163)
         Me.lblVersion.Name = "lblVersion"
         Me.lblVersion.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lblVersion.Size = New System.Drawing.Size(60, 22)
+        Me.lblVersion.Size = New System.Drawing.Size(61, 19)
         Me.lblVersion.TabIndex = 1
         Me.lblVersion.Text = "Wersja"
         Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -133,13 +124,15 @@ Friend Class frmSplash
         Me.Name = "frmSplash"
         Me.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        CType(Me.imgTitle, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
-#End Region 
+#End Region
 #Region "Upgrade Support "
-	Private Shared m_vb6FormDefInstance As frmSplash
+    Private Shared m_vb6FormDefInstance As frmSplash
 	Private Shared m_InitializingDefInstance As Boolean
 	Public Shared Property DefInstance() As frmSplash
 		Get

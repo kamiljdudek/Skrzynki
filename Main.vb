@@ -1,4 +1,4 @@
-Option Strict Off
+﻿Option Strict Off
 Option Explicit On
 Imports VB = Microsoft.VisualBasic
 Friend Class FrmMain
@@ -283,35 +283,35 @@ Friend Class FrmMain
     Public WithEvents _imgGameField_91 As System.Windows.Forms.PictureBox
     Public WithEvents _imgGameField_92 As System.Windows.Forms.PictureBox
     Public WithEvents imgGameField As Microsoft.VisualBasic.Compatibility.VB6.PictureBoxArray
-    Public WithEvents mnuGameNew As System.Windows.Forms.MenuItem
-    Public WithEvents mnuGameWarp As System.Windows.Forms.MenuItem
-    Public WithEvents mnuGameSetKlasyczne As System.Windows.Forms.MenuItem
-    Public WithEvents mnuGameSetSuperTrudneXS As System.Windows.Forms.MenuItem
-    Public WithEvents mnuGameSet As System.Windows.Forms.MenuItem
-    Public WithEvents mnuGameOpen As System.Windows.Forms.MenuItem
-    Public WithEvents mnuGameBar0 As System.Windows.Forms.MenuItem
-    Public WithEvents mnuGameExit As System.Windows.Forms.MenuItem
-    Public WithEvents mnuGame As System.Windows.Forms.MenuItem
-    Public WithEvents mnuViewBar0 As System.Windows.Forms.MenuItem
-    Public WithEvents mnuViewRefresh As System.Windows.Forms.MenuItem
-    Public WithEvents mnuView As System.Windows.Forms.MenuItem
-    Public WithEvents mnuToolsUndo As System.Windows.Forms.MenuItem
-    Public WithEvents mnuToolsRestart As System.Windows.Forms.MenuItem
-    Public WithEvents mnuToolsBar0 As System.Windows.Forms.MenuItem
-    Public WithEvents mnuToolsOptions As System.Windows.Forms.MenuItem
-    Public WithEvents mnuTools As System.Windows.Forms.MenuItem
-    Public WithEvents mnuHelpContents As System.Windows.Forms.MenuItem
-    Public WithEvents mnuHelpWeb As System.Windows.Forms.MenuItem
-    Public WithEvents mnuHelpBar0 As System.Windows.Forms.MenuItem
-    Public WithEvents mnuHelpAbout As System.Windows.Forms.MenuItem
-    Public WithEvents mnuHelp As System.Windows.Forms.MenuItem
+    Public WithEvents MnuGameNew As System.Windows.Forms.MenuItem
+    Public WithEvents MnuGameWarp As System.Windows.Forms.MenuItem
+    Public WithEvents MnuGameSetKlasyczne As System.Windows.Forms.MenuItem
+    Public WithEvents MnuGameSetSuperTrudneXS As System.Windows.Forms.MenuItem
+    Public WithEvents MnuGameSet As System.Windows.Forms.MenuItem
+    Public WithEvents MnuGameOpen As System.Windows.Forms.MenuItem
+    Public WithEvents MnuGameBar0 As System.Windows.Forms.MenuItem
+    Public WithEvents MnuGameExit As System.Windows.Forms.MenuItem
+    Public WithEvents MnuGame As System.Windows.Forms.MenuItem
+    Public WithEvents MnuViewBar0 As System.Windows.Forms.MenuItem
+    Public WithEvents MnuViewRefresh As System.Windows.Forms.MenuItem
+    Public WithEvents MnuView As System.Windows.Forms.MenuItem
+    Public WithEvents MnuToolsUndo As System.Windows.Forms.MenuItem
+    Public WithEvents MnuToolsRestart As System.Windows.Forms.MenuItem
+    Public WithEvents MnuToolsBar0 As System.Windows.Forms.MenuItem
+    Public WithEvents MnuToolsOptions As System.Windows.Forms.MenuItem
+    Public WithEvents MnuTools As System.Windows.Forms.MenuItem
+    Public WithEvents MnuHelpContents As System.Windows.Forms.MenuItem
+    Public WithEvents MnuHelpWeb As System.Windows.Forms.MenuItem
+    Public WithEvents MnuHelpBar0 As System.Windows.Forms.MenuItem
+    Public WithEvents MnuHelpAbout As System.Windows.Forms.MenuItem
+    Public WithEvents MnuHelp As System.Windows.Forms.MenuItem
     Public MainMenu1 As System.Windows.Forms.MainMenu
     Friend WithEvents MenuItem1 As MenuItem
-    Friend WithEvents mnuSkinOryginalny As MenuItem
+    Friend WithEvents MnuSkinOryginalny As MenuItem
     Friend WithEvents MenuItem3 As MenuItem
-    Friend WithEvents mnuSkinEksport As MenuItem
-    Friend WithEvents mnuSkinSerowy As MenuItem
-    Friend WithEvents mnuColor As MenuItem
+    Friend WithEvents MnuSkinEksport As MenuItem
+    Friend WithEvents MnuSkinSerowy As MenuItem
+    Friend WithEvents MnuColor As MenuItem
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
@@ -582,34 +582,34 @@ Friend Class FrmMain
         Me._imgGameField_92 = New System.Windows.Forms.PictureBox()
         Me.imgGameField = New Microsoft.VisualBasic.Compatibility.VB6.PictureBoxArray(Me.components)
         Me.MainMenu1 = New System.Windows.Forms.MainMenu(Me.components)
-        Me.mnuGame = New System.Windows.Forms.MenuItem()
-        Me.mnuGameNew = New System.Windows.Forms.MenuItem()
-        Me.mnuGameWarp = New System.Windows.Forms.MenuItem()
-        Me.mnuGameSet = New System.Windows.Forms.MenuItem()
-        Me.mnuGameSetKlasyczne = New System.Windows.Forms.MenuItem()
-        Me.mnuGameSetSuperTrudneXS = New System.Windows.Forms.MenuItem()
-        Me.mnuGameOpen = New System.Windows.Forms.MenuItem()
-        Me.mnuGameBar0 = New System.Windows.Forms.MenuItem()
-        Me.mnuGameExit = New System.Windows.Forms.MenuItem()
-        Me.mnuView = New System.Windows.Forms.MenuItem()
+        Me.MnuGame = New System.Windows.Forms.MenuItem()
+        Me.MnuGameNew = New System.Windows.Forms.MenuItem()
+        Me.MnuGameWarp = New System.Windows.Forms.MenuItem()
+        Me.MnuGameSet = New System.Windows.Forms.MenuItem()
+        Me.MnuGameSetKlasyczne = New System.Windows.Forms.MenuItem()
+        Me.MnuGameSetSuperTrudneXS = New System.Windows.Forms.MenuItem()
+        Me.MnuGameOpen = New System.Windows.Forms.MenuItem()
+        Me.MnuGameBar0 = New System.Windows.Forms.MenuItem()
+        Me.MnuGameExit = New System.Windows.Forms.MenuItem()
+        Me.MnuView = New System.Windows.Forms.MenuItem()
         Me.MenuItem1 = New System.Windows.Forms.MenuItem()
-        Me.mnuSkinOryginalny = New System.Windows.Forms.MenuItem()
-        Me.mnuSkinEksport = New System.Windows.Forms.MenuItem()
-        Me.mnuSkinSerowy = New System.Windows.Forms.MenuItem()
-        Me.mnuColor = New System.Windows.Forms.MenuItem()
-        Me.mnuViewBar0 = New System.Windows.Forms.MenuItem()
-        Me.mnuViewRefresh = New System.Windows.Forms.MenuItem()
+        Me.MnuSkinOryginalny = New System.Windows.Forms.MenuItem()
+        Me.MnuSkinEksport = New System.Windows.Forms.MenuItem()
+        Me.MnuSkinSerowy = New System.Windows.Forms.MenuItem()
+        Me.MnuColor = New System.Windows.Forms.MenuItem()
+        Me.MnuViewBar0 = New System.Windows.Forms.MenuItem()
+        Me.MnuViewRefresh = New System.Windows.Forms.MenuItem()
         Me.MenuItem3 = New System.Windows.Forms.MenuItem()
-        Me.mnuTools = New System.Windows.Forms.MenuItem()
-        Me.mnuToolsUndo = New System.Windows.Forms.MenuItem()
-        Me.mnuToolsRestart = New System.Windows.Forms.MenuItem()
-        Me.mnuToolsBar0 = New System.Windows.Forms.MenuItem()
-        Me.mnuToolsOptions = New System.Windows.Forms.MenuItem()
-        Me.mnuHelp = New System.Windows.Forms.MenuItem()
-        Me.mnuHelpContents = New System.Windows.Forms.MenuItem()
-        Me.mnuHelpWeb = New System.Windows.Forms.MenuItem()
-        Me.mnuHelpBar0 = New System.Windows.Forms.MenuItem()
-        Me.mnuHelpAbout = New System.Windows.Forms.MenuItem()
+        Me.MnuTools = New System.Windows.Forms.MenuItem()
+        Me.MnuToolsUndo = New System.Windows.Forms.MenuItem()
+        Me.MnuToolsRestart = New System.Windows.Forms.MenuItem()
+        Me.MnuToolsBar0 = New System.Windows.Forms.MenuItem()
+        Me.MnuToolsOptions = New System.Windows.Forms.MenuItem()
+        Me.MnuHelp = New System.Windows.Forms.MenuItem()
+        Me.MnuHelpContents = New System.Windows.Forms.MenuItem()
+        Me.MnuHelpWeb = New System.Windows.Forms.MenuItem()
+        Me.MnuHelpBar0 = New System.Windows.Forms.MenuItem()
+        Me.MnuHelpAbout = New System.Windows.Forms.MenuItem()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.PicStatusBar.SuspendLayout()
         CType(Me._imgGameField_256, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -945,7 +945,7 @@ Friend Class FrmMain
         Me.LblPushes.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.LblPushes.Size = New System.Drawing.Size(89, 17)
         Me.LblPushes.TabIndex = 3
-        Me.LblPushes.Text = "Pchni�cia: ###"
+        Me.LblPushes.Text = "Pchnięcia: ###"
         Me.LblPushes.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
         'LblMoves
@@ -3525,163 +3525,163 @@ Friend Class FrmMain
         '
         'MainMenu1
         '
-        Me.MainMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuGame, Me.mnuView, Me.mnuTools, Me.mnuHelp})
+        Me.MainMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MnuGame, Me.MnuView, Me.MnuTools, Me.MnuHelp})
         '
-        'mnuGame
+        'MnuGame
         '
-        Me.mnuGame.Index = 0
-        Me.mnuGame.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuGameNew, Me.mnuGameWarp, Me.mnuGameSet, Me.mnuGameOpen, Me.mnuGameBar0, Me.mnuGameExit})
-        Me.mnuGame.Text = "&Gra"
+        Me.MnuGame.Index = 0
+        Me.MnuGame.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MnuGameNew, Me.MnuGameWarp, Me.MnuGameSet, Me.MnuGameOpen, Me.MnuGameBar0, Me.MnuGameExit})
+        Me.MnuGame.Text = "&Gra"
         '
-        'mnuGameNew
+        'MnuGameNew
         '
-        Me.mnuGameNew.Index = 0
-        Me.mnuGameNew.Text = "&Nowa gra..."
+        Me.MnuGameNew.Index = 0
+        Me.MnuGameNew.Text = "&Nowa gra..."
         '
-        'mnuGameWarp
+        'MnuGameWarp
         '
-        Me.mnuGameWarp.Index = 1
-        Me.mnuGameWarp.Shortcut = System.Windows.Forms.Shortcut.F3
-        Me.mnuGameWarp.Text = "Wybierz &etap..."
+        Me.MnuGameWarp.Index = 1
+        Me.MnuGameWarp.Shortcut = System.Windows.Forms.Shortcut.F3
+        Me.MnuGameWarp.Text = "Wybierz &etap..."
         '
-        'mnuGameSet
+        'MnuGameSet
         '
-        Me.mnuGameSet.Index = 2
-        Me.mnuGameSet.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuGameSetKlasyczne, Me.mnuGameSetSuperTrudneXS})
-        Me.mnuGameSet.Text = "Wybierz &zestaw etap�w"
+        Me.MnuGameSet.Index = 2
+        Me.MnuGameSet.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MnuGameSetKlasyczne, Me.MnuGameSetSuperTrudneXS})
+        Me.MnuGameSet.Text = "Wybierz &zestaw etapów"
         '
-        'mnuGameSetKlasyczne
+        'MnuGameSetKlasyczne
         '
-        Me.mnuGameSetKlasyczne.Checked = True
-        Me.mnuGameSetKlasyczne.Index = 0
-        Me.mnuGameSetKlasyczne.Text = "&Klasyczne"
+        Me.MnuGameSetKlasyczne.Checked = True
+        Me.MnuGameSetKlasyczne.Index = 0
+        Me.MnuGameSetKlasyczne.Text = "&Klasyczne"
         '
-        'mnuGameSetSuperTrudneXS
+        'MnuGameSetSuperTrudneXS
         '
-        Me.mnuGameSetSuperTrudneXS.Index = 1
-        Me.mnuGameSetSuperTrudneXS.Text = "&Super Trudne XS"
+        Me.MnuGameSetSuperTrudneXS.Index = 1
+        Me.MnuGameSetSuperTrudneXS.Text = "&Super Trudne XS"
         '
-        'mnuGameOpen
+        'MnuGameOpen
         '
-        Me.mnuGameOpen.Index = 3
-        Me.mnuGameOpen.Shortcut = System.Windows.Forms.Shortcut.CtrlO
-        Me.mnuGameOpen.Text = "&Otw�rz plik etapu..."
+        Me.MnuGameOpen.Index = 3
+        Me.MnuGameOpen.Shortcut = System.Windows.Forms.Shortcut.CtrlO
+        Me.MnuGameOpen.Text = "&Otwórz plik etapu..."
         '
-        'mnuGameBar0
+        'MnuGameBar0
         '
-        Me.mnuGameBar0.Index = 4
-        Me.mnuGameBar0.Text = "-"
+        Me.MnuGameBar0.Index = 4
+        Me.MnuGameBar0.Text = "-"
         '
-        'mnuGameExit
+        'MnuGameExit
         '
-        Me.mnuGameExit.Index = 5
-        Me.mnuGameExit.Shortcut = System.Windows.Forms.Shortcut.CtrlQ
-        Me.mnuGameExit.Text = "&Koniec"
+        Me.MnuGameExit.Index = 5
+        Me.MnuGameExit.Shortcut = System.Windows.Forms.Shortcut.CtrlQ
+        Me.MnuGameExit.Text = "&Koniec"
         '
-        'mnuView
+        'MnuView
         '
-        Me.mnuView.Index = 1
-        Me.mnuView.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem1, Me.mnuColor, Me.mnuViewBar0, Me.mnuViewRefresh, Me.MenuItem3})
-        Me.mnuView.Text = "&Widok"
+        Me.MnuView.Index = 1
+        Me.MnuView.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem1, Me.MnuColor, Me.MnuViewBar0, Me.MnuViewRefresh, Me.MenuItem3})
+        Me.MnuView.Text = "&Widok"
         '
         'MenuItem1
         '
         Me.MenuItem1.Index = 0
-        Me.MenuItem1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuSkinOryginalny, Me.mnuSkinEksport, Me.mnuSkinSerowy})
+        Me.MenuItem1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MnuSkinOryginalny, Me.MnuSkinEksport, Me.MnuSkinSerowy})
         Me.MenuItem1.Text = "Skin"
         '
-        'mnuSkinOryginalny
+        'MnuSkinOryginalny
         '
-        Me.mnuSkinOryginalny.Checked = True
-        Me.mnuSkinOryginalny.Index = 0
-        Me.mnuSkinOryginalny.Text = "(Oryginalny)"
+        Me.MnuSkinOryginalny.Checked = True
+        Me.MnuSkinOryginalny.Index = 0
+        Me.MnuSkinOryginalny.Text = "(Oryginalny)"
         '
-        'mnuSkinEksport
+        'MnuSkinEksport
         '
-        Me.mnuSkinEksport.Index = 1
-        Me.mnuSkinEksport.Text = "Eksport"
+        Me.MnuSkinEksport.Index = 1
+        Me.MnuSkinEksport.Text = "Eksport"
         '
-        'mnuSkinSerowy
+        'MnuSkinSerowy
         '
-        Me.mnuSkinSerowy.Index = 2
-        Me.mnuSkinSerowy.Text = "Serowy"
+        Me.MnuSkinSerowy.Index = 2
+        Me.MnuSkinSerowy.Text = "Serowy"
         '
-        'mnuColor
+        'MnuColor
         '
-        Me.mnuColor.Index = 1
-        Me.mnuColor.Text = "Kolor t�a..."
+        Me.MnuColor.Index = 1
+        Me.MnuColor.Text = "Kolor tła..."
         '
-        'mnuViewBar0
+        'MnuViewBar0
         '
-        Me.mnuViewBar0.Index = 2
-        Me.mnuViewBar0.Text = "-"
+        Me.MnuViewBar0.Index = 2
+        Me.MnuViewBar0.Text = "-"
         '
-        'mnuViewRefresh
+        'MnuViewRefresh
         '
-        Me.mnuViewRefresh.Index = 3
-        Me.mnuViewRefresh.Shortcut = System.Windows.Forms.Shortcut.F9
-        Me.mnuViewRefresh.Text = "O&d�wie�"
+        Me.MnuViewRefresh.Index = 3
+        Me.MnuViewRefresh.Shortcut = System.Windows.Forms.Shortcut.F9
+        Me.MnuViewRefresh.Text = "O&dśwież"
         '
         'MenuItem3
         '
         Me.MenuItem3.Index = 4
         Me.MenuItem3.Text = "Ukryj"
         '
-        'mnuTools
+        'MnuTools
         '
-        Me.mnuTools.Index = 2
-        Me.mnuTools.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuToolsUndo, Me.mnuToolsRestart, Me.mnuToolsBar0, Me.mnuToolsOptions})
-        Me.mnuTools.Text = "&Narz�dzia"
+        Me.MnuTools.Index = 2
+        Me.MnuTools.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MnuToolsUndo, Me.MnuToolsRestart, Me.MnuToolsBar0, Me.MnuToolsOptions})
+        Me.MnuTools.Text = "&Narzędzia"
         '
-        'mnuToolsUndo
+        'MnuToolsUndo
         '
-        Me.mnuToolsUndo.Enabled = False
-        Me.mnuToolsUndo.Index = 0
-        Me.mnuToolsUndo.Shortcut = System.Windows.Forms.Shortcut.Del
-        Me.mnuToolsUndo.Text = "&Cofnij"
+        Me.MnuToolsUndo.Enabled = False
+        Me.MnuToolsUndo.Index = 0
+        Me.MnuToolsUndo.Shortcut = System.Windows.Forms.Shortcut.Del
+        Me.MnuToolsUndo.Text = "&Cofnij"
         '
-        'mnuToolsRestart
+        'MnuToolsRestart
         '
-        Me.mnuToolsRestart.Index = 1
-        Me.mnuToolsRestart.Shortcut = System.Windows.Forms.Shortcut.CtrlR
-        Me.mnuToolsRestart.Text = "&Restartuj etap"
+        Me.MnuToolsRestart.Index = 1
+        Me.MnuToolsRestart.Shortcut = System.Windows.Forms.Shortcut.CtrlR
+        Me.MnuToolsRestart.Text = "&Restartuj etap"
         '
-        'mnuToolsBar0
+        'MnuToolsBar0
         '
-        Me.mnuToolsBar0.Index = 2
-        Me.mnuToolsBar0.Text = "-"
+        Me.MnuToolsBar0.Index = 2
+        Me.MnuToolsBar0.Text = "-"
         '
-        'mnuToolsOptions
+        'MnuToolsOptions
         '
-        Me.mnuToolsOptions.Index = 3
-        Me.mnuToolsOptions.Text = "&Opcje..."
+        Me.MnuToolsOptions.Index = 3
+        Me.MnuToolsOptions.Text = "&Opcje..."
         '
-        'mnuHelp
+        'MnuHelp
         '
-        Me.mnuHelp.Index = 3
-        Me.mnuHelp.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuHelpContents, Me.mnuHelpWeb, Me.mnuHelpBar0, Me.mnuHelpAbout})
-        Me.mnuHelp.Text = "Pomo&c"
+        Me.MnuHelp.Index = 3
+        Me.MnuHelp.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MnuHelpContents, Me.MnuHelpWeb, Me.MnuHelpBar0, Me.MnuHelpAbout})
+        Me.MnuHelp.Text = "Pomo&c"
         '
-        'mnuHelpContents
+        'MnuHelpContents
         '
-        Me.mnuHelpContents.Index = 0
-        Me.mnuHelpContents.Shortcut = System.Windows.Forms.Shortcut.F1
-        Me.mnuHelpContents.Text = "&Tematy Pomocy..."
+        Me.MnuHelpContents.Index = 0
+        Me.MnuHelpContents.Shortcut = System.Windows.Forms.Shortcut.F1
+        Me.MnuHelpContents.Text = "&Tematy Pomocy..."
         '
-        'mnuHelpWeb
+        'MnuHelpWeb
         '
-        Me.mnuHelpWeb.Index = 1
-        Me.mnuHelpWeb.Text = "Skrzynki w &sieci..."
+        Me.MnuHelpWeb.Index = 1
+        Me.MnuHelpWeb.Text = "Skrzynki w &sieci..."
         '
-        'mnuHelpBar0
+        'MnuHelpBar0
         '
-        Me.mnuHelpBar0.Index = 2
-        Me.mnuHelpBar0.Text = "-"
+        Me.MnuHelpBar0.Index = 2
+        Me.MnuHelpBar0.Text = "-"
         '
-        'mnuHelpAbout
+        'MnuHelpAbout
         '
-        Me.mnuHelpAbout.Index = 3
-        Me.mnuHelpAbout.Text = "Skrzynki - &informacje..."
+        Me.MnuHelpAbout.Index = 3
+        Me.MnuHelpAbout.Text = "Skrzynki - &informacje..."
         '
         'FrmMain
         '
@@ -3954,7 +3954,7 @@ Friend Class FrmMain
         Me.Menu = Me.MainMenu1
         Me.Name = "FrmMain"
         Me.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Skrzynki"
         Me.PicStatusBar.ResumeLayout(False)
         CType(Me._imgGameField_256, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4219,10 +4219,13 @@ Friend Class FrmMain
     End Sub
 #End Region
 
-    Private Sub frmMain_KeyDown(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+    Private Sub FrmMain_KeyDown(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         Dim KeyCode As Short = eventArgs.KeyCode
         Dim Shift As Short = eventArgs.KeyData \ &H10000
-        If KeyCode = modMain.Lewo Or KeyCode = modMain.Prawo Or KeyCode = modMain.Gora Or KeyCode = modMain.Dol Then
+        If KeyCode = 倉庫番.Lewo Or
+            KeyCode = 倉庫番.Prawo Or
+            KeyCode = 倉庫番.Gora Or
+            KeyCode = 倉庫番.Dol Then
             If PrzesunGracza(KeyCode) Then
                 OdswiezPoleGryWokolGracza()
                 Ruchy += 1
@@ -4233,12 +4236,12 @@ Friend Class FrmMain
 
                 If WykonanoRuch = False Then
                     WykonanoRuch = True
-                    Me.mnuToolsUndo.Enabled = True
+                    Me.MnuToolsUndo.Enabled = True
                 End If
 
                 If Etap.SkrzynkiNaMiejscach = Etap.LiczbaSkrzynek Then
                     NastepnyEtap()
-                    Me.mnuToolsUndo.Enabled = False
+                    Me.MnuToolsUndo.Enabled = False
                     OdswiezPoleGry()
                     PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
                     PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
@@ -4251,9 +4254,14 @@ Friend Class FrmMain
             End If
         End If
     End Sub
-    Private Sub frmMain_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
+    Private Sub FrmMain_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
         Me.Icon = My.Resources.ico101
-        modMain.Main()
+
+        ZestawEtapow = My.Settings.LevelSet
+        NumerEtapu = 1
+        WykonanoRuch = False
+        EtapZaliczony = False
+
         Stats.OdczytajStatystyki()
 
         Me.BackColor = Color.Black
@@ -4270,7 +4278,7 @@ Friend Class FrmMain
 
             OdswiezPoleGry()
 
-            Me.mnuToolsUndo.Enabled = False
+            Me.MnuToolsUndo.Enabled = False
 
             PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
             PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
@@ -4283,7 +4291,7 @@ Friend Class FrmMain
     End Sub
 
     'UPGRADE_WARNING: Form event frmMain.Unload has a new behavior. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup2065"'
-    Private Sub frmMain_Closed(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Closed
+    Private Sub FrmMain_Closed(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Closed
         ZapiszStatystyki()
         End
     End Sub
@@ -4355,31 +4363,31 @@ Friend Class FrmMain
 
     End Sub
 
-    Public Sub mnuGame_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGame.Popup
+    Public Sub mnuGame_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGame.Popup
         mnuGame_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuGame_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGame.Click
+    Public Sub mnuGame_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGame.Click
         If EtapSpozaZestawu Then
-            mnuGameOpen.Enabled = False
+            MnuGameOpen.Enabled = False
         Else
-            mnuGameOpen.Enabled = True
+            MnuGameOpen.Enabled = True
         End If
     End Sub
-    Public Sub mnuGameExit_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameExit.Popup
+    Public Sub mnuGameExit_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameExit.Popup
         mnuGameExit_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuGameExit_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameExit.Click
+    Public Sub mnuGameExit_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameExit.Click
         Me.Close()
     End Sub
-    Public Sub mnuGameNew_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameNew.Popup
+    Public Sub mnuGameNew_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameNew.Popup
         mnuGameNew_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuGameNew_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameNew.Click
+    Public Sub mnuGameNew_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameNew.Click
         NowaGra((1))
 
         OdswiezPoleGry()
 
-        Me.mnuToolsUndo.Enabled = False
+        Me.MnuToolsUndo.Enabled = False
 
         PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
         PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
@@ -4388,10 +4396,10 @@ Friend Class FrmMain
         PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
         Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
     End Sub
-    Public Sub mnuGameOpen_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameOpen.Popup
+    Public Sub mnuGameOpen_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameOpen.Popup
         mnuGameOpen_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuGameOpen_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameOpen.Click
+    Public Sub mnuGameOpen_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameOpen.Click
         Dim openFileDialog1 As OpenFileDialog = New OpenFileDialog
         With openFileDialog1
             If openFileDialog1.ShowDialog() = DialogResult.OK Then
@@ -4414,31 +4422,31 @@ Friend Class FrmMain
         End If
 
     End Sub
-    Public Sub mnuGameSet_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameSet.Popup
+    Public Sub mnuGameSet_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameSet.Popup
         mnuGameSet_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuGameSet_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameSet.Click
+    Public Sub mnuGameSet_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameSet.Click
         If My.Settings.LevelSet = "Klasyczne" Then
-            mnuGameSetKlasyczne.Checked = True
-            mnuGameSetSuperTrudneXS.Checked = False
+            MnuGameSetKlasyczne.Checked = True
+            MnuGameSetSuperTrudneXS.Checked = False
         Else
-            mnuGameSetKlasyczne.Checked = False
-            mnuGameSetSuperTrudneXS.Checked = True
+            MnuGameSetKlasyczne.Checked = False
+            MnuGameSetSuperTrudneXS.Checked = True
         End If
     End Sub
 
-    Public Sub mnuGameSetKlasyczne_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameSetKlasyczne.Popup
+    Public Sub mnuGameSetKlasyczne_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameSetKlasyczne.Popup
         mnuGameSetKlasyczne_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuGameSetKlasyczne_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameSetKlasyczne.Click
+    Public Sub mnuGameSetKlasyczne_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameSetKlasyczne.Click
         My.Settings.LevelSet = "Klasyczne"
-        mnuGameSetKlasyczne.Checked = True
-        mnuGameSetSuperTrudneXS.Checked = False
+        MnuGameSetKlasyczne.Checked = True
+        MnuGameSetSuperTrudneXS.Checked = False
         NowaGra(1, 1)
 
         OdswiezPoleGry()
 
-        Me.mnuToolsUndo.Enabled = False
+        Me.MnuToolsUndo.Enabled = False
 
         PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
         PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
@@ -4448,18 +4456,18 @@ Friend Class FrmMain
         Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
     End Sub
 
-    Public Sub mnuGameSetSuperTrudneXS_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameSetSuperTrudneXS.Popup
+    Public Sub mnuGameSetSuperTrudneXS_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameSetSuperTrudneXS.Popup
         mnuGameSetSuperTrudneXS_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuGameSetSuperTrudneXS_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameSetSuperTrudneXS.Click
+    Public Sub mnuGameSetSuperTrudneXS_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameSetSuperTrudneXS.Click
         My.Settings.LevelSet = "SuperTrudneXS"
-        mnuGameSetKlasyczne.Checked = False
-        mnuGameSetSuperTrudneXS.Checked = True
+        MnuGameSetKlasyczne.Checked = False
+        MnuGameSetSuperTrudneXS.Checked = True
         NowaGra(1, 2)
 
         OdswiezPoleGry()
 
-        Me.mnuToolsUndo.Enabled = False
+        Me.MnuToolsUndo.Enabled = False
 
         PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
         PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
@@ -4469,10 +4477,10 @@ Friend Class FrmMain
         Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
     End Sub
 
-    Public Sub mnuGameWarp_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameWarp.Popup
+    Public Sub mnuGameWarp_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameWarp.Popup
         mnuGameWarp_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuGameWarp_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuGameWarp.Click
+    Public Sub mnuGameWarp_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameWarp.Click
         Dim IB As String = InputBox(ZwrocCiag("General#12"), System.Reflection.Assembly.GetExecutingAssembly.GetName.Name, CStr(NajdalszyEtap()))
         If IB = "" Then
             Exit Sub
@@ -4510,53 +4518,36 @@ Friend Class FrmMain
         End If
     End Sub
 
-    Public Sub mnuHelpAbout_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpAbout.Popup
+    Public Sub mnuHelpAbout_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuHelpAbout.Popup
         mnuHelpAbout_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuHelpAbout_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpAbout.Click
+    Public Sub mnuHelpAbout_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuHelpAbout.Click
         frmSplash.Show()
     End Sub
 
-    Public Sub mnuHelpContents_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpContents.Popup
-        mnuHelpContents_Click(eventSender, eventArgs)
-    End Sub
-    Public Sub mnuHelpContents_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpContents.Click
-    End Sub
-    Public Sub mnuHelpTips_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs)
-        mnuHelpTips_Click(eventSender, eventArgs)
-    End Sub
-    Public Sub mnuHelpTips_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs)
-
-    End Sub
-    Public Sub mnuHelpWeb_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpWeb.Popup
-        mnuHelpWeb_Click(eventSender, eventArgs)
-    End Sub
-    Public Sub mnuHelpWeb_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuHelpWeb.Click
-
-    End Sub
-    Public Sub mnuTools_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuTools.Popup
+    Public Sub mnuTools_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuTools.Popup
         mnuTools_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuTools_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuTools.Click
-        If WykonanoRuch Then mnuToolsUndo.Enabled = True Else mnuToolsUndo.Enabled = False
-        If EtapSpozaZestawu = False Then mnuToolsRestart.Enabled = True Else mnuToolsRestart.Enabled = False
+    Public Sub mnuTools_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuTools.Click
+        If WykonanoRuch Then MnuToolsUndo.Enabled = True Else MnuToolsUndo.Enabled = False
+        If EtapSpozaZestawu = False Then MnuToolsRestart.Enabled = True Else MnuToolsRestart.Enabled = False
     End Sub
-    Public Sub mnuToolsOptions_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuToolsOptions.Popup
+    Public Sub mnuToolsOptions_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuToolsOptions.Popup
         mnuToolsOptions_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuToolsOptions_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuToolsOptions.Click
-        frmOptions.Show()
+    Public Sub mnuToolsOptions_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuToolsOptions.Click
+        FrmOptions.Show()
     End Sub
-    Public Sub mnuViewRefresh_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuViewRefresh.Popup
+    Public Sub mnuViewRefresh_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuViewRefresh.Popup
         mnuViewRefresh_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuViewRefresh_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuViewRefresh.Click
+    Public Sub mnuViewRefresh_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuViewRefresh.Click
         OdswiezPoleGry()
     End Sub
-    Public Sub mnuToolsRestart_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuToolsRestart.Popup
+    Public Sub mnuToolsRestart_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuToolsRestart.Popup
         mnuToolsRestart_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuToolsRestart_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuToolsRestart.Click
+    Public Sub mnuToolsRestart_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuToolsRestart.Click
         If My.Settings.LevelRestartingAuthorization = True Then
             Dim TempX As MsgBoxResult = MsgBox(ZwrocCiag("General#1"), MsgBoxStyle.YesNo + MsgBoxStyle.Question + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
             If TempX = MsgBoxResult.Yes Then
@@ -4567,56 +4558,45 @@ Friend Class FrmMain
             RestartujEtap()
             OdswiezPoleGry()
         End If
-        Me.mnuToolsUndo.Enabled = False
+        Me.MnuToolsUndo.Enabled = False
         PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
         PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
         PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
         PokazNaPaskuStanu(4, "#" & NumerEtapu)
         Me.Text = "Skrzynki - #" & NumerEtapu
     End Sub
-    Public Sub mnuToolsUndo_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuToolsUndo.Popup
+    Public Sub mnuToolsUndo_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuToolsUndo.Popup
         mnuToolsUndo_Click(eventSender, eventArgs)
     End Sub
-    Public Sub mnuToolsUndo_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuToolsUndo.Click
+    Public Sub mnuToolsUndo_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuToolsUndo.Click
         Cofnij()
         OdswiezPoleGry()
         PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
-        Me.mnuToolsUndo.Enabled = False
-    End Sub
-    Public Sub mnuView_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles mnuView.Popup
-        ' mnuView_Click(eventSender, eventArgs)
-    End Sub
-    Public Sub mnuViewStatusbar_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs)
-        mnuViewStatusbar_Click(eventSender, eventArgs)
-    End Sub
-    Public Sub mnuViewStatusbar_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs)
-
-        PicStatusBar.Visible = True
-
+        Me.MnuToolsUndo.Enabled = False
     End Sub
 
-    Private Sub MenuItem4_Click(sender As Object, e As EventArgs) Handles mnuSkinEksport.Click
-        mnuSkinSerowy.Checked = False
-        mnuSkinOryginalny.Checked = False
+    Private Sub MenuItem4_Click(sender As Object, e As EventArgs) Handles MnuSkinEksport.Click
+        MnuSkinSerowy.Checked = False
+        MnuSkinOryginalny.Checked = False
         My.Settings.Skin = "Eksport"
         OdswiezPoleGry()
     End Sub
 
-    Private Sub MenuItem2_Click(sender As Object, e As EventArgs) Handles mnuSkinOryginalny.Click
-        mnuSkinSerowy.Checked = False
-        mnuSkinEksport.Checked = False
+    Private Sub MenuItem2_Click(sender As Object, e As EventArgs) Handles MnuSkinOryginalny.Click
+        MnuSkinSerowy.Checked = False
+        MnuSkinEksport.Checked = False
         My.Settings.Skin = "(Oryginalny)"
         OdswiezPoleGry()
     End Sub
 
-    Private Sub mnuSkinSerowy_Click(sender As Object, e As EventArgs) Handles mnuSkinSerowy.Click
-        mnuSkinSerowy.Checked = False
-        mnuSkinEksport.Checked = False
+    Private Sub mnuSkinSerowy_Click(sender As Object, e As EventArgs) Handles MnuSkinSerowy.Click
+        MnuSkinSerowy.Checked = False
+        MnuSkinEksport.Checked = False
         My.Settings.Skin = "Serowy"
         OdswiezPoleGry()
     End Sub
 
-    Private Sub mnuColor_Click(sender As Object, e As EventArgs) Handles mnuColor.Click
+    Private Sub mnuColor_Click(sender As Object, e As EventArgs) Handles MnuColor.Click
         Dim MyColor As Color
         Dim ColorDialog1 As ColorDialog = New ColorDialog
         ColorDialog1.ShowDialog()
