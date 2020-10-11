@@ -1,4 +1,4 @@
-Option Strict Off
+Option Strict On
 Option Explicit On
 Module Stats
 
@@ -7,14 +7,14 @@ Module Stats
         Public Moves As Integer
         Public Pushes As Integer
 
-        Sub New(Optional ByVal R = 1, Optional ByVal M = 0, Optional ByVal P = 0)
+        Sub New(Optional ByVal R As Integer = 1, Optional ByVal M As Integer = 0, Optional ByVal P As Integer = 0)
             ReachedLevel = R
             Moves = M
             Pushes = P
         End Sub
     End Class
     Structure Results
-        Dim OsiagnietyEtap As Short
+        Dim OsiagnietyEtap As Integer
         Dim Ruchy As Integer
         Dim Pchniecia As Integer
     End Structure

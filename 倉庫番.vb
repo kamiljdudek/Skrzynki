@@ -1,7 +1,4 @@
-﻿Option Strict Off
-Option Explicit On
-Imports Microsoft.VisualBasic
-Module 倉庫番
+﻿Module 倉庫番
     ' -------------------------------------------------------------------------------------------
     ' |                                         SKRZYNKI                                        |
     ' |                                 autor: Karol Kuczmarski                                 |
@@ -17,7 +14,6 @@ Module 倉庫番
     ' Cofnij (P) - pozwala wrócić do stanu sprzed ruchu (zapisanego w tablicy PoleGrySprzedRuchu
     '              i zmiennej PozycjaGraczaSprzedRuchu
     ' NastepnyEtap (P) - jest wykonywana, kiedy gracz przejdzie etap
-    ' NieMozna (P) - używana do generowania sygnału ze speakera 
     ' NowaGra (P) - startuje grę od wybranego etapu (określonego w parametrze KtoryEtap)
     ' PrzesunGracza (F) - używana, kiedy gracz wciśnie klawisz kursora; zwraca True, jeśli
     '                     przesunięcie jest możliwe (jednocześnie je wykonuje); kierunek jest
@@ -92,17 +88,17 @@ Module 倉庫番
     '
 
     ' zmienne
-    Public PoleGry(256) As Byte ' przechowuje aktualne ustawienie obiektów w polu gry
-    Public PoleGrySprzedRuchu(256) As Byte ' dzięki niemu możliwe jest cofanie ruchów i nie tylko
-    Public Etapy(1, 128) As Byte ' wszystkie etapy z danego zestawu
+    Public PoleGry(256) As Integer ' przechowuje aktualne ustawienie obiektów w polu gry
+    Public PoleGrySprzedRuchu(256) As Integer ' dzięki niemu możliwe jest cofanie ruchów i nie tylko
+    Public Etapy(1, 128) As Integer ' wszystkie etapy z danego zestawu
     Public DaneEtapow() As Level ' dane wszystkich etapów z zestawu
     Public Etap As Level ' przechowuje liczbę skrzynek i miejsc
     Public EtapSprzedRuchu As Level ' tak jak PoleGrySprzedRuchu
     Public OstatnioEtap As Level ' jeśli wczytywanie etapu się nie powiedzie,
     ' ta zmienna zachowuje dane poprzedniego poziomu
-    Public PozycjaGracza As Short ' aktualna pozycja gracza
-    Public PozycjaGraczaSprzedRuchu As Short ' dzięki temu możliwe jest cofanie ruchów
-    Public PozycjeGracza() As Short ' początkowe pozycje gracza we wszystkich etapach
+    Public PozycjaGracza As Integer ' aktualna pozycja gracza
+    Public PozycjaGraczaSprzedRuchu As Integer ' dzięki temu możliwe jest cofanie ruchów
+    Public PozycjeGracza() As Integer ' początkowe pozycje gracza we wszystkich etapach
     Public WykonanoRuch As Boolean ' czy gracz wykonał ruch (i czy ew. można cofnąć)
     ' określa, czy aktualny etap jest etapem wczytanym z pliku
     Public EtapSpozaZestawu As Boolean ' wybranego przez użytkownika (jeśli tak jest, po jego
@@ -114,15 +110,11 @@ Module 倉庫番
     Public Pchniecia As Integer ' ruchy skrzynek wykonane w etapie
     Public NazwaPliku As String ' nazwa pliku etapu
     Public Licznik As Integer ' do pętli For...Next
-    Public Temp1 As Object
+    Public Temp1 As String
     Public Temp2 As String ' zmienne do danych tymczasowych lub niepotrzebnych
     Public Msg As String
 
-    ' funkcje API
-    Public Declare Function MessageBeep Lib "USER32" (ByVal wType As Integer) As Integer ' do beepowania
-    Public Declare Function DeleteFile Lib "kernel32" Alias "DeleteFileA" (ByVal lpFileName As String) As Integer
-
-    Public Function WczytajEtap(ByRef PlikEtapu As String, ByRef KanalPliku As Short) As Boolean
+    Public Function WczytajEtap(ByRef PlikEtapu As String, ByRef KanalPliku As Integer) As Boolean
         On Error GoTo BladWczytywaniaEtapu
 
         Const ZaDuzoGraczy As Short = 1
@@ -132,7 +124,7 @@ Module 倉庫番
         Const BrakGracza As Short = 5
 
         Dim NumerBleduEtapu As Byte
-        Dim Znak As Short
+        Dim Znak As Integer
 
         If PlikEtapu = "" Then Exit Function
 
@@ -158,7 +150,7 @@ Module 倉庫番
         FileOpen(KanalPliku, PlikEtapu, OpenMode.Input, OpenAccess.Read, OpenShare.LockWrite)
         If LOF(KanalPliku) < 250 Then
             FileClose(KanalPliku)
-            MsgBox("Plik " & PlikEtapu & " ma rozmiar " & LOF(KanalPliku) & "bajtów - jest za mały, aby móc przechowywać kompletną informację o strukturze etapu.", MsgBoxStyle.OkOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            MsgBox("Plik " & PlikEtapu & " ma rozmiar " & LOF(KanalPliku) & "bajtów - jest za mały, aby móc przechowywać kompletną informację o strukturze etapu.", MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
             WczytajEtap = False
             Exit Function
         End If
@@ -184,9 +176,9 @@ Module 倉庫番
                     PoleGry(Licznik) = PustoPozaEtapem
                 Case CStr(Gracz Or GraczNaMiejscu)
                     PozycjaGracza = Licznik
-                    PoleGry(Licznik) = Val(Temp2)
+                    PoleGry(Licznik) = CInt(Val(Temp2))
                 Case Else
-                    PoleGry(Licznik) = Val(Temp2)
+                    PoleGry(Licznik) = CInt(Val(Temp2))
             End Select
 
             With Etap 'zaktualizowanie danych o etapie
@@ -256,7 +248,7 @@ BladPlikuEtapu: 'coś jest źle w etapie (np. liczba graczy różna od 1)
                 Msg = "W etapie musi być przynajmniej jedno miejsce na skrzynkę."
         End Select
 
-        MsgBox(Msg, MsgBoxStyle.OkOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+        MsgBox(Msg, MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
         Exit Function
 
 BladWczytywaniaEtapu: 'coś jest z plikiem
@@ -278,29 +270,29 @@ BladWczytywaniaEtapu: 'coś jest z plikiem
         Select Case Err.Number
             Case DyskNieGotowy
                 Msg = "Dysk nie jest gotowy."
-                Stl = MsgBoxStyle.RetryCancel + MsgBoxStyle.Critical + MsgBoxStyle.SystemModal
+                Stl = MsgBoxStyle.RetryCancel Or MsgBoxStyle.Critical Or MsgBoxStyle.SystemModal
             Case NieZnalezionoPliku
                 Msg = "Plik " & PlikEtapu & " nie istnieje."
-                Stl = MsgBoxStyle.OkOnly + MsgBoxStyle.Critical + MsgBoxStyle.SystemModal
+                Stl = MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical Or MsgBoxStyle.SystemModal
             Case Else
                 Msg = "Błąd nr " & Err.Number & ":" & Chr(10) & Err.Description
-                Stl = MsgBoxStyle.OkOnly + MsgBoxStyle.Critical + MsgBoxStyle.SystemModal
+                Stl = MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical Or MsgBoxStyle.SystemModal
         End Select
 
         Dim TempX As MsgBoxResult = MsgBox(Msg, Stl, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
         If TempX = MsgBoxResult.Ok Or TempX = MsgBoxResult.Cancel Then Exit Function Else Resume
     End Function
-    Public Function WczytajZestawEtapow(ByRef PlikZestawu As String, ByRef KanalPliku As Short) As Boolean
+    Public Function WczytajZestawEtapow(ByRef PlikZestawu As String, ByRef KanalPliku As Integer) As Boolean
         Dim KatalogTemp As String = System.IO.Path.GetTempPath()
-        Dim LiczbaEtapowWZestawie As Short
-        Dim i As Short
-        Dim j As Short
-        Dim Kanal As Short
+        Dim LiczbaEtapowWZestawie As Integer
+        Dim i As Integer
+        Dim j As Integer
+        Dim Kanal As Integer
 
         FileOpen(KanalPliku, PlikZestawu, OpenMode.Input)
         Input(KanalPliku, Temp1)
         'UPGRADE_WARNING: Couldn't resolve default property of object Temp1. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-        LiczbaEtapowWZestawie = Val(Temp1)
+        LiczbaEtapowWZestawie = CInt(Val(Temp1))
 
         'UPGRADE_WARNING: Lower bound of array Etapy was changed from 1,1 to 0,0. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1033"'
         ReDim Etapy(LiczbaEtapowWZestawie, 256)
@@ -332,7 +324,7 @@ BladWczytywaniaEtapu: 'coś jest z plikiem
                 DaneEtapow(i) = Etap
                 PozycjeGracza(i) = PozycjaGracza
 
-                DeleteFile(KatalogTemp & "\#" & Str(i) & ".box")
+                System.IO.File.Delete(KatalogTemp & "\#" & Str(i) & ".box")
             Else : GoTo Blad
             End If
         Next i
@@ -347,11 +339,11 @@ BladWczytywaniaEtapu: 'coś jest z plikiem
         Exit Function
 
 Blad:
-        MsgBox(ZwrocCiag("General#8"), MsgBoxStyle.OkOnly + MsgBoxStyle.Critical + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+        MsgBox(ZwrocCiag("General#8"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
         WczytajZestawEtapow = False
     End Function
     Public Sub NastepnyEtap()
-        MsgBox(ZwrocCiag("General#0"), MsgBoxStyle.OkOnly + MsgBoxStyle.Information + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+        MsgBox(ZwrocCiag("General#0"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Information Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
         EtapZaliczony = True
         If EtapSpozaZestawu Then Exit Sub
 
@@ -359,11 +351,11 @@ Blad:
 
         If NumerEtapu > NajdalszyEtap() Then
             Select Case ZestawEtapow
-                Case 1
+                Case "Klasyczne"
                     DaneGracza.Klasyczne.OsiagnietyEtap = NumerEtapu
                     DaneGracza.Klasyczne.Pchniecia += Pchniecia
                     DaneGracza.Klasyczne.Ruchy += Ruchy
-                Case 2
+                Case "SuperTrudneXS"
                     DaneGracza.SuperTrudneXS.OsiagnietyEtap = NumerEtapu
                     DaneGracza.SuperTrudneXS.Pchniecia += Pchniecia
                     DaneGracza.SuperTrudneXS.Ruchy += Ruchy
@@ -374,7 +366,7 @@ Blad:
         WykonanoRuch = False
 
         If NumerEtapu > UBound(Etapy, 1) Then
-            MsgBox(ZwrocCiag("General#7"), MsgBoxStyle.OkOnly + MsgBoxStyle.Information + MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            MsgBox(ZwrocCiag("General#7"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Information Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
             Exit Sub
         End If
 
@@ -386,7 +378,7 @@ Blad:
         PozycjaGracza = PozycjeGracza(NumerEtapu)
         EtapZaliczony = False
     End Sub
-    Public Function PrzesunGracza(ByVal Kierunek As Byte) As Boolean
+    Public Function PrzesunGracza(ByVal Kierunek As System.Windows.Forms.Keys) As Boolean
         If EtapZaliczony Then
             PrzesunGracza = False
             Exit Function
@@ -627,7 +619,7 @@ Blad:
 
         PrzesunGracza = True
     End Function
-    Public Function PrzesunSkrzynke(ByVal Kierunek As Byte, ByVal PozycjaSkrzynki As Byte, ByVal ZMiejsca As Boolean) As Boolean
+    Public Function PrzesunSkrzynke(ByVal Kierunek As System.Windows.Forms.Keys, ByVal PozycjaSkrzynki As Integer, ByVal ZMiejsca As Boolean) As Boolean
         If ZMiejsca = True Then
             Select Case Kierunek
                 Case Lewo
@@ -790,10 +782,6 @@ Blad:
 
         PrzesunSkrzynke = True
     End Function
-    Public Sub NieMozna()
-        'UPGRADE_WARNING: Couldn't resolve default property of object Temp3. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-        MessageBeep(-1)
-    End Sub
     Public Sub NowaGra(ByVal KtoryEtap As Integer, Optional ByVal Zestaw As String = "Klasyczne")
         Dim ZE As String
         NumerEtapu = KtoryEtap
@@ -840,7 +828,7 @@ Blad:
         Pchniecia = 0
         WykonanoRuch = False
     End Sub
-    Public Function NajdalszyEtap() As Short
+    Public Function NajdalszyEtap() As Integer
         If My.Settings.LevelSet = "Klasyczne" Then
             NajdalszyEtap = My.Settings.ArrivedLevelKlasyczne
         Else
