@@ -335,19 +335,18 @@ BladWczytywaniaEtapu: 'coś jest z plikiem
         'UPGRADE_WARNING: Couldn't resolve default property of object Etap. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
         Etap = DaneEtapow(1)
 
-        WczytajZestawEtapow = True
+        Return True
         Exit Function
 
 Blad:
-        MsgBox(ZwrocCiag("General#8"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-        WczytajZestawEtapow = False
+        Return False
     End Function
     Public Sub NastepnyEtap()
-        MsgBox(ZwrocCiag("General#0"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Information Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-        EtapZaliczony = True
-        If EtapSpozaZestawu Then Exit Sub
 
-        NumerEtapu += 1
+        If EtapSpozaZestawu Then
+            NumerEtapu -= 1
+            Exit Sub
+        End If
 
         If NumerEtapu > NajdalszyEtap() Then
             Select Case ZestawEtapow
@@ -364,11 +363,6 @@ Blad:
         Ruchy = 0
         Pchniecia = 0
         WykonanoRuch = False
-
-        If NumerEtapu > UBound(Etapy, 1) Then
-            MsgBox(ZwrocCiag("General#7"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Information Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-            Exit Sub
-        End If
 
         For Licznik = 1 To 256 Step 1
             PoleGry(Licznik) = Etapy(NumerEtapu, Licznik)
@@ -782,7 +776,7 @@ Blad:
 
         PrzesunSkrzynke = True
     End Function
-    Public Sub NowaGra(ByVal KtoryEtap As Integer, Optional ByVal Zestaw As String = "Klasyczne")
+    Public Function NowaGra(ByVal KtoryEtap As Integer, Optional ByVal Zestaw As String = "Klasyczne") As Boolean
         Dim ZE As String
         NumerEtapu = KtoryEtap
         Ruchy = 0
@@ -793,8 +787,9 @@ Blad:
         ZE = My.Settings.LevelSet
 
         If WczytajZestawEtapow(".\Etapy\" & ZE & ".bxp", FreeFile) Then
-
             EtapZaliczony = False
+        Else
+            Return False
         End If
 
         For Licznik = 1 To 256 Step 1
@@ -806,7 +801,8 @@ Blad:
         Next Licznik
 
         ZestawEtapow = My.Settings.LevelSet
-    End Sub
+        Return True
+    End Function
     Public Sub Cofnij()
         For Licznik = 1 To 256 Step 1
             PoleGry(Licznik) = PoleGrySprzedRuchu(Licznik)

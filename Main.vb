@@ -1,8 +1,14 @@
-﻿Public Class FrmMain
+﻿Public Class GameBoard
     Inherits System.Windows.Forms.Form
+
+    ReadOnly imgGameField(256) As System.Windows.Forms.PictureBox
+    Friend WithEvents SkrzynkiTrayIcon As NotifyIcon
+    Public Localizer As System.Resources.ResourceManager
+
 #Region "Windows Form Designer generated code "
     Public Sub New()
         MyBase.New()
+        Localizer = New System.Resources.ResourceManager("Skrzynki.LocalizableStrings", System.Reflection.Assembly.GetExecutingAssembly())
         'This call is required by the Windows Form Designer.
         InitializeComponent()
     End Sub
@@ -17,15 +23,15 @@
     End Sub
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
-    Public WithEvents LblPlayerName As System.Windows.Forms.Label
-    Public WithEvents LblLevelNumber As System.Windows.Forms.Label
-    Public WithEvents LblBoxes As System.Windows.Forms.Label
-    Public WithEvents LblPushes As System.Windows.Forms.Label
-    Public WithEvents LblMoves As System.Windows.Forms.Label
+    Public WithEvents PlayerNameLabel As System.Windows.Forms.Label
+    Public WithEvents LevelNumberLabel As System.Windows.Forms.Label
+    Public WithEvents BoxesLabel As System.Windows.Forms.Label
+    Public WithEvents PushesLabel As System.Windows.Forms.Label
+    Public WithEvents MovesLabel As System.Windows.Forms.Label
     Public WithEvents PicStatusBar As System.Windows.Forms.Panel
-    Public WithEvents MnuGameNew As System.Windows.Forms.MenuItem
-    Public WithEvents MnuGameWarp As System.Windows.Forms.MenuItem
-    Public WithEvents MnuGameSetKlasyczne As System.Windows.Forms.MenuItem
+    Public WithEvents StartNewGameMenuItem As System.Windows.Forms.MenuItem
+    Public WithEvents GameWarpMenuItem As System.Windows.Forms.MenuItem
+    Public WithEvents ClassicLevelsetMenuItem As System.Windows.Forms.MenuItem
     Public WithEvents MnuGameSetSuperTrudneXS As System.Windows.Forms.MenuItem
     Public WithEvents MnuGameSet As System.Windows.Forms.MenuItem
     Public WithEvents MnuGameOpen As System.Windows.Forms.MenuItem
@@ -58,18 +64,19 @@
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(GameBoard))
         Me.PicStatusBar = New System.Windows.Forms.Panel()
-        Me.LblPlayerName = New System.Windows.Forms.Label()
-        Me.LblLevelNumber = New System.Windows.Forms.Label()
-        Me.LblBoxes = New System.Windows.Forms.Label()
-        Me.LblPushes = New System.Windows.Forms.Label()
-        Me.LblMoves = New System.Windows.Forms.Label()
+        Me.PlayerNameLabel = New System.Windows.Forms.Label()
+        Me.LevelNumberLabel = New System.Windows.Forms.Label()
+        Me.BoxesLabel = New System.Windows.Forms.Label()
+        Me.PushesLabel = New System.Windows.Forms.Label()
+        Me.MovesLabel = New System.Windows.Forms.Label()
         Me.MainMenu1 = New System.Windows.Forms.MainMenu(Me.components)
         Me.MnuGame = New System.Windows.Forms.MenuItem()
-        Me.MnuGameNew = New System.Windows.Forms.MenuItem()
-        Me.MnuGameWarp = New System.Windows.Forms.MenuItem()
+        Me.StartNewGameMenuItem = New System.Windows.Forms.MenuItem()
+        Me.GameWarpMenuItem = New System.Windows.Forms.MenuItem()
         Me.MnuGameSet = New System.Windows.Forms.MenuItem()
-        Me.MnuGameSetKlasyczne = New System.Windows.Forms.MenuItem()
+        Me.ClassicLevelsetMenuItem = New System.Windows.Forms.MenuItem()
         Me.MnuGameSetSuperTrudneXS = New System.Windows.Forms.MenuItem()
         Me.MnuGameOpen = New System.Windows.Forms.MenuItem()
         Me.MnuGameBar0 = New System.Windows.Forms.MenuItem()
@@ -94,17 +101,18 @@
         Me.MnuHelpBar0 = New System.Windows.Forms.MenuItem()
         Me.MnuHelpAbout = New System.Windows.Forms.MenuItem()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.SkrzynkiTrayIcon = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.PicStatusBar.SuspendLayout()
         Me.SuspendLayout()
         '
         'PicStatusBar
         '
         Me.PicStatusBar.BackColor = System.Drawing.SystemColors.Control
-        Me.PicStatusBar.Controls.Add(Me.LblPlayerName)
-        Me.PicStatusBar.Controls.Add(Me.LblLevelNumber)
-        Me.PicStatusBar.Controls.Add(Me.LblBoxes)
-        Me.PicStatusBar.Controls.Add(Me.LblPushes)
-        Me.PicStatusBar.Controls.Add(Me.LblMoves)
+        Me.PicStatusBar.Controls.Add(Me.PlayerNameLabel)
+        Me.PicStatusBar.Controls.Add(Me.LevelNumberLabel)
+        Me.PicStatusBar.Controls.Add(Me.BoxesLabel)
+        Me.PicStatusBar.Controls.Add(Me.PushesLabel)
+        Me.PicStatusBar.Controls.Add(Me.MovesLabel)
         Me.PicStatusBar.Cursor = System.Windows.Forms.Cursors.Default
         Me.PicStatusBar.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.PicStatusBar.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -116,78 +124,77 @@
         Me.PicStatusBar.TabIndex = 1
         Me.PicStatusBar.TabStop = True
         '
-        'LblPlayerName
+        'PlayerNameLabel
         '
-        Me.LblPlayerName.BackColor = System.Drawing.SystemColors.Control
-        Me.LblPlayerName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.LblPlayerName.Cursor = System.Windows.Forms.Cursors.Default
-        Me.LblPlayerName.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblPlayerName.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.LblPlayerName.Location = New System.Drawing.Point(372, 0)
-        Me.LblPlayerName.Name = "LblPlayerName"
-        Me.LblPlayerName.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.LblPlayerName.Size = New System.Drawing.Size(137, 17)
-        Me.LblPlayerName.TabIndex = 6
-        Me.LblPlayerName.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.PlayerNameLabel.BackColor = System.Drawing.SystemColors.Control
+        Me.PlayerNameLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.PlayerNameLabel.Cursor = System.Windows.Forms.Cursors.Default
+        Me.PlayerNameLabel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PlayerNameLabel.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.PlayerNameLabel.Location = New System.Drawing.Point(372, 0)
+        Me.PlayerNameLabel.Name = "PlayerNameLabel"
+        Me.PlayerNameLabel.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.PlayerNameLabel.Size = New System.Drawing.Size(137, 17)
+        Me.PlayerNameLabel.TabIndex = 6
+        Me.PlayerNameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'LblLevelNumber
+        'LevelNumberLabel
         '
-        Me.LblLevelNumber.BackColor = System.Drawing.SystemColors.Control
-        Me.LblLevelNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.LblLevelNumber.Cursor = System.Windows.Forms.Cursors.Default
-        Me.LblLevelNumber.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblLevelNumber.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.LblLevelNumber.Location = New System.Drawing.Point(272, 0)
-        Me.LblLevelNumber.Name = "LblLevelNumber"
-        Me.LblLevelNumber.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.LblLevelNumber.Size = New System.Drawing.Size(101, 17)
-        Me.LblLevelNumber.TabIndex = 5
-        Me.LblLevelNumber.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.LevelNumberLabel.BackColor = System.Drawing.SystemColors.Control
+        Me.LevelNumberLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.LevelNumberLabel.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LevelNumberLabel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LevelNumberLabel.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LevelNumberLabel.Location = New System.Drawing.Point(272, 0)
+        Me.LevelNumberLabel.Name = "LevelNumberLabel"
+        Me.LevelNumberLabel.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LevelNumberLabel.Size = New System.Drawing.Size(101, 17)
+        Me.LevelNumberLabel.TabIndex = 5
+        Me.LevelNumberLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'LblBoxes
+        'BoxesLabel
         '
-        Me.LblBoxes.BackColor = System.Drawing.SystemColors.Control
-        Me.LblBoxes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.LblBoxes.Cursor = System.Windows.Forms.Cursors.Default
-        Me.LblBoxes.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblBoxes.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.LblBoxes.Location = New System.Drawing.Point(176, 0)
-        Me.LblBoxes.Name = "LblBoxes"
-        Me.LblBoxes.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.LblBoxes.Size = New System.Drawing.Size(97, 17)
-        Me.LblBoxes.TabIndex = 4
-        Me.LblBoxes.Text = "Skrzynki: ##/##"
-        Me.LblBoxes.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.BoxesLabel.BackColor = System.Drawing.SystemColors.Control
+        Me.BoxesLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.BoxesLabel.Cursor = System.Windows.Forms.Cursors.Default
+        Me.BoxesLabel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BoxesLabel.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.BoxesLabel.Location = New System.Drawing.Point(176, 0)
+        Me.BoxesLabel.Name = "BoxesLabel"
+        Me.BoxesLabel.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.BoxesLabel.Size = New System.Drawing.Size(97, 17)
+        Me.BoxesLabel.TabIndex = 4
+        Me.BoxesLabel.Text = "Skrzynki: ##/##"
+        Me.BoxesLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'LblPushes
+        'PushesLabel
         '
-        Me.LblPushes.BackColor = System.Drawing.SystemColors.Control
-        Me.LblPushes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.LblPushes.Cursor = System.Windows.Forms.Cursors.Default
-        Me.LblPushes.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblPushes.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.LblPushes.Location = New System.Drawing.Point(88, 0)
-        Me.LblPushes.Name = "LblPushes"
-        Me.LblPushes.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.LblPushes.Size = New System.Drawing.Size(89, 17)
-        Me.LblPushes.TabIndex = 3
-        Me.LblPushes.Text = "Pchnięcia: ###"
-        Me.LblPushes.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.PushesLabel.BackColor = System.Drawing.SystemColors.Control
+        Me.PushesLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.PushesLabel.Cursor = System.Windows.Forms.Cursors.Default
+        Me.PushesLabel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PushesLabel.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.PushesLabel.Location = New System.Drawing.Point(88, 0)
+        Me.PushesLabel.Name = "PushesLabel"
+        Me.PushesLabel.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.PushesLabel.Size = New System.Drawing.Size(89, 17)
+        Me.PushesLabel.TabIndex = 3
+        Me.PushesLabel.Text = "Pchnięcia: ###"
+        Me.PushesLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'LblMoves
+        'MovesLabel
         '
-        Me.LblMoves.BackColor = System.Drawing.SystemColors.Control
-        Me.LblMoves.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.LblMoves.Cursor = System.Windows.Forms.Cursors.Default
-        Me.LblMoves.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblMoves.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.LblMoves.Location = New System.Drawing.Point(16, 0)
-        Me.LblMoves.Name = "LblMoves"
-        Me.LblMoves.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.LblMoves.Size = New System.Drawing.Size(73, 17)
-        Me.LblMoves.TabIndex = 2
-        Me.LblMoves.Text = "Ruchy: ###"
-        Me.LblMoves.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.MovesLabel.BackColor = System.Drawing.SystemColors.Control
+        Me.MovesLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.MovesLabel.Cursor = System.Windows.Forms.Cursors.Default
+        Me.MovesLabel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MovesLabel.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.MovesLabel.Location = New System.Drawing.Point(16, 0)
+        Me.MovesLabel.Name = "MovesLabel"
+        Me.MovesLabel.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.MovesLabel.Size = New System.Drawing.Size(73, 17)
+        Me.MovesLabel.TabIndex = 2
+        Me.MovesLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
         'MainMenu1
         '
@@ -196,31 +203,31 @@
         'MnuGame
         '
         Me.MnuGame.Index = 0
-        Me.MnuGame.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MnuGameNew, Me.MnuGameWarp, Me.MnuGameSet, Me.MnuGameOpen, Me.MnuGameBar0, Me.MnuGameExit})
-        Me.MnuGame.Text = "&Gra"
+        Me.MnuGame.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.StartNewGameMenuItem, Me.GameWarpMenuItem, Me.MnuGameSet, Me.MnuGameOpen, Me.MnuGameBar0, Me.MnuGameExit})
+        Me.MnuGame.Text = Me.Localizer.GetString("GameMenuItem")
         '
-        'MnuGameNew
+        'StartNewGameMenuItem
         '
-        Me.MnuGameNew.Index = 0
-        Me.MnuGameNew.Text = "&Nowa gra..."
+        Me.StartNewGameMenuItem.Index = 0
+        Me.StartNewGameMenuItem.Text = "&Nowa gra..."
         '
-        'MnuGameWarp
+        'GameWarpMenuItem
         '
-        Me.MnuGameWarp.Index = 1
-        Me.MnuGameWarp.Shortcut = System.Windows.Forms.Shortcut.F3
-        Me.MnuGameWarp.Text = "Wybierz &etap..."
+        Me.GameWarpMenuItem.Index = 1
+        Me.GameWarpMenuItem.Shortcut = System.Windows.Forms.Shortcut.F3
+        Me.GameWarpMenuItem.Text = "Wybierz &etap..."
         '
         'MnuGameSet
         '
         Me.MnuGameSet.Index = 2
-        Me.MnuGameSet.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MnuGameSetKlasyczne, Me.MnuGameSetSuperTrudneXS})
+        Me.MnuGameSet.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.ClassicLevelsetMenuItem, Me.MnuGameSetSuperTrudneXS})
         Me.MnuGameSet.Text = "Wybierz &zestaw etapów"
         '
-        'MnuGameSetKlasyczne
+        'ClassicLevelsetMenuItem
         '
-        Me.MnuGameSetKlasyczne.Checked = True
-        Me.MnuGameSetKlasyczne.Index = 0
-        Me.MnuGameSetKlasyczne.Text = "&Klasyczne"
+        Me.ClassicLevelsetMenuItem.Checked = True
+        Me.ClassicLevelsetMenuItem.Index = 0
+        Me.ClassicLevelsetMenuItem.Text = ""
         '
         'MnuGameSetSuperTrudneXS
         '
@@ -291,7 +298,8 @@
         'MenuItem3
         '
         Me.MenuItem3.Index = 4
-        Me.MenuItem3.Text = "Ukryj"
+        Me.MenuItem3.Shortcut = System.Windows.Forms.Shortcut.CtrlH
+        Me.MenuItem3.Text = "Ukryj okno"
         '
         'MnuTools
         '
@@ -303,7 +311,7 @@
         '
         Me.MnuToolsUndo.Enabled = False
         Me.MnuToolsUndo.Index = 0
-        Me.MnuToolsUndo.Shortcut = System.Windows.Forms.Shortcut.Del
+        Me.MnuToolsUndo.Shortcut = System.Windows.Forms.Shortcut.CtrlZ
         Me.MnuToolsUndo.Text = "&Cofnij"
         '
         'MnuToolsRestart
@@ -349,7 +357,12 @@
         Me.MnuHelpAbout.Index = 3
         Me.MnuHelpAbout.Text = "Skrzynki - &informacje..."
         '
-        'FrmMain
+        'SkrzynkiTrayIcon
+        '
+        Me.SkrzynkiTrayIcon.Icon = CType(resources.GetObject("SkrzynkiTrayIcon.Icon"), System.Drawing.Icon)
+        Me.SkrzynkiTrayIcon.Text = "Skrzynki chowają się w kącie..."
+        '
+        'GameBoard
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.SystemColors.Control
@@ -362,7 +375,7 @@
         Me.Location = New System.Drawing.Point(87, 140)
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenu1
-        Me.Name = "FrmMain"
+        Me.Name = "GameBoard"
         Me.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Skrzynki"
@@ -371,8 +384,6 @@
 
     End Sub
 #End Region
-
-    ReadOnly imgGameField(256) As System.Windows.Forms.PictureBox
 
     Private Sub GenerateGameField() Handles Me.Load
         Dim FirstDimension As Integer = 0
@@ -405,9 +416,9 @@
                 OdswiezPoleGryWokolGracza()
                 Ruchy += 1
 
-                PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
-                PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
-                PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+                PokazNaPaskuStanu(1, Localizer.GetString("Moves") & Ruchy)
+                PokazNaPaskuStanu(2, Localizer.GetString("Pushes") & Pchniecia)
+                PokazNaPaskuStanu(3, Localizer.GetString("Boxes") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
 
                 If WykonanoRuch = False Then
                     WykonanoRuch = True
@@ -415,14 +426,21 @@
                 End If
 
                 If Etap.SkrzynkiNaMiejscach = Etap.LiczbaSkrzynek Then
-                    NastepnyEtap()
+                    MsgBox(Localizer.GetString("SolvedAlert"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Information Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+                    EtapZaliczony = True
+                    NumerEtapu += 1
+                    If NumerEtapu > UBound(Etapy, 1) Then
+                        MsgBox(Localizer.GetString("Moves"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Information Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+                    Else
+                        NastepnyEtap()
+                    End If
                     Me.MnuToolsUndo.Enabled = False
                     OdswiezPoleGry()
-                    PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
-                    PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
-                    PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & DaneEtapow(NumerEtapu).SkrzynkiNaMiejscach & "/" & DaneEtapow(NumerEtapu).LiczbaSkrzynek)
+                    PokazNaPaskuStanu(1, Localizer.GetString("Moves") & Ruchy)
+                    PokazNaPaskuStanu(2, Localizer.GetString("Pushes") & Pchniecia)
+                    PokazNaPaskuStanu(3, Localizer.GetString("Boxes") & DaneEtapow(NumerEtapu).SkrzynkiNaMiejscach & "/" & DaneEtapow(NumerEtapu).LiczbaSkrzynek)
                     PokazNaPaskuStanu(4, "#" & NumerEtapu)
-                    Me.Text = "Skrzynki - #" & NumerEtapu
+                    Me.Text = Localizer.GetString("GameName") & " - #" & NumerEtapu
                 End If
             Else
                 Interaction.Beep()
@@ -431,6 +449,7 @@
     End Sub
     Private Sub FrmMain_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
         Me.Icon = My.Resources.ico101
+        Localizer = New System.Resources.ResourceManager("Skrzynki.LocalizableStrings", System.Reflection.Assembly.GetExecutingAssembly())
 
         ZestawEtapow = My.Settings.LevelSet
         NumerEtapu = 1
@@ -444,20 +463,26 @@
 
         PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
 
+        Dim SuccessfulNewGame As Boolean = False
         If EtapSpozaZestawu = False Then
             If My.Settings.BeginFromArrivedLevel = True Then
-                NowaGra((NajdalszyEtap()))
+                SuccessfulNewGame = NowaGra((NajdalszyEtap()))
             Else
-                NowaGra((1))
+                SuccessfulNewGame = NowaGra((1))
+            End If
+
+            If Not SuccessfulNewGame Then
+                MsgBox(Localizer.GetString("LevelsetLoadFailure"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+
             End If
 
             OdswiezPoleGry()
 
             Me.MnuToolsUndo.Enabled = False
 
-            PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
-            PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
-            PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+            PokazNaPaskuStanu(1, Localizer.GetString("Moves") & Ruchy)
+            PokazNaPaskuStanu(2, Localizer.GetString("Pushes") & Pchniecia)
+            PokazNaPaskuStanu(3, Localizer.GetString("Boxes") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
             PokazNaPaskuStanu(4, "#" & NumerEtapu)
             PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
             Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
@@ -470,18 +495,18 @@
         End
     End Sub
 
-    Public Sub PokazNaPaskuStanu(ByVal NumerPanelu As Byte, ByVal Napis As String)
-        Select Case NumerPanelu
+    Public Sub PokazNaPaskuStanu(ByVal numerPanelu As Byte, ByVal Napis As String)
+        Select Case numerPanelu
             Case 1
-                LblMoves.Text = Napis
+                MovesLabel.Text = Napis
             Case 2
-                LblPushes.Text = Napis
+                PushesLabel.Text = Napis
             Case 3
-                LblBoxes.Text = Napis
+                BoxesLabel.Text = Napis
             Case 4
-                LblLevelNumber.Text = Napis
+                LevelNumberLabel.Text = Napis
             Case 5
-                LblPlayerName.Text = Napis
+                PlayerNameLabel.Text = Napis
         End Select
     End Sub
 
@@ -553,19 +578,19 @@
     Public Sub MnuGameExit_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameExit.Click
         Me.Close()
     End Sub
-    Public Sub MnuGameNew_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameNew.Popup
+    Public Sub MnuGameNew_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles StartNewGameMenuItem.Popup
         MnuGameNew_Click(eventSender, eventArgs)
     End Sub
-    Public Sub MnuGameNew_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameNew.Click
+    Public Sub MnuGameNew_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles StartNewGameMenuItem.Click
         NowaGra((1))
 
         OdswiezPoleGry()
 
         Me.MnuToolsUndo.Enabled = False
 
-        PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
-        PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
-        PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+        PokazNaPaskuStanu(1, Localizer.GetString("Moves") & Ruchy)
+        PokazNaPaskuStanu(2, Localizer.GetString("Pushes") & Pchniecia)
+        PokazNaPaskuStanu(3, Localizer.GetString("Boxes") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
         PokazNaPaskuStanu(4, "#" & NumerEtapu)
         PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
         Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
@@ -591,7 +616,7 @@
             EtapSpozaZestawu = True
 
             If My.Settings.LevelLoadConfirmation = True Then
-                MsgBox(Replace(ZwrocCiag("General#6"), "<filename>", NazwaPliku), MsgBoxStyle.OkOnly Or MsgBoxStyle.Information Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+                MsgBox(Replace(Localizer.GetString("LevelFromFileLoadSuccess"), "<filename>", NazwaPliku), MsgBoxStyle.OkOnly Or MsgBoxStyle.Information Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
             End If
         End If
 
@@ -601,20 +626,20 @@
     End Sub
     Public Sub MnuGameSet_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameSet.Click
         If My.Settings.LevelSet = "Klasyczne" Then
-            MnuGameSetKlasyczne.Checked = True
+            ClassicLevelsetMenuItem.Checked = True
             MnuGameSetSuperTrudneXS.Checked = False
         Else
-            MnuGameSetKlasyczne.Checked = False
+            ClassicLevelsetMenuItem.Checked = False
             MnuGameSetSuperTrudneXS.Checked = True
         End If
     End Sub
 
-    Public Sub MnuGameSetKlasyczne_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameSetKlasyczne.Popup
+    Public Sub MnuGameSetKlasyczne_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles ClassicLevelsetMenuItem.Popup
         MnuGameSetKlasyczne_Click(eventSender, eventArgs)
     End Sub
-    Public Sub MnuGameSetKlasyczne_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameSetKlasyczne.Click
+    Public Sub MnuGameSetKlasyczne_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles ClassicLevelsetMenuItem.Click
         My.Settings.LevelSet = "Klasyczne"
-        MnuGameSetKlasyczne.Checked = True
+        ClassicLevelsetMenuItem.Checked = True
         MnuGameSetSuperTrudneXS.Checked = False
         NowaGra(1, My.Settings.LevelSet)
 
@@ -622,9 +647,9 @@
 
         Me.MnuToolsUndo.Enabled = False
 
-        PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
-        PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
-        PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+        PokazNaPaskuStanu(1, Localizer.GetString("Moves") & Ruchy)
+        PokazNaPaskuStanu(2, Localizer.GetString("Pushes") & Pchniecia)
+        PokazNaPaskuStanu(3, Localizer.GetString("Boxes") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
         PokazNaPaskuStanu(4, "#" & NumerEtapu)
         PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
         Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
@@ -635,7 +660,7 @@
     End Sub
     Public Sub MnuGameSetSuperTrudneXS_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameSetSuperTrudneXS.Click
         My.Settings.LevelSet = "SuperTrudneXS"
-        MnuGameSetKlasyczne.Checked = False
+        ClassicLevelsetMenuItem.Checked = False
         MnuGameSetSuperTrudneXS.Checked = True
         NowaGra(1, My.Settings.LevelSet)
 
@@ -643,34 +668,34 @@
 
         Me.MnuToolsUndo.Enabled = False
 
-        PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
-        PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
-        PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+        PokazNaPaskuStanu(1, Localizer.GetString("Moves") & Ruchy)
+        PokazNaPaskuStanu(2, Localizer.GetString("Pushes") & Pchniecia)
+        PokazNaPaskuStanu(3, Localizer.GetString("Boxes") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
         PokazNaPaskuStanu(4, "#" & NumerEtapu)
         PokazNaPaskuStanu(5, System.Security.Principal.WindowsIdentity.GetCurrent().Name)
         Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
     End Sub
 
-    Public Sub MnuGameWarp_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameWarp.Popup
+    Public Sub MnuGameWarp_Popup(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles GameWarpMenuItem.Popup
         MnuGameWarp_Click(eventSender, eventArgs)
     End Sub
-    Public Sub MnuGameWarp_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuGameWarp.Click
-        Dim IB As String = InputBox(ZwrocCiag("General#12"), System.Reflection.Assembly.GetExecutingAssembly.GetName.Name, CStr(NajdalszyEtap()))
+    Public Sub MnuGameWarp_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles GameWarpMenuItem.Click
+        Dim IB As String = InputBox(Localizer.GetString("SelectLevelQuery"), System.Reflection.Assembly.GetExecutingAssembly.GetName.Name, CStr(NajdalszyEtap()))
         If IB = "" Then
             Exit Sub
         End If
 
         If IsNumeric(IB) = False Then
-            MsgBox(ZwrocCiag("General#13"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            MsgBox(Localizer.GetString("NaNAlert"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
             Exit Sub
         End If
 
         If (Val(IB) > Val(CStr(NajdalszyEtap()))) And (Val(IB) <= Val(CStr(UBound(Etapy, 1)))) Then
-            MsgBox(ZwrocCiag("General#14"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            MsgBox(Localizer.GetString("LevelNotReachedYetAlert"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
             Exit Sub
         Else
             If (Val(IB) > Val(CStr(UBound(Etapy, 1)))) Or Val(IB) <= 0 Then
-                MsgBox(ZwrocCiag("General#15"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+                MsgBox(Localizer.GetString("LevelDoesntExistAlert"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
                 Exit Sub
             End If
 
@@ -682,9 +707,9 @@
                 PozycjaGracza = PozycjeGracza(NumerEtapu)
             Next Licznik
 
-            PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
-            PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
-            PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+            PokazNaPaskuStanu(1, Localizer.GetString("Moves") & Ruchy)
+            PokazNaPaskuStanu(2, Localizer.GetString("Pushes") & Pchniecia)
+            PokazNaPaskuStanu(3, Localizer.GetString("Boxes") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
             PokazNaPaskuStanu(4, "#" & NumerEtapu)
             Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & " - #" & NumerEtapu
             OdswiezPoleGry()
@@ -723,7 +748,7 @@
     End Sub
     Public Sub MnuToolsRestart_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuToolsRestart.Click
         If My.Settings.LevelRestartingAuthorization = True Then
-            Dim TempX As MsgBoxResult = MsgBox(ZwrocCiag("General#1"), MsgBoxStyle.YesNo Or MsgBoxStyle.Question Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            Dim TempX As MsgBoxResult = MsgBox(Localizer.GetString("RestartQuery"), MsgBoxStyle.YesNo Or MsgBoxStyle.Question Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
             If TempX = MsgBoxResult.Yes Then
                 RestartujEtap()
                 OdswiezPoleGry()
@@ -733,9 +758,9 @@
             OdswiezPoleGry()
         End If
         Me.MnuToolsUndo.Enabled = False
-        PokazNaPaskuStanu(1, ZwrocCiag("StatusBar#0") & Ruchy)
-        PokazNaPaskuStanu(2, ZwrocCiag("StatusBar#1") & Pchniecia)
-        PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+        PokazNaPaskuStanu(1, Localizer.GetString("Moves") & Ruchy)
+        PokazNaPaskuStanu(2, Localizer.GetString("Pushes") & Pchniecia)
+        PokazNaPaskuStanu(3, Localizer.GetString("Boxes") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
         PokazNaPaskuStanu(4, "#" & NumerEtapu)
         Me.Text = "Skrzynki - #" & NumerEtapu
     End Sub
@@ -745,7 +770,7 @@
     Public Sub MnuToolsUndo_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MnuToolsUndo.Click
         Cofnij()
         OdswiezPoleGry()
-        PokazNaPaskuStanu(3, ZwrocCiag("StatusBar#2") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
+        PokazNaPaskuStanu(3, Localizer.GetString("Boxes") & Etap.SkrzynkiNaMiejscach & "/" & Etap.LiczbaSkrzynek)
         Me.MnuToolsUndo.Enabled = False
     End Sub
 
@@ -780,6 +805,21 @@
             My.Settings.BackgroundColor = MyColor
             OdswiezPoleGry()
         End With
+        ColorDialog1.Dispose()
     End Sub
 
+    Private Sub SkrzynkiTrayIcon_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles SkrzynkiTrayIcon.MouseDoubleClick
+        SkrzynkiTrayIcon.Visible = False
+        Me.Visible = True
+    End Sub
+
+    Private Sub SkrzynkiTrayIcon_MouseClick(sender As Object, e As MouseEventArgs) Handles SkrzynkiTrayIcon.MouseClick
+        SkrzynkiTrayIcon.Visible = False
+        Me.Visible = True
+    End Sub
+
+    Private Sub MenuItem3_Click(sender As Object, e As EventArgs) Handles MenuItem3.Click
+        SkrzynkiTrayIcon.Visible = True
+        Me.Visible = False
+    End Sub
 End Class

@@ -115,6 +115,31 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>Win32 = True</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <WarningLevel>1</WarningLevel>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42030,42032,42036,42104,42108,42109</WarningsAsErrors>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>Win32 = True</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <Optimize>true</Optimize>
+    <WarningLevel>1</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42030,42032,42036,42104,42108,42109</WarningsAsErrors>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
       <Name>System</Name>
@@ -146,8 +171,10 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Languages.vb">
-      <SubType>Code</SubType>
+    <Compile Include="i11n\LocalizableStrings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalizableStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="Main.vb">
       <SubType>Form</SubType>
@@ -185,6 +212,13 @@
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
     <Content Include="Skrzynki.ico" />
+    <EmbeddedResource Include="i11n\LocalizableStrings.fr-FR.resx" />
+    <EmbeddedResource Include="i11n\LocalizableStrings.pl-PL.resx" />
+    <EmbeddedResource Include="i11n\LocalizableStrings.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalizableStrings.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resX">
       <DependentUpon>Main.vb</DependentUpon>
     </EmbeddedResource>

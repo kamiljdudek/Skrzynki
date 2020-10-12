@@ -1,5 +1,8 @@
 Option Strict Off
 Option Explicit On
+Imports System.Reflection
+Imports Microsoft.VisualBasic.ApplicationServices
+
 Friend Class FrmSplash
     Inherits System.Windows.Forms.Form
 #Region "Windows Form Designer generated code "
@@ -17,7 +20,7 @@ Friend Class FrmSplash
         MyBase.Dispose(Disposing)
     End Sub
     'Required by the Windows Form Designer
-    Private components As System.ComponentModel.IContainer
+    Private ReadOnly components As System.ComponentModel.IContainer
     Public WithEvents LblPlatform As System.Windows.Forms.Label
     Public WithEvents LblVersion As System.Windows.Forms.Label
     Friend WithEvents PictureBoxLogo As PictureBox
@@ -162,6 +165,7 @@ Friend Class FrmSplash
         End If
     End Sub
     Private Sub FrmSplash_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
+        Label1.Text = Assembly.GetExecutingAssembly.GetName.Name
         LblVersion.Text = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileVersion
         Me.PictureBoxLogo.Image = My.Resources.ico101.ToBitmap()
     End Sub

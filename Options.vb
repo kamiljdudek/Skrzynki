@@ -18,12 +18,12 @@ Friend Class FrmOptions
         MyBase.Dispose(Disposing)
     End Sub
     'Required by the Windows Form Designer
-    Private components As System.ComponentModel.IContainer
+    Private ReadOnly components As System.ComponentModel.IContainer
     Public WithEvents ChkWantLevelRestartingAuthorization As System.Windows.Forms.CheckBox
     Public WithEvents ChkShowLevelLoadConfirmation As System.Windows.Forms.CheckBox
     Public WithEvents Frame1 As System.Windows.Forms.GroupBox
     Public WithEvents ChkBeginFromArrivedLevel As System.Windows.Forms.CheckBox
-    Public WithEvents _tabOptions_TabPage0 As System.Windows.Forms.TabPage
+    Public WithEvents TabOptions_TabPage0 As System.Windows.Forms.TabPage
     Public WithEvents CmdPrevSet As System.Windows.Forms.Button
     Public WithEvents CmdNextSet As System.Windows.Forms.Button
     Public WithEvents LblPushes As System.Windows.Forms.Label
@@ -34,14 +34,14 @@ Friend Class FrmOptions
     Public WithEvents Label6 As System.Windows.Forms.Label
     Public WithEvents LblLevelSet As System.Windows.Forms.Label
     Public WithEvents Frame8 As System.Windows.Forms.GroupBox
-    Public WithEvents _tabOptions_TabPage2 As System.Windows.Forms.TabPage
+    Public WithEvents TabOptions_TabPage2 As System.Windows.Forms.TabPage
     Public WithEvents TabOptions As System.Windows.Forms.TabControl
     Public WithEvents FraSample4 As System.Windows.Forms.GroupBox
-    Public WithEvents _picOptions_3 As System.Windows.Forms.Panel
+    Public WithEvents PicOptions_3 As System.Windows.Forms.Panel
     Public WithEvents FraSample3 As System.Windows.Forms.GroupBox
-    Public WithEvents _picOptions_2 As System.Windows.Forms.Panel
+    Public WithEvents PicOptions_2 As System.Windows.Forms.Panel
     Public WithEvents FraSample2 As System.Windows.Forms.GroupBox
-    Public WithEvents _picOptions_1 As System.Windows.Forms.Panel
+    Public WithEvents PicOptions_1 As System.Windows.Forms.Panel
     Public WithEvents CmdOK As System.Windows.Forms.Button
     'Public WithEvents picOptions As Microsoft.VisualBasic.Compatibility.VB6.PanelArray
     'Public WithEvents picPreview As Microsoft.VisualBasic.Compatibility.VB6.PictureBoxArray
@@ -50,12 +50,12 @@ Friend Class FrmOptions
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.TabOptions = New System.Windows.Forms.TabControl()
-        Me._tabOptions_TabPage0 = New System.Windows.Forms.TabPage()
+        Me.TabOptions_TabPage0 = New System.Windows.Forms.TabPage()
         Me.Frame1 = New System.Windows.Forms.GroupBox()
         Me.ChkWantLevelRestartingAuthorization = New System.Windows.Forms.CheckBox()
         Me.ChkShowLevelLoadConfirmation = New System.Windows.Forms.CheckBox()
         Me.ChkBeginFromArrivedLevel = New System.Windows.Forms.CheckBox()
-        Me._tabOptions_TabPage2 = New System.Windows.Forms.TabPage()
+        Me.TabOptions_TabPage2 = New System.Windows.Forms.TabPage()
         Me.Frame8 = New System.Windows.Forms.GroupBox()
         Me.CmdPrevSet = New System.Windows.Forms.Button()
         Me.CmdNextSet = New System.Windows.Forms.Button()
@@ -66,28 +66,28 @@ Friend Class FrmOptions
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.LblLevelSet = New System.Windows.Forms.Label()
-        Me._picOptions_3 = New System.Windows.Forms.Panel()
+        Me.PicOptions_3 = New System.Windows.Forms.Panel()
         Me.FraSample4 = New System.Windows.Forms.GroupBox()
-        Me._picOptions_2 = New System.Windows.Forms.Panel()
+        Me.PicOptions_2 = New System.Windows.Forms.Panel()
         Me.FraSample3 = New System.Windows.Forms.GroupBox()
-        Me._picOptions_1 = New System.Windows.Forms.Panel()
+        Me.PicOptions_1 = New System.Windows.Forms.Panel()
         Me.FraSample2 = New System.Windows.Forms.GroupBox()
         Me.CmdOK = New System.Windows.Forms.Button()
         Me.TabOptions.SuspendLayout()
-        Me._tabOptions_TabPage0.SuspendLayout()
+        Me.TabOptions_TabPage0.SuspendLayout()
         Me.Frame1.SuspendLayout()
-        Me._tabOptions_TabPage2.SuspendLayout()
+        Me.TabOptions_TabPage2.SuspendLayout()
         Me.Frame8.SuspendLayout()
-        Me._picOptions_3.SuspendLayout()
-        Me._picOptions_2.SuspendLayout()
-        Me._picOptions_1.SuspendLayout()
+        Me.PicOptions_3.SuspendLayout()
+        Me.PicOptions_2.SuspendLayout()
+        Me.PicOptions_1.SuspendLayout()
         Me.SuspendLayout()
         '
         'tabOptions
         '
         Me.TabOptions.Appearance = System.Windows.Forms.TabAppearance.FlatButtons
-        Me.TabOptions.Controls.Add(Me._tabOptions_TabPage0)
-        Me.TabOptions.Controls.Add(Me._tabOptions_TabPage2)
+        Me.TabOptions.Controls.Add(Me.TabOptions_TabPage0)
+        Me.TabOptions.Controls.Add(Me.TabOptions_TabPage2)
         Me.TabOptions.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TabOptions.ItemSize = New System.Drawing.Size(42, 18)
         Me.TabOptions.Location = New System.Drawing.Point(8, 4)
@@ -98,13 +98,13 @@ Friend Class FrmOptions
         '
         '_tabOptions_TabPage0
         '
-        Me._tabOptions_TabPage0.Controls.Add(Me.Frame1)
-        Me._tabOptions_TabPage0.Controls.Add(Me.ChkBeginFromArrivedLevel)
-        Me._tabOptions_TabPage0.Location = New System.Drawing.Point(4, 22)
-        Me._tabOptions_TabPage0.Name = "_tabOptions_TabPage0"
-        Me._tabOptions_TabPage0.Size = New System.Drawing.Size(417, 313)
-        Me._tabOptions_TabPage0.TabIndex = 0
-        Me._tabOptions_TabPage0.Text = "&Ogólne"
+        Me.TabOptions_TabPage0.Controls.Add(Me.Frame1)
+        Me.TabOptions_TabPage0.Controls.Add(Me.ChkBeginFromArrivedLevel)
+        Me.TabOptions_TabPage0.Location = New System.Drawing.Point(4, 22)
+        Me.TabOptions_TabPage0.Name = "_tabOptions_TabPage0"
+        Me.TabOptions_TabPage0.Size = New System.Drawing.Size(417, 313)
+        Me.TabOptions_TabPage0.TabIndex = 0
+        Me.TabOptions_TabPage0.Text = "&Ogólne"
         '
         'Frame1
         '
@@ -169,12 +169,12 @@ Friend Class FrmOptions
         '
         '_tabOptions_TabPage2
         '
-        Me._tabOptions_TabPage2.Controls.Add(Me.Frame8)
-        Me._tabOptions_TabPage2.Location = New System.Drawing.Point(4, 22)
-        Me._tabOptions_TabPage2.Name = "_tabOptions_TabPage2"
-        Me._tabOptions_TabPage2.Size = New System.Drawing.Size(417, 313)
-        Me._tabOptions_TabPage2.TabIndex = 2
-        Me._tabOptions_TabPage2.Text = "&Gracze"
+        Me.TabOptions_TabPage2.Controls.Add(Me.Frame8)
+        Me.TabOptions_TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabOptions_TabPage2.Name = "_tabOptions_TabPage2"
+        Me.TabOptions_TabPage2.Size = New System.Drawing.Size(417, 313)
+        Me.TabOptions_TabPage2.TabIndex = 2
+        Me.TabOptions_TabPage2.Text = "&Gracze"
         '
         'Frame8
         '
@@ -326,16 +326,16 @@ Friend Class FrmOptions
         '
         '_picOptions_3
         '
-        Me._picOptions_3.BackColor = System.Drawing.SystemColors.Control
-        Me._picOptions_3.Controls.Add(Me.FraSample4)
-        Me._picOptions_3.Cursor = System.Windows.Forms.Cursors.Default
-        Me._picOptions_3.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me._picOptions_3.ForeColor = System.Drawing.SystemColors.ControlText
-        Me._picOptions_3.Location = New System.Drawing.Point(-1333, 32)
-        Me._picOptions_3.Name = "_picOptions_3"
-        Me._picOptions_3.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me._picOptions_3.Size = New System.Drawing.Size(381, 252)
-        Me._picOptions_3.TabIndex = 4
+        Me.PicOptions_3.BackColor = System.Drawing.SystemColors.Control
+        Me.PicOptions_3.Controls.Add(Me.FraSample4)
+        Me.PicOptions_3.Cursor = System.Windows.Forms.Cursors.Default
+        Me.PicOptions_3.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PicOptions_3.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.PicOptions_3.Location = New System.Drawing.Point(-1333, 32)
+        Me.PicOptions_3.Name = "_picOptions_3"
+        Me.PicOptions_3.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.PicOptions_3.Size = New System.Drawing.Size(381, 252)
+        Me.PicOptions_3.TabIndex = 4
         '
         'fraSample4
         '
@@ -352,16 +352,16 @@ Friend Class FrmOptions
         '
         '_picOptions_2
         '
-        Me._picOptions_2.BackColor = System.Drawing.SystemColors.Control
-        Me._picOptions_2.Controls.Add(Me.FraSample3)
-        Me._picOptions_2.Cursor = System.Windows.Forms.Cursors.Default
-        Me._picOptions_2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me._picOptions_2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me._picOptions_2.Location = New System.Drawing.Point(-1333, 32)
-        Me._picOptions_2.Name = "_picOptions_2"
-        Me._picOptions_2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me._picOptions_2.Size = New System.Drawing.Size(381, 252)
-        Me._picOptions_2.TabIndex = 3
+        Me.PicOptions_2.BackColor = System.Drawing.SystemColors.Control
+        Me.PicOptions_2.Controls.Add(Me.FraSample3)
+        Me.PicOptions_2.Cursor = System.Windows.Forms.Cursors.Default
+        Me.PicOptions_2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PicOptions_2.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.PicOptions_2.Location = New System.Drawing.Point(-1333, 32)
+        Me.PicOptions_2.Name = "_picOptions_2"
+        Me.PicOptions_2.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.PicOptions_2.Size = New System.Drawing.Size(381, 252)
+        Me.PicOptions_2.TabIndex = 3
         '
         'fraSample3
         '
@@ -378,16 +378,16 @@ Friend Class FrmOptions
         '
         '_picOptions_1
         '
-        Me._picOptions_1.BackColor = System.Drawing.SystemColors.Control
-        Me._picOptions_1.Controls.Add(Me.FraSample2)
-        Me._picOptions_1.Cursor = System.Windows.Forms.Cursors.Default
-        Me._picOptions_1.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me._picOptions_1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me._picOptions_1.Location = New System.Drawing.Point(-1333, 32)
-        Me._picOptions_1.Name = "_picOptions_1"
-        Me._picOptions_1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me._picOptions_1.Size = New System.Drawing.Size(381, 252)
-        Me._picOptions_1.TabIndex = 2
+        Me.PicOptions_1.BackColor = System.Drawing.SystemColors.Control
+        Me.PicOptions_1.Controls.Add(Me.FraSample2)
+        Me.PicOptions_1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.PicOptions_1.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PicOptions_1.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.PicOptions_1.Location = New System.Drawing.Point(-1333, 32)
+        Me.PicOptions_1.Name = "_picOptions_1"
+        Me.PicOptions_1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.PicOptions_1.Size = New System.Drawing.Size(381, 252)
+        Me.PicOptions_1.TabIndex = 2
         '
         'fraSample2
         '
@@ -425,9 +425,9 @@ Friend Class FrmOptions
         Me.ClientSize = New System.Drawing.Size(445, 417)
         Me.ControlBox = False
         Me.Controls.Add(Me.TabOptions)
-        Me.Controls.Add(Me._picOptions_3)
-        Me.Controls.Add(Me._picOptions_2)
-        Me.Controls.Add(Me._picOptions_1)
+        Me.Controls.Add(Me.PicOptions_3)
+        Me.Controls.Add(Me.PicOptions_2)
+        Me.Controls.Add(Me.PicOptions_1)
         Me.Controls.Add(Me.CmdOK)
         Me.Cursor = System.Windows.Forms.Cursors.Default
         Me.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -443,13 +443,13 @@ Friend Class FrmOptions
         Me.Tag = "OptionsDialog#42"
         Me.Text = "Opcje"
         Me.TabOptions.ResumeLayout(False)
-        Me._tabOptions_TabPage0.ResumeLayout(False)
+        Me.TabOptions_TabPage0.ResumeLayout(False)
         Me.Frame1.ResumeLayout(False)
-        Me._tabOptions_TabPage2.ResumeLayout(False)
+        Me.TabOptions_TabPage2.ResumeLayout(False)
         Me.Frame8.ResumeLayout(False)
-        Me._picOptions_3.ResumeLayout(False)
-        Me._picOptions_2.ResumeLayout(False)
-        Me._picOptions_1.ResumeLayout(False)
+        Me.PicOptions_3.ResumeLayout(False)
+        Me.PicOptions_2.ResumeLayout(False)
+        Me.PicOptions_1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -472,7 +472,7 @@ Friend Class FrmOptions
 
     Private Sub FrmOptions_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
         TabOptions.SelectedIndex = 0
-
+        GameBoard.Localizer.GetString("o")
         CmdPrevSet.Enabled = False
         CmdNextSet.Enabled = True
         WyswietlStatystyki(1)
@@ -489,14 +489,14 @@ Friend Class FrmOptions
     Public Sub WyswietlStatystyki(ByVal NrZestawu As Byte)
         Select Case NrZestawu
             Case 1
-                LblLevelSet.Text = ZwrocCiag("OptionsDialog#25") & " " & UCase(ZwrocCiag("Sets#0"))
+                LblLevelSet.Text = GameBoard.Localizer.GetString("LevelSetCaption") & UCase(GameBoard.Localizer.GetString("ClassicLevelsetName"))
 
                 LblArrivedLevel.Text = My.Settings.ArrivedLevelKlasyczne
                 LblMoves.Text = My.Settings.MovesKlasyczne
                 LblPushes.Text = My.Settings.PushesKlasyczne
 
             Case 2
-                LblLevelSet.Text = ZwrocCiag("OptionsDialog#25") & " " & UCase(ZwrocCiag("Sets#1"))
+                LblLevelSet.Text = GameBoard.Localizer.GetString("LevelSetCaption") & UCase(GameBoard.Localizer.GetString("ExtraHardLevelsetName"))
 
                 LblArrivedLevel.Text = My.Settings.ArrivedLevelSupertrudne
                 LblMoves.Text = My.Settings.MovesSupertrudne

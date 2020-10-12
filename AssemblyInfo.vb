@@ -1,3 +1,4 @@
+Imports System.Runtime.InteropServices
 Imports System.Reflection
 
 ' General Information about an assembly is controlled through the following
@@ -8,12 +9,12 @@ Imports System.Reflection
 ' TODO: Review the values of the assembly attributes
 
 
-<Assembly: AssemblyTitle("Gra Skrzynki")>
+<Assembly: AssemblyTitle("Boxes: Skrzynki")>
 <Assembly: AssemblyDescription("Skrzynki")>
 <Assembly: AssemblyCompany("Karol Kuczmarski")>
 <Assembly: AssemblyProduct("Skrzynki")>
 <Assembly: AssemblyCopyright("(c) Karol Kuczmarski")>
-<Assembly: AssemblyTrademark("Skrzynki (tm)")>
+<Assembly: AssemblyTrademark("")>
 <Assembly: AssemblyCulture("")>
 
 ' Version information for an assembly consists of the following four values:
@@ -27,6 +28,5 @@ Imports System.Reflection
 ' by using the '*' as shown below
 
 
-<Assembly: AssemblyVersion("3.7")>
-
-
+<Assembly: AssemblyVersion("4.0")>
+<Assembly: ComVisible(False)>
