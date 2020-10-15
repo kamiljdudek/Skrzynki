@@ -51,7 +51,7 @@
     Public WithEvents MnuHelpBar0 As System.Windows.Forms.MenuItem
     Public WithEvents MnuHelpAbout As System.Windows.Forms.MenuItem
     Public WithEvents MnuHelp As System.Windows.Forms.MenuItem
-    Public MainMenu1 As System.Windows.Forms.MainMenu
+    Private MainMenu1 As System.Windows.Forms.MainMenu
     Friend WithEvents MenuItem1 As MenuItem
     Friend WithEvents MnuSkinOryginalny As MenuItem
     Friend WithEvents MenuItem3 As MenuItem
@@ -65,6 +65,7 @@
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(GameBoard))
+        Localizer = New System.Resources.ResourceManager("Skrzynki.LocalizableStrings", System.Reflection.Assembly.GetExecutingAssembly())
         Me.PicStatusBar = New System.Windows.Forms.Panel()
         Me.PlayerNameLabel = New System.Windows.Forms.Label()
         Me.LevelNumberLabel = New System.Windows.Forms.Label()
