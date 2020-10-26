@@ -1,3 +1,4 @@
+Imports System.Resources
 Imports System.Runtime.InteropServices
 Imports System.Reflection
 
@@ -30,3 +31,4 @@ Imports System.Reflection
 
 <Assembly: AssemblyVersion("4.0")>
 <Assembly: ComVisible(False)>
+<Assembly: NeutralResourcesLanguage("")>

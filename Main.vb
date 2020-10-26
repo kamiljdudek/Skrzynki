@@ -205,7 +205,8 @@
         '
         Me.MnuGame.Index = 0
         Me.MnuGame.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.StartNewGameMenuItem, Me.GameWarpMenuItem, Me.MnuGameSet, Me.MnuGameOpen, Me.MnuGameBar0, Me.MnuGameExit})
-        Me.MnuGame.Text = Me.Localizer.GetString("GameMenuItem")
+        Me.MnuGame.Text = Me.Localizer.GetString("MenuitemGame", Globalization.CultureInfo.CurrentCulture)
+        Me.MnuGame.Text = Me.Localizer.GetString("MenuitemGame", Globalization.CultureInfo.GetCultureInfo("fr-FR"))
         '
         'StartNewGameMenuItem
         '

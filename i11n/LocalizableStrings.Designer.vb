@@ -22,7 +22,7 @@ Namespace My.Resources
     '''<summary>
     '''  A strongly-typed resource class, for looking up localized strings, etc.
     '''</summary>
-    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0"),  _
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0"),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute()>  _
     Friend Class LocalizableStrings
@@ -65,43 +65,106 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Boxes: .
+        '''  Looks up a localized string similar to GRATULACJE! Udało ci się przejść wszystkie etapy w tym zestawie!.
         '''</summary>
-        Friend Shared ReadOnly Property BoxesLabel() As String
+        Friend Shared ReadOnly Property AlertAllLevelsSolved() As String
             Get
-                Return ResourceManager.GetString("BoxesLabel", resourceCulture)
+                Return ResourceManager.GetString("AlertAllLevelsSolved", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Classic.
+        '''  Looks up a localized string similar to Etap o takim numerze nie istnieje.
         '''</summary>
-        Friend Shared ReadOnly Property ClassicLevelsetName() As String
+        Friend Shared ReadOnly Property AlertLevelDoesNotExist() As String
             Get
-                Return ResourceManager.GetString("ClassicLevelsetName", resourceCulture)
+                Return ResourceManager.GetString("AlertLevelDoesNotExist", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Extra Difficult XS.
+        '''  Looks up a localized string similar to Etap zapisany w pliku został pomyślnie załadowany.
         '''</summary>
-        Friend Shared ReadOnly Property ExtraHardLevelsetName() As String
+        Friend Shared ReadOnly Property AlertLevelFromFileLoadSuccess() As String
             Get
-                Return ResourceManager.GetString("ExtraHardLevelsetName", resourceCulture)
+                Return ResourceManager.GetString("AlertLevelFromFileLoadSuccess", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to &amp;Game.
+        '''  Looks up a localized string similar to Błąd podczas wczytywania pliku.
         '''</summary>
-        Friend Shared ReadOnly Property GameMenuItem() As String
+        Friend Shared ReadOnly Property AlertLevelLoadFailure() As String
             Get
-                Return ResourceManager.GetString("GameMenuItem", resourceCulture)
+                Return ResourceManager.GetString("AlertLevelLoadFailure", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Boxes: Skrzynki.
+        '''  Looks up a localized string similar to Ten etap nie jest jeszcze dostępny.
+        '''</summary>
+        Friend Shared ReadOnly Property AlertLevelNotReachedYet() As String
+            Get
+                Return ResourceManager.GetString("AlertLevelNotReachedYet", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Błąd podczas wczytywania zestawu etapów.
+        '''</summary>
+        Friend Shared ReadOnly Property AlertLevelsetLoadFailure() As String
+            Get
+                Return ResourceManager.GetString("AlertLevelsetLoadFailure", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Świetnie!.
+        '''</summary>
+        Friend Shared ReadOnly Property AlertLevelSolved() As String
+            Get
+                Return ResourceManager.GetString("AlertLevelSolved", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Wprowadzona wartość nie jest liczbą.
+        '''</summary>
+        Friend Shared ReadOnly Property AlertNotANumber() As String
+            Get
+                Return ResourceManager.GetString("AlertNotANumber", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Etapy Skrzynek (*.box)|*.box|Wszystkie pliki (*.*)|*.*.
+        '''</summary>
+        Friend Shared ReadOnly Property DialogFileFilter() As String
+            Get
+                Return ResourceManager.GetString("DialogFileFilter", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Otwórz plik etapu.
+        '''</summary>
+        Friend Shared ReadOnly Property DialogOpenLevelFile() As String
+            Get
+                Return ResourceManager.GetString("DialogOpenLevelFile", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Wybierz etap, w który chcesz zagrać:.
+        '''</summary>
+        Friend Shared ReadOnly Property DialogSelectLevel() As String
+            Get
+                Return ResourceManager.GetString("DialogSelectLevel", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
         '''</summary>
         Friend Shared ReadOnly Property GameName() As String
             Get
@@ -110,110 +173,308 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to This level does not exist.
+        '''  Looks up a localized string similar to .
         '''</summary>
-        Friend Shared ReadOnly Property LevelDoesntExistAlert() As String
+        Friend Shared ReadOnly Property LabelAboutForWindows() As String
             Get
-                Return ResourceManager.GetString("LevelDoesntExistAlert", resourceCulture)
+                Return ResourceManager.GetString("LabelAboutForWindows", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Successfully loaded the level file.
+        '''  Looks up a localized string similar to .
         '''</summary>
-        Friend Shared ReadOnly Property LevelFromFileLoadSuccess() As String
+        Friend Shared ReadOnly Property LabelAboutInfo() As String
             Get
-                Return ResourceManager.GetString("LevelFromFileLoadSuccess", resourceCulture)
+                Return ResourceManager.GetString("LabelAboutInfo", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to You haven&apos;t yet reached this level!.
+        '''  Looks up a localized string similar to .
         '''</summary>
-        Friend Shared ReadOnly Property LevelNotReachedYetAlert() As String
+        Friend Shared ReadOnly Property LabelAboutLicenceBlurb() As String
             Get
-                Return ResourceManager.GetString("LevelNotReachedYetAlert", resourceCulture)
+                Return ResourceManager.GetString("LabelAboutLicenceBlurb", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Level set.
+        '''  Looks up a localized string similar to .
         '''</summary>
-        Friend Shared ReadOnly Property LevelSetCaption() As String
+        Friend Shared ReadOnly Property LabelAboutVersion() As String
             Get
-                Return ResourceManager.GetString("LevelSetCaption", resourceCulture)
+                Return ResourceManager.GetString("LabelAboutVersion", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Failed to load the level set.
+        '''  Looks up a localized string similar to Osiągnięty etap: .
         '''</summary>
-        Friend Shared ReadOnly Property LevelsetLoadFailure() As String
+        Friend Shared ReadOnly Property LabelAchievedLevel() As String
             Get
-                Return ResourceManager.GetString("LevelsetLoadFailure", resourceCulture)
+                Return ResourceManager.GetString("LabelAchievedLevel", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Moves: .
+        '''  Looks up a localized string similar to Skrzynki:.
         '''</summary>
-        Friend Shared ReadOnly Property MovesLabel() As String
+        Friend Shared ReadOnly Property LabelBoxes() As String
             Get
-                Return ResourceManager.GetString("MovesLabel", resourceCulture)
+                Return ResourceManager.GetString("LabelBoxes", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to This is not a number.
+        '''  Looks up a localized string similar to Kolor tła:.
         '''</summary>
-        Friend Shared ReadOnly Property NaNAlert() As String
+        Friend Shared ReadOnly Property LabelColor() As String
             Get
-                Return ResourceManager.GetString("NaNAlert", resourceCulture)
+                Return ResourceManager.GetString("LabelColor", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Pushes: .
+        '''  Looks up a localized string similar to Zestaw:.
         '''</summary>
-        Friend Shared ReadOnly Property PushesLabel() As String
+        Friend Shared ReadOnly Property LabelLevelSet() As String
             Get
-                Return ResourceManager.GetString("PushesLabel", resourceCulture)
+                Return ResourceManager.GetString("LabelLevelSet", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Do you really want to restart the level?.
+        '''  Looks up a localized string similar to Ruchy:.
         '''</summary>
-        Friend Shared ReadOnly Property RestartQuery() As String
+        Friend Shared ReadOnly Property LabelMoves() As String
             Get
-                Return ResourceManager.GetString("RestartQuery", resourceCulture)
+                Return ResourceManager.GetString("LabelMoves", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Select the level that you want to solve.
+        '''  Looks up a localized string similar to .
         '''</summary>
-        Friend Shared ReadOnly Property SelectLevelQuery() As String
+        Friend Shared ReadOnly Property LabelOptions() As String
             Get
-                Return ResourceManager.GetString("SelectLevelQuery", resourceCulture)
+                Return ResourceManager.GetString("LabelOptions", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Great job!.
+        '''  Looks up a localized string similar to Pchnięcia:.
         '''</summary>
-        Friend Shared ReadOnly Property SolvedAlert() As String
+        Friend Shared ReadOnly Property LabelPushes() As String
             Get
-                Return ResourceManager.GetString("SolvedAlert", resourceCulture)
+                Return ResourceManager.GetString("LabelPushes", resourceCulture)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Fantastic! You have managed to solve all the levels in this set..
+        '''  Looks up a localized string similar to Statystyki....
         '''</summary>
-        Friend Shared ReadOnly Property SolvedAllAlert() As String
+        Friend Shared ReadOnly Property LabelStats() As String
             Get
-                Return ResourceManager.GetString("SolvedAllAlert", resourceCulture)
+                Return ResourceManager.GetString("LabelStats", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property LabelTrayDescription() As String
+            Get
+                Return ResourceManager.GetString("LabelTrayDescription", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Klasyczne.
+        '''</summary>
+        Friend Shared ReadOnly Property LevelSetClassic() As String
+            Get
+                Return ResourceManager.GetString("LevelSetClassic", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property LevelSetSasquatch01() As String
+            Get
+                Return ResourceManager.GetString("LevelSetSasquatch01", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Super trudne XS.
+        '''</summary>
+        Friend Shared ReadOnly Property LevelSetXS() As String
+            Get
+                Return ResourceManager.GetString("LevelSetXS", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemAbout() As String
+            Get
+                Return ResourceManager.GetString("MenuitemAbout", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &amp;Gra.
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemGame() As String
+            Get
+                Return ResourceManager.GetString("MenuitemGame", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemHelp() As String
+            Get
+                Return ResourceManager.GetString("MenuitemHelp", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemHelpTopics() As String
+            Get
+                Return ResourceManager.GetString("MenuitemHelpTopics", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemNewGame() As String
+            Get
+                Return ResourceManager.GetString("MenuitemNewGame", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemOpenLevelFile() As String
+            Get
+                Return ResourceManager.GetString("MenuitemOpenLevelFile", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemOptions() As String
+            Get
+                Return ResourceManager.GetString("MenuitemOptions", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemQuit() As String
+            Get
+                Return ResourceManager.GetString("MenuitemQuit", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemRefresh() As String
+            Get
+                Return ResourceManager.GetString("MenuitemRefresh", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemRestart() As String
+            Get
+                Return ResourceManager.GetString("MenuitemRestart", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemSelectLevel() As String
+            Get
+                Return ResourceManager.GetString("MenuitemSelectLevel", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemSelectLevelSet() As String
+            Get
+                Return ResourceManager.GetString("MenuitemSelectLevelSet", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemTools() As String
+            Get
+                Return ResourceManager.GetString("MenuitemTools", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemUndo() As String
+            Get
+                Return ResourceManager.GetString("MenuitemUndo", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemView() As String
+            Get
+                Return ResourceManager.GetString("MenuitemView", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemWebsite() As String
+            Get
+                Return ResourceManager.GetString("MenuitemWebsite", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Czy na pewno chcesz zrestartować bieżący etap?.
+        '''</summary>
+        Friend Shared ReadOnly Property QueryRestartLevel() As String
+            Get
+                Return ResourceManager.GetString("QueryRestartLevel", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .
+        '''</summary>
+        Friend Shared ReadOnly Property QuerySelectLevel() As String
+            Get
+                Return ResourceManager.GetString("QuerySelectLevel", resourceCulture)
             End Get
         End Property
     End Class

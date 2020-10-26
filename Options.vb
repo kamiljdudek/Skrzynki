@@ -22,7 +22,6 @@ Friend Class FrmOptions
     Public WithEvents ChkWantLevelRestartingAuthorization As System.Windows.Forms.CheckBox
     Public WithEvents ChkShowLevelLoadConfirmation As System.Windows.Forms.CheckBox
     Public WithEvents Frame1 As System.Windows.Forms.GroupBox
-    Public WithEvents ChkBeginFromArrivedLevel As System.Windows.Forms.CheckBox
     Public WithEvents TabOptions_TabPage0 As System.Windows.Forms.TabPage
     Public WithEvents CmdPrevSet As System.Windows.Forms.Button
     Public WithEvents CmdNextSet As System.Windows.Forms.Button
@@ -54,7 +53,6 @@ Friend Class FrmOptions
         Me.Frame1 = New System.Windows.Forms.GroupBox()
         Me.ChkWantLevelRestartingAuthorization = New System.Windows.Forms.CheckBox()
         Me.ChkShowLevelLoadConfirmation = New System.Windows.Forms.CheckBox()
-        Me.ChkBeginFromArrivedLevel = New System.Windows.Forms.CheckBox()
         Me.TabOptions_TabPage2 = New System.Windows.Forms.TabPage()
         Me.Frame8 = New System.Windows.Forms.GroupBox()
         Me.CmdPrevSet = New System.Windows.Forms.Button()
@@ -83,25 +81,24 @@ Friend Class FrmOptions
         Me.PicOptions_1.SuspendLayout()
         Me.SuspendLayout()
         '
-        'tabOptions
+        'TabOptions
         '
         Me.TabOptions.Appearance = System.Windows.Forms.TabAppearance.FlatButtons
         Me.TabOptions.Controls.Add(Me.TabOptions_TabPage0)
         Me.TabOptions.Controls.Add(Me.TabOptions_TabPage2)
         Me.TabOptions.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TabOptions.ItemSize = New System.Drawing.Size(42, 18)
-        Me.TabOptions.Location = New System.Drawing.Point(8, 4)
-        Me.TabOptions.Name = "tabOptions"
+        Me.TabOptions.Location = New System.Drawing.Point(8, 12)
+        Me.TabOptions.Name = "TabOptions"
         Me.TabOptions.SelectedIndex = 0
         Me.TabOptions.Size = New System.Drawing.Size(425, 339)
         Me.TabOptions.TabIndex = 8
         '
-        '_tabOptions_TabPage0
+        'TabOptions_TabPage0
         '
         Me.TabOptions_TabPage0.Controls.Add(Me.Frame1)
-        Me.TabOptions_TabPage0.Controls.Add(Me.ChkBeginFromArrivedLevel)
         Me.TabOptions_TabPage0.Location = New System.Drawing.Point(4, 22)
-        Me.TabOptions_TabPage0.Name = "_tabOptions_TabPage0"
+        Me.TabOptions_TabPage0.Name = "TabOptions_TabPage0"
         Me.TabOptions_TabPage0.Size = New System.Drawing.Size(417, 313)
         Me.TabOptions_TabPage0.TabIndex = 0
         Me.TabOptions_TabPage0.Text = "&Ogólne"
@@ -122,14 +119,14 @@ Friend Class FrmOptions
         Me.Frame1.Tag = "OptionsDialog#8"
         Me.Frame1.Text = "Potwierdzenia"
         '
-        'chkWantLevelRestartingAuthorization
+        'ChkWantLevelRestartingAuthorization
         '
         Me.ChkWantLevelRestartingAuthorization.BackColor = System.Drawing.SystemColors.Control
         Me.ChkWantLevelRestartingAuthorization.Cursor = System.Windows.Forms.Cursors.Default
         Me.ChkWantLevelRestartingAuthorization.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ChkWantLevelRestartingAuthorization.ForeColor = System.Drawing.SystemColors.ControlText
         Me.ChkWantLevelRestartingAuthorization.Location = New System.Drawing.Point(8, 43)
-        Me.ChkWantLevelRestartingAuthorization.Name = "chkWantLevelRestartingAuthorization"
+        Me.ChkWantLevelRestartingAuthorization.Name = "ChkWantLevelRestartingAuthorization"
         Me.ChkWantLevelRestartingAuthorization.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.ChkWantLevelRestartingAuthorization.Size = New System.Drawing.Size(303, 18)
         Me.ChkWantLevelRestartingAuthorization.TabIndex = 14
@@ -137,14 +134,14 @@ Friend Class FrmOptions
         Me.ChkWantLevelRestartingAuthorization.Text = "Pytaj o potwierdzenie &restartowania aktualnego etapu"
         Me.ChkWantLevelRestartingAuthorization.UseVisualStyleBackColor = False
         '
-        'chkShowLevelLoadConfirmation
+        'ChkShowLevelLoadConfirmation
         '
         Me.ChkShowLevelLoadConfirmation.BackColor = System.Drawing.SystemColors.Control
         Me.ChkShowLevelLoadConfirmation.Cursor = System.Windows.Forms.Cursors.Default
         Me.ChkShowLevelLoadConfirmation.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ChkShowLevelLoadConfirmation.ForeColor = System.Drawing.SystemColors.ControlText
         Me.ChkShowLevelLoadConfirmation.Location = New System.Drawing.Point(8, 68)
-        Me.ChkShowLevelLoadConfirmation.Name = "chkShowLevelLoadConfirmation"
+        Me.ChkShowLevelLoadConfirmation.Name = "ChkShowLevelLoadConfirmation"
         Me.ChkShowLevelLoadConfirmation.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.ChkShowLevelLoadConfirmation.Size = New System.Drawing.Size(314, 18)
         Me.ChkShowLevelLoadConfirmation.TabIndex = 13
@@ -152,26 +149,11 @@ Friend Class FrmOptions
         Me.ChkShowLevelLoadConfirmation.Text = "Wyœwietlaj potwierdzenie &wczytania etapu"
         Me.ChkShowLevelLoadConfirmation.UseVisualStyleBackColor = False
         '
-        'chkBeginFromArrivedLevel
-        '
-        Me.ChkBeginFromArrivedLevel.BackColor = System.Drawing.SystemColors.Control
-        Me.ChkBeginFromArrivedLevel.Cursor = System.Windows.Forms.Cursors.Default
-        Me.ChkBeginFromArrivedLevel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ChkBeginFromArrivedLevel.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.ChkBeginFromArrivedLevel.Location = New System.Drawing.Point(14, 227)
-        Me.ChkBeginFromArrivedLevel.Name = "chkBeginFromArrivedLevel"
-        Me.ChkBeginFromArrivedLevel.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.ChkBeginFromArrivedLevel.Size = New System.Drawing.Size(326, 19)
-        Me.ChkBeginFromArrivedLevel.TabIndex = 16
-        Me.ChkBeginFromArrivedLevel.Tag = "OptionsDialog#12#Begin From Arrived Level"
-        Me.ChkBeginFromArrivedLevel.Text = "Przy uruchomieniu programu wyœwietlaj najdalszy dostêpny &etap"
-        Me.ChkBeginFromArrivedLevel.UseVisualStyleBackColor = False
-        '
-        '_tabOptions_TabPage2
+        'TabOptions_TabPage2
         '
         Me.TabOptions_TabPage2.Controls.Add(Me.Frame8)
         Me.TabOptions_TabPage2.Location = New System.Drawing.Point(4, 22)
-        Me.TabOptions_TabPage2.Name = "_tabOptions_TabPage2"
+        Me.TabOptions_TabPage2.Name = "TabOptions_TabPage2"
         Me.TabOptions_TabPage2.Size = New System.Drawing.Size(417, 313)
         Me.TabOptions_TabPage2.TabIndex = 2
         Me.TabOptions_TabPage2.Text = "&Gracze"
@@ -199,70 +181,70 @@ Friend Class FrmOptions
         Me.Frame8.Tag = "OptionsDialog#24"
         Me.Frame8.Text = "Statystyki"
         '
-        'cmdPrevSet
+        'CmdPrevSet
         '
         Me.CmdPrevSet.BackColor = System.Drawing.SystemColors.Control
         Me.CmdPrevSet.Cursor = System.Windows.Forms.Cursors.Default
         Me.CmdPrevSet.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CmdPrevSet.ForeColor = System.Drawing.SystemColors.ControlText
         Me.CmdPrevSet.Location = New System.Drawing.Point(4, 108)
-        Me.CmdPrevSet.Name = "cmdPrevSet"
+        Me.CmdPrevSet.Name = "CmdPrevSet"
         Me.CmdPrevSet.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.CmdPrevSet.Size = New System.Drawing.Size(25, 21)
         Me.CmdPrevSet.TabIndex = 48
         Me.CmdPrevSet.Text = "<-"
         Me.CmdPrevSet.UseVisualStyleBackColor = False
         '
-        'cmdNextSet
+        'CmdNextSet
         '
         Me.CmdNextSet.BackColor = System.Drawing.SystemColors.Control
         Me.CmdNextSet.Cursor = System.Windows.Forms.Cursors.Default
         Me.CmdNextSet.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CmdNextSet.ForeColor = System.Drawing.SystemColors.ControlText
         Me.CmdNextSet.Location = New System.Drawing.Point(220, 108)
-        Me.CmdNextSet.Name = "cmdNextSet"
+        Me.CmdNextSet.Name = "CmdNextSet"
         Me.CmdNextSet.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.CmdNextSet.Size = New System.Drawing.Size(25, 21)
         Me.CmdNextSet.TabIndex = 47
         Me.CmdNextSet.Text = "->"
         Me.CmdNextSet.UseVisualStyleBackColor = False
         '
-        'lblPushes
+        'LblPushes
         '
         Me.LblPushes.BackColor = System.Drawing.SystemColors.Control
         Me.LblPushes.Cursor = System.Windows.Forms.Cursors.Default
         Me.LblPushes.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblPushes.ForeColor = System.Drawing.SystemColors.ControlText
         Me.LblPushes.Location = New System.Drawing.Point(132, 84)
-        Me.LblPushes.Name = "lblPushes"
+        Me.LblPushes.Name = "LblPushes"
         Me.LblPushes.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.LblPushes.Size = New System.Drawing.Size(109, 13)
         Me.LblPushes.TabIndex = 51
         Me.LblPushes.Text = "#Pchniêcia#"
         Me.LblPushes.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
-        'lblMoves
+        'LblMoves
         '
         Me.LblMoves.BackColor = System.Drawing.SystemColors.Control
         Me.LblMoves.Cursor = System.Windows.Forms.Cursors.Default
         Me.LblMoves.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblMoves.ForeColor = System.Drawing.SystemColors.ControlText
         Me.LblMoves.Location = New System.Drawing.Point(128, 64)
-        Me.LblMoves.Name = "lblMoves"
+        Me.LblMoves.Name = "LblMoves"
         Me.LblMoves.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.LblMoves.Size = New System.Drawing.Size(113, 13)
         Me.LblMoves.TabIndex = 50
         Me.LblMoves.Text = "#Ruchy#"
         Me.LblMoves.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
-        'lblArrivedLevel
+        'LblArrivedLevel
         '
         Me.LblArrivedLevel.BackColor = System.Drawing.SystemColors.Control
         Me.LblArrivedLevel.Cursor = System.Windows.Forms.Cursors.Default
         Me.LblArrivedLevel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblArrivedLevel.ForeColor = System.Drawing.SystemColors.ControlText
         Me.LblArrivedLevel.Location = New System.Drawing.Point(128, 44)
-        Me.LblArrivedLevel.Name = "lblArrivedLevel"
+        Me.LblArrivedLevel.Name = "LblArrivedLevel"
         Me.LblArrivedLevel.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.LblArrivedLevel.Size = New System.Drawing.Size(113, 13)
         Me.LblArrivedLevel.TabIndex = 49
@@ -311,20 +293,20 @@ Friend Class FrmOptions
         Me.Label6.Tag = "OptionsDialog#26"
         Me.Label6.Text = "Osi¹gniêty etap:"
         '
-        'lblLevelSet
+        'LblLevelSet
         '
         Me.LblLevelSet.BackColor = System.Drawing.SystemColors.Control
         Me.LblLevelSet.Cursor = System.Windows.Forms.Cursors.Default
         Me.LblLevelSet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(238, Byte))
         Me.LblLevelSet.ForeColor = System.Drawing.SystemColors.ControlText
         Me.LblLevelSet.Location = New System.Drawing.Point(8, 24)
-        Me.LblLevelSet.Name = "lblLevelSet"
+        Me.LblLevelSet.Name = "LblLevelSet"
         Me.LblLevelSet.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.LblLevelSet.Size = New System.Drawing.Size(221, 17)
         Me.LblLevelSet.TabIndex = 43
         Me.LblLevelSet.Text = "#Zestaw Etapów#"
         '
-        '_picOptions_3
+        'PicOptions_3
         '
         Me.PicOptions_3.BackColor = System.Drawing.SystemColors.Control
         Me.PicOptions_3.Controls.Add(Me.FraSample4)
@@ -332,25 +314,25 @@ Friend Class FrmOptions
         Me.PicOptions_3.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PicOptions_3.ForeColor = System.Drawing.SystemColors.ControlText
         Me.PicOptions_3.Location = New System.Drawing.Point(-1333, 32)
-        Me.PicOptions_3.Name = "_picOptions_3"
+        Me.PicOptions_3.Name = "PicOptions_3"
         Me.PicOptions_3.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.PicOptions_3.Size = New System.Drawing.Size(381, 252)
         Me.PicOptions_3.TabIndex = 4
         '
-        'fraSample4
+        'FraSample4
         '
         Me.FraSample4.BackColor = System.Drawing.SystemColors.Control
         Me.FraSample4.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FraSample4.ForeColor = System.Drawing.SystemColors.ControlText
         Me.FraSample4.Location = New System.Drawing.Point(140, 56)
-        Me.FraSample4.Name = "fraSample4"
+        Me.FraSample4.Name = "FraSample4"
         Me.FraSample4.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.FraSample4.Size = New System.Drawing.Size(137, 119)
         Me.FraSample4.TabIndex = 7
         Me.FraSample4.TabStop = False
         Me.FraSample4.Text = "Sample 4"
         '
-        '_picOptions_2
+        'PicOptions_2
         '
         Me.PicOptions_2.BackColor = System.Drawing.SystemColors.Control
         Me.PicOptions_2.Controls.Add(Me.FraSample3)
@@ -358,25 +340,25 @@ Friend Class FrmOptions
         Me.PicOptions_2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PicOptions_2.ForeColor = System.Drawing.SystemColors.ControlText
         Me.PicOptions_2.Location = New System.Drawing.Point(-1333, 32)
-        Me.PicOptions_2.Name = "_picOptions_2"
+        Me.PicOptions_2.Name = "PicOptions_2"
         Me.PicOptions_2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.PicOptions_2.Size = New System.Drawing.Size(381, 252)
         Me.PicOptions_2.TabIndex = 3
         '
-        'fraSample3
+        'FraSample3
         '
         Me.FraSample3.BackColor = System.Drawing.SystemColors.Control
         Me.FraSample3.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FraSample3.ForeColor = System.Drawing.SystemColors.ControlText
         Me.FraSample3.Location = New System.Drawing.Point(103, 45)
-        Me.FraSample3.Name = "fraSample3"
+        Me.FraSample3.Name = "FraSample3"
         Me.FraSample3.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.FraSample3.Size = New System.Drawing.Size(137, 119)
         Me.FraSample3.TabIndex = 6
         Me.FraSample3.TabStop = False
         Me.FraSample3.Text = "Sample 3"
         '
-        '_picOptions_1
+        'PicOptions_1
         '
         Me.PicOptions_1.BackColor = System.Drawing.SystemColors.Control
         Me.PicOptions_1.Controls.Add(Me.FraSample2)
@@ -384,32 +366,32 @@ Friend Class FrmOptions
         Me.PicOptions_1.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PicOptions_1.ForeColor = System.Drawing.SystemColors.ControlText
         Me.PicOptions_1.Location = New System.Drawing.Point(-1333, 32)
-        Me.PicOptions_1.Name = "_picOptions_1"
+        Me.PicOptions_1.Name = "PicOptions_1"
         Me.PicOptions_1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.PicOptions_1.Size = New System.Drawing.Size(381, 252)
         Me.PicOptions_1.TabIndex = 2
         '
-        'fraSample2
+        'FraSample2
         '
         Me.FraSample2.BackColor = System.Drawing.SystemColors.Control
         Me.FraSample2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FraSample2.ForeColor = System.Drawing.SystemColors.ControlText
         Me.FraSample2.Location = New System.Drawing.Point(43, 20)
-        Me.FraSample2.Name = "fraSample2"
+        Me.FraSample2.Name = "FraSample2"
         Me.FraSample2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.FraSample2.Size = New System.Drawing.Size(137, 119)
         Me.FraSample2.TabIndex = 5
         Me.FraSample2.TabStop = False
         Me.FraSample2.Text = "Sample 2"
         '
-        'cmdOK
+        'CmdOK
         '
         Me.CmdOK.BackColor = System.Drawing.SystemColors.Control
         Me.CmdOK.Cursor = System.Windows.Forms.Cursors.Default
         Me.CmdOK.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CmdOK.ForeColor = System.Drawing.SystemColors.ControlText
         Me.CmdOK.Location = New System.Drawing.Point(82, 358)
-        Me.CmdOK.Name = "cmdOK"
+        Me.CmdOK.Name = "CmdOK"
         Me.CmdOK.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.CmdOK.Size = New System.Drawing.Size(73, 25)
         Me.CmdOK.TabIndex = 0
@@ -417,7 +399,7 @@ Friend Class FrmOptions
         Me.CmdOK.Text = "&OK"
         Me.CmdOK.UseVisualStyleBackColor = False
         '
-        'frmOptions
+        'FrmOptions
         '
         Me.AcceptButton = Me.CmdOK
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -436,7 +418,7 @@ Friend Class FrmOptions
         Me.Location = New System.Drawing.Point(102, 170)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "frmOptions"
+        Me.Name = "FrmOptions"
         Me.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual

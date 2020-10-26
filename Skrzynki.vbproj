@@ -172,6 +172,12 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GameBoardForm.Designer.vb">
+      <DependentUpon>GameBoardForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GameBoardForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="i11n\LocalizableStrings.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -213,6 +219,9 @@
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
     <Content Include="Skrzynki.ico" />
+    <EmbeddedResource Include="GameBoardForm.resx">
+      <DependentUpon>GameBoardForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="i11n\LocalizableStrings.fr-FR.resx" />
     <EmbeddedResource Include="i11n\LocalizableStrings.pl-PL.resx" />
     <EmbeddedResource Include="i11n\LocalizableStrings.resx">
@@ -241,9 +250,7 @@
     </None>
     <None Include="Skrzynki_TemporaryKey.pfx" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
