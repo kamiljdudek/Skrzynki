@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,61 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="MainMenu1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="OpenFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>134, 17</value>
-  </metadata>
-  <metadata name="SkrzynkiTrayIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>276, 17</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="SkrzynkiTrayIcon.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        AAABAAIAEBAQAAAAAAAoAQAAJgAAACAgAAAAAAAAqAgAAE4BAAAoAAAAEAAAACAAAAABAAQAAAAAAMAA
-        AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAgAAAgAAAAICAAIAAAACAAIAAgIAAAMDAwACAgIAAAAD/AAD/
-        AAAA//8A/wAAAP8A/wD//wAA////AJmZmZmZmZmZm7u7u7u7u7mbmZmZmZmZuZubm7u7ubm5m5m5u7ub
-        mbmbm5ububm5uZububmbm7m5m5u7kRm7ubmbm7uRGbu5uZububmbm7m5m5ubm7m5ubmbmbm7u5uZuZub
-        m7u7ubm5m5mZmZmZmbmbu7u7u7u7uZmZmZmZmZmZAAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA
-        //8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//ygAAAAgAAAAQAAAAAEACAAAAAAAgAQAAAAA
-        AAAAAAAAAAEAAAAAAAAAAAAAgACAAIAAAACAgAAAAIAAAACAgAAAAIAAwMDAAMDcwADwyqYAgICAAP8A
-        /wD/AAAA//8AAAD/AAAA//8AAAD/AP///wDw+/8ApKCgANTw/wCx4v8AjtT/AGvG/wBIuP8AJar/AACq
-        /wAAktwAAHq5AABilgAASnMAADJQANTj/wCxx/8Ajqv/AGuP/wBIc/8AJVf/AABV/wAASdwAAD25AAAx
-        lgAAJXMAABlQANTU/wCxsf8Ajo7/AGtr/wBISP8AJSX/AAAA/wAAANwAAAC5AAAAlgAAAHMAAABQAOPU
-        /wDHsf8Aq47/AI9r/wBzSP8AVyX/AFUA/wBJANwAPQC5ADEAlgAlAHMAGQBQAPDU/wDisf8A1I7/AMZr
-        /wC4SP8AqiX/AKoA/wCSANwAegC5AGIAlgBKAHMAMgBQAP/U/wD/sf8A/47/AP9r/wD/SP8A/yX/AP8A
-        /wDcANwAuQC5AJYAlgBzAHMAUABQAP/U8AD/seIA/47UAP9rxgD/SLgA/yWqAP8AqgDcAJIAuQB6AJYA
-        YgBzAEoAUAAyAP/U4wD/sccA/46rAP9rjwD/SHMA/yVXAP8AVQDcAEkAuQA9AJYAMQBzACUAUAAZAP/U
-        1AD/sbEA/46OAP9rawD/SEgA/yUlAP8AAADcAAAAuQAAAJYAAABzAAAAUAAAAP/j1AD/x7EA/6uOAP+P
-        awD/c0gA/1clAP9VAADcSQAAuT0AAJYxAABzJQAAUBkAAP/w1AD/4rEA/9SOAP/GawD/uEgA/6olAP+q
-        AADckgAAuXoAAJZiAABzSgAAUDIAAP//1AD//7EA//+OAP//awD//0gA//8lAP//AADc3AAAubkAAJaW
-        AABzcwAAUFAAAPD/1ADi/7EA1P+OAMb/awC4/0gAqv8lAKr/AACS3AAAerkAAGKWAABKcwAAMlAAAOP/
-        1ADH/7EAq/+OAI//awBz/0gAV/8lAFX/AABJ3AAAPbkAADGWAAAlcwAAGVAAANT/1ACx/7EAjv+OAGv/
-        awBI/0gAJf8lAAD/AAAA3AAAALkAAACWAAAAcwAAAFAAANT/4wCx/8cAjv+rAGv/jwBI/3MAJf9XAAD/
-        VQAA3EkAALk9AACWMQAAcyUAAFAZANT/8ACx/+IAjv/UAGv/xgBI/7gAJf+qAAD/qgAA3JIAALl6AACW
-        YgAAc0oAAFAyANT//wCx//8Ajv//AGv//wBI//8AJf//AAD//wAA3NwAALm5AACWlgAAc3MAAFBQAPLy
-        8gDm5uYA2traAM7OzgDCwsIAtra2AKqqqgCenp4AkpKSAIaGhgB6enoAbm5uAGJiYgBWVlYASkpKAD4+
-        PgAyMjIAJiYmABoaGgAODg4AHh8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8c6QUFBQUFBQUF
-        BQUFBQUFBQUFBQUFBQUFBQUFBQUFBRwZGOjo6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo6OgFHBkYEBAQ
-        EBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAY6AUcGSwQDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PEBjoBRwZ
-        LBAPEBAQEBAQEBAQEBAQEBAQEBAQEBAQEA8QGOgFHBksEA8QDw8QDw8PDw8PDw8PDw8PDw8QDw8QDxAY
-        6AUcGSwQDxAPDw8QDw8PDw8PDw8PDw8PEA8PDxAPEBjoBRwZLBAPEBAPDw8QDw8PDw8PDw8PDxAPDw8Q
-        EA8QGOgFHBksEA8QDxAPDw8QDw8PDw8PDw8QDw8PEA8QDxAY6AUcGSwQDxAPDxAPDw8QDw8PDw8PEA8P
-        DxAPDxAPEBjoBRwZLBAPEA8PDxAPDw8QDw8PDxAPDw8QDw8PEA8QGOgFHBksEA8QDw8PDxAPDw8QDw8Q
-        Dw8PEA8PDw8QDxAY6AUcGSwQDxAPDw8PDxAPDw8QEA8PDxAPDw8PDxAPEBjoBRwZLBAPEA8PDw8PDxAP
-        DxAPDw8QDw8PDw8PEA8QGOgFHBksEA8QDw8PDw8PDxAQBgYPEA8PDw8PDw8QDxAY6AUcGSwQDxAPDw8P
-        Dw8PEA8GBhAQDw8PDw8PDxAPEBjoBRwZLBAPEA8PDw8PDxAPDw8QDw8QDw8PDw8PEA8QGOgFHBksEA8Q
-        Dw8PDw8QDw8PEBAPDw8QDw8PDw8QDxAY6AUcGSwQDxAPDw8PEA8PDxAPDxAPDw8QDw8PDxAPEBjoBRwZ
-        LBAPEA8PDxAPDw8QDw8PDxAPDw8QDw8PEA8QGOgFHBksEA8QDw8QDw8PEA8PDw8PDxAPDw8QDw8QDxAY
-        6AUcGSwQDxAPEA8PDxAPDw8PDw8PDxAPDw8QDxAPEBjoBRwZLBAPEBAPDw8QDw8PDw8PDw8PDxAPDw8Q
-        EA8QGOgFHBksEA8QDw8PEA8PDw8PDw8PDw8PDxAPDw8QDxAY6AUcGSwQDxAPDxAPDw8PDw8PDw8PDw8P
-        DxAPDxAPEBjoBRwZLBAPEBAQEBAQEBAQEBAQEBAQEBAQEBAQEA8QGOgFHBksEA8PDw8PDw8PDw8PDw8P
-        Dw8PDw8PDw8PDxAY6AUcGSwQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBjoBRwZLCwsLCwsLCwsLCws
-        LCwsLCwsLCwsLCwsLCwYGOgFHBkYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGAUcGRkZGRkZGRkZ
-        GRkZGRkZGRkZGRkZGRkZGRkZGRkZ6QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LevelsetClassic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LevelsetClassic.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+  </data>
+  <data name="LevelsetXS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LevelsetXS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
   </data>
 </root>

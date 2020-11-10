@@ -289,26 +289,18 @@ BladWczytywaniaEtapu: 'coś jest z plikiem
         Dim j As Integer
         Dim Kanal As Integer
 
-        FileOpen(KanalPliku, PlikZestawu, OpenMode.Input)
-        Input(KanalPliku, Temp1)
-        'UPGRADE_WARNING: Couldn't resolve default property of object Temp1. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-        LiczbaEtapowWZestawie = CInt(Val(Temp1))
+        Dim LevelsetArray() As String = Split(PlikZestawu, Environment.NewLine)
+        LiczbaEtapowWZestawie = CInt(LevelsetArray(0))
 
-        'UPGRADE_WARNING: Lower bound of array Etapy was changed from 1,1 to 0,0. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1033"'
         ReDim Etapy(LiczbaEtapowWZestawie, 256)
-        'UPGRADE_WARNING: Lower bound of array DaneEtapow was changed from 1 to 0. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1033"'
         ReDim DaneEtapow(LiczbaEtapowWZestawie)
-        'UPGRADE_WARNING: Lower bound of array PozycjeGracza was changed from 1 to 0. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1033"'
         ReDim PozycjeGracza(LiczbaEtapowWZestawie)
 
         For i = 1 To LiczbaEtapowWZestawie Step 1
-            Input(KanalPliku, Temp1)
-
             Kanal = FreeFile()
             FileOpen(Kanal, KatalogTemp & "\#" & Str(i) & ".box", OpenMode.Output)
             For j = 1 To 16 Step 1
-                Temp1 = LineInput(KanalPliku)
-                PrintLine(Kanal, Temp1)
+                PrintLine(Kanal, LevelsetArray((1 + j) + (i - 1) * 17))
             Next j
             FileClose(Kanal)
         Next i
@@ -777,16 +769,22 @@ Blad:
         PrzesunSkrzynke = True
     End Function
     Public Function NowaGra(ByVal KtoryEtap As Integer, Optional ByVal Zestaw As String = "Klasyczne") As Boolean
-        Dim ZE As String
+        Dim ZE As String = Nothing
         NumerEtapu = KtoryEtap
         Ruchy = 0
         Pchniecia = 0
         WykonanoRuch = False
         EtapSpozaZestawu = False
 
-        ZE = My.Settings.LevelSet
+        If My.Settings.LevelSet = "Klasyczne" Then
+            ZE = "LevelsetClassic"
+            ZE = My.Resources.LevelsetResource.LevelsetClassic
+        ElseIf My.Settings.LevelSet = "SuperTrudneXS" Then
+            ZE = "LevelsetXS"
+            ZE = My.Resources.LevelsetResource.LevelsetXS
+        End If
 
-        If WczytajZestawEtapow(".\Etapy\" & ZE & ".bxp", FreeFile) Then
+        If WczytajZestawEtapow(ZE, FreeFile) Then
             EtapZaliczony = False
         Else
             Return False

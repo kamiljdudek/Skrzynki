@@ -25,7 +25,7 @@
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>0.0</OldToolsVersion>
@@ -183,11 +183,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LocalizableStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="Main.vb">
-      <SubType>Form</SubType>
+    <Compile Include="levelsets\LevelsetResource.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LevelsetResource.resx</DependentUpon>
     </Compile>
     <Compile Include="Stats.vb">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StatsOptsForm.Designer.vb">
+      <DependentUpon>StatsOptsForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="StatsOptsForm.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="倉庫番.vb">
       <SubType>Code</SubType>
@@ -195,6 +203,7 @@
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -213,11 +222,21 @@
     <Compile Include="Splash.vb">
       <SubType>Form</SubType>
     </Compile>
+    <EmbeddedResource Include="levelsets\LevelsetResource.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LevelsetResource.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatsOptsForm.resx">
+      <DependentUpon>StatsOptsForm.vb</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
+    <None Include="Resources\LevelsetClassic.txt" />
+    <None Include="Resources\LevelsetXS.txt" />
     <Content Include="Skrzynki.ico" />
     <EmbeddedResource Include="GameBoardForm.resx">
       <DependentUpon>GameBoardForm.vb</DependentUpon>
@@ -228,9 +247,6 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LocalizableStrings.Designer.vb</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Main.resX">
-      <DependentUpon>Main.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>

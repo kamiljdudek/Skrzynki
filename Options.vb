@@ -22,7 +22,6 @@ Friend Class FrmOptions
     Public WithEvents ChkWantLevelRestartingAuthorization As System.Windows.Forms.CheckBox
     Public WithEvents ChkShowLevelLoadConfirmation As System.Windows.Forms.CheckBox
     Public WithEvents Frame1 As System.Windows.Forms.GroupBox
-    Public WithEvents TabOptions_TabPage0 As System.Windows.Forms.TabPage
     Public WithEvents CmdPrevSet As System.Windows.Forms.Button
     Public WithEvents CmdNextSet As System.Windows.Forms.Button
     Public WithEvents LblPushes As System.Windows.Forms.Label
@@ -33,8 +32,6 @@ Friend Class FrmOptions
     Public WithEvents Label6 As System.Windows.Forms.Label
     Public WithEvents LblLevelSet As System.Windows.Forms.Label
     Public WithEvents Frame8 As System.Windows.Forms.GroupBox
-    Public WithEvents TabOptions_TabPage2 As System.Windows.Forms.TabPage
-    Public WithEvents TabOptions As System.Windows.Forms.TabControl
     Public WithEvents FraSample4 As System.Windows.Forms.GroupBox
     Public WithEvents PicOptions_3 As System.Windows.Forms.Panel
     Public WithEvents FraSample3 As System.Windows.Forms.GroupBox
@@ -48,12 +45,9 @@ Friend Class FrmOptions
     'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.TabOptions = New System.Windows.Forms.TabControl()
-        Me.TabOptions_TabPage0 = New System.Windows.Forms.TabPage()
         Me.Frame1 = New System.Windows.Forms.GroupBox()
         Me.ChkWantLevelRestartingAuthorization = New System.Windows.Forms.CheckBox()
         Me.ChkShowLevelLoadConfirmation = New System.Windows.Forms.CheckBox()
-        Me.TabOptions_TabPage2 = New System.Windows.Forms.TabPage()
         Me.Frame8 = New System.Windows.Forms.GroupBox()
         Me.CmdPrevSet = New System.Windows.Forms.Button()
         Me.CmdNextSet = New System.Windows.Forms.Button()
@@ -71,37 +65,12 @@ Friend Class FrmOptions
         Me.PicOptions_1 = New System.Windows.Forms.Panel()
         Me.FraSample2 = New System.Windows.Forms.GroupBox()
         Me.CmdOK = New System.Windows.Forms.Button()
-        Me.TabOptions.SuspendLayout()
-        Me.TabOptions_TabPage0.SuspendLayout()
         Me.Frame1.SuspendLayout()
-        Me.TabOptions_TabPage2.SuspendLayout()
         Me.Frame8.SuspendLayout()
         Me.PicOptions_3.SuspendLayout()
         Me.PicOptions_2.SuspendLayout()
         Me.PicOptions_1.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'TabOptions
-        '
-        Me.TabOptions.Appearance = System.Windows.Forms.TabAppearance.FlatButtons
-        Me.TabOptions.Controls.Add(Me.TabOptions_TabPage0)
-        Me.TabOptions.Controls.Add(Me.TabOptions_TabPage2)
-        Me.TabOptions.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TabOptions.ItemSize = New System.Drawing.Size(42, 18)
-        Me.TabOptions.Location = New System.Drawing.Point(8, 12)
-        Me.TabOptions.Name = "TabOptions"
-        Me.TabOptions.SelectedIndex = 0
-        Me.TabOptions.Size = New System.Drawing.Size(425, 339)
-        Me.TabOptions.TabIndex = 8
-        '
-        'TabOptions_TabPage0
-        '
-        Me.TabOptions_TabPage0.Controls.Add(Me.Frame1)
-        Me.TabOptions_TabPage0.Location = New System.Drawing.Point(4, 22)
-        Me.TabOptions_TabPage0.Name = "TabOptions_TabPage0"
-        Me.TabOptions_TabPage0.Size = New System.Drawing.Size(417, 313)
-        Me.TabOptions_TabPage0.TabIndex = 0
-        Me.TabOptions_TabPage0.Text = "&Ogólne"
         '
         'Frame1
         '
@@ -110,7 +79,7 @@ Friend Class FrmOptions
         Me.Frame1.Controls.Add(Me.ChkShowLevelLoadConfirmation)
         Me.Frame1.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Frame1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Frame1.Location = New System.Drawing.Point(15, 123)
+        Me.Frame1.Location = New System.Drawing.Point(12, 22)
         Me.Frame1.Name = "Frame1"
         Me.Frame1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Frame1.Size = New System.Drawing.Size(340, 96)
@@ -149,15 +118,6 @@ Friend Class FrmOptions
         Me.ChkShowLevelLoadConfirmation.Text = "Wyœwietlaj potwierdzenie &wczytania etapu"
         Me.ChkShowLevelLoadConfirmation.UseVisualStyleBackColor = False
         '
-        'TabOptions_TabPage2
-        '
-        Me.TabOptions_TabPage2.Controls.Add(Me.Frame8)
-        Me.TabOptions_TabPage2.Location = New System.Drawing.Point(4, 22)
-        Me.TabOptions_TabPage2.Name = "TabOptions_TabPage2"
-        Me.TabOptions_TabPage2.Size = New System.Drawing.Size(417, 313)
-        Me.TabOptions_TabPage2.TabIndex = 2
-        Me.TabOptions_TabPage2.Text = "&Gracze"
-        '
         'Frame8
         '
         Me.Frame8.BackColor = System.Drawing.SystemColors.Control
@@ -172,10 +132,10 @@ Friend Class FrmOptions
         Me.Frame8.Controls.Add(Me.LblLevelSet)
         Me.Frame8.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Frame8.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Frame8.Location = New System.Drawing.Point(160, 34)
+        Me.Frame8.Location = New System.Drawing.Point(12, 151)
         Me.Frame8.Name = "Frame8"
         Me.Frame8.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Frame8.Size = New System.Drawing.Size(249, 137)
+        Me.Frame8.Size = New System.Drawing.Size(340, 137)
         Me.Frame8.TabIndex = 42
         Me.Frame8.TabStop = False
         Me.Frame8.Tag = "OptionsDialog#24"
@@ -406,7 +366,8 @@ Friend Class FrmOptions
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(445, 417)
         Me.ControlBox = False
-        Me.Controls.Add(Me.TabOptions)
+        Me.Controls.Add(Me.Frame1)
+        Me.Controls.Add(Me.Frame8)
         Me.Controls.Add(Me.PicOptions_3)
         Me.Controls.Add(Me.PicOptions_2)
         Me.Controls.Add(Me.PicOptions_1)
@@ -424,10 +385,7 @@ Friend Class FrmOptions
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Tag = "OptionsDialog#42"
         Me.Text = "Opcje"
-        Me.TabOptions.ResumeLayout(False)
-        Me.TabOptions_TabPage0.ResumeLayout(False)
         Me.Frame1.ResumeLayout(False)
-        Me.TabOptions_TabPage2.ResumeLayout(False)
         Me.Frame8.ResumeLayout(False)
         Me.PicOptions_3.ResumeLayout(False)
         Me.PicOptions_2.ResumeLayout(False)
@@ -453,11 +411,12 @@ Friend Class FrmOptions
     End Sub
 
     Private Sub FrmOptions_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
-        TabOptions.SelectedIndex = 0
-        GameBoard.Localizer.GetString("o")
+        GameBoardForm.Localizer.GetString("o")
         CmdPrevSet.Enabled = False
         CmdNextSet.Enabled = True
         WyswietlStatystyki(1)
+        LblLevelSet.Text = My.Settings.LevelSet
+
 
     End Sub
 
@@ -471,14 +430,14 @@ Friend Class FrmOptions
     Public Sub WyswietlStatystyki(ByVal NrZestawu As Byte)
         Select Case NrZestawu
             Case 1
-                LblLevelSet.Text = GameBoard.Localizer.GetString("LevelSetCaption") & UCase(GameBoard.Localizer.GetString("ClassicLevelsetName"))
+                LblLevelSet.Text = GameBoardForm.Localizer.GetString("LevelSetCaption") & UCase(GameBoardForm.Localizer.GetString("ClassicLevelsetName"))
 
                 LblArrivedLevel.Text = My.Settings.ArrivedLevelKlasyczne
                 LblMoves.Text = My.Settings.MovesKlasyczne
                 LblPushes.Text = My.Settings.PushesKlasyczne
 
             Case 2
-                LblLevelSet.Text = GameBoard.Localizer.GetString("LevelSetCaption") & UCase(GameBoard.Localizer.GetString("ExtraHardLevelsetName"))
+                LblLevelSet.Text = GameBoardForm.Localizer.GetString("LevelSetCaption") & UCase(GameBoardForm.Localizer.GetString("ExtraHardLevelsetName"))
 
                 LblArrivedLevel.Text = My.Settings.ArrivedLevelSupertrudne
                 LblMoves.Text = My.Settings.MovesSupertrudne

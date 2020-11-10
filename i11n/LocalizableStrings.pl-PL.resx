@@ -124,7 +124,7 @@
     <value>Etap o takim numerze nie istnieje</value>
   </data>
   <data name="AlertLevelFromFileLoadSuccess" xml:space="preserve">
-    <value>Etap zapisany w pliku został pomyślnie załadowany</value>
+    <value>Pomyślnie załadowano plik </value>
   </data>
   <data name="AlertLevelLoadFailure" xml:space="preserve">
     <value>Błąd podczas wczytywania pliku</value>
@@ -151,7 +151,7 @@
     <value>Wybierz etap, w który chcesz zagrać:</value>
   </data>
   <data name="GameName" xml:space="preserve">
-    <value />
+    <value>Skrzynki</value>
   </data>
   <data name="LabelAboutForWindows" xml:space="preserve">
     <value />
@@ -178,19 +178,34 @@
     <value>Zestaw:</value>
   </data>
   <data name="LabelMoves" xml:space="preserve">
-    <value>Ruchy:</value>
+    <value>Ruchy: </value>
   </data>
   <data name="LabelOptions" xml:space="preserve">
     <value />
   </data>
   <data name="LabelPushes" xml:space="preserve">
-    <value>Pchnięcia:</value>
+    <value>Pchnięcia: </value>
+  </data>
+  <data name="LabelShortPauseAndNumberID" xml:space="preserve">
+    <value> - #</value>
+  </data>
+  <data name="LabelSkin" xml:space="preserve">
+    <value>Skin</value>
+  </data>
+  <data name="LabelSkinCheese" xml:space="preserve">
+    <value>Serowy</value>
+  </data>
+  <data name="LabelSkinExport" xml:space="preserve">
+    <value>Eksport</value>
+  </data>
+  <data name="LabelSkinOriginal" xml:space="preserve">
+    <value>(Oryginalny)</value>
   </data>
   <data name="LabelStats" xml:space="preserve">
     <value>Statystyki...</value>
   </data>
   <data name="LabelTrayDescription" xml:space="preserve">
-    <value />
+    <value>Skrzynki chowają się w kącie...</value>
   </data>
   <data name="LevelSetClassic" xml:space="preserve">
     <value>Klasyczne</value>
@@ -202,49 +217,55 @@
     <value>Super trudne XS</value>
   </data>
   <data name="MenuitemAbout" xml:space="preserve">
-    <value />
+    <value>Skrzynki - informacje...</value>
+  </data>
+  <data name="MenuitemColor" xml:space="preserve">
+    <value>Wybierz &amp;kolor...</value>
   </data>
   <data name="MenuitemGame" xml:space="preserve">
     <value>&amp;Gra</value>
   </data>
   <data name="MenuitemHelp" xml:space="preserve">
-    <value />
+    <value>Pomo&amp;c</value>
   </data>
   <data name="MenuitemHelpTopics" xml:space="preserve">
-    <value />
+    <value>Tematy Pomocy</value>
+  </data>
+  <data name="MenuitemHide" xml:space="preserve">
+    <value>&amp;Ukryj</value>
   </data>
   <data name="MenuitemNewGame" xml:space="preserve">
-    <value />
+    <value>&amp;Nowa gra</value>
   </data>
   <data name="MenuitemOpenLevelFile" xml:space="preserve">
-    <value />
+    <value>Otwórz &amp;plik etapu...</value>
   </data>
   <data name="MenuitemOptions" xml:space="preserve">
-    <value />
+    <value>&amp;Opcje</value>
   </data>
   <data name="MenuitemQuit" xml:space="preserve">
-    <value />
+    <value>Zakońc&amp;z</value>
   </data>
   <data name="MenuitemRefresh" xml:space="preserve">
-    <value />
+    <value>O&amp;dśwież</value>
   </data>
   <data name="MenuitemRestart" xml:space="preserve">
-    <value />
+    <value>&amp;Restartuj etap...</value>
   </data>
   <data name="MenuitemSelectLevel" xml:space="preserve">
-    <value />
+    <value>&amp;Wybierz etap...</value>
   </data>
   <data name="MenuitemSelectLevelSet" xml:space="preserve">
-    <value />
+    <value>Ze&amp;staw</value>
   </data>
   <data name="MenuitemTools" xml:space="preserve">
-    <value />
+    <value>&amp;Narzędzia</value>
   </data>
   <data name="MenuitemUndo" xml:space="preserve">
-    <value />
+    <value>&amp;Cofnij</value>
   </data>
   <data name="MenuitemView" xml:space="preserve">
-    <value />
+    <value>&amp;Widok</value>
   </data>
   <data name="MenuitemWebsite" xml:space="preserve">
     <value />
