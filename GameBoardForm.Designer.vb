@@ -40,6 +40,8 @@ Partial Class GameBoardForm
         Me.MenuitemSkinExport = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemSkinCheese = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemColor = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuitemConfirmRestarts = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuitemRefresh = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemHide = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemTools = New System.Windows.Forms.ToolStripMenuItem()
@@ -83,8 +85,7 @@ Partial Class GameBoardForm
         'MenuitemNewGame
         '
         Me.MenuitemNewGame.Name = "MenuitemNewGame"
-        Me.MenuitemNewGame.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.MenuitemNewGame.Size = New System.Drawing.Size(110, 22)
+        Me.MenuitemNewGame.Size = New System.Drawing.Size(180, 22)
         '
         'MenuitemOpenLevel
         '
@@ -111,8 +112,8 @@ Partial Class GameBoardForm
         'MenuitemSelectLevel
         '
         Me.MenuitemSelectLevel.Name = "MenuitemSelectLevel"
-        Me.MenuitemSelectLevel.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.MenuitemSelectLevel.Size = New System.Drawing.Size(110, 22)
+        Me.MenuitemSelectLevel.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.L), System.Windows.Forms.Keys)
+        Me.MenuitemSelectLevel.Size = New System.Drawing.Size(180, 22)
         '
         'ToolStripSeparator2
         '
@@ -127,7 +128,7 @@ Partial Class GameBoardForm
         '
         'MenuitemView
         '
-        Me.MenuitemView.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemSkins, Me.MenuitemColor, Me.MenuitemRefresh, Me.MenuitemHide})
+        Me.MenuitemView.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemSkins, Me.MenuitemColor, Me.MenuitemConfirmRestarts, Me.ToolStripSeparator4, Me.MenuitemRefresh, Me.MenuitemHide})
         Me.MenuitemView.Name = "MenuitemView"
         Me.MenuitemView.Size = New System.Drawing.Size(12, 20)
         '
@@ -140,22 +141,32 @@ Partial Class GameBoardForm
         'MenuitemSkinOrig
         '
         Me.MenuitemSkinOrig.Name = "MenuitemSkinOrig"
-        Me.MenuitemSkinOrig.Size = New System.Drawing.Size(180, 22)
+        Me.MenuitemSkinOrig.Size = New System.Drawing.Size(67, 22)
         '
         'MenuitemSkinExport
         '
         Me.MenuitemSkinExport.Name = "MenuitemSkinExport"
-        Me.MenuitemSkinExport.Size = New System.Drawing.Size(180, 22)
+        Me.MenuitemSkinExport.Size = New System.Drawing.Size(67, 22)
         '
         'MenuitemSkinCheese
         '
         Me.MenuitemSkinCheese.Name = "MenuitemSkinCheese"
-        Me.MenuitemSkinCheese.Size = New System.Drawing.Size(180, 22)
+        Me.MenuitemSkinCheese.Size = New System.Drawing.Size(67, 22)
         '
         'MenuitemColor
         '
         Me.MenuitemColor.Name = "MenuitemColor"
         Me.MenuitemColor.Size = New System.Drawing.Size(180, 22)
+        '
+        'MenuitemConfirmRestarts
+        '
+        Me.MenuitemConfirmRestarts.Name = "MenuitemConfirmRestarts"
+        Me.MenuitemConfirmRestarts.Size = New System.Drawing.Size(180, 22)
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(177, 6)
         '
         'MenuitemRefresh
         '
@@ -179,24 +190,24 @@ Partial Class GameBoardForm
         '
         Me.MenuitemUndo.Name = "MenuitemUndo"
         Me.MenuitemUndo.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Z), System.Windows.Forms.Keys)
-        Me.MenuitemUndo.Size = New System.Drawing.Size(180, 22)
+        Me.MenuitemUndo.Size = New System.Drawing.Size(108, 22)
         '
         'MenuitemRestart
         '
         Me.MenuitemRestart.Name = "MenuitemRestart"
         Me.MenuitemRestart.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.MenuitemRestart.Size = New System.Drawing.Size(180, 22)
+        Me.MenuitemRestart.Size = New System.Drawing.Size(108, 22)
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(105, 6)
         '
         'MenuitemOptions
         '
         Me.MenuitemOptions.Name = "MenuitemOptions"
         Me.MenuitemOptions.ShortcutKeys = System.Windows.Forms.Keys.F9
-        Me.MenuitemOptions.Size = New System.Drawing.Size(180, 22)
+        Me.MenuitemOptions.Size = New System.Drawing.Size(108, 22)
         '
         'MenuitemHelp
         '
@@ -208,24 +219,24 @@ Partial Class GameBoardForm
         '
         Me.MenuitemHelpTopics.Name = "MenuitemHelpTopics"
         Me.MenuitemHelpTopics.ShortcutKeys = System.Windows.Forms.Keys.F1
-        Me.MenuitemHelpTopics.Size = New System.Drawing.Size(180, 22)
+        Me.MenuitemHelpTopics.Size = New System.Drawing.Size(118, 22)
         '
         'MenuitemAppWebsite
         '
         Me.MenuitemAppWebsite.Name = "MenuitemAppWebsite"
         Me.MenuitemAppWebsite.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
-        Me.MenuitemAppWebsite.Size = New System.Drawing.Size(180, 22)
+        Me.MenuitemAppWebsite.Size = New System.Drawing.Size(118, 22)
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(115, 6)
         '
         'MenuitemAbout
         '
         Me.MenuitemAbout.Name = "MenuitemAbout"
         Me.MenuitemAbout.ShortcutKeys = CType((System.Windows.Forms.Keys.Shift Or System.Windows.Forms.Keys.F1), System.Windows.Forms.Keys)
-        Me.MenuitemAbout.Size = New System.Drawing.Size(180, 22)
+        Me.MenuitemAbout.Size = New System.Drawing.Size(118, 22)
         '
         'StatusStrip1
         '
@@ -332,4 +343,6 @@ Partial Class GameBoardForm
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents SkrzynkiTrayIcon1 As NotifyIcon
     Friend WithEvents ColorDialog1 As ColorDialog
+    Friend WithEvents MenuitemConfirmRestarts As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
 End Class

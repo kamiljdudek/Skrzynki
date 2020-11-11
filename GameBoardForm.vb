@@ -3,16 +3,12 @@
 Public Class GameBoardForm
     ReadOnly imgGameField(256) As System.Windows.Forms.PictureBox
     Friend WithEvents SkrzynkiTrayIcon As NotifyIcon
-    Public Localizer As System.Resources.ResourceManager =
-        New System.Resources.ResourceManager("Skrzynki.LocalizableStrings", System.Reflection.Assembly.GetExecutingAssembly())
     Private Sub ApplyLocalizationResources()
         Me.MenuitemAbout.Text = Localizer.GetString("MenuitemAbout")
         Me.MenuitemAppWebsite.Text = Localizer.GetString("MenuitemWebsite")
-        Me.MenuitemColor.Text = Nothing
         Me.MenuitemGame.Text = Localizer.GetString("MenuitemGame")
         Me.MenuitemHelp.Text = Localizer.GetString("MenuitemHelp")
         Me.MenuitemHelpTopics.Text = Localizer.GetString("MenuitemHelpTopics")
-        Me.MenuitemHide.Text = Nothing
         Me.MenuitemLevelset.Text = Localizer.GetString("MenuitemSelectLevelSet")
         Me.MenuitemLevelsetClassic.Text = Localizer.GetString("LevelSetClassic")
         Me.MenuitemLevelsetXS.Text = Localizer.GetString("LevelSetXS")
@@ -24,10 +20,6 @@ Public Class GameBoardForm
         Me.MenuitemRestart.Text = Localizer.GetString("MenuitemRestart")
         Me.MenuitemSelectLevel.Text = Localizer.GetString("MenuitemSelectLevel")
         Me.MenuitemOpenLevel.Text = Localizer.GetString("MenuitemOpenLevelFile")
-        Me.MenuitemSkinCheese.Text = Nothing
-        Me.MenuitemSkinExport.Text = Nothing
-        Me.MenuitemSkinOrig.Text = Nothing
-        Me.MenuitemSkins.Text = Nothing
         Me.MenuitemTools.Text = Localizer.GetString("MenuitemTools")
         Me.MenuitemUndo.Text = Localizer.GetString("MenuitemUndo")
         Me.MenuitemView.Text = Localizer.GetString("MenuitemView")
@@ -41,6 +33,9 @@ Public Class GameBoardForm
         Me.MenuitemColor.Text = Localizer.GetString("MenuitemColor")
         Me.MenuitemHide.Text = Localizer.GetString("MenuitemHide")
         Me.SkrzynkiTrayIcon1.Text = Localizer.GetString("GameName")
+        Me.MenuitemConfirmRestarts.Text = Localizer.GetString("MenuitemConfirmRestarts")
+        OpenFileDialog1.Filter = Localizer.GetString("DialogFileFilter")
+        OpenFileDialog1.Title = Localizer.GetString("DialogOpenLevelFile")
     End Sub
 
     Private Sub GenerateGameField() Handles Me.Load
@@ -64,10 +59,11 @@ Public Class GameBoardForm
         Next
     End Sub
 
+    <CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId:="System.Windows.Forms.Form.set_Text(System.String)")>
     Private Sub RefreshStatusBar()
-        Me.MovesLabel.Text = Localizer.GetString("LabelMoves") & Ruchy
-        Me.PushesLabel.Text = Localizer.GetString("LabelPushes") & Pchniecia
-        Me.Text = Localizer.GetString("GameName") & " (" & My.Settings.LevelSet & "): #" & NumerEtapu.ToString(CultureInfo.InvariantCulture)
+        MovesLabel.Text = Localizer.GetString("LabelMoves") & Ruchy
+        PushesLabel.Text = Localizer.GetString("LabelPushes") & Pchniecia
+        Text = Localizer.GetString("GameName") & " (" & My.Settings.LevelSet & "): #" & NumerEtapu.ToString(CultureInfo.InvariantCulture)
 
         Me.LevelProgressBar.Maximum = Etap.LiczbaSkrzynek
         Me.LevelProgressBar.Value = Etap.SkrzynkiNaMiejscach
@@ -128,16 +124,14 @@ Public Class GameBoardForm
 
     Private Sub FrmMain_KeyDown(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         Dim KeyCode As Windows.Forms.Keys = eventArgs.KeyCode
-        If KeyCode = 倉庫番.Lewo Or
-            KeyCode = 倉庫番.Prawo Or
-            KeyCode = 倉庫番.Gora Or
-            KeyCode = 倉庫番.Dol Then
+        If KeyCode = System.Windows.Forms.Keys.Left Or
+            KeyCode = System.Windows.Forms.Keys.Right Or
+            KeyCode = System.Windows.Forms.Keys.Up Or
+            KeyCode = System.Windows.Forms.Keys.Down Then
             If PrzesunGracza(KeyCode) Then
                 Call RefreshBoardNearItemsOnly()
-                'Call OdswiezPoleGry()
+                Call RefreshStatusBar()
                 Ruchy += 1
-
-                RefreshStatusBar()
 
                 If WykonanoRuch = False Then
                     WykonanoRuch = True
@@ -145,18 +139,25 @@ Public Class GameBoardForm
                 End If
 
                 If Etap.SkrzynkiNaMiejscach = Etap.LiczbaSkrzynek Then
-                    MsgBox(Localizer.GetString("AlertLevelSolved"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Information Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+                    MsgBox(Localizer.GetString("AlertLevelSolved"),
+                           MsgBoxStyle.OkOnly Or
+                           MsgBoxStyle.Information Or
+                           MsgBoxStyle.ApplicationModal,
+                           System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
                     EtapZaliczony = True
                     NumerEtapu += 1
                     If NumerEtapu > UBound(Etapy, 1) Then
-                        MsgBox(Localizer.GetString("Moves"), MsgBoxStyle.OkOnly Or MsgBoxStyle.Information Or MsgBoxStyle.ApplicationModal, System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+                        MsgBox(Localizer.GetString("Moves"),
+                               MsgBoxStyle.OkOnly Or
+                               MsgBoxStyle.Information Or
+                               MsgBoxStyle.ApplicationModal,
+                               System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
                     Else
                         NastepnyEtap()
                     End If
                     Me.MenuitemUndo.Enabled = False
-                    RefreshBoard()
-                    RefreshStatusBar()
-                    Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & NumerEtapu
+                    Call RefreshBoard()
+                    Call RefreshStatusBar()
                 End If
             Else
                 Interaction.Beep()
@@ -218,11 +219,10 @@ Public Class GameBoardForm
         RefreshBoard()
         Me.MenuitemUndo.Enabled = False
         Call RefreshStatusBar()
-        Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & NumerEtapu
     End Sub
 
     Private Sub MenuitemAbout_Click(sender As Object, e As EventArgs) Handles MenuitemAbout.Click
-        FrmSplash.Show()
+        SplashScreen.Show()
     End Sub
 
     Private Sub MenuitemRefresh_Click(sender As Object, e As EventArgs) Handles MenuitemRefresh.Click
@@ -230,7 +230,7 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemOptions_Click(sender As Object, e As EventArgs) Handles MenuitemOptions.Click
-        FrmOptions.Show()
+        StatsOptsForm.Show()
     End Sub
 
     Private Sub MenuitemRestart_Click(sender As Object, e As EventArgs) Handles MenuitemRestart.Click
@@ -253,7 +253,6 @@ Public Class GameBoardForm
 
         Me.MenuitemUndo.Enabled = False
         Call RefreshStatusBar()
-        Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & NumerEtapu
     End Sub
 
     Private Sub MenuitemColor_Click(sender As Object, e As EventArgs) Handles MenuitemColor.Click
@@ -354,7 +353,6 @@ Public Class GameBoardForm
 
         If WczytajEtap(NazwaPliku, FreeFile) Then
             RefreshBoard()
-            Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & OpenFileDialog1.FileName.Replace(".box", "")
             EtapSpozaZestawu = True
 
             If My.Settings.LevelLoadConfirmation = True Then
@@ -408,7 +406,6 @@ Public Class GameBoardForm
         RefreshBoard()
         Me.MenuitemUndo.Enabled = False
         Call RefreshStatusBar()
-        Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & Localizer.GetString("LabelShortPauseAndNumberID") & NumerEtapu
     End Sub
 
     Private Sub MenuitemGame_Click(sender As Object, e As EventArgs) Handles MenuitemGame.Click
@@ -473,6 +470,31 @@ Public Class GameBoardForm
             MenuitemSkinOrig.Checked = False
             MenuitemSkinCheese.Checked = False
             MenuitemSkinExport.Checked = True
+        End If
+    End Sub
+
+    Private Sub MenuitemView_Click(sender As Object, e As EventArgs) Handles MenuitemView.Click
+        If My.Settings.LevelRestartingAuthorization = True Then
+            MenuitemConfirmRestarts.Checked = True
+        Else
+            MenuitemConfirmRestarts.Checked = False
+        End If
+    End Sub
+
+
+    Private Sub MenuitemConfirmRestarts_CheckStateChanged(sender As Object, e As EventArgs) Handles MenuitemConfirmRestarts.CheckStateChanged
+        If MenuitemConfirmRestarts.Checked = True Then
+            My.Settings.LevelRestartingAuthorization = True
+        Else
+            My.Settings.LevelRestartingAuthorization = False
+        End If
+    End Sub
+
+    Private Sub MenuitemConfirmRestarts_Click(sender As Object, e As EventArgs) Handles MenuitemConfirmRestarts.Click
+        If MenuitemConfirmRestarts.Checked = True Then
+            MenuitemConfirmRestarts.Checked = False
+        Else
+            MenuitemConfirmRestarts.Checked = True
         End If
     End Sub
 End Class

@@ -11,10 +11,10 @@ Imports System.Reflection
 
 
 <Assembly: AssemblyTitle("Boxes: Skrzynki")>
-<Assembly: AssemblyDescription("Skrzynki")>
+<Assembly: AssemblyDescription("Gra logiczna, w której wcielasz siê w magazyniera!")>
 <Assembly: AssemblyCompany("Karol Kuczmarski")>
 <Assembly: AssemblyProduct("Skrzynki")>
-<Assembly: AssemblyCopyright("(c) Karol Kuczmarski")>
+<Assembly: AssemblyCopyright("© 2000-2001 - ")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: AssemblyCulture("")>
 
@@ -32,3 +32,8 @@ Imports System.Reflection
 <Assembly: AssemblyVersion("4.0")>
 <Assembly: ComVisible(False)>
 <Assembly: NeutralResourcesLanguage("")>
+<Assembly: AssemblyFileVersion("4.0")>
+
+<assembly:CLSCompliant(true)>
+Namespace DesignLibrary
+End Namespace

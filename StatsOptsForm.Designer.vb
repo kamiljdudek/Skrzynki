@@ -22,29 +22,73 @@ Partial Class StatsOptsForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(StatsOptsForm))
+        Me.LevelsetComboBox = New System.Windows.Forms.ComboBox()
+        Me.LabelLevelSet = New System.Windows.Forms.Label()
+        Me.LabelReachedLevel = New System.Windows.Forms.Label()
+        Me.LabelMoves = New System.Windows.Forms.Label()
+        Me.LabelPushes = New System.Windows.Forms.Label()
+        Me.LevelSetProgressBar = New System.Windows.Forms.ProgressBar()
         Me.SuspendLayout()
         '
-        'ComboBox1
+        'LevelsetComboBox
         '
-        Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(13, 13)
-        Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(121, 21)
-        Me.ComboBox1.TabIndex = 0
+        Me.LevelsetComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.LevelsetComboBox.FormattingEnabled = True
+        resources.ApplyResources(Me.LevelsetComboBox, "LevelsetComboBox")
+        Me.LevelsetComboBox.Name = "LevelsetComboBox"
+        '
+        'LabelLevelSet
+        '
+        resources.ApplyResources(Me.LabelLevelSet, "LabelLevelSet")
+        Me.LabelLevelSet.Name = "LabelLevelSet"
+        '
+        'LabelReachedLevel
+        '
+        resources.ApplyResources(Me.LabelReachedLevel, "LabelReachedLevel")
+        Me.LabelReachedLevel.Name = "LabelReachedLevel"
+        '
+        'LabelMoves
+        '
+        resources.ApplyResources(Me.LabelMoves, "LabelMoves")
+        Me.LabelMoves.Name = "LabelMoves"
+        '
+        'LabelPushes
+        '
+        resources.ApplyResources(Me.LabelPushes, "LabelPushes")
+        Me.LabelPushes.Name = "LabelPushes"
+        '
+        'LevelSetProgressBar
+        '
+        resources.ApplyResources(Me.LevelSetProgressBar, "LevelSetProgressBar")
+        Me.LevelSetProgressBar.Name = "LevelSetProgressBar"
         '
         'StatsOptsForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(446, 525)
-        Me.Controls.Add(Me.ComboBox1)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.Controls.Add(Me.LevelSetProgressBar)
+        Me.Controls.Add(Me.LabelPushes)
+        Me.Controls.Add(Me.LabelMoves)
+        Me.Controls.Add(Me.LabelReachedLevel)
+        Me.Controls.Add(Me.LabelLevelSet)
+        Me.Controls.Add(Me.LevelsetComboBox)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "StatsOptsForm"
-        Me.Text = "StatsOptsForm"
+        Me.ShowIcon = False
+        Me.ShowInTaskbar = False
+        Me.TopMost = True
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
-    Friend WithEvents ComboBox1 As ComboBox
+    Friend WithEvents LevelsetComboBox As ComboBox
+    Friend WithEvents LabelLevelSet As Label
+    Friend WithEvents LabelReachedLevel As Label
+    Friend WithEvents LabelMoves As Label
+    Friend WithEvents LabelPushes As Label
+    Friend WithEvents LevelSetProgressBar As ProgressBar
 End Class

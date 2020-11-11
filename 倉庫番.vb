@@ -58,6 +58,8 @@
         Dim PostacGracza As Boolean
     End Structure
 
+    Public Localizer As System.Resources.ResourceManager =
+        New System.Resources.ResourceManager("Skrzynki.LocalizableStrings", System.Reflection.Assembly.GetExecutingAssembly())
 
     ' deklaracje stałych, zmiennych i funkcji API
     '--------------------------------------------

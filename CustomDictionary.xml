@@ -1,0 +1,13 @@
+<Dictionary>
+   <Words>
+      <Recognized>
+         <Word>Skrzynki</Word>
+      </Recognized>
+   </Words>
+   <Acronyms>
+      <CasingExceptions>
+         <Acronym>BXP</Acronym>
+         <Acronym>bxp</Acronym>
+      </CasingExceptions>
+   </Acronyms>
+</Dictionary>

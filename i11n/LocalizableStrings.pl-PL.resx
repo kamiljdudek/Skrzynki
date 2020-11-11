@@ -142,7 +142,7 @@
     <value>Wprowadzona wartość nie jest liczbą</value>
   </data>
   <data name="DialogFileFilter" xml:space="preserve">
-    <value>Etapy Skrzynek (*.box)|*.box|Wszystkie pliki (*.*)|*.*</value>
+    <value>Etapy gry Skrzynki (*.box)|*.box|Zestawy Sokoban (*.sok)|*.sok</value>
   </data>
   <data name="DialogOpenLevelFile" xml:space="preserve">
     <value>Otwórz plik etapu</value>
@@ -201,6 +201,12 @@
   <data name="LabelSkinOriginal" xml:space="preserve">
     <value>(Oryginalny)</value>
   </data>
+  <data name="LabelSplashOS" xml:space="preserve">
+    <value>dla Windows</value>
+  </data>
+  <data name="LabelSplashVersionName" xml:space="preserve">
+    <value>Wersja: </value>
+  </data>
   <data name="LabelStats" xml:space="preserve">
     <value>Statystyki...</value>
   </data>
@@ -222,6 +228,9 @@
   <data name="MenuitemColor" xml:space="preserve">
     <value>Wybierz &amp;kolor...</value>
   </data>
+  <data name="MenuitemConfirmRestarts" xml:space="preserve">
+    <value>Potwierdzaj re&amp;start etapu</value>
+  </data>
   <data name="MenuitemGame" xml:space="preserve">
     <value>&amp;Gra</value>
   </data>
@@ -241,7 +250,7 @@
     <value>Otwórz &amp;plik etapu...</value>
   </data>
   <data name="MenuitemOptions" xml:space="preserve">
-    <value>&amp;Opcje</value>
+    <value>&amp;Statystyki</value>
   </data>
   <data name="MenuitemQuit" xml:space="preserve">
     <value>Zakońc&amp;z</value>
