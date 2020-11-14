@@ -61,62 +61,62 @@ Public Class GameBoardForm
 
     <CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId:="System.Windows.Forms.Form.set_Text(System.String)")>
     Private Sub RefreshStatusBar()
-        MovesLabel.Text = Localizer.GetString("LabelMoves") & Ruchy
-        PushesLabel.Text = Localizer.GetString("LabelPushes") & Pchniecia
-        Text = Localizer.GetString("GameName") & " (" & My.Settings.LevelSet & "): #" & NumerEtapu.ToString(CultureInfo.InvariantCulture)
+        MovesLabel.Text = Localizer.GetString("LabelMoves") & MovesPerformedOnCurrentLevel
+        PushesLabel.Text = Localizer.GetString("LabelPushes") & PushesPerformedOnCurrentLevel
+        Text = Localizer.GetString("GameName") & " (" & My.Settings.LevelSet & "): #" & CurrentlyPlayedLevelId.ToString(CultureInfo.InvariantCulture)
 
-        Me.LevelProgressBar.Maximum = Etap.LiczbaSkrzynek
-        Me.LevelProgressBar.Value = Etap.SkrzynkiNaMiejscach
+        Me.LevelProgressBar.Maximum = CurrentLevelStats.NumberOfBoxes
+        Me.LevelProgressBar.Value = CurrentLevelStats.BoxesOnPlaces
 
         Me.LevelsetProgressBar.Maximum = 60
-        Me.LevelsetProgressBar.Value = NumerEtapu
+        Me.LevelsetProgressBar.Value = CurrentlyPlayedLevelId
     End Sub
 
     Public Sub RefreshBoard()
-        For Licznik = 1 To 256 Step 1
-            If PoleGry(Licznik) < 7 Then
-                Me.imgGameField(Licznik).Image = Skrzynki.Skin.GetIcon(PoleGry(Licznik))
+        For Counter = 1 To 256 Step 1
+            If GameBoard(Counter) < 7 Then
+                Me.imgGameField(Counter).Image = Skrzynki.Skin.GetIcon(GameBoard(Counter))
             Else
-                Me.imgGameField(Licznik).Image = Nothing
-                Me.imgGameField(Licznik).BackColor = My.Settings.BackgroundColor
+                Me.imgGameField(Counter).Image = Nothing
+                Me.imgGameField(Counter).BackColor = My.Settings.BackgroundColor
             End If
-        Next Licznik
+        Next Counter
     End Sub
 
     Public Sub RefreshBoardNearItemsOnly()
-        If PoleGry(PozycjaGracza - 16) < 7 Then
-            Me.imgGameField(PozycjaGracza - 16).Image =
-                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza - 16))
+        If GameBoard(PlayerLocation - 16) < 7 Then
+            Me.imgGameField(PlayerLocation - 16).Image =
+                    Skrzynki.Skin.GetIcon(GameBoard(PlayerLocation - 16))
         Else
-            Me.imgGameField(PozycjaGracza - 16).Image = Nothing
+            Me.imgGameField(PlayerLocation - 16).Image = Nothing
         End If
 
-        If PoleGry(PozycjaGracza - 1) < 7 Then
-            Me.imgGameField(PozycjaGracza - 1).Image =
-                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza - 1))
+        If GameBoard(PlayerLocation - 1) < 7 Then
+            Me.imgGameField(PlayerLocation - 1).Image =
+                    Skrzynki.Skin.GetIcon(GameBoard(PlayerLocation - 1))
         Else
-            Me.imgGameField(PozycjaGracza - 1).Image = Nothing
+            Me.imgGameField(PlayerLocation - 1).Image = Nothing
         End If
 
-        If PoleGry(PozycjaGracza) < 7 Then
-            Me.imgGameField(PozycjaGracza).Image =
-                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza))
+        If GameBoard(PlayerLocation) < 7 Then
+            Me.imgGameField(PlayerLocation).Image =
+                    Skrzynki.Skin.GetIcon(GameBoard(PlayerLocation))
         Else
-            Me.imgGameField(PozycjaGracza).Image = Nothing
+            Me.imgGameField(PlayerLocation).Image = Nothing
         End If
 
-        If PoleGry(PozycjaGracza + 1) < 7 Then
-            Me.imgGameField(PozycjaGracza + 1).Image =
-                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza + 1))
+        If GameBoard(PlayerLocation + 1) < 7 Then
+            Me.imgGameField(PlayerLocation + 1).Image =
+                    Skrzynki.Skin.GetIcon(GameBoard(PlayerLocation + 1))
         Else
-            Me.imgGameField(PozycjaGracza + 1).Image = Nothing
+            Me.imgGameField(PlayerLocation + 1).Image = Nothing
         End If
 
-        If PoleGry(PozycjaGracza + 16) < 7 Then
-            Me.imgGameField(PozycjaGracza + 16).Image =
-                    Skrzynki.Skin.GetIcon(PoleGry(PozycjaGracza + 16))
+        If GameBoard(PlayerLocation + 16) < 7 Then
+            Me.imgGameField(PlayerLocation + 16).Image =
+                    Skrzynki.Skin.GetIcon(GameBoard(PlayerLocation + 16))
         Else
-            Me.imgGameField(PozycjaGracza + 16).Image = Nothing
+            Me.imgGameField(PlayerLocation + 16).Image = Nothing
         End If
 
     End Sub
@@ -131,29 +131,31 @@ Public Class GameBoardForm
             If PrzesunGracza(KeyCode) Then
                 Call RefreshBoardNearItemsOnly()
                 Call RefreshStatusBar()
-                Ruchy += 1
+                MovesPerformedOnCurrentLevel += 1
 
-                If WykonanoRuch = False Then
-                    WykonanoRuch = True
+                If MoveHasBeenPerformed = False Then
+                    MoveHasBeenPerformed = True
                     Me.MenuitemUndo.Enabled = True
                 End If
 
-                If Etap.SkrzynkiNaMiejscach = Etap.LiczbaSkrzynek Then
+                If CurrentLevelStats.BoxesOnPlaces = CurrentLevelStats.NumberOfBoxes Then
                     MsgBox(Localizer.GetString("AlertLevelSolved"),
                            MsgBoxStyle.OkOnly Or
                            MsgBoxStyle.Information Or
                            MsgBoxStyle.ApplicationModal,
                            System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-                    EtapZaliczony = True
-                    NumerEtapu += 1
-                    If NumerEtapu > UBound(Etapy, 1) Then
-                        MsgBox(Localizer.GetString("Moves"),
+                    LevelCleared = True
+                    CurrentlyPlayedLevelId += 1
+                    Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item("Classic"), Levelset)
+
+                    If CurrentlyPlayedLevelId > Levelset.NumberOfLevels Then
+                        MsgBox(Localizer.GetString("AlertAllLevelsSolved"),
                                MsgBoxStyle.OkOnly Or
                                MsgBoxStyle.Information Or
                                MsgBoxStyle.ApplicationModal,
                                System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
                     Else
-                        NastepnyEtap()
+                        LoadNextLevel()
                     End If
                     Me.MenuitemUndo.Enabled = False
                     Call RefreshBoard()
@@ -170,23 +172,24 @@ Public Class GameBoardForm
         Call ApplyLocalizationResources()
 
         Me.Icon = My.Resources.ico101
-        Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & NumerEtapu
+        Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
 
-        ZestawEtapow = My.Settings.LevelSet
-        NumerEtapu = 1
-        WykonanoRuch = False
-        EtapZaliczony = False
+        LevelParser.LoadAllLevelsets()
+
+        CurrentlyPlayedLevelId = 1
+        MoveHasBeenPerformed = False
+        LevelCleared = False
 
         Stats.OdczytajStatystyki()
 
         Me.BackColor = Color.Black
 
         Dim SuccessfulNewGame As Boolean = False
-        If EtapSpozaZestawu = False Then
+        If ExternalCustomLevel = False Then
             If My.Settings.BeginFromArrivedLevel = True Then
-                SuccessfulNewGame = NowaGra((NajdalszyEtap()))
+                SuccessfulNewGame = NewGame((SetArrivedLevel()))
             Else
-                SuccessfulNewGame = NowaGra((1))
+                SuccessfulNewGame = NewGame((1))
             End If
 
             If Not SuccessfulNewGame Then
@@ -215,7 +218,7 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemNewGame_Click(sender As Object, e As EventArgs) Handles MenuitemNewGame.Click
-        NowaGra((1))
+        NewGame((1))
         RefreshBoard()
         Me.MenuitemUndo.Enabled = False
         Call RefreshStatusBar()
@@ -243,11 +246,11 @@ Public Class GameBoardForm
                         System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
 
             If TempX = MsgBoxResult.Yes Then
-                RestartujEtap()
+                RestartLevel()
                 RefreshBoard()
             End If
         Else
-            RestartujEtap()
+            RestartLevel()
             RefreshBoard()
         End If
 
@@ -262,7 +265,7 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemUndo_Click(sender As Object, e As EventArgs) Handles MenuitemUndo.Click
-        Cofnij()
+        Undo()
         RefreshBoard()
         RefreshStatusBar()
         Me.MenuitemUndo.Enabled = False
@@ -295,13 +298,22 @@ Public Class GameBoardForm
     Private Sub MenuitemSelectLevel_Click(sender As Object, e As EventArgs) Handles MenuitemSelectLevel.Click
         Dim IB As String = InputBox(Localizer.GetString("QuerySelectLevel"),
                                     System.Reflection.Assembly.GetExecutingAssembly.GetName.Name,
-                                    CStr(NajdalszyEtap()))
+                                    CStr(SetArrivedLevel()))
         If IB = "" Then
             Exit Sub
         End If
 
+        Dim ZE As String = Nothing
+        If My.Settings.LevelSet = "Klasyczne" Then
+            ZE = "Classic"
+        ElseIf My.Settings.LevelSet = "SuperTrudneXS" Then
+            ZE = "XS"
+        End If
+
+        Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(ZE), Levelset)
+
         If IsNumeric(IB) = False Then
-            MsgBox(Localizer.GetString("NaNAlert"),
+            MsgBox(Localizer.GetString("AlertNotANumber"),
                    MsgBoxStyle.OkOnly Or
                    MsgBoxStyle.Critical Or
                    MsgBoxStyle.ApplicationModal,
@@ -309,7 +321,7 @@ Public Class GameBoardForm
             Exit Sub
         End If
 
-        If (Val(IB) > Val(CStr(NajdalszyEtap()))) And (Val(IB) <= Val(CStr(UBound(Etapy, 1)))) Then
+        If (Val(IB) > Val(CStr(SetArrivedLevel()))) And (Val(IB) <= Levelset.NumberOfLevels) Then
             MsgBox(Localizer.GetString("AlertLevelNotReachedYet"),
                    MsgBoxStyle.OkOnly Or
                    MsgBoxStyle.Critical Or
@@ -317,7 +329,7 @@ Public Class GameBoardForm
                    System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
             Exit Sub
         Else
-            If (Val(IB) > Val(CStr(UBound(Etapy, 1)))) Or Val(IB) <= 0 Then
+            If Val(IB) > Levelset.NumberOfLevels Or Val(IB) <= 0 Then
                 MsgBox(Localizer.GetString("AlertNotANumber"),
                        MsgBoxStyle.OkOnly Or
                        MsgBoxStyle.Critical Or
@@ -326,43 +338,69 @@ Public Class GameBoardForm
                 Exit Sub
             End If
 
-            NumerEtapu = CInt(Val(IB))
-            For Licznik = 1 To 256
-                PoleGry(Licznik) = Etapy(NumerEtapu, Licznik)
-                'UPGRADE_WARNING: Couldn't resolve default property of object Etap. Click for more: 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1037"'
-                Etap = DaneEtapow(NumerEtapu)
-                PozycjaGracza = PozycjeGracza(NumerEtapu)
-            Next Licznik
+            CurrentlyPlayedLevelId = CInt(Val(IB))
+            Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
+            For Counter = 1 To 256 Step 1
+                GameBoard(Counter) = BoardState(Counter)
+            Next Counter
+
+            CurrentLevelStats = Levelset.GetLevelProperties(CurrentlyPlayedLevelId)
+            PlayerLocation = PlayerLocations(CurrentlyPlayedLevelId)
 
             Call RefreshStatusBar()
-            Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & NumerEtapu
+            Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
             RefreshBoard()
-            EtapSpozaZestawu = False
+            ExternalCustomLevel = False
         End If
     End Sub
 
     Private Sub MenuitemTools_Click(sender As Object, e As EventArgs) Handles MenuitemTools.Click
-        If WykonanoRuch Then MenuitemUndo.Enabled = True Else MenuitemUndo.Enabled = False
-        If EtapSpozaZestawu = False Then MenuitemRestart.Enabled = True Else MenuitemRestart.Enabled = False
+        If MoveHasBeenPerformed Then MenuitemUndo.Enabled = True Else MenuitemUndo.Enabled = False
+        If ExternalCustomLevel = False Then MenuitemRestart.Enabled = True Else MenuitemRestart.Enabled = False
     End Sub
 
     Private Sub MenuitemOpenLevel_Click(sender As Object, e As EventArgs) Handles MenuitemOpenLevel.Click
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-            NazwaPliku = OpenFileDialog1.FileName
+            FileName = OpenFileDialog1.FileName
         End If
 
-        If WczytajEtap(NazwaPliku, FreeFile) Then
-            RefreshBoard()
-            EtapSpozaZestawu = True
+        Dim LevelsetCustomInput = LevelParser.PullAllLevels(FileName, True)
+        Dim LevelsetCustom As Levelset = New Levelset("NazwaPliku")
 
+        If LevelsetCustomInput.Count > 0 Then
             If My.Settings.LevelLoadConfirmation = True Then
-                MsgBox((Localizer.GetString("AlertLevelFromFileLoadSuccess") & NazwaPliku),
+                MsgBox((Localizer.GetString("AlertLevelFromFileLoadSuccess") & FileName),
                        MsgBoxStyle.OkOnly Or
                        MsgBoxStyle.Information Or
                        MsgBoxStyle.ApplicationModal,
                        System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
             End If
+
+            ' TODO fail and fall back if it didn't 
+
+            For Each SokobanCompliantLevel As String In LevelsetCustomInput
+                Dim SkrzynkiCompliantLevel = GetMapStringFromLevel(SokobanCompliantLevel)
+                LevelsetCustom.AddLevel(SkrzynkiCompliantLevel)
+            Next
+
+            LevelsetCustom.AchievedLevel = 0
+            LevelsetCustom.Moves = 0
+            LevelsetCustom.Pushes = 0
+
+            Levelsets.Add("Custom", LevelsetCustom)
         End If
+
+        Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item("Custom"), Levelset)
+        RefreshBoard()
+        ExternalCustomLevel = True
+
+        Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
+        For Counter = 1 To 256 Step 1
+            GameBoard(Counter) = BoardState(Counter)
+        Next Counter
+
+        CurrentLevelStats = Levelset.GetLevelProperties(CurrentlyPlayedLevelId)
+
     End Sub
 
     Private Sub MenuitemLevelset_Click(sender As Object, e As EventArgs) Handles MenuitemLevelset.Click
@@ -389,19 +427,19 @@ Public Class GameBoardForm
         My.Settings.LevelSet = "Klasyczne"
         MenuitemLevelsetClassic.Checked = True
         MenuitemLevelsetXS.Checked = False
-        NowaGra(1, My.Settings.LevelSet)
+        NewGame(1)
 
         RefreshBoard()
         Me.MenuitemUndo.Enabled = False
         Call RefreshStatusBar()
-        Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & Localizer.GetString("LabelShortPauseAndNumberID") & NumerEtapu
+        Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
     End Sub
 
     Private Sub MenuitemLevelsetXS_Click(sender As Object, e As EventArgs) Handles MenuitemLevelsetXS.Click
         My.Settings.LevelSet = "SuperTrudneXS"
         MenuitemLevelsetClassic.Checked = False
         MenuitemLevelsetXS.Checked = True
-        NowaGra(1, My.Settings.LevelSet)
+        NewGame(1)
 
         RefreshBoard()
         Me.MenuitemUndo.Enabled = False
@@ -409,7 +447,7 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemGame_Click(sender As Object, e As EventArgs) Handles MenuitemGame.Click
-        If EtapSpozaZestawu Then
+        If ExternalCustomLevel Then
             MenuitemOpenLevel.Enabled = False
         Else
             MenuitemOpenLevel.Enabled = True

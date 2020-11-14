@@ -3,8 +3,8 @@
     Private Sub UpdateStatsUI()
         LabelLevelSet.Text = 倉庫番.Localizer.GetString("LabelLevelSet")
         LabelReachedLevel.Text = 倉庫番.Localizer.GetString("LabelAchievedLevel") & My.Settings.ArrivedLevelKlasyczne
-        LabelMoves.Text = 倉庫番.Localizer.GetString("LabelMoves") & Ruchy
-        LabelPushes.Text = 倉庫番.Localizer.GetString("LabelPushes") & Pchniecia
+        LabelMoves.Text = 倉庫番.Localizer.GetString("LabelMoves") & MovesPerformedOnCurrentLevel
+        LabelPushes.Text = 倉庫番.Localizer.GetString("LabelPushes") & PushesPerformedOnCurrentLevel
 
         LevelSetProgressBar.Maximum = 60
         If LevelsetComboBox.SelectedItem Is 倉庫番.Localizer.GetString("LevelSetClassic") Then

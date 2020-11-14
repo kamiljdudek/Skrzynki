@@ -65,6 +65,71 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to   ###
+        '''  #.#
+        '''  # ####
+        '''###$ $.#
+        '''#. $@###
+        '''####$#
+        '''   #.#
+        '''   ###
+        '''
+        '''#####
+        '''#@  #
+        '''# $$# ###
+        '''# $ # #.#
+        '''### ###.#
+        ''' ##    .#
+        ''' #   #  #
+        ''' #   ####
+        ''' #####
+        '''
+        ''' #######
+        ''' #     ###
+        '''##$###   #
+        '''# @ $  $ #
+        '''# ..# $ ##
+        '''##..#   #
+        ''' ########
+        '''
+        ''' ####
+        '''##  #
+        '''#@$ #
+        '''##$ ##
+        '''## $ #
+        '''#.$  #
+        '''#..*.#
+        '''######
+        '''
+        ''' #####
+        ''' #@ ###
+        ''' # $  #
+        '''### # ##
+        '''#.# #  #
+        '''#.$  # #
+        '''#.   $ #
+        '''########
+        '''
+        '''   #######
+        '''  ##  # @#
+        '''  #   #  #
+        '''  #$ $ $ #
+        '''  # $##  #
+        '''### $ # ##
+        '''#.....  #
+        '''#########
+        '''
+        '''   ######
+        ''' ###    #
+        '''##. $## ##        ''' [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property Classic_SOK() As String
+            Get
+                Return ResourceManager.GetString("Classic.SOK", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to 60
         '''*
         '''&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;
@@ -107,6 +172,72 @@ Namespace My.Resources
         Friend Shared ReadOnly Property LevelsetXS() As String
             Get
                 Return ResourceManager.GetString("LevelsetXS", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to   ######
+        ''' ## . @#
+        ''' # $ $ #
+        ''' #. * .#
+        ''' # $ $ #
+        ''' #  . ##
+        ''' ######
+        '''
+        '''    ####
+        '''    #@ #
+        '''##### .#
+        '''# $ $ $#
+        '''#   .  #
+        '''### .  #
+        '''  ######
+        '''
+        ''' #####
+        ''' #   ###
+        ''' #  $  #
+        ''' ##$$ .#
+        '''  #@ . #
+        '''  ## # #
+        '''   #  .#
+        '''   #####
+        '''
+        '''########
+        '''#   #  #
+        '''# #.$ $#
+        '''#   $  #
+        '''#####. #
+        '''  #   @#
+        '''  #   .#
+        '''  ######
+        '''
+        '''   #####
+        '''   # @ #
+        ''' ###   #
+        ''' # $ $##
+        '''## $  #
+        '''#.  # #
+        '''#..   #
+        '''#######
+        '''
+        '''  ####
+        '''  #  #
+        '''  #  ###
+        '''### .. #
+        '''#  $#  #
+        '''#  .$$ #
+        '''#### @ #
+        '''   #####
+        '''
+        ''' ######
+        ''' #@   ##
+        ''' ##$   #
+        '''### .  #
+        '''# $ #$##
+        '''#  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property XS_SOK() As String
+            Get
+                Return ResourceManager.GetString("XS.SOK", resourceCulture)
             End Get
         End Property
     End Class
