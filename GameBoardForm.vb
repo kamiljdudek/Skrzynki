@@ -65,8 +65,8 @@ Public Class GameBoardForm
         PushesLabel.Text = Localizer.GetString("LabelPushes") & PushesPerformedOnCurrentLevel
         Text = Localizer.GetString("GameName") & " (" & My.Settings.LevelSet & "): #" & CurrentlyPlayedLevelId.ToString(CultureInfo.InvariantCulture)
 
-        Me.LevelProgressBar.Maximum = CurrentLevelStats.NumberOfBoxes
-        Me.LevelProgressBar.Value = CurrentLevelStats.BoxesOnPlaces
+        Me.LevelProgressBar.Maximum = GameBoardDetails.GetTotalNumberOfBoxesOnBoard(GameBoard)
+        Me.LevelProgressBar.Value = GameBoardDetails.GetNumberOfPlacedBoxesOnBoard(GameBoard)
 
         Me.LevelsetProgressBar.Maximum = 60
         Me.LevelsetProgressBar.Value = CurrentlyPlayedLevelId
@@ -131,14 +131,13 @@ Public Class GameBoardForm
             If PrzesunGracza(KeyCode) Then
                 Call RefreshBoardNearItemsOnly()
                 Call RefreshStatusBar()
-                MovesPerformedOnCurrentLevel += 1
 
-                If MoveHasBeenPerformed = False Then
-                    MoveHasBeenPerformed = True
+                If MoveHasJustBeenPerformed = True Then
                     Me.MenuitemUndo.Enabled = True
                 End If
 
-                If CurrentLevelStats.BoxesOnPlaces = CurrentLevelStats.NumberOfBoxes Then
+                If GameBoardDetails.GetNumberOfPlacedBoxesOnBoard(GameBoard) =
+                    GameBoardDetails.GetTotalNumberOfBoxesOnBoard(GameBoard) Then
                     MsgBox(Localizer.GetString("AlertLevelSolved"),
                            MsgBoxStyle.OkOnly Or
                            MsgBoxStyle.Information Or
@@ -178,7 +177,7 @@ Public Class GameBoardForm
         AllGameBoardStates = New System.Collections.Generic.List(Of Integer())
 
         CurrentlyPlayedLevelId = 1
-        MoveHasBeenPerformed = False
+        MoveHasJustBeenPerformed = False
         LevelCleared = False
 
         Stats.OdczytajStatystyki()
@@ -345,8 +344,7 @@ Public Class GameBoardForm
                 GameBoard(Counter) = BoardState(Counter)
             Next Counter
 
-            CurrentLevelStats = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId)
-            PlayerLocation = CurrentLevelStats.PlayerLocation
+            PlayerLocation = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId).PlayerLocation
 
             Call RefreshStatusBar()
             Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
@@ -356,7 +354,7 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemTools_Click(sender As Object, e As EventArgs) Handles MenuitemTools.Click
-        If MoveHasBeenPerformed Then MenuitemUndo.Enabled = True Else MenuitemUndo.Enabled = False
+        If MoveHasJustBeenPerformed Then MenuitemUndo.Enabled = True Else MenuitemUndo.Enabled = False
         If ExternalCustomLevel = False Then MenuitemRestart.Enabled = True Else MenuitemRestart.Enabled = False
     End Sub
 
@@ -399,8 +397,6 @@ Public Class GameBoardForm
         For Counter = 1 To 256 Step 1
             GameBoard(Counter) = BoardState(Counter)
         Next Counter
-
-        CurrentLevelStats = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId)
 
     End Sub
 

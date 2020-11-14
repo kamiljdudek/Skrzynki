@@ -19,7 +19,7 @@
     '                       na miejscu
     '--------------------------------------------------------------------------------------------
     ' Działanie gry opiera się na tablicy 256 Image'ów oraz jej odpowiedniku w postaci jednowy-
-    ' miarowego arrayu o nazwie PoleGry.
+    ' miarowego arrayu o nazwie GameBoard.
     '--------------------------------------------------------------------------------------------
     ' Niniejszy program jest wolnym oprogramowaniem; możesz go 
     ' rozprowadzać dalej i/lub modyfikować na warunkach Powszechnej
@@ -46,35 +46,25 @@
         Public PlayerLocation As Integer
     End Class
 
+    Enum BoardItem
+        Blank = 0
+        Wall = 1
+        Box = 2
+        PlaceForBox = 3
+        BoxOnPlace = 4
+        Player = 5
+        PlayerOnPlace = 6
+        BlankOuter = 7
+    End Enum
+
     Public Localizer As System.Resources.ResourceManager =
         New System.Resources.ResourceManager("Skrzynki.LocalizableStrings", System.Reflection.Assembly.GetExecutingAssembly())
-
-    ' deklaracje stałych, zmiennych i funkcji API
-    '--------------------------------------------
-    '
-    Public Lewo As System.Windows.Forms.Keys = System.Windows.Forms.Keys.Left
-    Public Prawo As System.Windows.Forms.Keys = System.Windows.Forms.Keys.Right
-    Public Gora As System.Windows.Forms.Keys = System.Windows.Forms.Keys.Up
-    Public Dol As System.Windows.Forms.Keys = System.Windows.Forms.Keys.Down
-    '
-    Public Const BoardItemBlank As Short = 0 ' stałe pola gry
-    Public Const BoardItemWall As Short = 1
-    Public Const BoardItemBox As Short = 2
-    Public Const BoardItemPlaceForBox As Short = 3
-    Public Const BoardItemBoxOnPlace As Short = 4
-    Public Const BoardItemPlayer As Short = 5
-    Public Const BoardItemPlayerOnPlace As Short = 6
-    Public Const BoardItemBlankOuter As Short = 7
 
     ' zmienne
     Public GameBoard(256) As Integer ' przechowuje aktualne ustawienie obiektów w polu gry
     Public AllGameBoardStates As System.Collections.Generic.List(Of Integer())
-    Public CurrentLevelStats As LevelProperties ' przechowuje liczbę skrzynek i miejsc
-    Public PreviousLevelStats As LevelProperties ' tak jak PoleGrySprzedRuchu
-    Public PreviouslyLoadedLevelStats As LevelProperties ' jeśli wczytywanie etapu się nie powiedzie,
-    ' ta zmienna zachowuje dane poprzedniego poziomu
     Public PlayerLocation As Integer ' aktualna pozycja gracza
-    Public MoveHasBeenPerformed As Boolean ' czy gracz wykonał ruch (i czy ew. można cofnąć)
+    Public MoveHasJustBeenPerformed As Boolean ' czy gracz wykonał ruch (i czy ew. można cofnąć)
     Public PushHasJustBeenPerformed As Boolean
     Public ExternalCustomLevel As Boolean ' wybranego przez użytkownika (jeśli tak jest, po jego
     ' przejściu nie powinien być wyświetlony następny)
@@ -107,21 +97,13 @@
         End If
         MovesPerformedOnCurrentLevel = 0
         PushesPerformedOnCurrentLevel = 0
-        MoveHasBeenPerformed = False
+        MoveHasJustBeenPerformed = False
+        PushHasJustBeenPerformed = False
 
         Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item("Classic"), Levelset)
         Dim NextBoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
-        For Counter = 1 To 256 Step 1
-            GameBoard(Counter) = NextBoardState(Counter)
-        Next Counter
-
-        CurrentLevelStats = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId)
-        PreviousLevelStats = CurrentLevelStats
-
-        PlayerLocation = Array.IndexOf(NextBoardState, 5)
-        If PlayerLocation < 0 Then
-            PlayerLocation = Array.IndexOf(NextBoardState, 6)
-        End If
+        Array.Copy(NextBoardState, GameBoard, GameBoard.Length)
+        PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(NextBoardState)
         LevelCleared = False
     End Sub
     Public Function PrzesunGracza(ByVal moveDirection As System.Windows.Forms.Keys) As Boolean
@@ -130,230 +112,231 @@
             Exit Function
         End If
 
+        PushHasJustBeenPerformed = False
         Dim StateBeforeMove(256) As Integer
         Array.Copy(GameBoard, StateBeforeMove, GameBoard.Length)
 
         Select Case moveDirection
-            Case Lewo
+            Case System.Windows.Forms.Keys.Left
                 Select Case GameBoard(PlayerLocation - 1)
-                    Case BoardItemBlank
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                    Case BoardItem.Blank
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation - 1) = BoardItemPlayer
+                        GameBoard(PlayerLocation - 1) = BoardItem.Player
                         PlayerLocation -= 1
-                    Case BoardItemWall
+                    Case BoardItem.Wall
                         PrzesunGracza = False
                         Exit Function
-                    Case BoardItemBox
-                        If PrzesunSkrzynke(Lewo, PlayerLocation - 1, False) = False Then
+                    Case BoardItem.Box
+                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Left, PlayerLocation - 1, False) = False Then
                             PrzesunGracza = False
                             Exit Function
                         End If
 
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation - 1) = BoardItemPlayer
+                        GameBoard(PlayerLocation - 1) = BoardItem.Player
                         PlayerLocation -= 1
 
                         PushesPerformedOnCurrentLevel += 1
-                    Case BoardItemPlaceForBox
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                    Case BoardItem.PlaceForBox
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation - 1) = BoardItemPlayerOnPlace
+                        GameBoard(PlayerLocation - 1) = BoardItem.PlayerOnPlace
                         PlayerLocation -= 1
-                    Case BoardItemBoxOnPlace
-                        If PrzesunSkrzynke(Lewo, PlayerLocation - 1, True) = False Then
+                    Case BoardItem.BoxOnPlace
+                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Left, PlayerLocation - 1, True) = False Then
                             PrzesunGracza = False
                             Exit Function
                         End If
 
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation - 1) = BoardItemPlayerOnPlace
+                        GameBoard(PlayerLocation - 1) = BoardItem.PlayerOnPlace
                         PlayerLocation -= 1
 
                         PushesPerformedOnCurrentLevel += 1
                 End Select
-            Case Prawo
+            Case System.Windows.Forms.Keys.Right
                 Select Case GameBoard(PlayerLocation + 1)
-                    Case BoardItemBlank
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                    Case BoardItem.Blank
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation + 1) = BoardItemPlayer
+                        GameBoard(PlayerLocation + 1) = BoardItem.Player
                         PlayerLocation += 1
-                    Case BoardItemWall
+                    Case BoardItem.Wall
                         PrzesunGracza = False
                         Exit Function
-                    Case BoardItemBox
-                        If PrzesunSkrzynke(Prawo, PlayerLocation + 1, False) = False Then
+                    Case BoardItem.Box
+                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Right, PlayerLocation + 1, False) = False Then
                             PrzesunGracza = False
                             Exit Function
                         End If
 
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation + 1) = BoardItemPlayer
+                        GameBoard(PlayerLocation + 1) = BoardItem.Player
                         PlayerLocation += 1
 
                         PushesPerformedOnCurrentLevel += 1
-                    Case BoardItemPlaceForBox
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                    Case BoardItem.PlaceForBox
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation + 1) = BoardItemPlayerOnPlace
+                        GameBoard(PlayerLocation + 1) = BoardItem.PlayerOnPlace
                         PlayerLocation += 1
-                    Case BoardItemBoxOnPlace
-                        If PrzesunSkrzynke(Prawo, PlayerLocation + 1, True) = False Then
+                    Case BoardItem.BoxOnPlace
+                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Right, PlayerLocation + 1, True) = False Then
                             PrzesunGracza = False
                             Exit Function
                         End If
 
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation + 1) = BoardItemPlayerOnPlace
+                        GameBoard(PlayerLocation + 1) = BoardItem.PlayerOnPlace
                         PlayerLocation += 1
 
                         PushesPerformedOnCurrentLevel += 1
                 End Select
-            Case Gora
+            Case System.Windows.Forms.Keys.Up
                 Select Case GameBoard(PlayerLocation - 16)
-                    Case BoardItemBlank
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                    Case BoardItem.Blank
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation - 16) = BoardItemPlayer
+                        GameBoard(PlayerLocation - 16) = BoardItem.Player
                         PlayerLocation -= 16
-                    Case BoardItemWall
+                    Case BoardItem.Wall
                         PrzesunGracza = False
                         Exit Function
-                    Case BoardItemBox
-                        If PrzesunSkrzynke(Gora, PlayerLocation - 16, False) = False Then
+                    Case BoardItem.Box
+                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Up, PlayerLocation - 16, False) = False Then
                             PrzesunGracza = False
                             Exit Function
                         End If
 
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation - 16) = BoardItemPlayer
+                        GameBoard(PlayerLocation - 16) = BoardItem.Player
                         PlayerLocation -= 16
 
                         PushesPerformedOnCurrentLevel += 1
-                    Case BoardItemPlaceForBox
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                    Case BoardItem.PlaceForBox
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation - 16) = BoardItemPlayerOnPlace
+                        GameBoard(PlayerLocation - 16) = BoardItem.PlayerOnPlace
                         PlayerLocation -= 16
-                    Case BoardItemBoxOnPlace
-                        If PrzesunSkrzynke(Gora, PlayerLocation - 16, True) = False Then
+                    Case BoardItem.BoxOnPlace
+                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Up, PlayerLocation - 16, True) = False Then
                             PrzesunGracza = False
                             Exit Function
                         End If
 
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation - 16) = BoardItemPlayerOnPlace
+                        GameBoard(PlayerLocation - 16) = BoardItem.PlayerOnPlace
                         PlayerLocation -= 16
 
                         PushesPerformedOnCurrentLevel += 1
                 End Select
-            Case Dol
+            Case System.Windows.Forms.Keys.Down
                 Select Case GameBoard(PlayerLocation + 16)
-                    Case BoardItemBlank
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                    Case BoardItem.Blank
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation + 16) = BoardItemPlayer
+                        GameBoard(PlayerLocation + 16) = BoardItem.Player
                         PlayerLocation += 16
-                    Case BoardItemWall
+                    Case BoardItem.Wall
                         PrzesunGracza = False
                         Exit Function
-                    Case BoardItemBox
-                        If PrzesunSkrzynke(Dol, PlayerLocation + 16, False) = False Then
+                    Case BoardItem.Box
+                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Down, PlayerLocation + 16, False) = False Then
                             PrzesunGracza = False
                             Exit Function
                         End If
 
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation + 16) = BoardItemPlayer
+                        GameBoard(PlayerLocation + 16) = BoardItem.Player
                         PlayerLocation += 16
 
                         PushesPerformedOnCurrentLevel += 1
-                    Case BoardItemPlaceForBox
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                    Case BoardItem.PlaceForBox
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation + 16) = BoardItemPlayerOnPlace
+                        GameBoard(PlayerLocation + 16) = BoardItem.PlayerOnPlace
                         PlayerLocation += 16
-                    Case BoardItemBoxOnPlace
-                        If PrzesunSkrzynke(Dol, PlayerLocation + 16, True) = False Then
+                    Case BoardItem.BoxOnPlace
+                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Down, PlayerLocation + 16, True) = False Then
                             PrzesunGracza = False
                             Exit Function
                         End If
 
-                        If GameBoard(PlayerLocation) = BoardItemPlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItemPlaceForBox
+                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
+                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
                         Else
-                            GameBoard(PlayerLocation) = BoardItemBlank
+                            GameBoard(PlayerLocation) = BoardItem.Blank
                         End If
 
-                        GameBoard(PlayerLocation + 16) = BoardItemPlayerOnPlace
+                        GameBoard(PlayerLocation + 16) = BoardItem.PlayerOnPlace
                         PlayerLocation += 16
 
                         PushesPerformedOnCurrentLevel += 1
@@ -361,170 +344,157 @@
         End Select
 
         AllGameBoardStates.Add(StateBeforeMove)
+        MoveHasJustBeenPerformed = True
+        MovesPerformedOnCurrentLevel += 1
         PrzesunGracza = True
     End Function
     Public Function PrzesunSkrzynke(ByVal moveDirection As System.Windows.Forms.Keys, ByVal targetBoxLocation As Integer, ByVal fromProperlyPlacedLocation As Boolean) As Boolean
+        PushHasJustBeenPerformed = False
         If fromProperlyPlacedLocation = True Then
             Select Case moveDirection
-                Case Lewo
+                Case System.Windows.Forms.Keys.Left
                     Select Case GameBoard(targetBoxLocation - 1)
-                        Case BoardItemBlank
-                            GameBoard(targetBoxLocation - 1) = BoardItemBox
-
-                            CurrentLevelStats.BoxesOnPlaces -= 1
-                        Case BoardItemWall
+                        Case BoardItem.Blank
+                            GameBoard(targetBoxLocation - 1) = BoardItem.Box
+                        Case BoardItem.Wall
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBox
+                        Case BoardItem.Box
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBoxOnPlace
+                        Case BoardItem.BoxOnPlace
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemPlaceForBox
-                            GameBoard(targetBoxLocation - 1) = BoardItemBoxOnPlace
+                        Case BoardItem.PlaceForBox
+                            GameBoard(targetBoxLocation - 1) = BoardItem.BoxOnPlace
                     End Select
-                Case Prawo
+                Case System.Windows.Forms.Keys.Right
                     Select Case GameBoard(targetBoxLocation + 1)
-                        Case BoardItemBlank
-                            GameBoard(targetBoxLocation + 1) = BoardItemBox
-
-                            CurrentLevelStats.BoxesOnPlaces -= 1
-                        Case BoardItemWall
+                        Case BoardItem.Blank
+                            GameBoard(targetBoxLocation + 1) = BoardItem.Box
+                        Case BoardItem.Wall
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBox
+                        Case BoardItem.Box
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBoxOnPlace
+                        Case BoardItem.BoxOnPlace
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemPlaceForBox
-                            GameBoard(targetBoxLocation + 1) = BoardItemBoxOnPlace
+                        Case BoardItem.PlaceForBox
+                            GameBoard(targetBoxLocation + 1) = BoardItem.BoxOnPlace
                     End Select
-                Case Gora
+                Case System.Windows.Forms.Keys.Up
                     Select Case GameBoard(targetBoxLocation - 16)
-                        Case BoardItemBlank
-                            GameBoard(targetBoxLocation - 16) = BoardItemBox
-
-                            CurrentLevelStats.BoxesOnPlaces -= 1
-                        Case BoardItemWall
+                        Case BoardItem.Blank
+                            GameBoard(targetBoxLocation - 16) = BoardItem.Box
+                        Case BoardItem.Wall
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBox
+                        Case BoardItem.Box
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBoxOnPlace
+                        Case BoardItem.BoxOnPlace
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemPlaceForBox
-                            GameBoard(targetBoxLocation - 16) = BoardItemBoxOnPlace
+                        Case BoardItem.PlaceForBox
+                            GameBoard(targetBoxLocation - 16) = BoardItem.BoxOnPlace
                     End Select
-                Case Dol
+                Case System.Windows.Forms.Keys.Down
                     Select Case GameBoard(targetBoxLocation + 16)
-                        Case BoardItemBlank
-                            GameBoard(targetBoxLocation + 16) = BoardItemBox
-
-                            CurrentLevelStats.BoxesOnPlaces -= 1
-                        Case BoardItemWall
+                        Case BoardItem.Blank
+                            GameBoard(targetBoxLocation + 16) = BoardItem.Box
+                        Case BoardItem.Wall
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBox
+                        Case BoardItem.Box
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBoxOnPlace
+                        Case BoardItem.BoxOnPlace
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemPlaceForBox
-                            GameBoard(targetBoxLocation + 16) = BoardItemBoxOnPlace
+                        Case BoardItem.PlaceForBox
+                            GameBoard(targetBoxLocation + 16) = BoardItem.BoxOnPlace
                     End Select
             End Select
         Else
             Select Case moveDirection
-                Case Lewo
+                Case System.Windows.Forms.Keys.Left
                     Select Case GameBoard(targetBoxLocation - 1)
-                        Case BoardItemBlank
-                            GameBoard(targetBoxLocation - 1) = BoardItemBox
-                            GameBoard(targetBoxLocation) = BoardItemBlank
-                        Case BoardItemWall
+                        Case BoardItem.Blank
+                            GameBoard(targetBoxLocation - 1) = BoardItem.Box
+                            GameBoard(targetBoxLocation) = BoardItem.Blank
+                        Case BoardItem.Wall
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBox
+                        Case BoardItem.Box
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBoxOnPlace
+                        Case BoardItem.BoxOnPlace
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemPlaceForBox
-                            GameBoard(targetBoxLocation - 1) = BoardItemBoxOnPlace
-                            GameBoard(targetBoxLocation) = BoardItemBlank
-
-                            CurrentLevelStats.BoxesOnPlaces += 1
+                        Case BoardItem.PlaceForBox
+                            GameBoard(targetBoxLocation - 1) = BoardItem.BoxOnPlace
+                            GameBoard(targetBoxLocation) = BoardItem.Blank
                     End Select
-                Case Prawo
+                Case System.Windows.Forms.Keys.Right
                     Select Case GameBoard(targetBoxLocation + 1)
-                        Case BoardItemBlank
-                            GameBoard(targetBoxLocation + 1) = BoardItemBox
-                            GameBoard(targetBoxLocation) = BoardItemBlank
-                        Case BoardItemWall
+                        Case BoardItem.Blank
+                            GameBoard(targetBoxLocation + 1) = BoardItem.Box
+                            GameBoard(targetBoxLocation) = BoardItem.Blank
+                        Case BoardItem.Wall
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBox
+                        Case BoardItem.Box
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBoxOnPlace
+                        Case BoardItem.BoxOnPlace
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemPlaceForBox
-                            GameBoard(targetBoxLocation + 1) = BoardItemBoxOnPlace
-                            GameBoard(targetBoxLocation) = BoardItemBlank
-
-                            CurrentLevelStats.BoxesOnPlaces += 1
+                        Case BoardItem.PlaceForBox
+                            GameBoard(targetBoxLocation + 1) = BoardItem.BoxOnPlace
+                            GameBoard(targetBoxLocation) = BoardItem.Blank
                     End Select
-                Case Gora
+                Case System.Windows.Forms.Keys.Up
                     Select Case GameBoard(targetBoxLocation - 16)
-                        Case BoardItemBlank
-                            GameBoard(targetBoxLocation - 16) = BoardItemBox
-                            GameBoard(targetBoxLocation) = BoardItemBlank
-                        Case BoardItemWall
+                        Case BoardItem.Blank
+                            GameBoard(targetBoxLocation - 16) = BoardItem.Box
+                            GameBoard(targetBoxLocation) = BoardItem.Blank
+                        Case BoardItem.Wall
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBox
+                        Case BoardItem.Box
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBoxOnPlace
+                        Case BoardItem.BoxOnPlace
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemPlaceForBox
-                            GameBoard(targetBoxLocation - 16) = BoardItemBoxOnPlace
-                            GameBoard(targetBoxLocation) = BoardItemPlayer
-
-                            CurrentLevelStats.BoxesOnPlaces += 1
+                        Case BoardItem.PlaceForBox
+                            GameBoard(targetBoxLocation - 16) = BoardItem.BoxOnPlace
+                            GameBoard(targetBoxLocation) = BoardItem.Player
                     End Select
-                Case Dol
+                Case System.Windows.Forms.Keys.Down
                     Select Case GameBoard(targetBoxLocation + 16)
-                        Case BoardItemBlank
-                            GameBoard(targetBoxLocation + 16) = BoardItemBox
-                            GameBoard(targetBoxLocation) = BoardItemBlank
-                        Case BoardItemWall
+                        Case BoardItem.Blank
+                            GameBoard(targetBoxLocation + 16) = BoardItem.Box
+                            GameBoard(targetBoxLocation) = BoardItem.Blank
+                        Case BoardItem.Wall
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBox
+                        Case BoardItem.Box
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemBoxOnPlace
+                        Case BoardItem.BoxOnPlace
                             PrzesunSkrzynke = False
                             Exit Function
-                        Case BoardItemPlaceForBox
-                            GameBoard(targetBoxLocation + 16) = BoardItemBoxOnPlace
-                            GameBoard(targetBoxLocation) = BoardItemBlank
-
-                            CurrentLevelStats.BoxesOnPlaces += 1
+                        Case BoardItem.PlaceForBox
+                            GameBoard(targetBoxLocation + 16) = BoardItem.BoxOnPlace
+                            GameBoard(targetBoxLocation) = BoardItem.Blank
                     End Select
             End Select
         End If
 
-
+        PushHasJustBeenPerformed = True
         PrzesunSkrzynke = True
     End Function
     Public Function NewGame(ByVal whichLevel As Integer) As Boolean
@@ -532,7 +502,7 @@
         CurrentlyPlayedLevelId = whichLevel
         MovesPerformedOnCurrentLevel = 0
         PushesPerformedOnCurrentLevel = 0
-        MoveHasBeenPerformed = False
+        MoveHasJustBeenPerformed = False
         ExternalCustomLevel = False
 
         If My.Settings.LevelSet = "Klasyczne" Then
@@ -549,11 +519,10 @@
 
         ' Todo: .GetPlayerLocation()
         For Counter = 1 To 256 Step 1
-            If GameBoard(Counter) = BoardItemPlayer Or GameBoard(Counter) = BoardItemPlayerOnPlace Then PlayerLocation = Counter
+            If GameBoard(Counter) = BoardItem.Player Or GameBoard(Counter) = BoardItem.PlayerOnPlace Then PlayerLocation = Counter
         Next Counter
 
-        CurrentLevelStats = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId)
-        PreviousLevelStats = CurrentLevelStats
+        PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(GameBoard)
 
         Return True
     End Function
@@ -562,9 +531,12 @@
         AllGameBoardStates.RemoveRange(AllGameBoardStates.Count - 1, 1)
 
         PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(GameBoard)
-        CurrentLevelStats.BoxesOnPlaces = GameBoardDetails.GetNumberOfPlacedBoxesOnBoard(GameBoard)
+
         MovesPerformedOnCurrentLevel -= 1
-        MoveHasBeenPerformed = False
+        If PushHasJustBeenPerformed Then
+            PushesPerformedOnCurrentLevel -= 1
+        End If
+        MoveHasJustBeenPerformed = False
     End Sub
     Public Sub RestartLevel()
         Dim ZE As String = Nothing
@@ -578,12 +550,11 @@
         Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
         Array.Copy(BoardState, GameBoard, GameBoard.Length)
 
-        CurrentLevelStats = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId)
-        PlayerLocation = CurrentLevelStats.PlayerLocation
+        PlayerLocation = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId).PlayerLocation
 
         MovesPerformedOnCurrentLevel = 0
         PushesPerformedOnCurrentLevel = 0
-        MoveHasBeenPerformed = False
+        MoveHasJustBeenPerformed = False
     End Sub
     Public Function SetArrivedLevel() As Integer
         If My.Settings.LevelSet = "Klasyczne" Then

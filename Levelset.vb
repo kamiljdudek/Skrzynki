@@ -27,7 +27,7 @@
         Dim subset As Integer()
         subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = 3)
         LP.NumberOfPlaces = subset.Length
-        subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = 2)
+        subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = BoardItem.Box)
         LP.NumberOfBoxes = subset.Length
         subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = 4)
         LP.BoxesOnPlaces = subset.Length
