@@ -21,7 +21,7 @@
         Return ImgGameFieldDescription
     End Function
 
-    Public Function GetLevelProperties(ByVal levelId As Integer) As LevelProperties
+    Public Function GetLevelInitialProperties(ByVal levelId As Integer) As LevelProperties
         Dim ImgGameFieldDescription() = LevelParser.GetBoardStateIntegerFromMapString(AllLevelsInSet(levelId - 1))
         Dim LP As LevelProperties = New LevelProperties
         Dim subset As Integer()
@@ -31,7 +31,10 @@
         LP.NumberOfBoxes = subset.Length
         subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = 4)
         LP.BoxesOnPlaces = subset.Length
-
+        subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = 5)
+        LP.PlayerLocation = subset.Length
+        subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = 6)
+        LP.PlayerLocation += subset.Length
         Return LP
     End Function
     Public ReadOnly Property NumberOfLevels As Integer

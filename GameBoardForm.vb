@@ -175,6 +175,7 @@ Public Class GameBoardForm
         Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
 
         LevelParser.LoadAllLevelsets()
+        AllGameBoardStates = New System.Collections.Generic.List(Of Integer())
 
         CurrentlyPlayedLevelId = 1
         MoveHasBeenPerformed = False
@@ -344,8 +345,8 @@ Public Class GameBoardForm
                 GameBoard(Counter) = BoardState(Counter)
             Next Counter
 
-            CurrentLevelStats = Levelset.GetLevelProperties(CurrentlyPlayedLevelId)
-            PlayerLocation = PlayerLocations(CurrentlyPlayedLevelId)
+            CurrentLevelStats = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId)
+            PlayerLocation = CurrentLevelStats.PlayerLocation
 
             Call RefreshStatusBar()
             Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
@@ -399,7 +400,7 @@ Public Class GameBoardForm
             GameBoard(Counter) = BoardState(Counter)
         Next Counter
 
-        CurrentLevelStats = Levelset.GetLevelProperties(CurrentlyPlayedLevelId)
+        CurrentLevelStats = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId)
 
     End Sub
 

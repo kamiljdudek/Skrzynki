@@ -43,6 +43,7 @@
         Public NumberOfBoxes As Integer
         Public NumberOfPlaces As Integer
         Public BoxesOnPlaces As Integer
+        Public PlayerLocation As Integer
     End Class
 
     Public Localizer As System.Resources.ResourceManager =
@@ -67,16 +68,14 @@
 
     ' zmienne
     Public GameBoard(256) As Integer ' przechowuje aktualne ustawienie obiektów w polu gry
-    Public PreviousGameBoard(256) As Integer ' dzięki niemu możliwe jest cofanie ruchów i nie tylko
+    Public AllGameBoardStates As System.Collections.Generic.List(Of Integer())
     Public CurrentLevelStats As LevelProperties ' przechowuje liczbę skrzynek i miejsc
     Public PreviousLevelStats As LevelProperties ' tak jak PoleGrySprzedRuchu
     Public PreviouslyLoadedLevelStats As LevelProperties ' jeśli wczytywanie etapu się nie powiedzie,
     ' ta zmienna zachowuje dane poprzedniego poziomu
     Public PlayerLocation As Integer ' aktualna pozycja gracza
-    Public PreviousPlayerLocation As Integer ' dzięki temu możliwe jest cofanie ruchów
-    Public PlayerLocations() As Integer ' początkowe pozycje gracza we wszystkich etapach
     Public MoveHasBeenPerformed As Boolean ' czy gracz wykonał ruch (i czy ew. można cofnąć)
-    ' określa, czy aktualny etap jest etapem wczytanym z pliku
+    Public PushHasJustBeenPerformed As Boolean
     Public ExternalCustomLevel As Boolean ' wybranego przez użytkownika (jeśli tak jest, po jego
     ' przejściu nie powinien być wyświetlony następny)
     Public LevelCleared As Boolean ' czy etap spoza zestawu zaliczony?
@@ -116,7 +115,7 @@
             GameBoard(Counter) = NextBoardState(Counter)
         Next Counter
 
-        CurrentLevelStats = Levelset.GetLevelProperties(CurrentlyPlayedLevelId)
+        CurrentLevelStats = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId)
         PreviousLevelStats = CurrentLevelStats
 
         PlayerLocation = Array.IndexOf(NextBoardState, 5)
@@ -131,11 +130,8 @@
             Exit Function
         End If
 
-        For Counter = 1 To 256 Step 1
-            PreviousGameBoard(Counter) = GameBoard(Counter)
-        Next Counter
-        PreviousPlayerLocation = PlayerLocation
-        PreviousLevelStats.BoxesOnPlaces = CurrentLevelStats.BoxesOnPlaces
+        Dim StateBeforeMove(256) As Integer
+        Array.Copy(GameBoard, StateBeforeMove, GameBoard.Length)
 
         Select Case moveDirection
             Case Lewo
@@ -364,6 +360,7 @@
                 End Select
         End Select
 
+        AllGameBoardStates.Add(StateBeforeMove)
         PrzesunGracza = True
     End Function
     Public Function PrzesunSkrzynke(ByVal moveDirection As System.Windows.Forms.Keys, ByVal targetBoxLocation As Integer, ByVal fromProperlyPlacedLocation As Boolean) As Boolean
@@ -527,6 +524,7 @@
             End Select
         End If
 
+
         PrzesunSkrzynke = True
     End Function
     Public Function NewGame(ByVal whichLevel As Integer) As Boolean
@@ -547,26 +545,24 @@
 
         Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(ZE), Levelset)
         Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
-        For Counter = 1 To 256 Step 1
-            GameBoard(Counter) = BoardState(Counter)
-        Next Counter
+        Array.Copy(BoardState, GameBoard, GameBoard.Length)
 
         ' Todo: .GetPlayerLocation()
         For Counter = 1 To 256 Step 1
             If GameBoard(Counter) = BoardItemPlayer Or GameBoard(Counter) = BoardItemPlayerOnPlace Then PlayerLocation = Counter
         Next Counter
 
-        CurrentLevelStats = Levelset.GetLevelProperties(CurrentlyPlayedLevelId)
+        CurrentLevelStats = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId)
         PreviousLevelStats = CurrentLevelStats
 
         Return True
     End Function
     Public Sub Undo()
-        For Counter = 1 To 256 Step 1
-            GameBoard(Counter) = PreviousGameBoard(Counter)
-        Next Counter
-        PlayerLocation = PreviousPlayerLocation
-        CurrentLevelStats.BoxesOnPlaces = PreviousLevelStats.BoxesOnPlaces
+        Array.Copy(AllGameBoardStates(AllGameBoardStates.Count - 1), GameBoard, GameBoard.Length)
+        AllGameBoardStates.RemoveRange(AllGameBoardStates.Count - 1, 1)
+
+        PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(GameBoard)
+        CurrentLevelStats.BoxesOnPlaces = GameBoardDetails.GetNumberOfPlacedBoxesOnBoard(GameBoard)
         MovesPerformedOnCurrentLevel -= 1
         MoveHasBeenPerformed = False
     End Sub
@@ -580,12 +576,10 @@
 
         Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(ZE), Levelset)
         Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
-        For Counter = 1 To 256 Step 1
-            GameBoard(Counter) = BoardState(Counter)
-        Next Counter
+        Array.Copy(BoardState, GameBoard, GameBoard.Length)
 
-        CurrentLevelStats = Levelset.GetLevelProperties(CurrentlyPlayedLevelId)
-        PlayerLocation = PlayerLocations(CurrentlyPlayedLevelId)
+        CurrentLevelStats = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId)
+        PlayerLocation = CurrentLevelStats.PlayerLocation
 
         MovesPerformedOnCurrentLevel = 0
         PushesPerformedOnCurrentLevel = 0
