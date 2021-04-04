@@ -10,7 +10,7 @@
         'string content = new StreamReader(fs, Encoding.Unicode).ReadToEnd();
         If FileMode = True Then
             Dim BufferedReader As System.IO.StreamReader =
-                My.Computer.FileSystem.OpenTextFileReader(inputStream, System.Text.Encoding.Unicode)
+                My.Computer.FileSystem.OpenTextFileReader(inputStream, System.Text.Encoding.ASCII)
             With BufferedReader
                 ReadContent = .ReadToEnd
             End With
@@ -119,5 +119,12 @@
         Levelsets.Add("Classic", Classic)
         Levelsets.Add("XS", XS)
     End Sub
+
+    Public Enum SokobanLevelSet
+        Classic
+        XS
+        SasquatchOne
+        SasquatchTwo
+    End Enum
 
 End Module

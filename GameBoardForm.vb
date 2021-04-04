@@ -145,6 +145,8 @@ Public Class GameBoardForm
                            System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
                     LevelCleared = True
                     CurrentlyPlayedLevelId += 1
+
+                    ' TODO: incorrect way of checking the number of levels
                     Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item("Classic"), Levelset)
 
                     If CurrentlyPlayedLevelId > Levelset.NumberOfLevels Then
@@ -156,6 +158,7 @@ Public Class GameBoardForm
                     Else
                         LoadNextLevel()
                     End If
+
                     Me.MenuitemUndo.Enabled = False
                     Call RefreshBoard()
                     Call RefreshStatusBar()
@@ -174,7 +177,8 @@ Public Class GameBoardForm
         Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
 
         LevelParser.LoadAllLevelsets()
-        AllGameBoardStates = New System.Collections.Generic.List(Of Integer())
+        'AllGameBoardStates = New System.Collections.Generic.List(Of Integer())
+        AllGameBoardStates = New System.Collections.ObjectModel.Collection(Of Integer())
 
         CurrentlyPlayedLevelId = 1
         MoveHasJustBeenPerformed = False
@@ -387,8 +391,11 @@ Public Class GameBoardForm
             LevelsetCustom.Pushes = 0
 
             Levelsets.Add("Custom", LevelsetCustom)
+        Else
+            MsgBox("LOL PUSTO")
         End If
 
+        ' Somehow merge with LoadNextLevel()
         Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item("Custom"), Levelset)
         RefreshBoard()
         ExternalCustomLevel = True
@@ -397,6 +404,8 @@ Public Class GameBoardForm
         For Counter = 1 To 256 Step 1
             GameBoard(Counter) = BoardState(Counter)
         Next Counter
+        PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(BoardState)
+        RefreshBoard()
 
     End Sub
 

@@ -39,12 +39,7 @@
     ' Cambridge, MA 02139, USA.
     '--------------------------------------------------------------------------------------------
 
-    Public Class LevelProperties ' dane etapu
-        Public NumberOfBoxes As Integer
-        Public NumberOfPlaces As Integer
-        Public BoxesOnPlaces As Integer
-        Public PlayerLocation As Integer
-    End Class
+
 
     Enum BoardItem
         Blank = 0
@@ -62,10 +57,11 @@
 
     ' zmienne
     Public GameBoard(256) As Integer ' przechowuje aktualne ustawienie obiektów w polu gry
-    Public AllGameBoardStates As System.Collections.Generic.List(Of Integer())
+    'Public AllGameBoardStates As System.Collections.Generic.List(Of Integer())
+    Public AllGameBoardStates As System.Collections.ObjectModel.Collection(Of Integer())
     Public PlayerLocation As Integer ' aktualna pozycja gracza
     Public MoveHasJustBeenPerformed As Boolean ' czy gracz wykonał ruch (i czy ew. można cofnąć)
-    Public PushHasJustBeenPerformed As Boolean
+    Private PushHasJustBeenPerformed As Boolean
     Public ExternalCustomLevel As Boolean ' wybranego przez użytkownika (jeśli tak jest, po jego
     ' przejściu nie powinien być wyświetlony następny)
     Public LevelCleared As Boolean ' czy etap spoza zestawu zaliczony?
@@ -79,8 +75,9 @@
     Public Sub LoadNextLevel()
 
         If ExternalCustomLevel Then
-            CurrentlyPlayedLevelId -= 1
-            Exit Sub
+            ' TODO Only if single-level
+            ' CurrentlyPlayedLevelId -= 1
+            ' Exit Sub
         End If
 
         If CurrentlyPlayedLevelId > SetArrivedLevel() Then
@@ -100,7 +97,9 @@
         MoveHasJustBeenPerformed = False
         PushHasJustBeenPerformed = False
 
+        ' TODO Incorrect way of checking the number of levels
         Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item("Classic"), Levelset)
+
         Dim NextBoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
         Array.Copy(NextBoardState, GameBoard, GameBoard.Length)
         PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(NextBoardState)
@@ -528,7 +527,7 @@
     End Function
     Public Sub Undo()
         Array.Copy(AllGameBoardStates(AllGameBoardStates.Count - 1), GameBoard, GameBoard.Length)
-        AllGameBoardStates.RemoveRange(AllGameBoardStates.Count - 1, 1)
+        AllGameBoardStates.RemoveAt(AllGameBoardStates.Count - 1)
 
         PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(GameBoard)
 

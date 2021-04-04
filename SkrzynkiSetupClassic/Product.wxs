@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="SkrzynkiSetup" Language="1033" Version="1.0.0.0" Manufacturer="" UpgradeCode="e97ff966-f244-46da-84b5-4042781de9a5">
+	<Product Id="*" Name="Skrzynki" Language="1033" Version="1.0.0.0" Manufacturer="Kamil J. Dudek" UpgradeCode="b5656756-ad0c-4a6d-9a17-62ee0c2a12c8">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate />
 
-		<Feature Id="ProductFeature" Title="SkrzynkiSetup" Level="1">
+		<Feature Id="ProductFeature" Title="Skrzynki" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
 		</Feature>
 	</Product>
@@ -14,7 +14,7 @@
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLFOLDER" Name="SkrzynkiSetup" />
+				<Directory Id="INSTALLFOLDER" Name="Skrzynki" />
 			</Directory>
 		</Directory>
 	</Fragment>

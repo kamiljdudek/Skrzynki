@@ -106,7 +106,7 @@
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>false</GenerateManifests>
+    <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -193,6 +193,7 @@
       <DependentUpon>LocalizableStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="LevelParser.vb" />
+    <Compile Include="LevelProperties.vb" />
     <Compile Include="Levelset.vb" />
     <Compile Include="levelsets\LevelsetResource.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -277,7 +278,6 @@
     </None>
     <None Include="SkrzynkiSigningKey.snk" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
