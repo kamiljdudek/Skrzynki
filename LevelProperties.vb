@@ -1,6 +1,6 @@
 ﻿Public Class LevelProperties ' dane etapu
-    Public NumberOfBoxes As Integer
-    Public NumberOfPlaces As Integer
-    Public BoxesOnPlaces As Integer
-    Public PlayerLocation As Integer
+    Public Property NumberOfBoxes() As Integer
+    Public Property NumberOfPlaces() As Integer
+    Public Property BoxesOnPlaces() As Integer
+    Public Property PlayerLocation() As Integer
 End Class

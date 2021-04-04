@@ -21,9 +21,9 @@ Module Stats
         My.Settings.MovesKlasyczne = DaneGracza.Klasyczne.Ruchy
         My.Settings.PushesKlasyczne = DaneGracza.Klasyczne.Pchniecia
 
-        My.Settings.ArrivedLevelSupertrudne = DaneGracza.Klasyczne.OsiagnietyEtap
-        My.Settings.MovesSupertrudne = DaneGracza.Klasyczne.Ruchy
-        My.Settings.PushesSupertrudne = DaneGracza.Klasyczne.Pchniecia
+        My.Settings.ArrivedLevelSupertrudne = DaneGracza.SuperTrudneXS.OsiagnietyEtap
+        My.Settings.MovesSupertrudne = DaneGracza.SuperTrudneXS.Ruchy
+        My.Settings.PushesSupertrudne = DaneGracza.SuperTrudneXS.Pchniecia
         My.Settings.Save()
     End Sub
 
@@ -33,9 +33,9 @@ Module Stats
         DaneGracza.Klasyczne.Ruchy = My.Settings.MovesKlasyczne
         DaneGracza.Klasyczne.Pchniecia = My.Settings.PushesKlasyczne
 
-        DaneGracza.Klasyczne.OsiagnietyEtap = My.Settings.ArrivedLevelSupertrudne
-        DaneGracza.Klasyczne.Ruchy = My.Settings.MovesSupertrudne
-        DaneGracza.Klasyczne.Pchniecia = My.Settings.PushesSupertrudne
+        DaneGracza.SuperTrudneXS.OsiagnietyEtap = My.Settings.ArrivedLevelSupertrudne
+        DaneGracza.SuperTrudneXS.Ruchy = My.Settings.MovesSupertrudne
+        DaneGracza.SuperTrudneXS.Pchniecia = My.Settings.PushesSupertrudne
     End Sub
 
 End Module

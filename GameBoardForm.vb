@@ -63,7 +63,17 @@ Public Class GameBoardForm
     Private Sub RefreshStatusBar()
         MovesLabel.Text = Localizer.GetString("LabelMoves") & MovesPerformedOnCurrentLevel
         PushesLabel.Text = Localizer.GetString("LabelPushes") & PushesPerformedOnCurrentLevel
-        Text = Localizer.GetString("GameName") & " (" & My.Settings.LevelSet & "): #" & CurrentlyPlayedLevelId.ToString(CultureInfo.InvariantCulture)
+        If ExternalCustomLevel Then
+            Dim FnCore As String() = 倉庫番.FileName.Split(CType("\", Char))
+            Text = Localizer.GetString("GameName") &
+                " (" & FnCore(FnCore.Length - 1) & "): #" &
+                CurrentlyPlayedLevelId.ToString(CultureInfo.InvariantCulture)
+
+        Else
+            Text = Localizer.GetString("GameName") &
+                " (" & My.Settings.LevelSet & "): #" &
+                CurrentlyPlayedLevelId.ToString(CultureInfo.InvariantCulture)
+        End If
 
         Me.LevelProgressBar.Maximum = GameBoardDetails.GetTotalNumberOfBoxesOnBoard(GameBoard)
         Me.LevelProgressBar.Value = GameBoardDetails.GetNumberOfPlacedBoxesOnBoard(GameBoard)
@@ -368,7 +378,7 @@ Public Class GameBoardForm
         End If
 
         Dim LevelsetCustomInput = LevelParser.PullAllLevels(FileName, True)
-        Dim LevelsetCustom As Levelset = New Levelset("NazwaPliku")
+        Dim LevelsetCustom As Levelset = New Levelset(SokobanLevelSet.CustomFromFile.ToString())
 
         If LevelsetCustomInput.Count > 0 Then
             If My.Settings.LevelLoadConfirmation = True Then
@@ -395,7 +405,11 @@ Public Class GameBoardForm
             MsgBox("LOL PUSTO")
         End If
 
+        Call RefreshStatusBar()
+        Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
+
         ' Somehow merge with LoadNextLevel()
+        ' TODO: avoid conversion which is pointless
         Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item("Custom"), Levelset)
         RefreshBoard()
         ExternalCustomLevel = True

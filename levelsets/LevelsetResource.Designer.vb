@@ -63,7 +63,7 @@ Namespace My.Resources
                 resourceCulture = value
             End Set
         End Property
-        
+
         '''<summary>
         '''  Looks up a localized string similar to   ###
         '''  #.#
@@ -121,7 +121,8 @@ Namespace My.Resources
         '''
         '''   ######
         ''' ###    #
-        '''##. $## ##        ''' [rest of string was truncated]&quot;;.
+        '''##. $## ##
+        ''' [rest of string was truncated]&quot;;.
         '''</summary>
         Friend Shared ReadOnly Property Classic_SOK() As String
             Get

@@ -4,42 +4,15 @@
     ' |                                 autor: Karol Kuczmarski                                 |
     ' -------------------------------------------------------------------------------------------
     '
-    ' Rodzaj: gra logiczna
+    ' Gra logiczna
     ' Typ: sokoban
     '
     ' Należy ułożyć skrzynki na wyznaczony miejscach. Można poruszać tylko jedną skrzynką naraz,
     ' w kierunku "od siebie".
     '
-    ' PrzesunGracza (F) - używana, kiedy gracz wciśnie klawisz kursora; zwraca True, jeśli
-    '                     przesunięcie jest możliwe (jednocześnie je wykonuje); kierunek jest
-    '                     jest określony parametrem Kierunek
-    ' PrzesunSkrzynke (F) - czy można przesunąć skrzynkę na drodze gracza? (parametry: Kierunek
-    '                       określa kierunek przesunięcia, PozycjaSkrzynki - którą skrzynkę
-    '                       należy przesunąć, zaś ZMiejsca - czy skrzynka ta jest lub nie jest
-    '                       na miejscu
-    '--------------------------------------------------------------------------------------------
     ' Działanie gry opiera się na tablicy 256 Image'ów oraz jej odpowiedniku w postaci jednowy-
     ' miarowego arrayu o nazwie GameBoard.
     '--------------------------------------------------------------------------------------------
-    ' Niniejszy program jest wolnym oprogramowaniem; możesz go 
-    ' rozprowadzać dalej i/lub modyfikować na warunkach Powszechnej
-    ' Licencji Publicznej GNU, wydanej przez Fundację Wolnego
-    ' Oprogramowania - według wersji 2-giej tej Licencji lub którejś
-    ' z późniejszych wersji.
-    '
-    ' Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on
-    ' użyteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej
-    ' gwarancji PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH
-    ' ZASTOSOWAŃ. W celu uzyskania bliższych informacji - Powszechna
-    ' Licencja Publiczna GNU.
-    '
-    ' Z pewnością wraz z niniejszym programem otrzymałeś też egzemplarz
-    ' Powszechnej Licencji Publicznej GNU (GNU General Public License);
-    ' jeśli nie - napisz do Free Software Foundation, Inc., 675 Mass Ave,
-    ' Cambridge, MA 02139, USA.
-    '--------------------------------------------------------------------------------------------
-
-
 
     Enum BoardItem
         Blank = 0
@@ -52,6 +25,8 @@
         BlankOuter = 7
     End Enum
 
+    ' This is a public localizer created to translate the UI on the fly.
+    <CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2211:NonConstantFieldsShouldNotBeVisible")>
     Public Localizer As System.Resources.ResourceManager =
         New System.Resources.ResourceManager("Skrzynki.LocalizableStrings", System.Reflection.Assembly.GetExecutingAssembly())
 
@@ -61,7 +36,7 @@
     Public AllGameBoardStates As System.Collections.ObjectModel.Collection(Of Integer())
     Public PlayerLocation As Integer ' aktualna pozycja gracza
     Public MoveHasJustBeenPerformed As Boolean ' czy gracz wykonał ruch (i czy ew. można cofnąć)
-    Private PushHasJustBeenPerformed As Boolean
+    Public PushHasJustBeenPerformed As Boolean
     Public ExternalCustomLevel As Boolean ' wybranego przez użytkownika (jeśli tak jest, po jego
     ' przejściu nie powinien być wyświetlony następny)
     Public LevelCleared As Boolean ' czy etap spoza zestawu zaliczony?
@@ -105,6 +80,11 @@
         PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(NextBoardState)
         LevelCleared = False
     End Sub
+
+    ''' <remarks>
+    ''' Function PrzesunGracza: używana, kiedy gracz wciśnie klawisz kursora; zwraca True, jeśli
+    ''' przesunięcie jest możliwe (jednocześnie je wykonuje); kierunek jestokreślony parametrem moveDirection
+    ''' </remarks>
     Public Function PrzesunGracza(ByVal moveDirection As System.Windows.Forms.Keys) As Boolean
         If LevelCleared Then
             PrzesunGracza = False
@@ -347,6 +327,12 @@
         MovesPerformedOnCurrentLevel += 1
         PrzesunGracza = True
     End Function
+
+    ''' <remarks>
+    ''' Function PrzesunSkrzynke: czy można przesunąć skrzynkę na drodze gracza? (parametry: Kierunek
+    ''' określa kierunek przesunięcia, PozycjaSkrzynki - którą skrzynkę należy przesunąć, zaś ZMiejsca
+    ''' - czy skrzynka ta jest lub nie jest na miejscu
+    ''' </remarks>
     Public Function PrzesunSkrzynke(ByVal moveDirection As System.Windows.Forms.Keys, ByVal targetBoxLocation As Integer, ByVal fromProperlyPlacedLocation As Boolean) As Boolean
         PushHasJustBeenPerformed = False
         If fromProperlyPlacedLocation = True Then

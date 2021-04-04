@@ -7,7 +7,6 @@
         Dim Content() As String
 
         ' If this is a file, convert it to string
-        'string content = new StreamReader(fs, Encoding.Unicode).ReadToEnd();
         If FileMode = True Then
             Dim BufferedReader As System.IO.StreamReader =
                 My.Computer.FileSystem.OpenTextFileReader(inputStream, System.Text.Encoding.ASCII)
@@ -96,9 +95,10 @@
         Dim Levelset1 = PullAllLevels(My.Resources.LevelsetResource.Classic_SOK, False)
         Dim Levelset2 = PullAllLevels(My.Resources.LevelsetResource.XS_SOK, False)
 
-        Dim Classic As Levelset = New Levelset("Classic")
-        Dim XS As Levelset = New Levelset("XS")
+        Dim Classic As Levelset = New Levelset(SokobanLevelSet.Classic.ToString())
+        Dim XS As Levelset = New Levelset(SokobanLevelSet.XS.ToString())
 
+        ' TODO Load those at the constructor stage
         For Each SokobanCompliantLevel As String In Levelset1
             Dim SkrzynkiCompliantLevel = GetMapStringFromLevel(SokobanCompliantLevel)
             Classic.AddLevel(SkrzynkiCompliantLevel)
@@ -125,6 +125,7 @@
         XS
         SasquatchOne
         SasquatchTwo
+        CustomFromFile
     End Enum
 
 End Module
