@@ -37,8 +37,8 @@
     Public PlayerLocation As Integer ' aktualna pozycja gracza
     Public MoveHasJustBeenPerformed As Boolean ' czy gracz wykonał ruch (i czy ew. można cofnąć)
     Public PushHasJustBeenPerformed As Boolean
-    Public ExternalCustomLevel As Boolean ' wybranego przez użytkownika (jeśli tak jest, po jego
-    ' przejściu nie powinien być wyświetlony następny)
+    Public ExternalCustomLevel As Boolean
+    Public SizeOfCurrentLevelset As Integer
     Public LevelCleared As Boolean ' czy etap spoza zestawu zaliczony?
     Public CurrentlyPlayedLevelId As Integer ' numer aktualnie rozgrywanego etapu
     Public MovesPerformedOnCurrentLevel As Integer ' ruchy wykonane w etapie
@@ -499,6 +499,7 @@
         LevelCleared = False
 
         Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(ZE), Levelset)
+        SizeOfCurrentLevelset = Levelset.NumberOfLevels
         Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
         Array.Copy(BoardState, GameBoard, GameBoard.Length)
 
@@ -532,6 +533,7 @@
         End If
 
         Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(ZE), Levelset)
+        SizeOfCurrentLevelset = Levelset.NumberOfLevels
         Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
         Array.Copy(BoardState, GameBoard, GameBoard.Length)
 

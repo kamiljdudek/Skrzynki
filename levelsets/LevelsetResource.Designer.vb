@@ -129,47 +129,13 @@ Namespace My.Resources
                 Return ResourceManager.GetString("Classic.SOK", resourceCulture)
             End Get
         End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to 60
-        '''*
-        '''&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;111&apos;&apos;&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;131&apos;&apos;&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;101111&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;11120231&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;13025111&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;111121&apos;&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;&apos;131&apos;&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;&apos;111&apos;&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;&a....
-        '''</summary>
+
         Friend Shared ReadOnly Property LevelsetClassic() As String
             Get
                 Return ResourceManager.GetString("LevelsetClassic", resourceCulture)
             End Get
         End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to 60
-        '''*
-        '''&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;111111&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;1103051&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;1020201&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;1304031&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;1020201&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;1003011&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;111111&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;
-        '''&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&apos;&....
-        '''</summary>
+
         Friend Shared ReadOnly Property LevelsetXS() As String
             Get
                 Return ResourceManager.GetString("LevelsetXS", resourceCulture)

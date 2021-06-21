@@ -25,15 +25,17 @@
         Dim ImgGameFieldDescription() = LevelParser.GetBoardStateIntegerFromMapString(AllLevelsInSet(levelId - 1))
         Dim LP As LevelProperties = New LevelProperties
         Dim subset As Integer()
-        subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = 3)
+        subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = BoardItem.PlaceForBox)
         LP.NumberOfPlaces = subset.Length
         subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = BoardItem.Box)
         LP.NumberOfBoxes = subset.Length
-        subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = 4)
-        LP.BoxesOnPlaces = subset.Length
-        subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = 5)
+        subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = BoardItem.BoxOnPlace)
+        LP.NumberOfBoxesOnPlaces = subset.Length
+
+        ' TODO we need an index
+        subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = BoardItem.Player)
         LP.PlayerLocation = subset.Length
-        subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = 6)
+        subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = BoardItem.PlayerOnPlace)
         LP.PlayerLocation += subset.Length
         Return LP
     End Function
