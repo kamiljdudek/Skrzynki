@@ -92,22 +92,13 @@
     Public Levelsets As New System.Collections.Hashtable
 
     Public Sub LoadAllLevelsets()
-        Dim Levelset1 = PullAllLevels(My.Resources.LevelsetResource.Classic_SOK, False)
-        Dim Levelset2 = PullAllLevels(My.Resources.LevelsetResource.XS_SOK, False)
+        Dim Classic As New Levelset(SokobanLevelSet.Classic.ToString())
+        Dim XS As New Levelset(SokobanLevelSet.XS.ToString())
 
-        Dim Classic As Levelset = New Levelset(SokobanLevelSet.Classic.ToString())
-        Dim XS As Levelset = New Levelset(SokobanLevelSet.XS.ToString())
+        Classic.AddAllLevels(PullAllLevels(My.Resources.LevelsetResource.Classic_SOK, False))
+        XS.AddAllLevels(PullAllLevels(My.Resources.LevelsetResource.XS_SOK, False))
 
-        ' TODO Load those at the constructor stage
-        For Each SokobanCompliantLevel As String In Levelset1
-            Dim SkrzynkiCompliantLevel = GetMapStringFromLevel(SokobanCompliantLevel)
-            Classic.AddLevel(SkrzynkiCompliantLevel)
-        Next
-        For Each SokobanCompliantLevel As String In Levelset2
-            Dim SkrzynkiCompliantLevel = GetMapStringFromLevel(SokobanCompliantLevel)
-            XS.AddLevel(SkrzynkiCompliantLevel)
-        Next
-
+        'TODO: load stats @ constructor
         Classic.AchievedLevel = My.Settings.ArrivedLevelKlasyczne
         Classic.Moves = My.Settings.MovesKlasyczne
         Classic.Pushes = My.Settings.PushesKlasyczne

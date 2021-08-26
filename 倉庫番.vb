@@ -27,8 +27,7 @@
 
     ' This is a public localizer created to translate the UI on the fly.
     <CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2211:NonConstantFieldsShouldNotBeVisible")>
-    Public Localizer As System.Resources.ResourceManager =
-        New System.Resources.ResourceManager("Skrzynki.LocalizableStrings", System.Reflection.Assembly.GetExecutingAssembly())
+    Public Localizer As New System.Resources.ResourceManager("Skrzynki.LocalizableStrings", System.Reflection.Assembly.GetExecutingAssembly())
 
     ' zmienne
     Public GameBoard(256) As Integer ' przechowuje aktualne ustawienie obiektów w polu gry

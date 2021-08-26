@@ -5,15 +5,29 @@
     Public Property Moves As Integer
     Public Property Pushes As Integer
 
-    Sub New(ByVal levelsetNameTranslated As String)
+    Public Sub New(levelsetNameTranslated As String, Optional isFromFile As Boolean = False)
         Name = levelsetNameTranslated
         AllLevelsInSet = New System.Collections.Generic.List(Of String())
         ' Load stats from settings
+        If isFromFile = True Then
+            Me.AchievedLevel = 0
+            Me.Moves = 0
+            Me.Pushes = 0
+
+            ExternalCustomLevel = True
+        End If
     End Sub
 
     Sub AddLevel(ByVal boardMap() As String)
         Dim stream() As String = boardMap
         AllLevelsInSet.Add(stream)
+    End Sub
+
+    Sub AddAllLevels(ByVal levelStream As ArrayList)
+        For Each SokobanCompliantLevel As String In levelStream
+            Dim SkrzynkiCompliantLevel = GetMapStringFromLevel(SokobanCompliantLevel)
+            Me.AddLevel(SkrzynkiCompliantLevel)
+        Next
     End Sub
 
     Public Function GetLevel(ByVal levelId As Integer) As Integer()
@@ -23,7 +37,7 @@
 
     Public Function GetLevelInitialProperties(ByVal levelId As Integer) As LevelProperties
         Dim ImgGameFieldDescription() = LevelParser.GetBoardStateIntegerFromMapString(AllLevelsInSet(levelId - 1))
-        Dim LP As LevelProperties = New LevelProperties
+        Dim LP As New LevelProperties
         Dim subset As Integer()
         subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = BoardItem.PlaceForBox)
         LP.NumberOfPlaces = subset.Length
@@ -32,11 +46,13 @@
         subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = BoardItem.BoxOnPlace)
         LP.NumberOfBoxesOnPlaces = subset.Length
 
-        ' TODO we need an index
-        subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = BoardItem.Player)
-        LP.PlayerLocation = subset.Length
-        subset = Array.FindAll(ImgGameFieldDescription, Function(value As Integer) value = BoardItem.PlayerOnPlace)
-        LP.PlayerLocation += subset.Length
+        Dim ix As Integer = Array.IndexOf(ImgGameFieldDescription, CInt(BoardItem.Player))
+        If ix < 0 Then
+            LP.PlayerLocation = Array.IndexOf(ImgGameFieldDescription, CInt(BoardItem.PlayerOnPlace))
+        Else
+            LP.PlayerLocation = ix
+        End If
+
         Return LP
     End Function
     Public ReadOnly Property NumberOfLevels As Integer

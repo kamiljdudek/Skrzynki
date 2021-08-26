@@ -353,14 +353,9 @@ Public Class GameBoardForm
             End If
 
             CurrentlyPlayedLevelId = CInt(Val(IB))
-            Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
-
-            ' TODO remove loop
-            For Counter = 1 To 256 Step 1
-                GameBoard(Counter) = BoardState(Counter)
-            Next Counter
-
-            PlayerLocation = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId).PlayerLocation
+            GameBoard = Levelset.GetLevel(CurrentlyPlayedLevelId)
+            Dim Details As LevelProperties = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId)
+            PlayerLocation = Details.PlayerLocation
 
             Call RefreshStatusBar()
             Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
@@ -380,7 +375,7 @@ Public Class GameBoardForm
         End If
 
         Dim LevelsetCustomInput = LevelParser.PullAllLevels(FileName, True)
-        Dim LevelsetCustom As Levelset = New Levelset(SokobanLevelSet.CustomFromFile.ToString())
+        Dim LevelsetCustom As New Levelset(SokobanLevelSet.CustomFromFile.ToString(), True)
 
         If LevelsetCustomInput.Count > 0 Then
             If My.Settings.LevelLoadConfirmation = True Then
@@ -393,22 +388,14 @@ Public Class GameBoardForm
 
             ' TODO fail and fall back if it didn't succeed
 
-            ' TODO make the constructor do it
-            For Each SokobanCompliantLevel As String In LevelsetCustomInput
-                Dim SkrzynkiCompliantLevel = GetMapStringFromLevel(SokobanCompliantLevel)
-                LevelsetCustom.AddLevel(SkrzynkiCompliantLevel)
-            Next
-
-            ' TODO make the constructor do it
-            LevelsetCustom.AchievedLevel = 0
-            LevelsetCustom.Moves = 0
-            LevelsetCustom.Pushes = 0
+            LevelsetCustom.AddAllLevels(LevelsetCustomInput)
 
             If Levelsets.ContainsKey("Custom") Then
                 Levelsets.Remove("Custom")
             End If
             Levelsets.Add("Custom", LevelsetCustom)
         Else
+            'todo fix message
             MsgBox("LOL PUSTO")
         End If
 
@@ -421,13 +408,9 @@ Public Class GameBoardForm
         SizeOfCurrentLevelset = Levelset.NumberOfLevels
         RefreshBoard()
 
-        ' TODO make the constructor do it
-        ExternalCustomLevel = True
-
         Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
         Array.Copy(BoardState, GameBoard, GameBoard.Length)
         PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(BoardState)
-
         RefreshBoard()
 
     End Sub
