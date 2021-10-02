@@ -61,6 +61,16 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property Eksport() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Eksport", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         '''</summary>
         Friend ReadOnly Property Eksport0() As System.Drawing.Icon
@@ -181,6 +191,16 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property Oryginalny() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Oryginalny", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         '''</summary>
         Friend ReadOnly Property Oryginalny0() As System.Drawing.Icon
@@ -247,6 +267,16 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("Oryginalny6", resourceCulture)
                 Return CType(obj,System.Drawing.Icon)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property Serowy() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Serowy", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
         

@@ -42,14 +42,19 @@
             End If
         Next
 
-        Dim MoveLeft As Integer = CInt(Math.Round((16 - CDbl(Content(LongestStringIndex).Length)) / 2))
+        Try
+            Dim MoveLeft As Integer = CInt(Math.Round((16 - CDbl(Content(LongestStringIndex).Length)) / 2))
 
-        For j = 0 To Content.Length - 1
-            Dim rmatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(Content(j), "^ *")
-            Content(j) = System.Text.RegularExpressions.Regex.Replace(Content(j), "^ *", StrDup(rmatch.Value.Length, "7"))
-            Content(j) = StrDup(MoveLeft, "7") & Content(j)
-            Content(j) = Content(j) & StrDup((16 - Content(j).Length), "7")
-        Next
+            For j = 0 To Content.Length - 1
+                Dim rmatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(Content(j), "^ *")
+                Content(j) = System.Text.RegularExpressions.Regex.Replace(Content(j), "^ *", StrDup(rmatch.Value.Length, "7"))
+                Content(j) = StrDup(MoveLeft, "7") & Content(j)
+                Content(j) = Content(j) & StrDup((16 - Content(j).Length), "7")
+            Next
+        Catch ex As Exception
+            OutputLevelMap = Nothing
+            Return OutputLevelMap
+        End Try
 
         Dim MoveDown As Integer = CInt(Math.Round((16 - CDbl(Content.Length - 1)) / 2))
         For j = 0 To MoveDown - 1
@@ -76,6 +81,10 @@
     End Function
 
     Public Function GetBoardStateIntegerFromMapString(ByRef ms As String()) As Integer()
+        If IsNothing(ms) Then
+            Return Nothing
+        End If
+
         Dim LegacyLevelArrayCounter255 As Integer = 0
         Dim OutputStringLegacyFormat(16 * 16) As Integer
         For j = 0 To 15
@@ -90,6 +99,10 @@
     End Function
 
     Public Levelsets As New System.Collections.Hashtable
+
+    Public Function GetLevelset(ByVal SetName As String) As Levelset
+        Return CType(LevelParser.Levelsets.Item(SetName), Levelset)
+    End Function
 
     Public Sub LoadAllLevelsets()
         Dim Classic As New Levelset(SokobanLevelSet.Classic.ToString())

@@ -31,7 +31,6 @@
 
     ' zmienne
     Public GameBoard(256) As Integer ' przechowuje aktualne ustawienie obiektów w polu gry
-    'Public AllGameBoardStates As System.Collections.Generic.List(Of Integer())
     Public AllGameBoardStates As System.Collections.ObjectModel.Collection(Of Integer())
     Public PlayerLocation As Integer ' aktualna pozycja gracza
     Public MoveHasJustBeenPerformed As Boolean ' czy gracz wykonał ruch (i czy ew. można cofnąć)
@@ -43,8 +42,6 @@
     Public MovesPerformedOnCurrentLevel As Integer ' ruchy wykonane w etapie
     Public PushesPerformedOnCurrentLevel As Integer ' ruchy skrzynek wykonane w etapie
     Public FileName As String ' nazwa pliku etapu
-    Public Counter As Integer ' do pętli For...Next
-
 
     Public Sub LoadNextLevel()
 
@@ -54,25 +51,27 @@
             ' Exit Sub
         End If
 
-        If CurrentlyPlayedLevelId > SetArrivedLevel() Then
-            Select Case My.Settings.LevelSet
-                Case "Klasyczne"
+        Dim Levelset As Levelset = LevelParser.GetLevelset("Classic")
+        Select Case My.Settings.LevelSet
+            Case "Klasyczne"
+                If CurrentlyPlayedLevelId > GetArrivedLevel() Then
                     DaneGracza.Klasyczne.OsiagnietyEtap = CurrentlyPlayedLevelId
                     DaneGracza.Klasyczne.Pchniecia += PushesPerformedOnCurrentLevel
                     DaneGracza.Klasyczne.Ruchy += MovesPerformedOnCurrentLevel
-                Case "SuperTrudneXS"
+                End If
+            Case "SuperTrudneXS"
+                If CurrentlyPlayedLevelId > GetArrivedLevel() Then
                     DaneGracza.SuperTrudneXS.OsiagnietyEtap = CurrentlyPlayedLevelId
                     DaneGracza.SuperTrudneXS.Pchniecia += PushesPerformedOnCurrentLevel
                     DaneGracza.SuperTrudneXS.Ruchy += MovesPerformedOnCurrentLevel
-            End Select
-        End If
+                End If
+                Levelset = LevelParser.GetLevelset("XS")
+        End Select
+
         MovesPerformedOnCurrentLevel = 0
         PushesPerformedOnCurrentLevel = 0
         MoveHasJustBeenPerformed = False
         PushHasJustBeenPerformed = False
-
-        ' TODO Incorrect way of checking the number of levels
-        Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item("Classic"), Levelset)
 
         Dim NextBoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
         Array.Copy(NextBoardState, GameBoard, GameBoard.Length)
@@ -502,11 +501,6 @@
         Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
         Array.Copy(BoardState, GameBoard, GameBoard.Length)
 
-        ' Todo: .GetPlayerLocation()
-        For Counter = 1 To 256 Step 1
-            If GameBoard(Counter) = BoardItem.Player Or GameBoard(Counter) = BoardItem.PlayerOnPlace Then PlayerLocation = Counter
-        Next Counter
-
         PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(GameBoard)
 
         Return True
@@ -542,12 +536,13 @@
         PushesPerformedOnCurrentLevel = 0
         MoveHasJustBeenPerformed = False
     End Sub
-    Public Function SetArrivedLevel() As Integer
+    Public Function GetArrivedLevel() As Integer
         If My.Settings.LevelSet = "Klasyczne" Then
-            SetArrivedLevel = My.Settings.ArrivedLevelKlasyczne
+            GetArrivedLevel = My.Settings.ArrivedLevelKlasyczne
         Else
-            SetArrivedLevel = My.Settings.ArrivedLevelSupertrudne
+            GetArrivedLevel = My.Settings.ArrivedLevelSupertrudne
         End If
+        Return GetArrivedLevel
     End Function
 
 End Module

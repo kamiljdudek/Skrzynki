@@ -258,6 +258,9 @@
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
     <None Include="Resources\Classic.SOK.txt" />
     <None Include="Resources\XS.SOK.txt" />
+    <None Include="icons\Eksport.png" />
+    <None Include="icons\Oryginalny.png" />
+    <None Include="icons\Serowy.png" />
     <Content Include="Skrzynki.ico" />
     <EmbeddedResource Include="GameBoardForm.resx">
       <DependentUpon>GameBoardForm.vb</DependentUpon>

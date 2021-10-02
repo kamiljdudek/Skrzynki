@@ -12,14 +12,12 @@ Public Class GameBoardForm
         Me.MenuitemLevelset.Text = Localizer.GetString("MenuitemSelectLevelSet")
         Me.MenuitemLevelsetClassic.Text = Localizer.GetString("LevelSetClassic")
         Me.MenuitemLevelsetXS.Text = Localizer.GetString("LevelSetXS")
-        Me.MenuitemNewGame.Text = Localizer.GetString("MenuitemNewGame")
-        Me.MenuitemOpenLevel.Text = Localizer.GetString("MenuitemOpenLevelFile")
         Me.MenuitemOptions.Text = Localizer.GetString("MenuitemOptions")
         Me.MenuitemQuit.Text = Localizer.GetString("MenuitemQuit")
         Me.MenuitemRefresh.Text = Localizer.GetString("MenuitemRefresh")
         Me.MenuitemRestart.Text = Localizer.GetString("MenuitemRestart")
         Me.MenuitemSelectLevel.Text = Localizer.GetString("MenuitemSelectLevel")
-        Me.MenuitemOpenLevel.Text = Localizer.GetString("MenuitemOpenLevelFile")
+        Me.ZPlikuToolStripMenuItem.Text = Localizer.GetString("MenuitemOpenLevelFile")
         Me.MenuitemTools.Text = Localizer.GetString("MenuitemTools")
         Me.MenuitemUndo.Text = Localizer.GetString("MenuitemUndo")
         Me.MenuitemView.Text = Localizer.GetString("MenuitemView")
@@ -83,7 +81,7 @@ Public Class GameBoardForm
     End Sub
 
     Public Sub RefreshBoard()
-        For Counter = 1 To 256 Step 1
+        For Counter As Integer = 1 To 256 Step 1
             If GameBoard(Counter) < 7 Then
                 Me.imgGameField(Counter).Image = Skrzynki.Skin.GetIcon(GameBoard(Counter))
             Else
@@ -156,15 +154,14 @@ Public Class GameBoardForm
                     LevelCleared = True
                     CurrentlyPlayedLevelId += 1
 
-                    ' TODO: incorrect way of checking the number of levels
-                    ' Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item("Classic"), Levelset)
-
                     If CurrentlyPlayedLevelId > SizeOfCurrentLevelset Then
                         MsgBox(Localizer.GetString("AlertAllLevelsSolved"),
                                MsgBoxStyle.OkOnly Or
                                MsgBoxStyle.Information Or
                                MsgBoxStyle.ApplicationModal,
                                System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+                        ' Todo: select Klasyczne jeżeli to był custom
+                        NewGame(1)
                     Else
                         LoadNextLevel()
                     End If
@@ -201,9 +198,9 @@ Public Class GameBoardForm
         Dim SuccessfulNewGame As Boolean = False
         If ExternalCustomLevel = False Then
             If My.Settings.BeginFromArrivedLevel = True Then
-                SuccessfulNewGame = NewGame((SetArrivedLevel()))
+                SuccessfulNewGame = NewGame(GetArrivedLevel())
             Else
-                SuccessfulNewGame = NewGame((1))
+                SuccessfulNewGame = NewGame(1)
             End If
 
             If Not SuccessfulNewGame Then
@@ -229,13 +226,6 @@ Public Class GameBoardForm
     Private Sub MenuitemQuit_Click(sender As Object, e As EventArgs) Handles MenuitemQuit.Click
         Call Stats.ZapiszStatystyki()
         End
-    End Sub
-
-    Private Sub MenuitemNewGame_Click(sender As Object, e As EventArgs) Handles MenuitemNewGame.Click
-        NewGame((1))
-        RefreshBoard()
-        Me.MenuitemUndo.Enabled = False
-        Call RefreshStatusBar()
     End Sub
 
     Private Sub MenuitemAbout_Click(sender As Object, e As EventArgs) Handles MenuitemAbout.Click
@@ -312,7 +302,7 @@ Public Class GameBoardForm
     Private Sub MenuitemSelectLevel_Click(sender As Object, e As EventArgs) Handles MenuitemSelectLevel.Click
         Dim IB As String = InputBox(Localizer.GetString("QuerySelectLevel"),
                                     System.Reflection.Assembly.GetExecutingAssembly.GetName.Name,
-                                    CStr(SetArrivedLevel()))
+                                    CStr(GetArrivedLevel()))
         If IB = "" Then
             Exit Sub
         End If
@@ -335,7 +325,7 @@ Public Class GameBoardForm
             Exit Sub
         End If
 
-        If (Val(IB) > Val(CStr(SetArrivedLevel()))) And (Val(IB) <= Levelset.NumberOfLevels) Then
+        If (Val(IB) > Val(CStr(GetArrivedLevel()))) And (Val(IB) <= Levelset.NumberOfLevels) Then
             MsgBox(Localizer.GetString("AlertLevelNotReachedYet"),
                    MsgBoxStyle.OkOnly Or
                    MsgBoxStyle.Critical Or
@@ -369,10 +359,19 @@ Public Class GameBoardForm
         If ExternalCustomLevel = False Then MenuitemRestart.Enabled = True Else MenuitemRestart.Enabled = False
     End Sub
 
-    Private Sub MenuitemOpenLevel_Click(sender As Object, e As EventArgs) Handles MenuitemOpenLevel.Click
+    Private Sub MenuitemOpenLevel_Click(sender As Object, e As EventArgs) Handles ZPlikuToolStripMenuItem.Click
+        If ExternalCustomLevel Then
+            ExternalCustomLevel = False
+            NewGame(1)
+        End If
+
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
             FileName = OpenFileDialog1.FileName
         End If
+
+        MenuitemLevelsetClassic.Checked = False
+        MenuitemLevelsetXS.Checked = False
+        ZPlikuToolStripMenuItem.Checked = True
 
         Dim LevelsetCustomInput = LevelParser.PullAllLevels(FileName, True)
         Dim LevelsetCustom As New Levelset(SokobanLevelSet.CustomFromFile.ToString(), True)
@@ -386,8 +385,6 @@ Public Class GameBoardForm
                        System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
             End If
 
-            ' TODO fail and fall back if it didn't succeed
-
             LevelsetCustom.AddAllLevels(LevelsetCustomInput)
 
             If Levelsets.ContainsKey("Custom") Then
@@ -395,23 +392,28 @@ Public Class GameBoardForm
             End If
             Levelsets.Add("Custom", LevelsetCustom)
         Else
-            'todo fix message
-            MsgBox("LOL PUSTO")
+            MsgBox(Localizer.GetString("AlertLevelEmptyOrBad"), MsgBoxStyle.Exclamation Or MsgBoxStyle.ApplicationModal,
+                       System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
         End If
 
         Call RefreshStatusBar()
         Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
 
-        ' Somehow merge with LoadNextLevel()
-        ' TODO: avoid conversion which is pointless
-        Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item("Custom"), Levelset)
+        ' TODO: Somehow merge with LoadNextLevel()
+        Dim Levelset As Levelset = LevelParser.GetLevelset("Custom")
         SizeOfCurrentLevelset = Levelset.NumberOfLevels
         RefreshBoard()
 
         Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
-        Array.Copy(BoardState, GameBoard, GameBoard.Length)
-        PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(BoardState)
-        RefreshBoard()
+        If IsNothing(BoardState) Then
+            MsgBox(Localizer.GetString("AlertLevelEmptyOrBad"), MsgBoxStyle.Exclamation Or MsgBoxStyle.ApplicationModal,
+                       System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            NewGame(1)
+        Else
+            Array.Copy(BoardState, GameBoard, GameBoard.Length)
+            PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(BoardState)
+            RefreshBoard()
+        End If
 
     End Sub
 
@@ -426,12 +428,19 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemLevelset_Hover(sender As Object, e As EventArgs) Handles MenuitemLevelset.MouseHover
-        If My.Settings.LevelSet = "Klasyczne" Then
-            MenuitemLevelsetClassic.Checked = True
-            MenuitemLevelsetXS.Checked = False
-        Else
+        If ExternalCustomLevel Then
             MenuitemLevelsetClassic.Checked = False
-            MenuitemLevelsetXS.Checked = True
+            MenuitemLevelsetXS.Checked = False
+            ZPlikuToolStripMenuItem.Checked = True
+        Else
+            ZPlikuToolStripMenuItem.Checked = False
+            If My.Settings.LevelSet = "Klasyczne" Then
+                MenuitemLevelsetClassic.Checked = True
+                MenuitemLevelsetXS.Checked = False
+            Else
+                MenuitemLevelsetClassic.Checked = False
+                MenuitemLevelsetXS.Checked = True
+            End If
         End If
     End Sub
 
@@ -439,6 +448,7 @@ Public Class GameBoardForm
         My.Settings.LevelSet = "Klasyczne"
         MenuitemLevelsetClassic.Checked = True
         MenuitemLevelsetXS.Checked = False
+        ' Todo najdalszy
         NewGame(1)
 
         RefreshBoard()
@@ -451,6 +461,7 @@ Public Class GameBoardForm
         My.Settings.LevelSet = "SuperTrudneXS"
         MenuitemLevelsetClassic.Checked = False
         MenuitemLevelsetXS.Checked = True
+        ' Todo najdalszy
         NewGame(1)
 
         RefreshBoard()
@@ -460,9 +471,9 @@ Public Class GameBoardForm
 
     Private Sub MenuitemGame_Click(sender As Object, e As EventArgs) Handles MenuitemGame.Click
         If ExternalCustomLevel Then
-            MenuitemOpenLevel.Enabled = False
+            'MenuitemOpenLevel.Enabled = False
         Else
-            MenuitemOpenLevel.Enabled = True
+            'MenuitemOpenLevel.Enabled = True
         End If
     End Sub
 
@@ -514,8 +525,8 @@ Public Class GameBoardForm
             MenuitemSkinExport.Checked = False
         ElseIf My.Settings.Skin = "Serowy" Then
             MenuitemSkinOrig.Checked = False
-            MenuitemSkinCheese.Checked = False
-            MenuitemSkinExport.Checked = True
+            MenuitemSkinCheese.Checked = True
+            MenuitemSkinExport.Checked = False
         Else
             MenuitemSkinOrig.Checked = False
             MenuitemSkinCheese.Checked = False

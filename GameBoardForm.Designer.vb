@@ -26,11 +26,11 @@ Partial Class GameBoardForm
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(GameBoardForm))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.MenuitemGame = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuitemNewGame = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuitemOpenLevel = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemLevelset = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemLevelsetClassic = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemLevelsetXS = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ZPlikuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemSelectLevel = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuitemQuit = New System.Windows.Forms.ToolStripMenuItem()
@@ -77,53 +77,53 @@ Partial Class GameBoardForm
         '
         'MenuitemGame
         '
-        Me.MenuitemGame.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemNewGame, Me.MenuitemOpenLevel, Me.MenuitemLevelset, Me.MenuitemSelectLevel, Me.ToolStripSeparator2, Me.MenuitemQuit})
+        Me.MenuitemGame.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemLevelset, Me.MenuitemSelectLevel, Me.ToolStripSeparator2, Me.MenuitemQuit})
         Me.MenuitemGame.Name = "MenuitemGame"
         Me.MenuitemGame.Size = New System.Drawing.Size(12, 20)
         '
-        'MenuitemNewGame
-        '
-        Me.MenuitemNewGame.Name = "MenuitemNewGame"
-        Me.MenuitemNewGame.Size = New System.Drawing.Size(110, 22)
-        '
-        'MenuitemOpenLevel
-        '
-        Me.MenuitemOpenLevel.Name = "MenuitemOpenLevel"
-        Me.MenuitemOpenLevel.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.MenuitemOpenLevel.Size = New System.Drawing.Size(110, 22)
-        '
         'MenuitemLevelset
         '
-        Me.MenuitemLevelset.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemLevelsetClassic, Me.MenuitemLevelsetXS})
+        Me.MenuitemLevelset.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemLevelsetClassic, Me.MenuitemLevelsetXS, Me.ToolStripSeparator5, Me.ZPlikuToolStripMenuItem})
         Me.MenuitemLevelset.Name = "MenuitemLevelset"
-        Me.MenuitemLevelset.Size = New System.Drawing.Size(110, 22)
+        Me.MenuitemLevelset.Size = New System.Drawing.Size(109, 22)
         '
         'MenuitemLevelsetClassic
         '
         Me.MenuitemLevelsetClassic.Name = "MenuitemLevelsetClassic"
-        Me.MenuitemLevelsetClassic.Size = New System.Drawing.Size(67, 22)
+        Me.MenuitemLevelsetClassic.Size = New System.Drawing.Size(110, 22)
         '
         'MenuitemLevelsetXS
         '
         Me.MenuitemLevelsetXS.Name = "MenuitemLevelsetXS"
-        Me.MenuitemLevelsetXS.Size = New System.Drawing.Size(67, 22)
+        Me.MenuitemLevelsetXS.Size = New System.Drawing.Size(110, 22)
+        '
+        'ToolStripSeparator5
+        '
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(107, 6)
+        '
+        'ZPlikuToolStripMenuItem
+        '
+        Me.ZPlikuToolStripMenuItem.Name = "ZPlikuToolStripMenuItem"
+        Me.ZPlikuToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
+        Me.ZPlikuToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
         '
         'MenuitemSelectLevel
         '
         Me.MenuitemSelectLevel.Name = "MenuitemSelectLevel"
         Me.MenuitemSelectLevel.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.L), System.Windows.Forms.Keys)
-        Me.MenuitemSelectLevel.Size = New System.Drawing.Size(110, 22)
+        Me.MenuitemSelectLevel.Size = New System.Drawing.Size(109, 22)
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(107, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(106, 6)
         '
         'MenuitemQuit
         '
         Me.MenuitemQuit.Name = "MenuitemQuit"
         Me.MenuitemQuit.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.MenuitemQuit.Size = New System.Drawing.Size(110, 22)
+        Me.MenuitemQuit.Size = New System.Drawing.Size(109, 22)
         '
         'MenuitemView
         '
@@ -135,49 +135,52 @@ Partial Class GameBoardForm
         '
         Me.MenuitemSkins.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemSkinOrig, Me.MenuitemSkinExport, Me.MenuitemSkinCheese})
         Me.MenuitemSkins.Name = "MenuitemSkins"
-        Me.MenuitemSkins.Size = New System.Drawing.Size(110, 22)
+        Me.MenuitemSkins.Size = New System.Drawing.Size(180, 22)
         '
         'MenuitemSkinOrig
         '
+        Me.MenuitemSkinOrig.Image = Global.Skrzynki.My.Resources.Resources.Oryginalny
         Me.MenuitemSkinOrig.Name = "MenuitemSkinOrig"
-        Me.MenuitemSkinOrig.Size = New System.Drawing.Size(67, 22)
+        Me.MenuitemSkinOrig.Size = New System.Drawing.Size(180, 22)
         '
         'MenuitemSkinExport
         '
+        Me.MenuitemSkinExport.Image = Global.Skrzynki.My.Resources.Resources.Eksport
         Me.MenuitemSkinExport.Name = "MenuitemSkinExport"
-        Me.MenuitemSkinExport.Size = New System.Drawing.Size(67, 22)
+        Me.MenuitemSkinExport.Size = New System.Drawing.Size(180, 22)
         '
         'MenuitemSkinCheese
         '
+        Me.MenuitemSkinCheese.Image = Global.Skrzynki.My.Resources.Resources.Serowy
         Me.MenuitemSkinCheese.Name = "MenuitemSkinCheese"
-        Me.MenuitemSkinCheese.Size = New System.Drawing.Size(67, 22)
+        Me.MenuitemSkinCheese.Size = New System.Drawing.Size(180, 22)
         '
         'MenuitemColor
         '
         Me.MenuitemColor.Name = "MenuitemColor"
-        Me.MenuitemColor.Size = New System.Drawing.Size(110, 22)
+        Me.MenuitemColor.Size = New System.Drawing.Size(180, 22)
         '
         'MenuitemConfirmRestarts
         '
         Me.MenuitemConfirmRestarts.Name = "MenuitemConfirmRestarts"
-        Me.MenuitemConfirmRestarts.Size = New System.Drawing.Size(110, 22)
+        Me.MenuitemConfirmRestarts.Size = New System.Drawing.Size(180, 22)
         '
         'ToolStripSeparator4
         '
         Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(107, 6)
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(177, 6)
         '
         'MenuitemRefresh
         '
         Me.MenuitemRefresh.Name = "MenuitemRefresh"
         Me.MenuitemRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.MenuitemRefresh.Size = New System.Drawing.Size(110, 22)
+        Me.MenuitemRefresh.Size = New System.Drawing.Size(180, 22)
         '
         'MenuitemHide
         '
         Me.MenuitemHide.Name = "MenuitemHide"
         Me.MenuitemHide.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.H), System.Windows.Forms.Keys)
-        Me.MenuitemHide.Size = New System.Drawing.Size(110, 22)
+        Me.MenuitemHide.Size = New System.Drawing.Size(180, 22)
         '
         'MenuitemTools
         '
@@ -308,8 +311,6 @@ Partial Class GameBoardForm
 
     Friend WithEvents MenuStrip1 As MenuStrip
     Friend WithEvents MenuitemGame As ToolStripMenuItem
-    Friend WithEvents MenuitemNewGame As ToolStripMenuItem
-    Friend WithEvents MenuitemOpenLevel As ToolStripMenuItem
     Friend WithEvents MenuitemLevelset As ToolStripMenuItem
     Friend WithEvents MenuitemLevelsetClassic As ToolStripMenuItem
     Friend WithEvents MenuitemLevelsetXS As ToolStripMenuItem
@@ -344,4 +345,6 @@ Partial Class GameBoardForm
     Friend WithEvents ColorDialog1 As ColorDialog
     Friend WithEvents MenuitemConfirmRestarts As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
+    Friend WithEvents ZPlikuToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator5 As ToolStripSeparator
 End Class

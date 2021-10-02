@@ -123,6 +123,9 @@
   <data name="AlertLevelDoesNotExist" xml:space="preserve">
     <value>Etap o takim numerze nie istnieje</value>
   </data>
+  <data name="AlertLevelEmptyOrBad" xml:space="preserve">
+    <value />
+  </data>
   <data name="AlertLevelFromFileLoadSuccess" xml:space="preserve">
     <value>Etap zapisany w pliku został pomyślnie załadowany</value>
   </data>

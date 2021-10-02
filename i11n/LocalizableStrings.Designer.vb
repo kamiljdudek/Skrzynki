@@ -83,6 +83,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Plik etapów jest pusty lub wadliwy.
+        '''</summary>
+        Friend Shared ReadOnly Property AlertLevelEmptyOrBad() As String
+            Get
+                Return ResourceManager.GetString("AlertLevelEmptyOrBad", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Etap zapisany w pliku został pomyślnie załadowany.
         '''</summary>
         Friend Shared ReadOnly Property AlertLevelFromFileLoadSuccess() As String
