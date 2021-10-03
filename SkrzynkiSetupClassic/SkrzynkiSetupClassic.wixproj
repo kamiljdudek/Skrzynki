@@ -6,7 +6,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>e4b7259a-7e22-421e-816d-96946b4cd490</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>SkrzynkiSetupClassic</OutputName>
+    <OutputName>Skrzynki</OutputName>
     <OutputType>Package</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">

@@ -191,7 +191,7 @@ Public Class GameBoardForm
         MoveHasJustBeenPerformed = False
         LevelCleared = False
 
-        Stats.OdczytajStatystyki()
+        ' Stats.OdczytajStatystyki()
 
         Me.BackColor = Color.Black
 
@@ -219,12 +219,12 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub GameBoardForm_Close(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Closed
-        Stats.ZapiszStatystyki()
+        'Stats.ZapiszStatystyki()
         End
     End Sub
 
     Private Sub MenuitemQuit_Click(sender As Object, e As EventArgs) Handles MenuitemQuit.Click
-        Call Stats.ZapiszStatystyki()
+        'Call Stats.ZapiszStatystyki()
         End
     End Sub
 
@@ -307,14 +307,7 @@ Public Class GameBoardForm
             Exit Sub
         End If
 
-        Dim ZE As String = Nothing
-        If My.Settings.LevelSet = "Klasyczne" Then
-            ZE = "Classic"
-        ElseIf My.Settings.LevelSet = "SuperTrudneXS" Then
-            ZE = "XS"
-        End If
-
-        Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(ZE), Levelset)
+        Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(My.Settings.LevelSet), Levelset)
 
         If IsNumeric(IB) = False Then
             MsgBox(Localizer.GetString("AlertNotANumber"),
@@ -418,7 +411,7 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemLevelset_Click(sender As Object, e As EventArgs) Handles MenuitemLevelset.Click
-        If My.Settings.LevelSet = "Klasyczne" Then
+        If My.Settings.LevelSet = "Classic" Then
             MenuitemLevelsetClassic.Checked = True
             MenuitemLevelsetXS.Checked = False
         Else
@@ -434,7 +427,7 @@ Public Class GameBoardForm
             ZPlikuToolStripMenuItem.Checked = True
         Else
             ZPlikuToolStripMenuItem.Checked = False
-            If My.Settings.LevelSet = "Klasyczne" Then
+            If My.Settings.LevelSet = "Classic" Then
                 MenuitemLevelsetClassic.Checked = True
                 MenuitemLevelsetXS.Checked = False
             Else
@@ -445,7 +438,7 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemLevelsetClassic_Click(sender As Object, e As EventArgs) Handles MenuitemLevelsetClassic.Click
-        My.Settings.LevelSet = "Klasyczne"
+        My.Settings.LevelSet = "Classic"
         MenuitemLevelsetClassic.Checked = True
         MenuitemLevelsetXS.Checked = False
         ' Todo najdalszy
@@ -458,7 +451,7 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemLevelsetXS_Click(sender As Object, e As EventArgs) Handles MenuitemLevelsetXS.Click
-        My.Settings.LevelSet = "SuperTrudneXS"
+        My.Settings.LevelSet = "XS"
         MenuitemLevelsetClassic.Checked = False
         MenuitemLevelsetXS.Checked = True
         ' Todo najdalszy

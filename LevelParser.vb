@@ -51,7 +51,7 @@
                 Content(j) = StrDup(MoveLeft, "7") & Content(j)
                 Content(j) = Content(j) & StrDup((16 - Content(j).Length), "7")
             Next
-        Catch ex As Exception
+        Catch ex As System.ArgumentException
             OutputLevelMap = Nothing
             Return OutputLevelMap
         End Try
@@ -112,6 +112,7 @@
         XS.AddAllLevels(PullAllLevels(My.Resources.LevelsetResource.XS_SOK, False))
 
         'TODO: load stats @ constructor
+        ' Todo: further work on generalizing the levelset support
         Classic.AchievedLevel = My.Settings.ArrivedLevelKlasyczne
         Classic.Moves = My.Settings.MovesKlasyczne
         Classic.Pushes = My.Settings.PushesKlasyczne

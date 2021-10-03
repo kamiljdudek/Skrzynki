@@ -12,9 +12,9 @@ Imports System.Reflection
 
 <Assembly: AssemblyTitle("Boxes: Skrzynki")>
 <Assembly: AssemblyDescription("Gra logiczna, w której wcielasz siê w magazyniera!")>
-<Assembly: AssemblyCompany("Karol Kuczmarski")>
-<Assembly: AssemblyProduct("Skrzynki")>
-<Assembly: AssemblyCopyright("© 2000-2001 - ")>
+<Assembly: AssemblyCompany("Kamil J. Dudek")>
+<Assembly: AssemblyProduct("Boxes: Skrzynki")>
+<Assembly: AssemblyCopyright("© 2000-2001 - Karol Kuczmarski")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: AssemblyCulture("")>
 

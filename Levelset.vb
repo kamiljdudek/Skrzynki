@@ -5,10 +5,14 @@
     Public Property Moves As Integer
     Public Property Pushes As Integer
 
+    ' Suppression made because CA1026 is deprecated in FxCop and Optional var will not be skipped
+#Disable Warning IDE0079 ' Remove unnecessary suppression
+    <CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")>
     Public Sub New(levelsetNameTranslated As String, Optional isFromFile As Boolean = False)
+
         Name = levelsetNameTranslated
         AllLevelsInSet = New System.Collections.Generic.List(Of String())
-        ' Load stats from settings
+
         If isFromFile = True Then
             Me.AchievedLevel = 0
             Me.Moves = 0
@@ -17,18 +21,25 @@
             ExternalCustomLevel = True
         End If
     End Sub
+#Enable Warning IDE0079 ' Remove unnecessary suppression
 
     Sub AddLevel(ByVal boardMap() As String)
         Dim stream() As String = boardMap
         AllLevelsInSet.Add(stream)
     End Sub
 
+    ' Suppression made because the parameter is validated implicitly from resource
+#Disable Warning IDE0079 ' Remove unnecessary suppression
+    <CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId:="0")>
     Sub AddAllLevels(ByVal levelStream As ArrayList)
-        For Each SokobanCompliantLevel As String In levelStream
-            Dim SkrzynkiCompliantLevel = GetMapStringFromLevel(SokobanCompliantLevel)
-            Me.AddLevel(SkrzynkiCompliantLevel)
-        Next
+        If levelStream.Count > 0 Then
+            For Each SokobanCompliantLevel As String In levelStream
+                Dim SkrzynkiCompliantLevel = GetMapStringFromLevel(SokobanCompliantLevel)
+                Me.AddLevel(SkrzynkiCompliantLevel)
+            Next
+        End If
     End Sub
+#Enable Warning IDE0079 ' Remove unnecessary suppression
 
     Public Function GetLevel(ByVal levelId As Integer) As Integer()
         Dim ImgGameFieldDescription = LevelParser.GetBoardStateIntegerFromMapString(AllLevelsInSet(levelId - 1))

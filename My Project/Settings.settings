@@ -9,10 +9,10 @@
       <Value Profile="(Default)">(Oryginalny)</Value>
     </Setting>
     <Setting Name="ArrivedLevelKlasyczne" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
+      <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="ArrivedLevelSupertrudne" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">15</Value>
+      <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="MovesKlasyczne" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
@@ -27,7 +27,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="LevelSet" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Klasyczne</Value>
+      <Value Profile="(Default)">Classic</Value>
     </Setting>
     <Setting Name="BeginFromArrivedLevel" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

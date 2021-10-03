@@ -53,17 +53,17 @@
 
         Dim Levelset As Levelset = LevelParser.GetLevelset("Classic")
         Select Case My.Settings.LevelSet
-            Case "Klasyczne"
+            Case "Classic"
                 If CurrentlyPlayedLevelId > GetArrivedLevel() Then
-                    DaneGracza.Klasyczne.OsiagnietyEtap = CurrentlyPlayedLevelId
-                    DaneGracza.Klasyczne.Pchniecia += PushesPerformedOnCurrentLevel
-                    DaneGracza.Klasyczne.Ruchy += MovesPerformedOnCurrentLevel
+                    My.Settings.ArrivedLevelKlasyczne = CurrentlyPlayedLevelId
+                    My.Settings.PushesKlasyczne += PushesPerformedOnCurrentLevel
+                    My.Settings.MovesKlasyczne += MovesPerformedOnCurrentLevel
                 End If
-            Case "SuperTrudneXS"
+            Case "XS"
                 If CurrentlyPlayedLevelId > GetArrivedLevel() Then
-                    DaneGracza.SuperTrudneXS.OsiagnietyEtap = CurrentlyPlayedLevelId
-                    DaneGracza.SuperTrudneXS.Pchniecia += PushesPerformedOnCurrentLevel
-                    DaneGracza.SuperTrudneXS.Ruchy += MovesPerformedOnCurrentLevel
+                    My.Settings.ArrivedLevelSupertrudne = CurrentlyPlayedLevelId
+                    My.Settings.PushesSupertrudne += PushesPerformedOnCurrentLevel
+                    My.Settings.MovesSupertrudne += MovesPerformedOnCurrentLevel
                 End If
                 Levelset = LevelParser.GetLevelset("XS")
         End Select
@@ -481,22 +481,15 @@
         PrzesunSkrzynke = True
     End Function
     Public Function NewGame(ByVal whichLevel As Integer) As Boolean
-        Dim ZE As String = Nothing
         CurrentlyPlayedLevelId = whichLevel
         MovesPerformedOnCurrentLevel = 0
         PushesPerformedOnCurrentLevel = 0
         MoveHasJustBeenPerformed = False
         ExternalCustomLevel = False
 
-        If My.Settings.LevelSet = "Klasyczne" Then
-            ZE = "Classic"
-        ElseIf My.Settings.LevelSet = "SuperTrudneXS" Then
-            ZE = "XS"
-        End If
-
         LevelCleared = False
 
-        Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(ZE), Levelset)
+        Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(My.Settings.LevelSet), Levelset)
         SizeOfCurrentLevelset = Levelset.NumberOfLevels
         Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
         Array.Copy(BoardState, GameBoard, GameBoard.Length)
@@ -518,14 +511,7 @@
         MoveHasJustBeenPerformed = False
     End Sub
     Public Sub RestartLevel()
-        Dim ZE As String = Nothing
-        If My.Settings.LevelSet = "Klasyczne" Then
-            ZE = "Classic"
-        ElseIf My.Settings.LevelSet = "SuperTrudneXS" Then
-            ZE = "XS"
-        End If
-
-        Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(ZE), Levelset)
+        Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(My.Settings.LevelSet), Levelset)
         SizeOfCurrentLevelset = Levelset.NumberOfLevels
         Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
         Array.Copy(BoardState, GameBoard, GameBoard.Length)
@@ -536,13 +522,15 @@
         PushesPerformedOnCurrentLevel = 0
         MoveHasJustBeenPerformed = False
     End Sub
-    Public Function GetArrivedLevel() As Integer
-        If My.Settings.LevelSet = "Klasyczne" Then
-            GetArrivedLevel = My.Settings.ArrivedLevelKlasyczne
-        Else
-            GetArrivedLevel = My.Settings.ArrivedLevelSupertrudne
-        End If
-        Return GetArrivedLevel
-    End Function
+    Public ReadOnly Property GetArrivedLevel() As Integer
+        Get
+            If My.Settings.LevelSet = "Classic" Then
+                GetArrivedLevel = My.Settings.ArrivedLevelKlasyczne
+            Else
+                GetArrivedLevel = My.Settings.ArrivedLevelSupertrudne
+            End If
+        End Get
+    End Property
+
 
 End Module

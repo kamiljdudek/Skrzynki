@@ -65,7 +65,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to GRATULACJE! Udało ci się przejść wszystkie etapy w tym zestawie!.
+        '''  Looks up a localized string similar to Flawless victory: you managed to complete this levelset!.
         '''</summary>
         Friend Shared ReadOnly Property AlertAllLevelsSolved() As String
             Get
@@ -74,7 +74,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Etap o takim numerze nie istnieje.
+        '''  Looks up a localized string similar to There is no such level.
         '''</summary>
         Friend Shared ReadOnly Property AlertLevelDoesNotExist() As String
             Get
@@ -83,7 +83,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Plik etapów jest pusty lub wadliwy.
+        '''  Looks up a localized string similar to Level file is empty or corrupt.
         '''</summary>
         Friend Shared ReadOnly Property AlertLevelEmptyOrBad() As String
             Get
@@ -92,7 +92,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Etap zapisany w pliku został pomyślnie załadowany.
+        '''  Looks up a localized string similar to Loading custom file.
         '''</summary>
         Friend Shared ReadOnly Property AlertLevelFromFileLoadSuccess() As String
             Get
@@ -101,7 +101,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Błąd podczas wczytywania pliku.
+        '''  Looks up a localized string similar to Error while loading level.
         '''</summary>
         Friend Shared ReadOnly Property AlertLevelLoadFailure() As String
             Get
@@ -110,7 +110,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Ten etap nie jest jeszcze dostępny.
+        '''  Looks up a localized string similar to You haven&apos;t reached that far yet.
         '''</summary>
         Friend Shared ReadOnly Property AlertLevelNotReachedYet() As String
             Get
@@ -119,7 +119,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Błąd podczas wczytywania zestawu etapów.
+        '''  Looks up a localized string similar to Error at reading file.
         '''</summary>
         Friend Shared ReadOnly Property AlertLevelsetLoadFailure() As String
             Get
@@ -128,7 +128,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Świetnie!.
+        '''  Looks up a localized string similar to Glorious!.
         '''</summary>
         Friend Shared ReadOnly Property AlertLevelSolved() As String
             Get
@@ -137,7 +137,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Wprowadzona wartość nie jest liczbą.
+        '''  Looks up a localized string similar to Not a number.
         '''</summary>
         Friend Shared ReadOnly Property AlertNotANumber() As String
             Get
@@ -146,7 +146,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Etapy Skrzynek (*.box)|*.box|Wszystkie pliki (*.*)|*.*.
+        '''  Looks up a localized string similar to Skrzynki level files (*.box)|*.box|Sokoban levelsets (*.sok)|*.sok.
         '''</summary>
         Friend Shared ReadOnly Property DialogFileFilter() As String
             Get
@@ -155,7 +155,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Otwórz plik etapu.
+        '''  Looks up a localized string similar to Open level file.
         '''</summary>
         Friend Shared ReadOnly Property DialogOpenLevelFile() As String
             Get
@@ -164,7 +164,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Wybierz etap, w który chcesz zagrać:.
+        '''  Looks up a localized string similar to Select level:.
         '''</summary>
         Friend Shared ReadOnly Property DialogSelectLevel() As String
             Get
@@ -173,7 +173,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to Boxes: Skrzynki.
         '''</summary>
         Friend Shared ReadOnly Property GameName() As String
             Get
@@ -218,7 +218,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Osiągnięty etap: .
+        '''  Looks up a localized string similar to Reached level:.
         '''</summary>
         Friend Shared ReadOnly Property LabelAchievedLevel() As String
             Get
@@ -236,7 +236,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Kolor tła:.
+        '''  Looks up a localized string similar to Background color:.
         '''</summary>
         Friend Shared ReadOnly Property LabelColor() As String
             Get
@@ -245,7 +245,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Zestaw:.
+        '''  Looks up a localized string similar to Levelset:.
         '''</summary>
         Friend Shared ReadOnly Property LabelLevelSet() As String
             Get
@@ -254,7 +254,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Ruchy:.
+        '''  Looks up a localized string similar to Moves:.
         '''</summary>
         Friend Shared ReadOnly Property LabelMoves() As String
             Get
@@ -272,7 +272,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Pchnięcia:.
+        '''  Looks up a localized string similar to Pushes:.
         '''</summary>
         Friend Shared ReadOnly Property LabelPushes() As String
             Get
@@ -281,7 +281,70 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Statystyki....
+        '''  Looks up a localized string similar to  - #.
+        '''</summary>
+        Friend Shared ReadOnly Property LabelShortPauseAndNumberID() As String
+            Get
+                Return ResourceManager.GetString("LabelShortPauseAndNumberID", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Skin.
+        '''</summary>
+        Friend Shared ReadOnly Property LabelSkin() As String
+            Get
+                Return ResourceManager.GetString("LabelSkin", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Cheese.
+        '''</summary>
+        Friend Shared ReadOnly Property LabelSkinCheese() As String
+            Get
+                Return ResourceManager.GetString("LabelSkinCheese", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Export.
+        '''</summary>
+        Friend Shared ReadOnly Property LabelSkinExport() As String
+            Get
+                Return ResourceManager.GetString("LabelSkinExport", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Skrzynki.
+        '''</summary>
+        Friend Shared ReadOnly Property LabelSkinOriginal() As String
+            Get
+                Return ResourceManager.GetString("LabelSkinOriginal", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to for Windows.
+        '''</summary>
+        Friend Shared ReadOnly Property LabelSplashOS() As String
+            Get
+                Return ResourceManager.GetString("LabelSplashOS", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Version: .
+        '''</summary>
+        Friend Shared ReadOnly Property LabelSplashVersionName() As String
+            Get
+                Return ResourceManager.GetString("LabelSplashVersionName", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Stats.
         '''</summary>
         Friend Shared ReadOnly Property LabelStats() As String
             Get
@@ -290,7 +353,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to Hiding behind the Boxes....
         '''</summary>
         Friend Shared ReadOnly Property LabelTrayDescription() As String
             Get
@@ -299,7 +362,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Klasyczne.
+        '''  Looks up a localized string similar to Classic Skrzynki.
         '''</summary>
         Friend Shared ReadOnly Property LevelSetClassic() As String
             Get
@@ -317,7 +380,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Super trudne XS.
+        '''  Looks up a localized string similar to XS Extra Difficult.
         '''</summary>
         Friend Shared ReadOnly Property LevelSetXS() As String
             Get
@@ -326,7 +389,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to About.
         '''</summary>
         Friend Shared ReadOnly Property MenuitemAbout() As String
             Get
@@ -335,7 +398,25 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to &amp;Gra.
+        '''  Looks up a localized string similar to Pic&amp;k a color....
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemColor() As String
+            Get
+                Return ResourceManager.GetString("MenuitemColor", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &amp;Confirm level restarts.
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemConfirmRestarts() As String
+            Get
+                Return ResourceManager.GetString("MenuitemConfirmRestarts", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &amp;Game.
         '''</summary>
         Friend Shared ReadOnly Property MenuitemGame() As String
             Get
@@ -344,7 +425,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to Hel&amp;p.
         '''</summary>
         Friend Shared ReadOnly Property MenuitemHelp() As String
             Get
@@ -353,7 +434,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to Index.
         '''</summary>
         Friend Shared ReadOnly Property MenuitemHelpTopics() As String
             Get
@@ -362,7 +443,16 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to &amp;Hide.
+        '''</summary>
+        Friend Shared ReadOnly Property MenuitemHide() As String
+            Get
+                Return ResourceManager.GetString("MenuitemHide", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &amp;New game.
         '''</summary>
         Friend Shared ReadOnly Property MenuitemNewGame() As String
             Get
@@ -371,7 +461,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to O&amp;pen level file....
         '''</summary>
         Friend Shared ReadOnly Property MenuitemOpenLevelFile() As String
             Get
@@ -380,7 +470,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to &amp;Stats.
         '''</summary>
         Friend Shared ReadOnly Property MenuitemOptions() As String
             Get
@@ -389,7 +479,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to &amp;Quit.
         '''</summary>
         Friend Shared ReadOnly Property MenuitemQuit() As String
             Get
@@ -398,7 +488,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to Re&amp;fresh.
         '''</summary>
         Friend Shared ReadOnly Property MenuitemRefresh() As String
             Get
@@ -407,7 +497,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to &amp;Restart Level....
         '''</summary>
         Friend Shared ReadOnly Property MenuitemRestart() As String
             Get
@@ -416,7 +506,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to S&amp;elect Level....
         '''</summary>
         Friend Shared ReadOnly Property MenuitemSelectLevel() As String
             Get
@@ -425,7 +515,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to Level&amp;set.
         '''</summary>
         Friend Shared ReadOnly Property MenuitemSelectLevelSet() As String
             Get
@@ -434,7 +524,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to &amp;Tools.
         '''</summary>
         Friend Shared ReadOnly Property MenuitemTools() As String
             Get
@@ -443,7 +533,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to &amp;Undo.
         '''</summary>
         Friend Shared ReadOnly Property MenuitemUndo() As String
             Get
@@ -452,7 +542,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to .
+        '''  Looks up a localized string similar to Vie&amp;w.
         '''</summary>
         Friend Shared ReadOnly Property MenuitemView() As String
             Get
@@ -470,7 +560,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Czy na pewno chcesz zrestartować bieżący etap?.
+        '''  Looks up a localized string similar to Are you sure you want to restart this level?.
         '''</summary>
         Friend Shared ReadOnly Property QueryRestartLevel() As String
             Get
