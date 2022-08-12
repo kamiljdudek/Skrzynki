@@ -272,7 +272,7 @@ Public Class GameBoardForm
         Undo()
         RefreshBoard()
         RefreshStatusBar()
-        Me.MenuitemUndo.Enabled = False
+        'LOLMe.MenuitemUndo.Enabled = False
     End Sub
 
     Private Sub MenuitemOriginal_Click(sender As Object, e As EventArgs)

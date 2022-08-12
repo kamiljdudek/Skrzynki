@@ -14,7 +14,7 @@ Imports System.Reflection
 <Assembly: AssemblyDescription("Gra logiczna, w której wcielasz siê w magazyniera!")>
 <Assembly: AssemblyCompany("Kamil J. Dudek")>
 <Assembly: AssemblyProduct("Boxes: Skrzynki")>
-<Assembly: AssemblyCopyright("© 2000-2001 - Karol Kuczmarski")>
+<Assembly: AssemblyCopyright("© 2000-2001 Karol Kuczmarski, 2020-2021 Kamil J. Dudek")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: AssemblyCulture("")>
 

@@ -499,16 +499,19 @@
         Return True
     End Function
     Public Sub Undo()
-        Array.Copy(AllGameBoardStates(AllGameBoardStates.Count - 1), GameBoard, GameBoard.Length)
-        AllGameBoardStates.RemoveAt(AllGameBoardStates.Count - 1)
+        If (AllGameBoardStates.Count - 1) >= 0 Then
+            Array.Copy(AllGameBoardStates(AllGameBoardStates.Count - 1), GameBoard, GameBoard.Length)
+            AllGameBoardStates.RemoveAt(AllGameBoardStates.Count - 1)
 
-        PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(GameBoard)
+            PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(GameBoard)
 
-        MovesPerformedOnCurrentLevel -= 1
-        If PushHasJustBeenPerformed Then
-            PushesPerformedOnCurrentLevel -= 1
+            MovesPerformedOnCurrentLevel -= 1
+            If PushHasJustBeenPerformed Then
+                PushesPerformedOnCurrentLevel -= 1
+            End If
+            'MoveHasJustBeenPerformed = False
         End If
-        MoveHasJustBeenPerformed = False
+
     End Sub
     Public Sub RestartLevel()
         Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(My.Settings.LevelSet), Levelset)

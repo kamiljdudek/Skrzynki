@@ -75,12 +75,12 @@ Partial Class SplashScreen
         '
         Me.LabelCopyright.BackColor = System.Drawing.Color.Transparent
         Me.LabelCopyright.Cursor = System.Windows.Forms.Cursors.Default
-        Me.LabelCopyright.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(238, Byte))
+        Me.LabelCopyright.Font = New System.Drawing.Font("Segoe UI", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(238, Byte))
         Me.LabelCopyright.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.LabelCopyright.Location = New System.Drawing.Point(152, 205)
+        Me.LabelCopyright.Location = New System.Drawing.Point(112, 205)
         Me.LabelCopyright.Name = "LabelCopyright"
         Me.LabelCopyright.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.LabelCopyright.Size = New System.Drawing.Size(240, 17)
+        Me.LabelCopyright.Size = New System.Drawing.Size(280, 19)
         Me.LabelCopyright.TabIndex = 0
         '
         'PictureBoxLogo
@@ -145,7 +145,7 @@ Partial Class SplashScreen
         Me.Controls.Add(Me.Panel1)
         Me.Cursor = System.Windows.Forms.Cursors.Default
         Me.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.KeyPreview = True
         Me.Location = New System.Drawing.Point(162, 227)
         Me.MaximizeBox = False
