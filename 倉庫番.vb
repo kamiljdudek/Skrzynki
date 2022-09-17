@@ -520,6 +520,7 @@
         Array.Copy(BoardState, GameBoard, GameBoard.Length)
 
         PlayerLocation = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId).PlayerLocation
+        AllGameBoardStates.Clear()
 
         MovesPerformedOnCurrentLevel = 0
         PushesPerformedOnCurrentLevel = 0

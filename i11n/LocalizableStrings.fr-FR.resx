@@ -121,40 +121,40 @@
     <value>Flawless victory: you managed to complete this levelset!</value>
   </data>
   <data name="AlertLevelDoesNotExist" xml:space="preserve">
-    <value>There is no such level</value>
+    <value>Le niveau avec ce numéro n'existe pas</value>
   </data>
   <data name="AlertLevelEmptyOrBad" xml:space="preserve">
-    <value>Level file is empty or corrupt</value>
+    <value>Le fichier malformé ou endommagé</value>
   </data>
   <data name="AlertLevelFromFileLoadSuccess" xml:space="preserve">
-    <value>Loading custom file</value>
+    <value>Le fichier chargé avec succès</value>
   </data>
   <data name="AlertLevelLoadFailure" xml:space="preserve">
-    <value>Error while loading level</value>
+    <value>Le fichier chargé sans succès</value>
   </data>
   <data name="AlertLevelNotReachedYet" xml:space="preserve">
-    <value>You haven't reached that far yet</value>
+    <value>Ce niveau n'est pas encore disponible</value>
   </data>
   <data name="AlertLevelsetLoadFailure" xml:space="preserve">
-    <value>Error at reading file</value>
+    <value>Le fichier malformé ou endommagé</value>
   </data>
   <data name="AlertLevelSolved" xml:space="preserve">
-    <value>Glorious!</value>
+    <value>Brillamment</value>
   </data>
   <data name="AlertNotANumber" xml:space="preserve">
-    <value>Not a number</value>
+    <value>NaN</value>
   </data>
   <data name="DialogFileFilter" xml:space="preserve">
-    <value>Skrzynki level files (*.box)|*.box|Sokoban levelsets (*.sok)|*.sok</value>
+    <value>Fichiers Skrzynki (*.box)|*.box|Fichiers Sokoban (*.sok)|*.sok</value>
   </data>
   <data name="DialogOpenLevelFile" xml:space="preserve">
-    <value>Open level file</value>
+    <value>Ouvrir un fichier de niveau</value>
   </data>
   <data name="DialogSelectLevel" xml:space="preserve">
-    <value>Select level:</value>
+    <value>Choisir le niveau:</value>
   </data>
   <data name="GameName" xml:space="preserve">
-    <value>Boxes: Skrzynki</value>
+    <value>Boxes: Range les cases</value>
   </data>
   <data name="LabelAboutForWindows" xml:space="preserve">
     <value />
@@ -169,25 +169,25 @@
     <value />
   </data>
   <data name="LabelAchievedLevel" xml:space="preserve">
-    <value>Reached level:</value>
+    <value>Niveau atteint:</value>
   </data>
   <data name="LabelBoxes" xml:space="preserve">
-    <value>Skrzynki:</value>
+    <value>Cases:</value>
   </data>
   <data name="LabelColor" xml:space="preserve">
-    <value>Background color:</value>
+    <value>Couleur du plan:</value>
   </data>
   <data name="LabelLevelSet" xml:space="preserve">
-    <value>Levelset:</value>
+    <value>Ensemble:</value>
   </data>
   <data name="LabelMoves" xml:space="preserve">
-    <value>Moves:</value>
+    <value>Mouvements:</value>
   </data>
   <data name="LabelOptions" xml:space="preserve">
     <value />
   </data>
   <data name="LabelPushes" xml:space="preserve">
-    <value>Pushes:</value>
+    <value>Presses:</value>
   </data>
   <data name="LabelShortPauseAndNumberID" xml:space="preserve">
     <value> - #</value>
@@ -205,7 +205,7 @@
     <value>Skrzynki</value>
   </data>
   <data name="LabelSplashOS" xml:space="preserve">
-    <value>for Windows</value>
+    <value>pour Windows</value>
   </data>
   <data name="LabelSplashVersionName" xml:space="preserve">
     <value>Version: </value>
@@ -214,7 +214,7 @@
     <value>Stats</value>
   </data>
   <data name="LabelTrayDescription" xml:space="preserve">
-    <value>Hiding behind the Boxes...</value>
+    <value>Cachée derrière les cases...</value>
   </data>
   <data name="LevelSetClassic" xml:space="preserve">
     <value>Classic Skrzynki</value>
@@ -223,10 +223,10 @@
     <value />
   </data>
   <data name="LevelSetXS" xml:space="preserve">
-    <value>XS Extra Difficult</value>
+    <value>XS Extra Difficile</value>
   </data>
   <data name="MenuitemAbout" xml:space="preserve">
-    <value>About</value>
+    <value>A propos de...</value>
   </data>
   <data name="MenuitemColor" xml:space="preserve">
     <value>Pic&amp;k a color...</value>
@@ -235,55 +235,55 @@
     <value>&amp;Confirm level restarts</value>
   </data>
   <data name="MenuitemGame" xml:space="preserve">
-    <value>&amp;Game</value>
+    <value>&amp;Jeu</value>
   </data>
   <data name="MenuitemHelp" xml:space="preserve">
-    <value>Hel&amp;p</value>
+    <value>&amp;?</value>
   </data>
   <data name="MenuitemHelpTopics" xml:space="preserve">
     <value>Index</value>
   </data>
   <data name="MenuitemHide" xml:space="preserve">
-    <value>&amp;Hide</value>
+    <value>Cac&amp;he</value>
   </data>
   <data name="MenuitemNewGame" xml:space="preserve">
-    <value>&amp;New game</value>
+    <value>&amp;Nouveau</value>
   </data>
   <data name="MenuitemOpenLevelFile" xml:space="preserve">
-    <value>O&amp;pen level file...</value>
+    <value>&amp;Ouvrir un fichier d'ensemble...</value>
   </data>
   <data name="MenuitemOptions" xml:space="preserve">
     <value>&amp;Stats</value>
   </data>
   <data name="MenuitemQuit" xml:space="preserve">
-    <value>&amp;Quit</value>
+    <value>&amp;Quitter</value>
   </data>
   <data name="MenuitemRefresh" xml:space="preserve">
-    <value>Re&amp;fresh</value>
+    <value>Ra&amp;fraîchir</value>
   </data>
   <data name="MenuitemRestart" xml:space="preserve">
-    <value>&amp;Restart Level...</value>
+    <value>&amp;Redémarrer...</value>
   </data>
   <data name="MenuitemSelectLevel" xml:space="preserve">
-    <value>S&amp;elect Level...</value>
+    <value>Choisir le niv&amp;eau...</value>
   </data>
   <data name="MenuitemSelectLevelSet" xml:space="preserve">
-    <value>Level&amp;set</value>
+    <value>En&amp;semble</value>
   </data>
   <data name="MenuitemTools" xml:space="preserve">
     <value>&amp;Tools</value>
   </data>
   <data name="MenuitemUndo" xml:space="preserve">
-    <value>&amp;Undo</value>
+    <value>Ann&amp;uler</value>
   </data>
   <data name="MenuitemView" xml:space="preserve">
-    <value>Vie&amp;w</value>
+    <value>Afficha&amp;ge</value>
   </data>
   <data name="MenuitemWebsite" xml:space="preserve">
     <value />
   </data>
   <data name="QueryRestartLevel" xml:space="preserve">
-    <value>Are you sure you want to restart this level?</value>
+    <value>Voulez-vous recommencer ce niveau ?</value>
   </data>
   <data name="QuerySelectLevel" xml:space="preserve">
     <value />

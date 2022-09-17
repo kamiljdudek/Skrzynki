@@ -152,6 +152,7 @@ Public Class GameBoardForm
                            MsgBoxStyle.ApplicationModal,
                            System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
                     LevelCleared = True
+                    AllGameBoardStates.Clear()
                     CurrentlyPlayedLevelId += 1
 
                     If CurrentlyPlayedLevelId > SizeOfCurrentLevelset Then
