@@ -187,6 +187,7 @@ Public Class GameBoardForm
         LevelParser.LoadAllLevelsets()
         'AllGameBoardStates = New System.Collections.Generic.List(Of Integer())
         AllGameBoardStates = New System.Collections.ObjectModel.Collection(Of Integer())
+        AllPushStates = New System.Collections.ObjectModel.Collection(Of Boolean)
 
         CurrentlyPlayedLevelId = 1
         MoveHasJustBeenPerformed = False

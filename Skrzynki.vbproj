@@ -15,7 +15,8 @@
     <ApplicationIcon>Skrzynki.ico</ApplicationIcon>
     <AssemblyKeyContainerName />
     <AssemblyName>Skrzynki</AssemblyName>
-    <AssemblyOriginatorKeyFile>Skrzynki.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
@@ -30,7 +31,7 @@
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>0.0</OldToolsVersion>
@@ -79,9 +80,9 @@
   <PropertyGroup>
     <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
   </PropertyGroup>
-    <PropertyGroup Condition="'$(Platform)' == 'x64'">
-      <TargetFrameworkSDKToolsDirectory>C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\</TargetFrameworkSDKToolsDirectory>
-    </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)' == 'x64'">
+    <TargetFrameworkSDKToolsDirectory>C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\</TargetFrameworkSDKToolsDirectory>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\</OutputPath>
     <DocumentationFile>Skrzynki.xml</DocumentationFile>
@@ -283,7 +284,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="Skrzynki.snk" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

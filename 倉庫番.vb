@@ -32,6 +32,7 @@
     ' zmienne
     Public GameBoard(256) As Integer ' przechowuje aktualne ustawienie obiektów w polu gry
     Public AllGameBoardStates As System.Collections.ObjectModel.Collection(Of Integer())
+    Public AllPushStates As System.Collections.ObjectModel.Collection(Of Boolean)
     Public PlayerLocation As Integer ' aktualna pozycja gracza
     Public MoveHasJustBeenPerformed As Boolean ' czy gracz wykonał ruch (i czy ew. można cofnąć)
     Public PushHasJustBeenPerformed As Boolean
@@ -321,6 +322,7 @@
         End Select
 
         AllGameBoardStates.Add(StateBeforeMove)
+        AllPushStates.Add(PushHasJustBeenPerformed)
         MoveHasJustBeenPerformed = True
         MovesPerformedOnCurrentLevel += 1
         PrzesunGracza = True
@@ -506,9 +508,10 @@
             PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(GameBoard)
 
             MovesPerformedOnCurrentLevel -= 1
-            If PushHasJustBeenPerformed Then
+            If AllPushStates(AllPushStates.Count - 1) Then
                 PushesPerformedOnCurrentLevel -= 1
             End If
+            AllPushStates.RemoveAt(AllPushStates.Count - 1)
             'MoveHasJustBeenPerformed = False
         End If
 
@@ -521,6 +524,7 @@
 
         PlayerLocation = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId).PlayerLocation
         AllGameBoardStates.Clear()
+        AllPushStates.Clear()
 
         MovesPerformedOnCurrentLevel = 0
         PushesPerformedOnCurrentLevel = 0
