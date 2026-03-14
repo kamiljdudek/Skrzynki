@@ -1,4 +1,4 @@
-﻿Public Module 倉庫番
+Public Module 倉庫番
     ' -------------------------------------------------------------------------------------------
     ' |                                         SKRZYNKI                                        |
     ' |                                 autor: Karol Kuczmarski                                 |
@@ -7,11 +7,10 @@
     ' Gra logiczna
     ' Typ: sokoban
     '
-    ' Należy ułożyć skrzynki na wyznaczony miejscach. Można poruszać tylko jedną skrzynką naraz,
-    ' w kierunku "od siebie".
+    ' Należy ułożyć skrzynki na wyznaczonych miejscach. Można poruszać tylko jedną skrzynką 
+    ' naraz, w kierunku "od siebie". Działanie gry opiera się na tablicy 256 Image'ów oraz
+    ' jej odpowiedniku w postaci jednowymiarowego arrayu o nazwie GameBoard.
     '
-    ' Działanie gry opiera się na tablicy 256 Image'ów oraz jej odpowiedniku w postaci jednowy-
-    ' miarowego arrayu o nazwie GameBoard.
     '--------------------------------------------------------------------------------------------
 
     Enum BoardItem

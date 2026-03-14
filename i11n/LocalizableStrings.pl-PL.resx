@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AlertAllLevelsSolved" xml:space="preserve">
-    <value>GRATULACJE! Udało ci się przejść wszystkie etapy w tym zestawie!</value>
+    <value>GRATULACJE! Udało ci się rozwiązać wszystkie etapy w tym zestawie 🎉</value>
   </data>
   <data name="AlertLevelDoesNotExist" xml:space="preserve">
     <value>Etap o takim numerze nie istnieje</value>
@@ -139,7 +139,7 @@
     <value>Błąd podczas wczytywania zestawu etapów</value>
   </data>
   <data name="AlertLevelSolved" xml:space="preserve">
-    <value>Świetnie!</value>
+    <value>Świetnie! 💖</value>
   </data>
   <data name="AlertNotANumber" xml:space="preserve">
     <value>Wprowadzona wartość nie jest liczbą</value>
