@@ -1,7 +1,6 @@
 ﻿Option Strict Off
 Option Explicit On
 Imports System.Reflection
-Imports Microsoft.VisualBasic.ApplicationServices
 Public Class SplashScreen
     Private Sub FrmSplash_KeyPress(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress
         Dim KeyAscii As Short = Asc(eventArgs.KeyChar)

@@ -45,6 +45,7 @@ Public Class GameBoardForm
                 .Size = New Size(32, 32)
                 .Image = My.Resources.ico104.ToBitmap()
                 .Location = New Point(FirstDimension, SecondDimension)
+                .BackColor = My.Settings.BackgroundColor
             End With
             If pic Mod 16 = 0 Then
                 SecondDimension += 32
@@ -82,11 +83,11 @@ Public Class GameBoardForm
 
     Public Sub RefreshBoard()
         For Counter As Integer = 1 To 256 Step 1
+            Me.imgGameField(Counter).BackColor = My.Settings.BackgroundColor
             If GameBoard(Counter) < 7 Then
                 Me.imgGameField(Counter).Image = Skrzynki.Skin.GetIcon(GameBoard(Counter))
             Else
                 Me.imgGameField(Counter).Image = Nothing
-                Me.imgGameField(Counter).BackColor = My.Settings.BackgroundColor
             End If
         Next Counter
     End Sub
@@ -193,8 +194,6 @@ Public Class GameBoardForm
         MoveHasJustBeenPerformed = False
         LevelCleared = False
 
-        ' Stats.OdczytajStatystyki()
-
         Me.BackColor = Color.Black
 
         Dim SuccessfulNewGame As Boolean = False
@@ -221,17 +220,17 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub GameBoardForm_Close(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Closed
-        'Stats.ZapiszStatystyki()
-        End
+        My.Settings.Save()
+        Application.Exit()
     End Sub
 
     Private Sub MenuitemQuit_Click(sender As Object, e As EventArgs) Handles MenuitemQuit.Click
-        'Call Stats.ZapiszStatystyki()
-        End
+        My.Settings.Save()
+        Application.Exit()
     End Sub
 
     Private Sub MenuitemAbout_Click(sender As Object, e As EventArgs) Handles MenuitemAbout.Click
-        SplashScreen.Show()
+        SplashScreen.ShowDialog(Me)
     End Sub
 
     Private Sub MenuitemRefresh_Click(sender As Object, e As EventArgs) Handles MenuitemRefresh.Click
@@ -265,9 +264,10 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemColor_Click(sender As Object, e As EventArgs) Handles MenuitemColor.Click
-        ColorDialog1.ShowDialog()
-        My.Settings.BackgroundColor = ColorDialog1.Color
-        RefreshBoard()
+        If ColorDialog1.ShowDialog() = DialogResult.OK Then
+            My.Settings.BackgroundColor = ColorDialog1.Color
+            RefreshBoard()
+        End If
     End Sub
 
     Private Sub MenuitemUndo_Click(sender As Object, e As EventArgs) Handles MenuitemUndo.Click
@@ -355,13 +355,15 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemOpenLevel_Click(sender As Object, e As EventArgs) Handles ZPlikuToolStripMenuItem.Click
+        If OpenFileDialog1.ShowDialog() <> DialogResult.OK Then
+            Exit Sub
+        End If
+
+        FileName = OpenFileDialog1.FileName
+
         If ExternalCustomLevel Then
             ExternalCustomLevel = False
             NewGame(1)
-        End If
-
-        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-            FileName = OpenFileDialog1.FileName
         End If
 
         MenuitemLevelsetClassic.Checked = False
@@ -389,6 +391,7 @@ Public Class GameBoardForm
         Else
             MsgBox(Localizer.GetString("AlertLevelEmptyOrBad"), MsgBoxStyle.Exclamation Or MsgBoxStyle.ApplicationModal,
                        System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            Exit Sub
         End If
 
         Call RefreshStatusBar()
