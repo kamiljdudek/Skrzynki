@@ -85,13 +85,16 @@
             Return Nothing
         End If
 
-        Dim LegacyLevelArrayCounter255 As Integer = 0
+        ' Pole gry jest indeksowane od 1 do 256 (patrz GameBoard oraz imgGameField),
+        ' więc wypełnianie musi zacząć się od 1 - inaczej ostatnia komórka (256)
+        ' nigdy nie zostaje ustawiona i zostaje w niej BoardItem.Blank.
+        Dim LegacyLevelArrayCounter As Integer = 1
         Dim OutputStringLegacyFormat(16 * 16) As Integer
         For j = 0 To 15
             Dim charArray() As Char = ms(j).ToCharArray
             For Each character As Char In charArray
-                OutputStringLegacyFormat(LegacyLevelArrayCounter255) = Val(character)
-                LegacyLevelArrayCounter255 += 1
+                OutputStringLegacyFormat(LegacyLevelArrayCounter) = Val(character)
+                LegacyLevelArrayCounter += 1
             Next
         Next
 
