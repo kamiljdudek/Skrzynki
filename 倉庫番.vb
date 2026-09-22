@@ -28,10 +28,26 @@ Public Module 倉庫番
     <CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2211:NonConstantFieldsShouldNotBeVisible")>
     Public Localizer As New System.Resources.ResourceManager("Skrzynki.LocalizableStrings", System.Reflection.Assembly.GetExecutingAssembly())
 
+    ' --- Board indexing convention ----------------------------------------------------------
+    ' The playing field is a fixed 16x16 grid held in a flat array. Cells occupy indices
+    ' BoardFirstIndex (1) through BoardCellCount (256); index 0 exists only because VB declares
+    ' arrays by upper bound, and is never read, written or drawn.
+    '
+    ' Row r and column c (both 0-based) live at index r * BoardWidth + c + 1.
+    '
+    ' GameBoard below and GameBoardForm.imgGameField are index-for-index parallel and share this
+    ' convention. Every loop over the board therefore runs BoardFirstIndex To BoardCellCount, and
+    ' anything that fills a board array must start writing at BoardFirstIndex. Filling from 0
+    ' instead is what used to leave cell 256 - the bottom right one - permanently unset.
+    Public Const BoardWidth As Integer = 16
+    Public Const BoardHeight As Integer = 16
+    Public Const BoardCellCount As Integer = BoardWidth * BoardHeight
+    Public Const BoardFirstIndex As Integer = 1
+
     ' zmienne
     Public GameBoard(256) As Integer ' przechowuje aktualne ustawienie obiektów w polu gry
-    Public AllGameBoardStates As System.Collections.ObjectModel.Collection(Of Integer())
-    Public AllPushStates As System.Collections.ObjectModel.Collection(Of Boolean)
+    Public AllGameBoardStates As New System.Collections.ObjectModel.Collection(Of Integer())
+    Public AllPushStates As New System.Collections.ObjectModel.Collection(Of Boolean)
     Public PlayerLocation As Integer ' aktualna pozycja gracza
     Public MoveHasJustBeenPerformed As Boolean ' czy gracz wykonał ruch (i czy ew. można cofnąć)
     Public PushHasJustBeenPerformed As Boolean
@@ -43,41 +59,80 @@ Public Module 倉庫番
     Public PushesPerformedOnCurrentLevel As Integer ' ruchy skrzynek wykonane w etapie
     Public FileName As String ' nazwa pliku etapu
 
-    Public Sub LoadNextLevel()
+    ''' <remarks>
+    ''' Name of the levelset currently being played. A levelset opened from a file is registered
+    ''' under LevelParser.CustomLevelsetName rather than under My.Settings.LevelSet, so anything
+    ''' that needs to reach for the active set has to ask here instead of reading the setting.
+    ''' </remarks>
+    Public ReadOnly Property CurrentLevelsetName() As String
+        Get
+            If ExternalCustomLevel Then
+                Return LevelParser.CustomLevelsetName
+            End If
+            Return My.Settings.LevelSet
+        End Get
+    End Property
 
-        If ExternalCustomLevel Then
-            ' TODO Only if single-level
-            ' CurrentlyPlayedLevelId -= 1
-            ' Exit Sub
+    Public Sub ClearUndoHistory()
+        AllGameBoardStates.Clear()
+        AllPushStates.Clear()
+    End Sub
+
+    ''' <remarks>
+    ''' Loads a level into the shared game state and resets the per-level counters. Returns False
+    ''' without touching any state when the levelset is missing, the level number is out of range,
+    ''' or the level has no player on it - so callers can report the failure rather than crash on
+    ''' a bad index later on.
+    ''' </remarks>
+    Private Function LoadLevelIntoGameState(ByVal levelsetName As String, ByVal levelId As Integer) As Boolean
+        Dim Levelset As Levelset = LevelParser.GetLevelset(levelsetName)
+        If Levelset Is Nothing Then
+            Return False
         End If
 
-        Dim Levelset As Levelset = LevelParser.GetLevelset("Classic")
-        Select Case My.Settings.LevelSet
-            Case "Classic"
-                If CurrentlyPlayedLevelId > GetArrivedLevel() Then
-                    My.Settings.ArrivedLevelKlasyczne = CurrentlyPlayedLevelId
-                    My.Settings.PushesKlasyczne += PushesPerformedOnCurrentLevel
-                    My.Settings.MovesKlasyczne += MovesPerformedOnCurrentLevel
-                End If
-            Case "XS"
-                If CurrentlyPlayedLevelId > GetArrivedLevel() Then
-                    My.Settings.ArrivedLevelSupertrudne = CurrentlyPlayedLevelId
-                    My.Settings.PushesSupertrudne += PushesPerformedOnCurrentLevel
-                    My.Settings.MovesSupertrudne += MovesPerformedOnCurrentLevel
-                End If
-                Levelset = LevelParser.GetLevelset("XS")
-        End Select
+        Dim BoardState() As Integer = Levelset.GetLevel(levelId)
+        If BoardState Is Nothing Then
+            Return False
+        End If
+
+        Dim StartingLocation As Integer = GameBoardDetails.GetIndexOfPlayerOnBoard(BoardState)
+        If StartingLocation < BoardFirstIndex OrElse StartingLocation > BoardCellCount Then
+            Return False
+        End If
+
+        Array.Copy(BoardState, GameBoard, GameBoard.Length)
+        PlayerLocation = StartingLocation
+        CurrentlyPlayedLevelId = levelId
+        SizeOfCurrentLevelset = Levelset.NumberOfLevels
 
         MovesPerformedOnCurrentLevel = 0
         PushesPerformedOnCurrentLevel = 0
         MoveHasJustBeenPerformed = False
         PushHasJustBeenPerformed = False
-
-        Dim NextBoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
-        Array.Copy(NextBoardState, GameBoard, GameBoard.Length)
-        PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(NextBoardState)
         LevelCleared = False
-    End Sub
+        ClearUndoHistory()
+
+        Return True
+    End Function
+
+    Public Function LoadNextLevel() As Boolean
+        ' Progress is only recorded for the two built-in sets; a levelset opened from a file has
+        ' no persisted statistics of its own.
+        If Not ExternalCustomLevel AndAlso CurrentlyPlayedLevelId > GetArrivedLevel() Then
+            Select Case My.Settings.LevelSet
+                Case "Classic"
+                    My.Settings.ArrivedLevelKlasyczne = CurrentlyPlayedLevelId
+                    My.Settings.PushesKlasyczne += PushesPerformedOnCurrentLevel
+                    My.Settings.MovesKlasyczne += MovesPerformedOnCurrentLevel
+                Case "XS"
+                    My.Settings.ArrivedLevelSupertrudne = CurrentlyPlayedLevelId
+                    My.Settings.PushesSupertrudne += PushesPerformedOnCurrentLevel
+                    My.Settings.MovesSupertrudne += MovesPerformedOnCurrentLevel
+            End Select
+        End If
+
+        Return LoadLevelIntoGameState(CurrentLevelsetName, CurrentlyPlayedLevelId)
+    End Function
 
     ''' <remarks>
     ''' Function PrzesunGracza: używana, kiedy gracz wciśnie klawisz kursora; zwraca True, jeśli
@@ -482,23 +537,27 @@ Public Module 倉庫番
         PrzesunSkrzynke = True
     End Function
     Public Function NewGame(ByVal whichLevel As Integer) As Boolean
-        CurrentlyPlayedLevelId = whichLevel
-        MovesPerformedOnCurrentLevel = 0
-        PushesPerformedOnCurrentLevel = 0
-        MoveHasJustBeenPerformed = False
+        If Not LoadLevelIntoGameState(My.Settings.LevelSet, whichLevel) Then
+            Return False
+        End If
+
         ExternalCustomLevel = False
-
-        LevelCleared = False
-
-        Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(My.Settings.LevelSet), Levelset)
-        SizeOfCurrentLevelset = Levelset.NumberOfLevels
-        Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
-        Array.Copy(BoardState, GameBoard, GameBoard.Length)
-
-        PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(GameBoard)
-
         Return True
     End Function
+
+    ''' <remarks>
+    ''' Switches play over to the levelset most recently opened from a file, starting at its first
+    ''' level. Returns False and leaves the current game alone if that set is unusable.
+    ''' </remarks>
+    Public Function StartCustomLevelset() As Boolean
+        If Not LoadLevelIntoGameState(LevelParser.CustomLevelsetName, 1) Then
+            Return False
+        End If
+
+        ExternalCustomLevel = True
+        Return True
+    End Function
+
     Public Sub Undo()
         If (AllGameBoardStates.Count - 1) >= 0 Then
             Array.Copy(AllGameBoardStates(AllGameBoardStates.Count - 1), GameBoard, GameBoard.Length)
@@ -507,28 +566,24 @@ Public Module 倉庫番
             PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(GameBoard)
 
             MovesPerformedOnCurrentLevel -= 1
-            If AllPushStates(AllPushStates.Count - 1) Then
-                PushesPerformedOnCurrentLevel -= 1
+            If AllPushStates.Count > 0 Then
+                If AllPushStates(AllPushStates.Count - 1) Then
+                    PushesPerformedOnCurrentLevel -= 1
+                End If
+                AllPushStates.RemoveAt(AllPushStates.Count - 1)
             End If
-            AllPushStates.RemoveAt(AllPushStates.Count - 1)
-            'MoveHasJustBeenPerformed = False
         End If
 
+        ' Once the history is exhausted there is nothing left to undo, and the menu item that
+        ' reads this flag has to stop offering it.
+        If AllGameBoardStates.Count = 0 Then
+            MoveHasJustBeenPerformed = False
+        End If
     End Sub
-    Public Sub RestartLevel()
-        Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(My.Settings.LevelSet), Levelset)
-        SizeOfCurrentLevelset = Levelset.NumberOfLevels
-        Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
-        Array.Copy(BoardState, GameBoard, GameBoard.Length)
 
-        PlayerLocation = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId).PlayerLocation
-        AllGameBoardStates.Clear()
-        AllPushStates.Clear()
-
-        MovesPerformedOnCurrentLevel = 0
-        PushesPerformedOnCurrentLevel = 0
-        MoveHasJustBeenPerformed = False
-    End Sub
+    Public Function RestartLevel() As Boolean
+        Return LoadLevelIntoGameState(CurrentLevelsetName, CurrentlyPlayedLevelId)
+    End Function
     Public ReadOnly Property GetArrivedLevel() As Integer
         Get
             If My.Settings.LevelSet = "Classic" Then

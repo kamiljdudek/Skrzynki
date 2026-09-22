@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class GameBoardForm
     Inherits System.Windows.Forms.Form
 
@@ -60,7 +60,7 @@ Partial Class GameBoardForm
         Me.PushesLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LevelsetProgressBar = New System.Windows.Forms.ToolStripProgressBar()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.SkrzynkiTrayIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.SkrzynkiTrayIcon = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -282,10 +282,10 @@ Partial Class GameBoardForm
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'SkrzynkiTrayIcon1
+        'SkrzynkiTrayIcon
         '
-        Me.SkrzynkiTrayIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info
-        Me.SkrzynkiTrayIcon1.Icon = CType(resources.GetObject("SkrzynkiTrayIcon1.Icon"), System.Drawing.Icon)
+        Me.SkrzynkiTrayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info
+        Me.SkrzynkiTrayIcon.Icon = CType(resources.GetObject("SkrzynkiTrayIcon.Icon"), System.Drawing.Icon)
         '
         'GameBoardForm
         '
@@ -341,7 +341,7 @@ Partial Class GameBoardForm
     Friend WithEvents LevelProgressBar As ToolStripProgressBar
     Friend WithEvents LevelsetProgressBar As ToolStripProgressBar
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
-    Friend WithEvents SkrzynkiTrayIcon1 As NotifyIcon
+    Friend WithEvents SkrzynkiTrayIcon As NotifyIcon
     Friend WithEvents ColorDialog1 As ColorDialog
     Friend WithEvents MenuitemConfirmRestarts As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator4 As ToolStripSeparator

@@ -13,12 +13,13 @@
         Name = levelsetNameTranslated
         AllLevelsInSet = New System.Collections.Generic.List(Of String())
 
+        ' A set loaded from a file carries no saved progress. Note that constructing one must not
+        ' switch the game over to it - that only happens once the set is known to be usable, via
+        ' StartCustomLevelset.
         If isFromFile = True Then
             Me.AchievedLevel = 0
             Me.Moves = 0
             Me.Pushes = 0
-
-            ExternalCustomLevel = True
         End If
     End Sub
 #Enable Warning IDE0079 ' Remove unnecessary suppression
@@ -35,18 +36,38 @@
         If levelStream.Count > 0 Then
             For Each SokobanCompliantLevel As String In levelStream
                 Dim SkrzynkiCompliantLevel = GetMapStringFromLevel(SokobanCompliantLevel)
-                Me.AddLevel(SkrzynkiCompliantLevel)
+                ' Levels that do not fit the board are skipped rather than stored as Nothing, so
+                ' that NumberOfLevels only ever counts levels that can actually be played.
+                If SkrzynkiCompliantLevel IsNot Nothing Then
+                    Me.AddLevel(SkrzynkiCompliantLevel)
+                End If
             Next
         End If
     End Sub
 #Enable Warning IDE0079 ' Remove unnecessary suppression
 
+    Public ReadOnly Property ContainsLevel(ByVal levelId As Integer) As Boolean
+        Get
+            Return levelId >= 1 AndAlso levelId <= AllLevelsInSet.Count
+        End Get
+    End Property
+
+    ''' <remarks>Returns Nothing for a level number outside the set, rather than throwing.</remarks>
     Public Function GetLevel(ByVal levelId As Integer) As Integer()
+        If Not ContainsLevel(levelId) Then
+            Return Nothing
+        End If
+
         Dim ImgGameFieldDescription = LevelParser.GetBoardStateIntegerFromMapString(AllLevelsInSet(levelId - 1))
         Return ImgGameFieldDescription
     End Function
 
+    ''' <remarks>Returns Nothing for a level number outside the set, rather than throwing.</remarks>
     Public Function GetLevelInitialProperties(ByVal levelId As Integer) As LevelProperties
+        If Not ContainsLevel(levelId) Then
+            Return Nothing
+        End If
+
         Dim ImgGameFieldDescription() = LevelParser.GetBoardStateIntegerFromMapString(AllLevelsInSet(levelId - 1))
         Dim LP As New LevelProperties
         Dim subset As Integer()

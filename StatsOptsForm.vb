@@ -3,18 +3,39 @@
     Private Sub UpdateStatsUI()
         LabelLevelSet.Text = 倉庫番.Localizer.GetString("LabelLevelSet")
 
-        LevelSetProgressBar.Maximum = 60
-        If LevelsetComboBox.SelectedItem Is 倉庫番.Localizer.GetString("LevelSetClassic") Then
-            LabelMoves.Text = 倉庫番.Localizer.GetString("LabelMoves") & My.Settings.MovesKlasyczne
-            LabelPushes.Text = 倉庫番.Localizer.GetString("LabelPushes") & My.Settings.PushesKlasyczne
-            LabelReachedLevel.Text = 倉庫番.Localizer.GetString("LabelAchievedLevel") & My.Settings.ArrivedLevelKlasyczne
-            LevelSetProgressBar.Value = My.Settings.ArrivedLevelKlasyczne
+        ' Value comparison, not reference comparison: the combo holds a copy of the localized
+        ' string, so "Is" only matched while the ResourceManager happened to hand back the very
+        ' same instance it had handed the combo box.
+        Dim IsClassic As Boolean =
+            String.Equals(CStr(LevelsetComboBox.SelectedItem),
+                          倉庫番.Localizer.GetString("LevelSetClassic"),
+                          StringComparison.Ordinal)
+
+        Dim Moves As Integer
+        Dim Pushes As Integer
+        Dim ReachedLevel As Integer
+
+        If IsClassic Then
+            Moves = My.Settings.MovesKlasyczne
+            Pushes = My.Settings.PushesKlasyczne
+            ReachedLevel = My.Settings.ArrivedLevelKlasyczne
         Else
-            LabelMoves.Text = 倉庫番.Localizer.GetString("LabelMoves") & My.Settings.MovesSupertrudne
-            LabelPushes.Text = 倉庫番.Localizer.GetString("LabelPushes") & My.Settings.MovesSupertrudne
-            LabelReachedLevel.Text = 倉庫番.Localizer.GetString("LabelAchievedLevel") & My.Settings.ArrivedLevelSupertrudne
-            LevelSetProgressBar.Value = My.Settings.ArrivedLevelSupertrudne
+            Moves = My.Settings.MovesSupertrudne
+            Pushes = My.Settings.PushesSupertrudne
+            ReachedLevel = My.Settings.ArrivedLevelSupertrudne
         End If
+
+        LabelMoves.Text = 倉庫番.Localizer.GetString("LabelMoves") & Moves
+        LabelPushes.Text = 倉庫番.Localizer.GetString("LabelPushes") & Pushes
+        LabelReachedLevel.Text = 倉庫番.Localizer.GetString("LabelAchievedLevel") & ReachedLevel
+
+        ' Taken from the levelset itself rather than assumed to be 60.
+        Dim Levelset As Levelset = LevelParser.GetLevelset(If(IsClassic, "Classic", "XS"))
+        Dim NumberOfLevels As Integer = If(Levelset Is Nothing, 1, Levelset.NumberOfLevels)
+
+        LevelSetProgressBar.Maximum = Math.Max(1, NumberOfLevels)
+        LevelSetProgressBar.Value =
+            Math.Max(LevelSetProgressBar.Minimum, Math.Min(ReachedLevel, LevelSetProgressBar.Maximum))
     End Sub
     Private Sub StatsOptsForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = 倉庫番.Localizer.GetString("LabelStats")

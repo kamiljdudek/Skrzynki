@@ -1,13 +1,9 @@
-﻿Option Strict Off
-Option Explicit On
+﻿Option Explicit On
 Imports System.Reflection
 Public Class SplashScreen
     Private Sub FrmSplash_KeyPress(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress
-        Dim KeyAscii As Short = Asc(eventArgs.KeyChar)
+        eventArgs.Handled = True
         Me.Close()
-        If KeyAscii = 0 Then
-            eventArgs.Handled = True
-        End If
     End Sub
     Private Sub FrmSplash_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
         Label1.Text = Assembly.GetExecutingAssembly.GetName.Name

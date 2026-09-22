@@ -1,8 +1,12 @@
 ﻿Imports System.Globalization
 
 Public Class GameBoardForm
-    ReadOnly imgGameField(256) As System.Windows.Forms.PictureBox
-    Friend WithEvents SkrzynkiTrayIcon As NotifyIcon
+    ' Parallel to GameBoard: see the board indexing convention in 倉庫番.vb. Cells occupy
+    ' BoardFirstIndex through BoardCellCount; index 0 is unused.
+    ReadOnly imgGameField(BoardCellCount) As System.Windows.Forms.PictureBox
+
+    Private Const CellSizeInPixels As Integer = 32
+
     Private Sub ApplyLocalizationResources()
         Me.MenuitemAbout.Text = Localizer.GetString("MenuitemAbout")
         Me.MenuitemAppWebsite.Text = Localizer.GetString("MenuitemWebsite")
@@ -30,30 +34,37 @@ Public Class GameBoardForm
         Me.MenuitemSkins.Text = Localizer.GetString("LabelSkin")
         Me.MenuitemColor.Text = Localizer.GetString("MenuitemColor")
         Me.MenuitemHide.Text = Localizer.GetString("MenuitemHide")
-        Me.SkrzynkiTrayIcon1.Text = Localizer.GetString("GameName")
+        Me.SkrzynkiTrayIcon.Text = Localizer.GetString("GameName")
         Me.MenuitemConfirmRestarts.Text = Localizer.GetString("MenuitemConfirmRestarts")
         OpenFileDialog1.Filter = Localizer.GetString("DialogFileFilter")
         OpenFileDialog1.Title = Localizer.GetString("DialogOpenLevelFile")
     End Sub
 
-    Private Sub GenerateGameField() Handles Me.Load
-        Dim FirstDimension As Integer = 0
-        Dim SecondDimension As Integer = 0
-        For pic As Integer = 1 To 256
+    ''' <remarks>
+    ''' Builds the grid of cells and sizes the form around it. The grid starts below the menu
+    ''' strip and ends above the status strip: laying it out from the top of the client area
+    ''' hid its first row behind the menu, which clipped the top wall of every level tall enough
+    ''' to reach row 0 (Classic 54 to 60).
+    ''' </remarks>
+    Private Sub GenerateGameField()
+        Dim BoardTop As Integer = Me.MenuStrip1.Height
+
+        Me.ClientSize = New Size(
+            BoardWidth * CellSizeInPixels,
+            BoardTop + BoardHeight * CellSizeInPixels + Me.StatusStrip1.Height)
+
+        For pic As Integer = BoardFirstIndex To BoardCellCount
+            Dim Row As Integer = (pic - BoardFirstIndex) \ BoardWidth
+            Dim Column As Integer = (pic - BoardFirstIndex) Mod BoardWidth
+
             imgGameField(pic) = New PictureBox
             With imgGameField(pic)
-                .Size = New Size(32, 32)
-                .Image = My.Resources.ico104.ToBitmap()
-                .Location = New Point(FirstDimension, SecondDimension)
+                .Size = New Size(CellSizeInPixels, CellSizeInPixels)
+                .Location = New Point(
+                    Column * CellSizeInPixels,
+                    BoardTop + Row * CellSizeInPixels)
                 .BackColor = My.Settings.BackgroundColor
             End With
-            If pic Mod 16 = 0 Then
-                SecondDimension += 32
-            End If
-            FirstDimension += 32
-            If FirstDimension >= 16 * 32 Then
-                FirstDimension = 0
-            End If
             Me.Controls.Add(imgGameField(pic))
         Next
     End Sub
@@ -74,60 +85,55 @@ Public Class GameBoardForm
                 CurrentlyPlayedLevelId.ToString(CultureInfo.InvariantCulture)
         End If
 
-        Me.LevelProgressBar.Maximum = GameBoardDetails.GetTotalNumberOfBoxesOnBoard(GameBoard)
-        Me.LevelProgressBar.Value = GameBoardDetails.GetNumberOfPlacedBoxesOnBoard(GameBoard)
+        SetProgress(Me.LevelProgressBar,
+                    GameBoardDetails.GetNumberOfPlacedBoxesOnBoard(GameBoard),
+                    GameBoardDetails.GetTotalNumberOfBoxesOnBoard(GameBoard))
 
-        Me.LevelsetProgressBar.Maximum = 60
-        Me.LevelsetProgressBar.Value = CurrentlyPlayedLevelId
+        ' The levelset size is whatever was actually parsed, not a fixed 60: XS parsed to 61 for
+        ' years, and a levelset opened from a file can be any size at all.
+        SetProgress(Me.LevelsetProgressBar, CurrentlyPlayedLevelId, SizeOfCurrentLevelset)
+    End Sub
+
+    ''' <remarks>
+    ''' Sets a progress bar without letting a stale or oversized value throw: ProgressBar rejects
+    ''' a Value above its Maximum, and Maximum must stay at least 1 for the bar to be meaningful.
+    ''' </remarks>
+    Private Shared Sub SetProgress(ByVal bar As ToolStripProgressBar,
+                                   ByVal value As Integer,
+                                   ByVal maximum As Integer)
+        bar.Maximum = Math.Max(1, maximum)
+        bar.Value = Math.Max(bar.Minimum, Math.Min(value, bar.Maximum))
+    End Sub
+
+    ''' <remarks>
+    ''' Redraws one cell. Indices outside the board are ignored rather than throwing: the
+    ''' neighbours of a player standing on the top or bottom row fall off the ends of the array.
+    ''' </remarks>
+    Private Sub RefreshCell(ByVal cellIndex As Integer)
+        If cellIndex < BoardFirstIndex OrElse cellIndex > BoardCellCount Then
+            Exit Sub
+        End If
+
+        If GameBoard(cellIndex) < CInt(BoardItem.BlankOuter) Then
+            Me.imgGameField(cellIndex).Image = Skrzynki.Skin.GetIcon(GameBoard(cellIndex))
+        Else
+            Me.imgGameField(cellIndex).Image = Nothing
+        End If
     End Sub
 
     Public Sub RefreshBoard()
-        For Counter As Integer = 1 To 256 Step 1
+        For Counter As Integer = BoardFirstIndex To BoardCellCount
             Me.imgGameField(Counter).BackColor = My.Settings.BackgroundColor
-            If GameBoard(Counter) < 7 Then
-                Me.imgGameField(Counter).Image = Skrzynki.Skin.GetIcon(GameBoard(Counter))
-            Else
-                Me.imgGameField(Counter).Image = Nothing
-            End If
+            RefreshCell(Counter)
         Next Counter
     End Sub
 
     Public Sub RefreshBoardNearItemsOnly()
-        If GameBoard(PlayerLocation - 16) < 7 Then
-            Me.imgGameField(PlayerLocation - 16).Image =
-                    Skrzynki.Skin.GetIcon(GameBoard(PlayerLocation - 16))
-        Else
-            Me.imgGameField(PlayerLocation - 16).Image = Nothing
-        End If
-
-        If GameBoard(PlayerLocation - 1) < 7 Then
-            Me.imgGameField(PlayerLocation - 1).Image =
-                    Skrzynki.Skin.GetIcon(GameBoard(PlayerLocation - 1))
-        Else
-            Me.imgGameField(PlayerLocation - 1).Image = Nothing
-        End If
-
-        If GameBoard(PlayerLocation) < 7 Then
-            Me.imgGameField(PlayerLocation).Image =
-                    Skrzynki.Skin.GetIcon(GameBoard(PlayerLocation))
-        Else
-            Me.imgGameField(PlayerLocation).Image = Nothing
-        End If
-
-        If GameBoard(PlayerLocation + 1) < 7 Then
-            Me.imgGameField(PlayerLocation + 1).Image =
-                    Skrzynki.Skin.GetIcon(GameBoard(PlayerLocation + 1))
-        Else
-            Me.imgGameField(PlayerLocation + 1).Image = Nothing
-        End If
-
-        If GameBoard(PlayerLocation + 16) < 7 Then
-            Me.imgGameField(PlayerLocation + 16).Image =
-                    Skrzynki.Skin.GetIcon(GameBoard(PlayerLocation + 16))
-        Else
-            Me.imgGameField(PlayerLocation + 16).Image = Nothing
-        End If
-
+        RefreshCell(PlayerLocation - BoardWidth)
+        RefreshCell(PlayerLocation - 1)
+        RefreshCell(PlayerLocation)
+        RefreshCell(PlayerLocation + 1)
+        RefreshCell(PlayerLocation + BoardWidth)
     End Sub
 
 
@@ -153,10 +159,10 @@ Public Class GameBoardForm
                            MsgBoxStyle.ApplicationModal,
                            System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
                     LevelCleared = True
-                    AllGameBoardStates.Clear()
+                    ClearUndoHistory()
                     CurrentlyPlayedLevelId += 1
 
-                    If CurrentlyPlayedLevelId > SizeOfCurrentLevelset Then
+                    If CurrentlyPlayedLevelId > SizeOfCurrentLevelset OrElse Not LoadNextLevel() Then
                         MsgBox(Localizer.GetString("AlertAllLevelsSolved"),
                                MsgBoxStyle.OkOnly Or
                                MsgBoxStyle.Information Or
@@ -164,8 +170,6 @@ Public Class GameBoardForm
                                System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
                         ' Todo: select Klasyczne jeżeli to był custom
                         NewGame(1)
-                    Else
-                        LoadNextLevel()
                     End If
 
                     Me.MenuitemUndo.Enabled = False
@@ -179,16 +183,19 @@ Public Class GameBoardForm
     End Sub
 
 
+    ''' <remarks>
+    ''' The single Load handler. GenerateGameField used to be a second one, and everything below
+    ''' it depends on the cells it builds - VB does not define the order two handlers of the same
+    ''' event run in, so that only ever worked by luck.
+    ''' </remarks>
     Private Sub GameBoardForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Call ApplyLocalizationResources()
+        Call GenerateGameField()
 
         Me.Icon = My.Resources.ico101
         Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
 
         LevelParser.LoadAllLevelsets()
-        'AllGameBoardStates = New System.Collections.Generic.List(Of Integer())
-        AllGameBoardStates = New System.Collections.ObjectModel.Collection(Of Integer())
-        AllPushStates = New System.Collections.ObjectModel.Collection(Of Boolean)
 
         CurrentlyPlayedLevelId = 1
         MoveHasJustBeenPerformed = False
@@ -196,27 +203,31 @@ Public Class GameBoardForm
 
         Me.BackColor = Color.Black
 
-        Dim SuccessfulNewGame As Boolean = False
-        If ExternalCustomLevel = False Then
-            If My.Settings.BeginFromArrivedLevel = True Then
-                SuccessfulNewGame = NewGame(GetArrivedLevel())
-            Else
-                SuccessfulNewGame = NewGame(1)
-            End If
-
-            If Not SuccessfulNewGame Then
-                MsgBox(Localizer.GetString("LevelsetLoadFailure"),
-                       MsgBoxStyle.OkOnly Or
-                       MsgBoxStyle.Critical Or
-                       MsgBoxStyle.ApplicationModal,
-                       System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-            End If
-
-            RefreshBoard()
-            Me.MenuitemUndo.Enabled = False
-            RefreshStatusBar()
-            Me.Visible = True
+        Dim SuccessfulNewGame As Boolean
+        If My.Settings.BeginFromArrivedLevel = True Then
+            SuccessfulNewGame = NewGame(GetArrivedLevel())
+        Else
+            SuccessfulNewGame = NewGame(1)
         End If
+
+        ' Falling back to the first level keeps the game playable when the saved progress points
+        ' past the end of the set.
+        If Not SuccessfulNewGame Then
+            SuccessfulNewGame = NewGame(1)
+        End If
+
+        If Not SuccessfulNewGame Then
+            MsgBox(Localizer.GetString("AlertLevelsetLoadFailure"),
+                   MsgBoxStyle.OkOnly Or
+                   MsgBoxStyle.Critical Or
+                   MsgBoxStyle.ApplicationModal,
+                   System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+        End If
+
+        RefreshBoard()
+        Me.MenuitemUndo.Enabled = False
+        RefreshStatusBar()
+        Me.Visible = True
     End Sub
 
     Private Sub GameBoardForm_Close(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Closed
@@ -309,7 +320,10 @@ Public Class GameBoardForm
             Exit Sub
         End If
 
-        Dim Levelset As Levelset = CType(LevelParser.Levelsets.Item(My.Settings.LevelSet), Levelset)
+        Dim Levelset As Levelset = LevelParser.GetLevelset(My.Settings.LevelSet)
+        If Levelset Is Nothing Then
+            Exit Sub
+        End If
 
         If IsNumeric(IB) = False Then
             MsgBox(Localizer.GetString("AlertNotANumber"),
@@ -337,15 +351,22 @@ Public Class GameBoardForm
                 Exit Sub
             End If
 
-            CurrentlyPlayedLevelId = CInt(Val(IB))
-            GameBoard = Levelset.GetLevel(CurrentlyPlayedLevelId)
-            Dim Details As LevelProperties = Levelset.GetLevelInitialProperties(CurrentlyPlayedLevelId)
-            PlayerLocation = Details.PlayerLocation
+            ' Going through NewGame rather than assigning the board directly is what clears the
+            ' undo history and the move counters. Without that, Ctrl+Z after switching levels
+            ' restored the board of the level you came from.
+            If Not NewGame(CInt(Val(IB))) Then
+                MsgBox(Localizer.GetString("AlertLevelDoesNotExist"),
+                       MsgBoxStyle.OkOnly Or
+                       MsgBoxStyle.Critical Or
+                       MsgBoxStyle.ApplicationModal,
+                       System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+                Exit Sub
+            End If
 
+            Me.MenuitemUndo.Enabled = False
             Call RefreshStatusBar()
             Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
             RefreshBoard()
-            ExternalCustomLevel = False
         End If
     End Sub
 
@@ -354,65 +375,73 @@ Public Class GameBoardForm
         If ExternalCustomLevel = False Then MenuitemRestart.Enabled = True Else MenuitemRestart.Enabled = False
     End Sub
 
+    ''' <remarks>
+    ''' The custom set is only registered, and the game only switched over to it, once it is known
+    ''' to hold a playable level. Nothing about the game in progress changes before that point, so
+    ''' a bad file leaves the current level alone instead of half-loading over it.
+    ''' </remarks>
     Private Sub MenuitemOpenLevel_Click(sender As Object, e As EventArgs) Handles ZPlikuToolStripMenuItem.Click
         If OpenFileDialog1.ShowDialog() <> DialogResult.OK Then
             Exit Sub
         End If
 
-        FileName = OpenFileDialog1.FileName
+        Dim SelectedFileName As String = OpenFileDialog1.FileName
+        Dim LevelsetCustomInput As ArrayList
 
-        If ExternalCustomLevel Then
-            ExternalCustomLevel = False
-            NewGame(1)
+        Try
+            LevelsetCustomInput = LevelParser.PullAllLevels(SelectedFileName, True)
+        Catch ex As System.IO.IOException
+            ShowLevelFileError()
+            Exit Sub
+        Catch ex As UnauthorizedAccessException
+            ShowLevelFileError()
+            Exit Sub
+        End Try
+
+        Dim LevelsetCustom As New Levelset(LevelParser.CustomLevelsetName, True)
+        LevelsetCustom.AddAllLevels(LevelsetCustomInput)
+
+        If LevelsetCustom.NumberOfLevels < 1 Then
+            ShowLevelFileError()
+            Exit Sub
         End If
+
+        If Levelsets.ContainsKey(LevelParser.CustomLevelsetName) Then
+            Levelsets.Remove(LevelParser.CustomLevelsetName)
+        End If
+        Levelsets.Add(LevelParser.CustomLevelsetName, LevelsetCustom)
+
+        ' Starts at level 1 of the new set. Carrying the previous level number over meant opening
+        ' a short file while deep into a long one asked for a level that does not exist.
+        If Not StartCustomLevelset() Then
+            Levelsets.Remove(LevelParser.CustomLevelsetName)
+            ShowLevelFileError()
+            Exit Sub
+        End If
+
+        FileName = SelectedFileName
 
         MenuitemLevelsetClassic.Checked = False
         MenuitemLevelsetXS.Checked = False
         ZPlikuToolStripMenuItem.Checked = True
+        Me.MenuitemUndo.Enabled = False
 
-        Dim LevelsetCustomInput = LevelParser.PullAllLevels(FileName, True)
-        Dim LevelsetCustom As New Levelset(SokobanLevelSet.CustomFromFile.ToString(), True)
-
-        If LevelsetCustomInput.Count > 0 Then
-            If My.Settings.LevelLoadConfirmation = True Then
-                MsgBox((Localizer.GetString("AlertLevelFromFileLoadSuccess") & FileName),
-                       MsgBoxStyle.OkOnly Or
-                       MsgBoxStyle.Information Or
-                       MsgBoxStyle.ApplicationModal,
-                       System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-            End If
-
-            LevelsetCustom.AddAllLevels(LevelsetCustomInput)
-
-            If Levelsets.ContainsKey("Custom") Then
-                Levelsets.Remove("Custom")
-            End If
-            Levelsets.Add("Custom", LevelsetCustom)
-        Else
-            MsgBox(Localizer.GetString("AlertLevelEmptyOrBad"), MsgBoxStyle.Exclamation Or MsgBoxStyle.ApplicationModal,
-                       System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-            Exit Sub
+        If My.Settings.LevelLoadConfirmation = True Then
+            MsgBox((Localizer.GetString("AlertLevelFromFileLoadSuccess") & FileName),
+                   MsgBoxStyle.OkOnly Or
+                   MsgBoxStyle.Information Or
+                   MsgBoxStyle.ApplicationModal,
+                   System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
         End If
 
-        Call RefreshStatusBar()
-        Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
-
-        ' TODO: Somehow merge with LoadNextLevel()
-        Dim Levelset As Levelset = LevelParser.GetLevelset("Custom")
-        SizeOfCurrentLevelset = Levelset.NumberOfLevels
         RefreshBoard()
+        Call RefreshStatusBar()
+    End Sub
 
-        Dim BoardState() As Integer = Levelset.GetLevel(CurrentlyPlayedLevelId)
-        If IsNothing(BoardState) Then
-            MsgBox(Localizer.GetString("AlertLevelEmptyOrBad"), MsgBoxStyle.Exclamation Or MsgBoxStyle.ApplicationModal,
-                       System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-            NewGame(1)
-        Else
-            Array.Copy(BoardState, GameBoard, GameBoard.Length)
-            PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(BoardState)
-            RefreshBoard()
-        End If
-
+    Private Shared Sub ShowLevelFileError()
+        MsgBox(Localizer.GetString("AlertLevelEmptyOrBad"),
+               MsgBoxStyle.Exclamation Or MsgBoxStyle.ApplicationModal,
+               System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
     End Sub
 
     Private Sub MenuitemLevelset_Click(sender As Object, e As EventArgs) Handles MenuitemLevelset.Click
@@ -476,19 +505,19 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemHide_Click(sender As Object, e As EventArgs) Handles MenuitemHide.Click
-        SkrzynkiTrayIcon1.Visible = True
-        SkrzynkiTrayIcon1.Text = Localizer.GetString("LabelTrayDescription")
-        SkrzynkiTrayIcon1.BalloonTipText = Localizer.GetString("LabelTrayDescription")
+        SkrzynkiTrayIcon.Visible = True
+        SkrzynkiTrayIcon.Text = Localizer.GetString("LabelTrayDescription")
+        SkrzynkiTrayIcon.BalloonTipText = Localizer.GetString("LabelTrayDescription")
         Me.Visible = False
     End Sub
 
-    Private Sub NotifyIcon1_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles SkrzynkiTrayIcon1.MouseDoubleClick
-        SkrzynkiTrayIcon1.Visible = False
+    Private Sub SkrzynkiTrayIcon_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles SkrzynkiTrayIcon.MouseDoubleClick
+        SkrzynkiTrayIcon.Visible = False
         Me.Visible = True
     End Sub
 
-    Private Sub NotifyIcon1_MouseClick(sender As Object, e As MouseEventArgs) Handles SkrzynkiTrayIcon1.MouseClick
-        SkrzynkiTrayIcon1.Visible = False
+    Private Sub SkrzynkiTrayIcon_MouseClick(sender As Object, e As MouseEventArgs) Handles SkrzynkiTrayIcon.MouseClick
+        SkrzynkiTrayIcon.Visible = False
         Me.Visible = True
     End Sub
 
