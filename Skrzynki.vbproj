@@ -207,7 +207,7 @@
     <Compile Include="LevelsetLibrary.vb" />
     <Compile Include="Localization.vb" />
     <Compile Include="ProgressStore.vb" />
-    <Compile Include="Przesuwanie.vb" />
+    <Compile Include="MovementRules.vb" />
     <Compile Include="LevelSolvedForm.Designer.vb">
       <DependentUpon>LevelSolvedForm.vb</DependentUpon>
     </Compile>

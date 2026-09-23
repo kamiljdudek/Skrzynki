@@ -167,20 +167,6 @@
         End Get
     End Property
 
-    ''' <remarks>
-    ''' Attempts a move in the given direction, returning False when it is blocked. The entry
-    ''' point callers outside this module use to move the player, and the one place a successful
-    ''' move is written into the history that Undo and the solution text are built from.
-    ''' </remarks>
-    Public Function TryMovePlayer(direction As MoveDirection) As Boolean
-        If Not PrzesunGracza(direction) Then
-            Return False
-        End If
-
-        RecordedMoves.Add(New MoveRecord(direction, PushHasJustBeenPerformed))
-        Return True
-    End Function
-
     Public Sub ClearUndoHistory()
         RecordedMoves.Clear()
         AllGameBoardStates.Clear()

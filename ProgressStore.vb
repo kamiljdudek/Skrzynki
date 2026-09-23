@@ -18,11 +18,10 @@ Module ProgressStore
         Return levelsetName = ClassicLevelsetName OrElse levelsetName = ExtraDifficultLevelsetName
     End Function
 
-    ' --- Carrying progress across the settings rename -------------------------------------------
-    ' These six settings were once named after the Polish names of the two levelsets. A saved
-    ' user.config written before the rename still holds the old names, and the settings system
-    ' would simply ignore them - so a player's progress would look reset. The values are copied
-    ' across once, on first run of a build that has the new names.
+    ' --- Progress stored under earlier setting names ---------------------------------------------
+    ' A saved user.config may hold these six settings under the names on the left. The settings
+    ' system matches by name and would simply ignore them, leaving the player looking as though
+    ' their progress had been reset, so the values are copied across once.
 
     Private ReadOnly LegacySettingNames As New Dictionary(Of String, String)(StringComparer.Ordinal) From {
         {"ArrivedLevelKlasyczne", NameOf(My.MySettings.ClassicArrivedLevel)},

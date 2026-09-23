@@ -117,10 +117,9 @@ Module Board
 End Module
 
 ''' <remarks>
-''' One square of the board, as a row and a column rather than a position in the flat array. The
-''' board is still stored flat - Index converts back - but naming squares this way means stepping
-''' off the left edge lands outside the board instead of silently wrapping onto the previous row,
-''' which is what a bare index minus one does.
+''' One square of the board, as a row and a column rather than a position in the flat array, which
+''' Index converts back to. Naming squares this way means stepping off the left edge lands outside
+''' the board, where a bare index minus one would land on the previous row's last column.
 ''' </remarks>
 Public Structure Cell
     Implements IEquatable(Of Cell)
