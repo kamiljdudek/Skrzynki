@@ -1,4 +1,6 @@
-﻿Public Class GameBoardForm
+﻿Imports System.Globalization
+
+Public Class GameBoardForm
     ' Parallel to GameBoard: see the board indexing convention in 倉庫番.vb. Cells occupy
     ' BoardFirstIndex through BoardCellCount; index 0 is unused.
     ReadOnly imgGameField(BoardCellCount) As System.Windows.Forms.PictureBox
@@ -316,12 +318,18 @@
     Private Sub MenuitemSelectLevel_Click(sender As Object, e As EventArgs) Handles MenuitemSelectLevel.Click
         Dim IB As String = InputBox(Localizer.GetString("QuerySelectLevel"),
                                     System.Reflection.Assembly.GetExecutingAssembly.GetName.Name,
-                                    CStr(GetArrivedLevel()))
-        If IB = "" Then
+                                    FurthestPlayableLevel.ToString(CultureInfo.InvariantCulture))
+        If String.IsNullOrWhiteSpace(IB) Then
             Exit Sub
         End If
 
-        If IsNumeric(IB) = False Then
+        ' A whole number and nothing else: the level number is not a localized quantity, and
+        ' anything with a decimal separator or trailing text is a typo rather than a level.
+        Dim RequestedLevel As Integer
+        If Not Integer.TryParse(IB.Trim(),
+                                NumberStyles.Integer,
+                                CultureInfo.InvariantCulture,
+                                RequestedLevel) Then
             MsgBox(Localizer.GetString("AlertNotANumber"),
                    MsgBoxStyle.OkOnly Or
                    MsgBoxStyle.Critical Or
@@ -330,9 +338,7 @@
             Exit Sub
         End If
 
-        Dim RequestedLevel As Integer = CInt(Val(IB))
-
-        If RequestedLevel > GetArrivedLevel() AndAlso
+        If RequestedLevel > FurthestPlayableLevel AndAlso
            RequestedLevel <= NumberOfLevelsInCurrentLevelset Then
             MsgBox(Localizer.GetString("AlertLevelNotReachedYet"),
                    MsgBoxStyle.OkOnly Or

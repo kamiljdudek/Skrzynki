@@ -11,26 +11,31 @@
                           倉庫番.Localizer.GetString("LevelSetClassic"),
                           StringComparison.Ordinal)
 
+        Dim LevelsetName As String = If(IsClassic, "Classic", "XS")
         Dim Moves As Integer
         Dim Pushes As Integer
-        Dim ReachedLevel As Integer
+        Dim ProgressMarker As Integer
 
         If IsClassic Then
             Moves = My.Settings.MovesKlasyczne
             Pushes = My.Settings.PushesKlasyczne
-            ReachedLevel = My.Settings.ArrivedLevelKlasyczne
+            ProgressMarker = My.Settings.ArrivedLevelKlasyczne
         Else
             Moves = My.Settings.MovesSupertrudne
             Pushes = My.Settings.PushesSupertrudne
-            ReachedLevel = My.Settings.ArrivedLevelSupertrudne
+            ProgressMarker = My.Settings.ArrivedLevelSupertrudne
         End If
+
+        ' The stored marker names the next level to play and runs one past the end of a completed
+        ' set, so it is clamped to a level that exists before being shown.
+        Dim ReachedLevel As Integer = 倉庫番.ClampToLevelset(ProgressMarker, LevelsetName)
 
         LabelMoves.Text = 倉庫番.Localizer.GetString("LabelMoves") & Moves
         LabelPushes.Text = 倉庫番.Localizer.GetString("LabelPushes") & Pushes
         LabelReachedLevel.Text = 倉庫番.Localizer.GetString("LabelAchievedLevel") & ReachedLevel
 
         ' Taken from the levelset itself rather than assumed to be 60.
-        Dim NumberOfLevels As Integer = 倉庫番.NumberOfLevelsIn(If(IsClassic, "Classic", "XS"))
+        Dim NumberOfLevels As Integer = 倉庫番.NumberOfLevelsIn(LevelsetName)
 
         LevelSetProgressBar.Maximum = Math.Max(1, NumberOfLevels)
         LevelSetProgressBar.Value =

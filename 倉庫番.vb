@@ -45,13 +45,13 @@ Public Module 倉庫番
 
     ' zmienne
     Public GameBoard(256) As Integer ' przechowuje aktualne ustawienie obiektów w polu gry
-    Public AllGameBoardStates As New System.Collections.ObjectModel.Collection(Of Integer())
-    Public AllPushStates As New System.Collections.ObjectModel.Collection(Of Boolean)
+    Private ReadOnly AllGameBoardStates As New System.Collections.ObjectModel.Collection(Of Integer())
+    Private ReadOnly AllPushStates As New System.Collections.ObjectModel.Collection(Of Boolean)
     Public PlayerLocation As Integer ' aktualna pozycja gracza
     Public MoveHasJustBeenPerformed As Boolean ' czy gracz wykonał ruch (i czy ew. można cofnąć)
     Public PushHasJustBeenPerformed As Boolean
     Public ExternalCustomLevel As Boolean
-    Public SizeOfCurrentLevelset As Integer
+    Private SizeOfCurrentLevelset As Integer
     Public LevelCleared As Boolean ' czy etap spoza zestawu zaliczony?
     Public CurrentlyPlayedLevelId As Integer ' numer aktualnie rozgrywanego etapu
     Public MovesPerformedOnCurrentLevel As Integer ' ruchy wykonane w etapie
@@ -256,6 +256,14 @@ Public Module 倉庫番
     ''' Banks the moves and pushes spent on the level just completed and advances the furthest
     ''' reached marker. Call once per solved level, including the last one of a set.
     '''
+    ''' The marker names the next level to play, so completing level N sets it to N + 1 and
+    ''' completing the last level of a set takes it one past the end - which is what distinguishes
+    ''' a finished set from merely standing on its final level. FurthestPlayableLevel clamps it
+    ''' back to a level number for anything that has to play or display one.
+    '''
+    ''' Effort is banked only when the marker actually advances, so beating a level a second time
+    ''' does not add to the totals again.
+    '''
     ''' Progress is only kept for the two built-in sets; a levelset opened from a file has no
     ''' persisted statistics of its own.
     ''' </remarks>
@@ -264,19 +272,18 @@ Public Module 倉庫番
             Exit Sub
         End If
 
-        ' The marker names the level the player has unlocked, which is the one after the level
-        ' just solved - capped at the size of the set, since there is nothing beyond it.
-        Dim UnlockedLevel As Integer = Math.Min(CurrentlyPlayedLevelId + 1, SizeOfCurrentLevelset)
+        Dim UnlockedLevel As Integer = CurrentlyPlayedLevelId + 1
+        If UnlockedLevel <= GetArrivedLevel() Then
+            Exit Sub
+        End If
 
         Select Case My.Settings.LevelSet
             Case "Classic"
-                My.Settings.ArrivedLevelKlasyczne =
-                    Math.Max(My.Settings.ArrivedLevelKlasyczne, UnlockedLevel)
+                My.Settings.ArrivedLevelKlasyczne = UnlockedLevel
                 My.Settings.PushesKlasyczne += PushesPerformedOnCurrentLevel
                 My.Settings.MovesKlasyczne += MovesPerformedOnCurrentLevel
             Case "XS"
-                My.Settings.ArrivedLevelSupertrudne =
-                    Math.Max(My.Settings.ArrivedLevelSupertrudne, UnlockedLevel)
+                My.Settings.ArrivedLevelSupertrudne = UnlockedLevel
                 My.Settings.PushesSupertrudne += PushesPerformedOnCurrentLevel
                 My.Settings.MovesSupertrudne += MovesPerformedOnCurrentLevel
         End Select
@@ -724,7 +731,7 @@ Public Module 倉庫番
 
         Dim StartingLevel As Integer = 1
         If My.Settings.BeginFromArrivedLevel Then
-            StartingLevel = Math.Max(1, GetArrivedLevel())
+            StartingLevel = FurthestPlayableLevel
         End If
 
         If NewGame(StartingLevel) Then
@@ -808,6 +815,11 @@ Public Module 倉庫番
     Public Function RestartLevel() As Boolean
         Return LoadLevelIntoGameState(CurrentLevelsetName, CurrentlyPlayedLevelId)
     End Function
+    ''' <remarks>
+    ''' The progress marker for the levelset named by the settings: the number of the next level
+    ''' to play. It reaches one past the end of a set once that set has been completed, so callers
+    ''' that need a level number should use FurthestPlayableLevel instead.
+    ''' </remarks>
     Public ReadOnly Property GetArrivedLevel() As Integer
         Get
             If My.Settings.LevelSet = "Classic" Then
@@ -815,6 +827,29 @@ Public Module 倉庫番
             Else
                 GetArrivedLevel = My.Settings.ArrivedLevelSupertrudne
             End If
+        End Get
+    End Property
+
+    ''' <remarks>
+    ''' The highest level the player may open in the levelset named by the settings: the progress
+    ''' marker clamped to a level that exists.
+    ''' </remarks>
+    Public ReadOnly Property FurthestPlayableLevel() As Integer
+        Get
+            Return ClampToLevelset(GetArrivedLevel(), My.Settings.LevelSet)
+        End Get
+    End Property
+
+    ''' <remarks>Clamps a progress marker to a level number that exists in the named set.</remarks>
+    Public ReadOnly Property ClampToLevelset(ByVal levelNumber As Integer,
+                                             ByVal levelsetName As String) As Integer
+        Get
+            Dim LevelCount As Integer = NumberOfLevelsIn(levelsetName)
+            If LevelCount < 1 Then
+                Return 1
+            End If
+
+            Return Math.Max(1, Math.Min(levelNumber, LevelCount))
         End Get
     End Property
 
