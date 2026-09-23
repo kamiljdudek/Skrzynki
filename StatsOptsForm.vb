@@ -30,8 +30,7 @@
         LabelReachedLevel.Text = 倉庫番.Localizer.GetString("LabelAchievedLevel") & ReachedLevel
 
         ' Taken from the levelset itself rather than assumed to be 60.
-        Dim Levelset As Levelset = LevelParser.GetLevelset(If(IsClassic, "Classic", "XS"))
-        Dim NumberOfLevels As Integer = If(Levelset Is Nothing, 1, Levelset.NumberOfLevels)
+        Dim NumberOfLevels As Integer = 倉庫番.NumberOfLevelsIn(If(IsClassic, "Classic", "XS"))
 
         LevelSetProgressBar.Maximum = Math.Max(1, NumberOfLevels)
         LevelSetProgressBar.Value =

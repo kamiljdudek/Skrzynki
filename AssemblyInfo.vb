@@ -1,20 +1,21 @@
-Imports System.Reflection
+ï»¿Imports System.Reflection
 Imports System.Resources
 Imports System.Runtime.InteropServices
 
 ' General Information about an assembly is controlled through the following
 ' set of attributes. Change these attribute values to modify the information
-' associated with an assembly
-
-
-' TODO: Review the values of the assembly attributes
+' associated with an assembly.
+'
+' Keep this file saved as UTF-8 with a byte order mark: the values below carry Polish
+' letters and the copyright sign, and without the mark the compiler reads them in the
+' build machine's ANSI code page.
 
 
 <Assembly: AssemblyTitle("Boxes: Skrzynki")>
-<Assembly: AssemblyDescription("Gra logiczna, w której wcielasz siê w magazyniera!")>
+<Assembly: AssemblyDescription("Gra logiczna, w ktÃ³rej wcielasz siÄ™ w magazyniera!")>
 <Assembly: AssemblyCompany("Kamil J. Dudek")>
 <Assembly: AssemblyProduct("Boxes: Skrzynki")>
-<Assembly: AssemblyCopyright("© 2000-2001 Karol Kuczmarski, 2020-2021 Kamil J. Dudek")>
+<Assembly: AssemblyCopyright("Â© 2000-2001 Karol Kuczmarski, 2020-2021 Kamil J. Dudek")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: AssemblyCulture("")>
 

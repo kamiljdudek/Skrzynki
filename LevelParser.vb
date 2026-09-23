@@ -9,6 +9,14 @@
     ' digits used here have to stay in step with the BoardItem enum.
     Private Const BlankOuterCharacter As Char = "7"c
 
+    ''' <remarks>
+    ''' Splits level text into lines on any line ending - CRLF, LF or CR alone - so that level
+    ''' files written on Windows, Unix-like systems or classic Mac all load.
+    ''' </remarks>
+    Private Function SplitIntoLines(ByVal text As String) As String()
+        Return text.Split(New String() {vbCrLf, vbLf, vbCr}, StringSplitOptions.None)
+    End Function
+
     Public Function PullAllLevels(ByVal inputStream As String, ByVal FileMode As Boolean) As ArrayList
         Dim LevelsRead As New ArrayList
         Dim ItemToAdd As String = Nothing
@@ -23,14 +31,13 @@
             With BufferedReader
                 ReadContent = .ReadToEnd
             End With
-            Content = Split(ReadContent, Environment.NewLine)
+            Content = SplitIntoLines(ReadContent)
         Else
-            Content = Split(inputStream, Environment.NewLine)
+            Content = SplitIntoLines(inputStream)
         End If
 
-        ' A blank (or single character) line closes the current level. Blocks holding no rows at
-        ' all are dropped: without that, the trailing newlines at the end of a level file produce
-        ' a phantom empty level, which is what made the XS set report 61 levels instead of 60.
+        ' A blank (or single character) line closes the current level. Blocks holding no rows are
+        ' dropped, so trailing newlines at the end of a file cannot yield an empty level.
         For Each SingleLine As String In Content
             If IsNothing(SingleLine) OrElse SingleLine.Length <= 1 Then
                 If Not String.IsNullOrEmpty(ItemToAdd) Then
@@ -56,12 +63,12 @@
     ''' cannot be represented on a BoardWidth x BoardHeight grid.
     ''' </remarks>
     Public Function GetMapStringFromLevel(ByRef lv As String) As String()
-        Dim Content() As String = Split(lv, Environment.NewLine)
+        Dim Content() As String = SplitIntoLines(lv)
         Dim OutputLevelMap(BoardHeight - 1) As String
         Dim OuterRow As String = New String(BlankOuterCharacter, BoardWidth)
 
-        ' The row count has to ignore the trailing empty entries left by the newline terminating
-        ' the last row. Counting those made every level sit up to half a row too high.
+        ' The row count ignores the trailing empty entries left by the newline that terminates the
+        ' last row, so that the level is centred on its actual height.
         Dim RowCount As Integer = Content.Length
         While RowCount > 0 AndAlso String.IsNullOrEmpty(Content(RowCount - 1))
             RowCount -= 1
@@ -74,8 +81,8 @@
             End If
         Next
 
-        ' Guard the whole layout rather than only its horizontal half: a level taller than the
-        ' board used to run off the end of OutputLevelMap or start a loop at a negative index.
+        ' Both dimensions are checked: a level larger than the board in either direction cannot be
+        ' laid out and is rejected here.
         If RowCount < 1 OrElse RowCount > BoardHeight OrElse WidestRow > BoardWidth Then
             Return Nothing
         End If
@@ -119,7 +126,7 @@
         End If
 
         ' See the board indexing convention in 倉庫番.vb: cells live at BoardFirstIndex through
-        ' BoardCellCount, so filling has to start at BoardFirstIndex rather than at 0.
+        ' BoardCellCount, so filling starts at BoardFirstIndex.
         Dim LegacyLevelArrayCounter As Integer = BoardFirstIndex
         Dim OutputStringLegacyFormat(BoardCellCount) As Integer
         For j = 0 To BoardHeight - 1
@@ -150,18 +157,10 @@
         Classic.AddAllLevels(PullAllLevels(My.Resources.LevelsetResource.Classic_SOK, False))
         XS.AddAllLevels(PullAllLevels(My.Resources.LevelsetResource.XS_SOK, False))
 
-        'TODO: load stats @ constructor
-        ' Todo: further work on generalizing the levelset support
-        Classic.AchievedLevel = My.Settings.ArrivedLevelKlasyczne
-        Classic.Moves = My.Settings.MovesKlasyczne
-        Classic.Pushes = My.Settings.PushesKlasyczne
-
-        XS.AchievedLevel = My.Settings.ArrivedLevelSupertrudne
-        XS.Moves = My.Settings.MovesSupertrudne
-        XS.Pushes = My.Settings.PushesSupertrudne
-
-        Levelsets.Add("Classic", Classic)
-        Levelsets.Add("XS", XS)
+        ' Progress and statistics are not copied onto the Levelset objects: they live in
+        ' My.Settings, keyed per set, and every reader goes there directly.
+        Levelsets.Add(SokobanLevelSet.Classic.ToString(), Classic)
+        Levelsets.Add(SokobanLevelSet.XS.ToString(), XS)
     End Sub
 
     Public Enum SokobanLevelSet

@@ -1,10 +1,8 @@
 Module Skin
-    ' One bitmap per BoardItem per skin, built once on first use and reused from then on.
-    '
-    ' GetIcon is called for all BoardCellCount cells on every full board refresh. Building the
-    ' icon arrays and calling Icon.ToBitmap on each of those calls allocated a fresh Bitmap per
-    ' cell - hundreds of GDI objects per refresh, none of them ever disposed - so the bitmaps are
-    ' cached here instead. The cache is keyed by skin name and lives for the life of the process.
+    ' One bitmap per BoardItem per skin, built once on first use and reused from then on. GetIcon
+    ' runs for all BoardCellCount cells on every full board refresh, so converting the icons each
+    ' time would allocate a Bitmap - and leak a GDI handle - per cell per refresh. The cache is
+    ' keyed by skin name and lives for the life of the process.
     Private ReadOnly SkinCache As New System.Collections.Generic.Dictionary(Of String, System.Drawing.Bitmap())
 
     Private Const SkinOriginal As String = "(Oryginalny)"

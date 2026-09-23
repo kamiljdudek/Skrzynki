@@ -1,6 +1,4 @@
-﻿Imports System.Globalization
-
-Public Class GameBoardForm
+﻿Public Class GameBoardForm
     ' Parallel to GameBoard: see the board indexing convention in 倉庫番.vb. Cells occupy
     ' BoardFirstIndex through BoardCellCount; index 0 is unused.
     ReadOnly imgGameField(BoardCellCount) As System.Windows.Forms.PictureBox
@@ -41,10 +39,8 @@ Public Class GameBoardForm
     End Sub
 
     ''' <remarks>
-    ''' Builds the grid of cells and sizes the form around it. The grid starts below the menu
-    ''' strip and ends above the status strip: laying it out from the top of the client area
-    ''' hid its first row behind the menu, which clipped the top wall of every level tall enough
-    ''' to reach row 0 (Classic 54 to 60).
+    ''' Builds the grid of cells and sizes the form around it. The grid occupies the client area
+    ''' between the menu strip and the status strip, so that all BoardHeight rows are visible.
     ''' </remarks>
     Private Sub GenerateGameField()
         Dim BoardTop As Integer = Me.MenuStrip1.Height
@@ -69,29 +65,36 @@ Public Class GameBoardForm
         Next
     End Sub
 
-    <CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId:="System.Windows.Forms.Form.set_Text(System.String)")>
+    ''' <remarks>
+    ''' Brings every piece of chrome back in line with the game state: labels, window title, both
+    ''' progress bars and the menu items whose availability depends on that state. Called after
+    ''' anything that changes the game, so no caller has to remember which parts to update.
+    ''' </remarks>
     Private Sub RefreshStatusBar()
-        MovesLabel.Text = Localizer.GetString("LabelMoves") & MovesPerformedOnCurrentLevel
-        PushesLabel.Text = Localizer.GetString("LabelPushes") & PushesPerformedOnCurrentLevel
-        If ExternalCustomLevel Then
-            Dim FnCore As String() = 倉庫番.FileName.Split(CType("\", Char))
-            Text = Localizer.GetString("GameName") &
-                " (" & FnCore(FnCore.Length - 1) & "): #" &
-                CurrentlyPlayedLevelId.ToString(CultureInfo.InvariantCulture)
+        MovesLabel.Text = Localizer.GetString("LabelMoves") & MovesPerformed
+        PushesLabel.Text = Localizer.GetString("LabelPushes") & PushesPerformed
 
-        Else
-            Text = Localizer.GetString("GameName") &
-                " (" & My.Settings.LevelSet & "): #" &
-                CurrentlyPlayedLevelId.ToString(CultureInfo.InvariantCulture)
-        End If
+        Me.Text = CurrentGameTitle
 
+        ' Progress towards the goal squares, matching the rule that decides the level is solved.
         SetProgress(Me.LevelProgressBar,
-                    GameBoardDetails.GetNumberOfPlacedBoxesOnBoard(GameBoard),
-                    GameBoardDetails.GetTotalNumberOfBoxesOnBoard(GameBoard))
+                    NumberOfCoveredGoalsOnCurrentLevel,
+                    NumberOfGoalsOnCurrentLevel)
 
-        ' The levelset size is whatever was actually parsed, not a fixed 60: XS parsed to 61 for
-        ' years, and a levelset opened from a file can be any size at all.
-        SetProgress(Me.LevelsetProgressBar, CurrentlyPlayedLevelId, SizeOfCurrentLevelset)
+        ' Scaled to the size of the set actually loaded, which a set opened from a file may set
+        ' to anything.
+        SetProgress(Me.LevelsetProgressBar, CurrentLevelNumber, NumberOfLevelsInCurrentLevelset)
+
+        Call RefreshMenuState()
+    End Sub
+
+    ''' <remarks>
+    ''' Menu availability follows the game state, so that the shortcut keys behave the same way
+    ''' whether or not the menu holding them has been opened.
+    ''' </remarks>
+    Private Sub RefreshMenuState()
+        Me.MenuitemUndo.Enabled = CanUndo()
+        Me.MenuitemRestart.Enabled = NumberOfLevelsInCurrentLevelset > 0
     End Sub
 
     ''' <remarks>
@@ -114,8 +117,8 @@ Public Class GameBoardForm
             Exit Sub
         End If
 
-        If GameBoard(cellIndex) < CInt(BoardItem.BlankOuter) Then
-            Me.imgGameField(cellIndex).Image = Skrzynki.Skin.GetIcon(GameBoard(cellIndex))
+        If BoardCell(cellIndex) < CInt(BoardItem.BlankOuter) Then
+            Me.imgGameField(cellIndex).Image = Skrzynki.Skin.GetIcon(BoardCell(cellIndex))
         Else
             Me.imgGameField(cellIndex).Image = Nothing
         End If
@@ -129,92 +132,88 @@ Public Class GameBoardForm
     End Sub
 
     Public Sub RefreshBoardNearItemsOnly()
-        RefreshCell(PlayerLocation - BoardWidth)
-        RefreshCell(PlayerLocation - 1)
-        RefreshCell(PlayerLocation)
-        RefreshCell(PlayerLocation + 1)
-        RefreshCell(PlayerLocation + BoardWidth)
+        RefreshCell(CurrentPlayerLocation - BoardWidth)
+        RefreshCell(CurrentPlayerLocation - 1)
+        RefreshCell(CurrentPlayerLocation)
+        RefreshCell(CurrentPlayerLocation + 1)
+        RefreshCell(CurrentPlayerLocation + BoardWidth)
     End Sub
 
 
     Private Sub FrmMain_KeyDown(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         Dim KeyCode As Windows.Forms.Keys = eventArgs.KeyCode
-        If KeyCode = System.Windows.Forms.Keys.Left Or
-            KeyCode = System.Windows.Forms.Keys.Right Or
-            KeyCode = System.Windows.Forms.Keys.Up Or
-            KeyCode = System.Windows.Forms.Keys.Down Then
-            If PrzesunGracza(KeyCode) Then
-                Call RefreshBoardNearItemsOnly()
-                Call RefreshStatusBar()
-
-                If MoveHasJustBeenPerformed = True Then
-                    Me.MenuitemUndo.Enabled = True
-                End If
-
-                If GameBoardDetails.GetNumberOfPlacedBoxesOnBoard(GameBoard) =
-                    GameBoardDetails.GetTotalNumberOfBoxesOnBoard(GameBoard) Then
-                    MsgBox(Localizer.GetString("AlertLevelSolved"),
-                           MsgBoxStyle.OkOnly Or
-                           MsgBoxStyle.Information Or
-                           MsgBoxStyle.ApplicationModal,
-                           System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-                    LevelCleared = True
-                    ClearUndoHistory()
-                    CurrentlyPlayedLevelId += 1
-
-                    If CurrentlyPlayedLevelId > SizeOfCurrentLevelset OrElse Not LoadNextLevel() Then
-                        MsgBox(Localizer.GetString("AlertAllLevelsSolved"),
-                               MsgBoxStyle.OkOnly Or
-                               MsgBoxStyle.Information Or
-                               MsgBoxStyle.ApplicationModal,
-                               System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-                        ' Todo: select Klasyczne jeżeli to był custom
-                        NewGame(1)
-                    End If
-
-                    Me.MenuitemUndo.Enabled = False
-                    Call RefreshBoard()
-                    Call RefreshStatusBar()
-                End If
-            Else
-                Interaction.Beep()
-            End If
+        If KeyCode <> System.Windows.Forms.Keys.Left AndAlso
+           KeyCode <> System.Windows.Forms.Keys.Right AndAlso
+           KeyCode <> System.Windows.Forms.Keys.Up AndAlso
+           KeyCode <> System.Windows.Forms.Keys.Down Then
+            Exit Sub
         End If
+
+        If Not TryMovePlayer(KeyCode) Then
+            Interaction.Beep()
+            Exit Sub
+        End If
+
+        Call RefreshBoardNearItemsOnly()
+        Call RefreshStatusBar()
+        Call CompleteLevelWhileSolved()
+    End Sub
+
+    ''' <remarks>
+    ''' Handles a solved level: banks the progress, announces it, and moves on. It loops because
+    ''' the level it moves on to can itself arrive already solved, which a hand-made level file
+    ''' can produce. The counter bounds a file made entirely of solved levels.
+    ''' </remarks>
+    Private Sub CompleteLevelWhileSolved()
+        Dim LevelsCompleted As Integer = 0
+
+        While IsCurrentLevelSolved() AndAlso LevelsCompleted <= NumberOfLevelsInCurrentLevelset
+            LevelsCompleted += 1
+
+            ' Banked before advancing, for every solved level including the last one of a set.
+            RecordProgressForSolvedLevel()
+
+            MsgBox(Localizer.GetString("AlertLevelSolved"),
+                   MsgBoxStyle.OkOnly Or
+                   MsgBoxStyle.Information Or
+                   MsgBoxStyle.ApplicationModal,
+                   System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+
+            If Not AdvanceToNextLevel() Then
+                MsgBox(Localizer.GetString("AlertAllLevelsSolved"),
+                       MsgBoxStyle.OkOnly Or
+                       MsgBoxStyle.Information Or
+                       MsgBoxStyle.ApplicationModal,
+                       System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+
+                ' Finishing a set opened from a file drops back to the built-in one named in the
+                ' settings.
+                If Not NewGame(1) Then
+                    Exit While
+                End If
+            End If
+
+            Call RefreshBoard()
+            Call RefreshStatusBar()
+        End While
     End Sub
 
 
     ''' <remarks>
-    ''' The single Load handler. GenerateGameField used to be a second one, and everything below
-    ''' it depends on the cells it builds - VB does not define the order two handlers of the same
-    ''' event run in, so that only ever worked by luck.
+    ''' The only Load handler. Everything here runs in order, and the steps after GenerateGameField
+    ''' depend on the cells it builds - VB does not define the order two handlers of one event run
+    ''' in, so this sequence must stay in a single handler.
     ''' </remarks>
     Private Sub GameBoardForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Call ApplyLocalizationResources()
         Call GenerateGameField()
 
         Me.Icon = My.Resources.ico101
-        Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
-
-        LevelParser.LoadAllLevelsets()
-
-        CurrentlyPlayedLevelId = 1
-        MoveHasJustBeenPerformed = False
-        LevelCleared = False
-
         Me.BackColor = Color.Black
 
-        Dim SuccessfulNewGame As Boolean
-        If My.Settings.BeginFromArrivedLevel = True Then
-            SuccessfulNewGame = NewGame(GetArrivedLevel())
-        Else
-            SuccessfulNewGame = NewGame(1)
-        End If
-
-        ' Falling back to the first level keeps the game playable when the saved progress points
-        ' past the end of the set.
-        If Not SuccessfulNewGame Then
-            SuccessfulNewGame = NewGame(1)
-        End If
+        ' SelectBuiltInLevelset applies the BeginFromArrivedLevel setting and falls back to the
+        ' first level when saved progress points past the end of the set.
+        Dim SuccessfulNewGame As Boolean = StartGame()
 
         If Not SuccessfulNewGame Then
             MsgBox(Localizer.GetString("AlertLevelsetLoadFailure"),
@@ -225,9 +224,11 @@ Public Class GameBoardForm
         End If
 
         RefreshBoard()
-        Me.MenuitemUndo.Enabled = False
         RefreshStatusBar()
         Me.Visible = True
+
+        ' A level that arrives already solved has to be noticed here too, not only after a move.
+        Call CompleteLevelWhileSolved()
     End Sub
 
     Private Sub GameBoardForm_Close(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Closed
@@ -320,11 +321,6 @@ Public Class GameBoardForm
             Exit Sub
         End If
 
-        Dim Levelset As Levelset = LevelParser.GetLevelset(My.Settings.LevelSet)
-        If Levelset Is Nothing Then
-            Exit Sub
-        End If
-
         If IsNumeric(IB) = False Then
             MsgBox(Localizer.GetString("AlertNotANumber"),
                    MsgBoxStyle.OkOnly Or
@@ -334,51 +330,37 @@ Public Class GameBoardForm
             Exit Sub
         End If
 
-        If (Val(IB) > Val(CStr(GetArrivedLevel()))) And (Val(IB) <= Levelset.NumberOfLevels) Then
+        Dim RequestedLevel As Integer = CInt(Val(IB))
+
+        If RequestedLevel > GetArrivedLevel() AndAlso
+           RequestedLevel <= NumberOfLevelsInCurrentLevelset Then
             MsgBox(Localizer.GetString("AlertLevelNotReachedYet"),
                    MsgBoxStyle.OkOnly Or
                    MsgBoxStyle.Critical Or
                    MsgBoxStyle.ApplicationModal,
                    System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
             Exit Sub
-        Else
-            If Val(IB) > Levelset.NumberOfLevels Or Val(IB) <= 0 Then
-                MsgBox(Localizer.GetString("AlertNotANumber"),
-                       MsgBoxStyle.OkOnly Or
-                       MsgBoxStyle.Critical Or
-                       MsgBoxStyle.ApplicationModal,
-                       System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-                Exit Sub
-            End If
-
-            ' Going through NewGame rather than assigning the board directly is what clears the
-            ' undo history and the move counters. Without that, Ctrl+Z after switching levels
-            ' restored the board of the level you came from.
-            If Not NewGame(CInt(Val(IB))) Then
-                MsgBox(Localizer.GetString("AlertLevelDoesNotExist"),
-                       MsgBoxStyle.OkOnly Or
-                       MsgBoxStyle.Critical Or
-                       MsgBoxStyle.ApplicationModal,
-                       System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-                Exit Sub
-            End If
-
-            Me.MenuitemUndo.Enabled = False
-            Call RefreshStatusBar()
-            Me.Text = Localizer.GetString("GameName") & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
-            RefreshBoard()
         End If
-    End Sub
 
-    Private Sub MenuitemTools_Click(sender As Object, e As EventArgs) Handles MenuitemTools.Click
-        If MoveHasJustBeenPerformed Then MenuitemUndo.Enabled = True Else MenuitemUndo.Enabled = False
-        If ExternalCustomLevel = False Then MenuitemRestart.Enabled = True Else MenuitemRestart.Enabled = False
+        ' NewGame clears the undo history and the move counters along with loading the board, and
+        ' rejects a level number outside the set.
+        If Not NewGame(RequestedLevel) Then
+            MsgBox(Localizer.GetString("AlertLevelDoesNotExist"),
+                   MsgBoxStyle.OkOnly Or
+                   MsgBoxStyle.Critical Or
+                   MsgBoxStyle.ApplicationModal,
+                   System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            Exit Sub
+        End If
+
+        RefreshBoard()
+        Call RefreshStatusBar()
+        Call CompleteLevelWhileSolved()
     End Sub
 
     ''' <remarks>
-    ''' The custom set is only registered, and the game only switched over to it, once it is known
-    ''' to hold a playable level. Nothing about the game in progress changes before that point, so
-    ''' a bad file leaves the current level alone instead of half-loading over it.
+    ''' The custom set is registered, and the game switched over to it, only once it is known to
+    ''' hold a playable level, so an unusable file leaves the game in progress untouched.
     ''' </remarks>
     Private Sub MenuitemOpenLevel_Click(sender As Object, e As EventArgs) Handles ZPlikuToolStripMenuItem.Click
         If OpenFileDialog1.ShowDialog() <> DialogResult.OK Then
@@ -386,48 +368,18 @@ Public Class GameBoardForm
         End If
 
         Dim SelectedFileName As String = OpenFileDialog1.FileName
-        Dim LevelsetCustomInput As ArrayList
 
-        Try
-            LevelsetCustomInput = LevelParser.PullAllLevels(SelectedFileName, True)
-        Catch ex As System.IO.IOException
-            ShowLevelFileError()
-            Exit Sub
-        Catch ex As UnauthorizedAccessException
-            ShowLevelFileError()
-            Exit Sub
-        End Try
-
-        Dim LevelsetCustom As New Levelset(LevelParser.CustomLevelsetName, True)
-        LevelsetCustom.AddAllLevels(LevelsetCustomInput)
-
-        If LevelsetCustom.NumberOfLevels < 1 Then
+        If Not OpenLevelsetFromFile(SelectedFileName) Then
             ShowLevelFileError()
             Exit Sub
         End If
-
-        If Levelsets.ContainsKey(LevelParser.CustomLevelsetName) Then
-            Levelsets.Remove(LevelParser.CustomLevelsetName)
-        End If
-        Levelsets.Add(LevelParser.CustomLevelsetName, LevelsetCustom)
-
-        ' Starts at level 1 of the new set. Carrying the previous level number over meant opening
-        ' a short file while deep into a long one asked for a level that does not exist.
-        If Not StartCustomLevelset() Then
-            Levelsets.Remove(LevelParser.CustomLevelsetName)
-            ShowLevelFileError()
-            Exit Sub
-        End If
-
-        FileName = SelectedFileName
 
         MenuitemLevelsetClassic.Checked = False
         MenuitemLevelsetXS.Checked = False
         ZPlikuToolStripMenuItem.Checked = True
-        Me.MenuitemUndo.Enabled = False
 
         If My.Settings.LevelLoadConfirmation = True Then
-            MsgBox((Localizer.GetString("AlertLevelFromFileLoadSuccess") & FileName),
+            MsgBox((Localizer.GetString("AlertLevelFromFileLoadSuccess") & SelectedFileName),
                    MsgBoxStyle.OkOnly Or
                    MsgBoxStyle.Information Or
                    MsgBoxStyle.ApplicationModal,
@@ -436,6 +388,7 @@ Public Class GameBoardForm
 
         RefreshBoard()
         Call RefreshStatusBar()
+        Call CompleteLevelWhileSolved()
     End Sub
 
     Private Shared Sub ShowLevelFileError()
@@ -445,63 +398,48 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemLevelset_Click(sender As Object, e As EventArgs) Handles MenuitemLevelset.Click
-        If My.Settings.LevelSet = "Classic" Then
-            MenuitemLevelsetClassic.Checked = True
-            MenuitemLevelsetXS.Checked = False
-        Else
-            MenuitemLevelsetClassic.Checked = False
-            MenuitemLevelsetXS.Checked = True
-        End If
+        Call RefreshLevelsetChecks()
     End Sub
 
     Private Sub MenuitemLevelset_Hover(sender As Object, e As EventArgs) Handles MenuitemLevelset.MouseHover
-        If ExternalCustomLevel Then
-            MenuitemLevelsetClassic.Checked = False
-            MenuitemLevelsetXS.Checked = False
-            ZPlikuToolStripMenuItem.Checked = True
-        Else
-            ZPlikuToolStripMenuItem.Checked = False
-            If My.Settings.LevelSet = "Classic" Then
-                MenuitemLevelsetClassic.Checked = True
-                MenuitemLevelsetXS.Checked = False
-            Else
-                MenuitemLevelsetClassic.Checked = False
-                MenuitemLevelsetXS.Checked = True
-            End If
+        Call RefreshLevelsetChecks()
+    End Sub
+
+    Private Sub RefreshLevelsetChecks()
+        ZPlikuToolStripMenuItem.Checked = IsPlayingCustomLevelset()
+        MenuitemLevelsetClassic.Checked =
+            Not IsPlayingCustomLevelset() AndAlso My.Settings.LevelSet = "Classic"
+        MenuitemLevelsetXS.Checked =
+            Not IsPlayingCustomLevelset() AndAlso My.Settings.LevelSet = "XS"
+    End Sub
+
+    ''' <remarks>
+    ''' Switches levelsets. SelectBuiltInLevelset resumes at the furthest level reached when
+    ''' BeginFromArrivedLevel is set, and restores the previous set if the requested one cannot
+    ''' be loaded.
+    ''' </remarks>
+    Private Sub SwitchToBuiltInLevelset(ByVal levelsetName As String)
+        If Not SelectBuiltInLevelset(levelsetName) Then
+            MsgBox(Localizer.GetString("AlertLevelsetLoadFailure"),
+                   MsgBoxStyle.OkOnly Or
+                   MsgBoxStyle.Critical Or
+                   MsgBoxStyle.ApplicationModal,
+                   System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            Exit Sub
         End If
+
+        Call RefreshLevelsetChecks()
+        RefreshBoard()
+        Call RefreshStatusBar()
+        Call CompleteLevelWhileSolved()
     End Sub
 
     Private Sub MenuitemLevelsetClassic_Click(sender As Object, e As EventArgs) Handles MenuitemLevelsetClassic.Click
-        My.Settings.LevelSet = "Classic"
-        MenuitemLevelsetClassic.Checked = True
-        MenuitemLevelsetXS.Checked = False
-        ' Todo najdalszy
-        NewGame(1)
-
-        RefreshBoard()
-        Me.MenuitemUndo.Enabled = False
-        Call RefreshStatusBar()
-        Me.Text = System.Reflection.Assembly.GetExecutingAssembly.GetName.Name & Localizer.GetString("LabelShortPauseAndNumberID") & CurrentlyPlayedLevelId
+        Call SwitchToBuiltInLevelset("Classic")
     End Sub
 
     Private Sub MenuitemLevelsetXS_Click(sender As Object, e As EventArgs) Handles MenuitemLevelsetXS.Click
-        My.Settings.LevelSet = "XS"
-        MenuitemLevelsetClassic.Checked = False
-        MenuitemLevelsetXS.Checked = True
-        ' Todo najdalszy
-        NewGame(1)
-
-        RefreshBoard()
-        Me.MenuitemUndo.Enabled = False
-        Call RefreshStatusBar()
-    End Sub
-
-    Private Sub MenuitemGame_Click(sender As Object, e As EventArgs) Handles MenuitemGame.Click
-        If ExternalCustomLevel Then
-            'MenuitemOpenLevel.Enabled = False
-        Else
-            'MenuitemOpenLevel.Enabled = True
-        End If
+        Call SwitchToBuiltInLevelset("XS")
     End Sub
 
     Private Sub MenuitemHide_Click(sender As Object, e As EventArgs) Handles MenuitemHide.Click

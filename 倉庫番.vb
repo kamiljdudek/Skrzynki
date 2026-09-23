@@ -37,8 +37,7 @@ Public Module 倉庫番
     '
     ' GameBoard below and GameBoardForm.imgGameField are index-for-index parallel and share this
     ' convention. Every loop over the board therefore runs BoardFirstIndex To BoardCellCount, and
-    ' anything that fills a board array must start writing at BoardFirstIndex. Filling from 0
-    ' instead is what used to leave cell 256 - the bottom right one - permanently unset.
+    ' anything that fills a board array must start writing at BoardFirstIndex.
     Public Const BoardWidth As Integer = 16
     Public Const BoardHeight As Integer = 16
     Public Const BoardCellCount As Integer = BoardWidth * BoardHeight
@@ -59,6 +58,11 @@ Public Module 倉庫番
     Public PushesPerformedOnCurrentLevel As Integer ' ruchy skrzynek wykonane w etapie
     Public FileName As String ' nazwa pliku etapu
 
+    ' --- Game state, as seen from the outside -------------------------------------------------
+    ' The fields above are shared with the movement code in this module. Callers outside it -
+    ' GameBoardForm in particular - use the members below, and never read or write that state
+    ' directly.
+
     ''' <remarks>
     ''' Name of the levelset currently being played. A levelset opened from a file is registered
     ''' under LevelParser.CustomLevelsetName rather than under My.Settings.LevelSet, so anything
@@ -72,6 +76,139 @@ Public Module 倉庫番
             Return My.Settings.LevelSet
         End Get
     End Property
+
+    ''' <remarks>Contents of one board cell. Out-of-range indices read as BlankOuter.</remarks>
+    Public ReadOnly Property BoardCell(ByVal cellIndex As Integer) As Integer
+        Get
+            If cellIndex < BoardFirstIndex OrElse cellIndex > BoardCellCount Then
+                Return CInt(BoardItem.BlankOuter)
+            End If
+            Return GameBoard(cellIndex)
+        End Get
+    End Property
+
+    Public ReadOnly Property CurrentPlayerLocation() As Integer
+        Get
+            Return PlayerLocation
+        End Get
+    End Property
+
+    Public ReadOnly Property CurrentLevelNumber() As Integer
+        Get
+            Return CurrentlyPlayedLevelId
+        End Get
+    End Property
+
+    Public ReadOnly Property NumberOfLevelsInCurrentLevelset() As Integer
+        Get
+            Return SizeOfCurrentLevelset
+        End Get
+    End Property
+
+    ''' <remarks>Size of any known levelset, or 0 when there is no such set.</remarks>
+    Public ReadOnly Property NumberOfLevelsIn(ByVal levelsetName As String) As Integer
+        Get
+            Dim Levelset As Levelset = LevelParser.GetLevelset(levelsetName)
+            If Levelset Is Nothing Then
+                Return 0
+            End If
+            Return Levelset.NumberOfLevels
+        End Get
+    End Property
+
+    Public ReadOnly Property MovesPerformed() As Integer
+        Get
+            Return MovesPerformedOnCurrentLevel
+        End Get
+    End Property
+
+    Public ReadOnly Property PushesPerformed() As Integer
+        Get
+            Return PushesPerformedOnCurrentLevel
+        End Get
+    End Property
+
+    Public ReadOnly Property IsPlayingCustomLevelset() As Boolean
+        Get
+            Return ExternalCustomLevel
+        End Get
+    End Property
+
+    Public ReadOnly Property CanUndo() As Boolean
+        Get
+            Return AllGameBoardStates.Count > 0
+        End Get
+    End Property
+
+    Public ReadOnly Property IsCurrentLevelSolved() As Boolean
+        Get
+            Return GameBoardDetails.IsBoardSolved(GameBoard)
+        End Get
+    End Property
+
+    Public ReadOnly Property NumberOfGoalsOnCurrentLevel() As Integer
+        Get
+            Return GameBoardDetails.GetTotalNumberOfGoalsOnBoard(GameBoard)
+        End Get
+    End Property
+
+    Public ReadOnly Property NumberOfCoveredGoalsOnCurrentLevel() As Integer
+        Get
+            Return GameBoardDetails.GetNumberOfPlacedBoxesOnBoard(GameBoard)
+        End Get
+    End Property
+
+    ''' <remarks>
+    ''' The translated name of a built-in levelset, as shown to the player. Falls back to the
+    ''' internal key when a set has no translation of its own.
+    ''' </remarks>
+    Public ReadOnly Property LocalizedLevelsetName(ByVal levelsetName As String) As String
+        Get
+            Dim Translated As String = Nothing
+
+            Select Case levelsetName
+                Case "Classic"
+                    Translated = Localizer.GetString("LevelSetClassic")
+                Case "XS"
+                    Translated = Localizer.GetString("LevelSetXS")
+            End Select
+
+            If String.IsNullOrEmpty(Translated) Then
+                Return levelsetName
+            End If
+            Return Translated
+        End Get
+    End Property
+
+    ''' <remarks>
+    ''' How the active levelset is named to the player: the file name for a set opened from disk,
+    ''' the translated set name otherwise.
+    ''' </remarks>
+    Public ReadOnly Property CurrentLevelsetDisplayName() As String
+        Get
+            If ExternalCustomLevel AndAlso Not String.IsNullOrEmpty(FileName) Then
+                Return System.IO.Path.GetFileName(FileName)
+            End If
+            Return LocalizedLevelsetName(My.Settings.LevelSet)
+        End Get
+    End Property
+
+    ''' <remarks>The window title for the whole game, built in one place.</remarks>
+    Public ReadOnly Property CurrentGameTitle() As String
+        Get
+            Return Localizer.GetString("GameName") &
+                " (" & CurrentLevelsetDisplayName & "): #" &
+                CurrentLevelNumber.ToString(System.Globalization.CultureInfo.InvariantCulture)
+        End Get
+    End Property
+
+    ''' <remarks>
+    ''' Attempts a move in the given direction, returning False when it is blocked. The entry
+    ''' point callers outside this module use to move the player.
+    ''' </remarks>
+    Public Function TryMovePlayer(ByVal moveDirection As System.Windows.Forms.Keys) As Boolean
+        Return PrzesunGracza(moveDirection)
+    End Function
 
     Public Sub ClearUndoHistory()
         AllGameBoardStates.Clear()
@@ -115,23 +252,46 @@ Public Module 倉庫番
         Return True
     End Function
 
-    Public Function LoadNextLevel() As Boolean
-        ' Progress is only recorded for the two built-in sets; a levelset opened from a file has
-        ' no persisted statistics of its own.
-        If Not ExternalCustomLevel AndAlso CurrentlyPlayedLevelId > GetArrivedLevel() Then
-            Select Case My.Settings.LevelSet
-                Case "Classic"
-                    My.Settings.ArrivedLevelKlasyczne = CurrentlyPlayedLevelId
-                    My.Settings.PushesKlasyczne += PushesPerformedOnCurrentLevel
-                    My.Settings.MovesKlasyczne += MovesPerformedOnCurrentLevel
-                Case "XS"
-                    My.Settings.ArrivedLevelSupertrudne = CurrentlyPlayedLevelId
-                    My.Settings.PushesSupertrudne += PushesPerformedOnCurrentLevel
-                    My.Settings.MovesSupertrudne += MovesPerformedOnCurrentLevel
-            End Select
+    ''' <remarks>
+    ''' Banks the moves and pushes spent on the level just completed and advances the furthest
+    ''' reached marker. Call once per solved level, including the last one of a set.
+    '''
+    ''' Progress is only kept for the two built-in sets; a levelset opened from a file has no
+    ''' persisted statistics of its own.
+    ''' </remarks>
+    Public Sub RecordProgressForSolvedLevel()
+        If ExternalCustomLevel Then
+            Exit Sub
         End If
 
-        Return LoadLevelIntoGameState(CurrentLevelsetName, CurrentlyPlayedLevelId)
+        ' The marker names the level the player has unlocked, which is the one after the level
+        ' just solved - capped at the size of the set, since there is nothing beyond it.
+        Dim UnlockedLevel As Integer = Math.Min(CurrentlyPlayedLevelId + 1, SizeOfCurrentLevelset)
+
+        Select Case My.Settings.LevelSet
+            Case "Classic"
+                My.Settings.ArrivedLevelKlasyczne =
+                    Math.Max(My.Settings.ArrivedLevelKlasyczne, UnlockedLevel)
+                My.Settings.PushesKlasyczne += PushesPerformedOnCurrentLevel
+                My.Settings.MovesKlasyczne += MovesPerformedOnCurrentLevel
+            Case "XS"
+                My.Settings.ArrivedLevelSupertrudne =
+                    Math.Max(My.Settings.ArrivedLevelSupertrudne, UnlockedLevel)
+                My.Settings.PushesSupertrudne += PushesPerformedOnCurrentLevel
+                My.Settings.MovesSupertrudne += MovesPerformedOnCurrentLevel
+        End Select
+    End Sub
+
+    ''' <remarks>
+    ''' Moves on to the level after the one just solved. Returns False when the set is finished or
+    ''' the next level cannot be loaded, leaving it to the caller to decide what happens next.
+    ''' </remarks>
+    Public Function AdvanceToNextLevel() As Boolean
+        If CurrentlyPlayedLevelId + 1 > SizeOfCurrentLevelset Then
+            Return False
+        End If
+
+        Return LoadLevelIntoGameState(CurrentLevelsetName, CurrentlyPlayedLevelId + 1)
     End Function
 
     ''' <remarks>
@@ -510,7 +670,7 @@ Public Module 倉庫番
                             Exit Function
                         Case BoardItem.PlaceForBox
                             GameBoard(targetBoxLocation - 16) = BoardItem.BoxOnPlace
-                            GameBoard(targetBoxLocation) = BoardItem.Player
+                            GameBoard(targetBoxLocation) = BoardItem.Blank
                     End Select
                 Case System.Windows.Forms.Keys.Down
                     Select Case GameBoard(targetBoxLocation + 16)
@@ -546,14 +706,78 @@ Public Module 倉庫番
     End Function
 
     ''' <remarks>
-    ''' Switches play over to the levelset most recently opened from a file, starting at its first
-    ''' level. Returns False and leaves the current game alone if that set is unusable.
+    ''' Prepares the levelsets and starts play in the set named by the settings. The one call a
+    ''' host needs to make before showing a board.
     ''' </remarks>
-    Public Function StartCustomLevelset() As Boolean
-        If Not LoadLevelIntoGameState(LevelParser.CustomLevelsetName, 1) Then
+    Public Function StartGame() As Boolean
+        LevelParser.LoadAllLevelsets()
+        Return SelectBuiltInLevelset(My.Settings.LevelSet)
+    End Function
+
+    ''' <remarks>
+    ''' Switches to one of the built-in levelsets, starting either at its first level or at the
+    ''' furthest the player has reached, according to the BeginFromArrivedLevel setting.
+    ''' </remarks>
+    Public Function SelectBuiltInLevelset(ByVal levelsetName As String) As Boolean
+        Dim PreviousLevelset As String = My.Settings.LevelSet
+        My.Settings.LevelSet = levelsetName
+
+        Dim StartingLevel As Integer = 1
+        If My.Settings.BeginFromArrivedLevel Then
+            StartingLevel = Math.Max(1, GetArrivedLevel())
+        End If
+
+        If NewGame(StartingLevel) Then
+            Return True
+        End If
+
+        ' Saved progress can point past the end of the set; the first level always exists.
+        If NewGame(1) Then
+            Return True
+        End If
+
+        My.Settings.LevelSet = PreviousLevelset
+        Return False
+    End Function
+
+    ''' <remarks>
+    ''' Reads a level file, registers it as the custom levelset and switches play over to its
+    ''' first level. Nothing about the game in progress changes unless the whole thing succeeds,
+    ''' so a bad file leaves the current level untouched.
+    ''' </remarks>
+    Public Function OpenLevelsetFromFile(ByVal levelFileName As String) As Boolean
+        Dim LevelsRead As ArrayList
+
+        Try
+            LevelsRead = LevelParser.PullAllLevels(levelFileName, True)
+        Catch ex As System.IO.IOException
+            Return False
+        Catch ex As UnauthorizedAccessException
+            Return False
+        End Try
+
+        Dim LevelsetCustom As New Levelset(LevelParser.CustomLevelsetName)
+        LevelsetCustom.AddAllLevels(LevelsRead)
+        If LevelsetCustom.NumberOfLevels < 1 Then
             Return False
         End If
 
+        Dim PreviouslyRegistered As Levelset = LevelParser.GetLevelset(LevelParser.CustomLevelsetName)
+        If PreviouslyRegistered IsNot Nothing Then
+            LevelParser.Levelsets.Remove(LevelParser.CustomLevelsetName)
+        End If
+        LevelParser.Levelsets.Add(LevelParser.CustomLevelsetName, LevelsetCustom)
+
+        ' Always starts at level 1 of the new set, whatever level the previous set was on.
+        If Not LoadLevelIntoGameState(LevelParser.CustomLevelsetName, 1) Then
+            LevelParser.Levelsets.Remove(LevelParser.CustomLevelsetName)
+            If PreviouslyRegistered IsNot Nothing Then
+                LevelParser.Levelsets.Add(LevelParser.CustomLevelsetName, PreviouslyRegistered)
+            End If
+            Return False
+        End If
+
+        FileName = levelFileName
         ExternalCustomLevel = True
         Return True
     End Function

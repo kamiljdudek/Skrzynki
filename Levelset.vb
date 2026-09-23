@@ -1,28 +1,17 @@
-﻿Public Class Levelset
+﻿' A levelset holds level data only. Progress and statistics live in My.Settings, keyed per set,
+' and are read and written there directly.
+Public Class Levelset
     Public Property Name As String
     Private ReadOnly AllLevelsInSet As System.Collections.Generic.List(Of String())
-    Public Property AchievedLevel As Integer
-    Public Property Moves As Integer
-    Public Property Pushes As Integer
 
-    ' Suppression made because CA1026 is deprecated in FxCop and Optional var will not be skipped
-#Disable Warning IDE0079 ' Remove unnecessary suppression
-    <CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")>
-    Public Sub New(levelsetNameTranslated As String, Optional isFromFile As Boolean = False)
-
+    ''' <remarks>
+    ''' Constructing a set does not switch the game over to it; that happens in
+    ''' OpenLevelsetFromFile, once the set is known to be usable.
+    ''' </remarks>
+    Public Sub New(levelsetNameTranslated As String)
         Name = levelsetNameTranslated
         AllLevelsInSet = New System.Collections.Generic.List(Of String())
-
-        ' A set loaded from a file carries no saved progress. Note that constructing one must not
-        ' switch the game over to it - that only happens once the set is known to be usable, via
-        ' StartCustomLevelset.
-        If isFromFile = True Then
-            Me.AchievedLevel = 0
-            Me.Moves = 0
-            Me.Pushes = 0
-        End If
     End Sub
-#Enable Warning IDE0079 ' Remove unnecessary suppression
 
     Sub AddLevel(ByVal boardMap() As String)
         Dim stream() As String = boardMap
@@ -92,18 +81,5 @@
             Return AllLevelsInSet.Count
         End Get
     End Property
-
-    Sub UpdateStats(ByVal upstreamMaxLevel As Integer, ByVal upstreamMoves As Integer, ByVal upstreamPushes As Integer)
-        AchievedLevel = upstreamMaxLevel
-        Moves = upstreamMoves
-        Pushes = upstreamPushes
-    End Sub
-
-    Sub Reset()
-        AchievedLevel = 0
-        Moves = 0
-        Pushes = 0
-    End Sub
-
 
 End Class
