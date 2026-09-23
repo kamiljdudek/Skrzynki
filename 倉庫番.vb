@@ -4,37 +4,44 @@
     ' |                                 autor: Karol Kuczmarski                                 |
     ' -------------------------------------------------------------------------------------------
     '
-    ' Gra logiczna
-    ' Typ: sokoban
+    ' A Sokoban puzzle. The boxes have to be arranged onto the marked places; only one box moves
+    ' at a time, and only by being pushed away from the player.
     '
-    ' Należy ułożyć skrzynki na wyznaczonych miejscach. Można poruszać tylko jedną skrzynką 
-    ' naraz, w kierunku "od siebie". Działanie gry opiera się na tablicy 256 Image'ów oraz
-    ' jej odpowiedniku w postaci jednowymiarowego arrayu o nazwie GameBoard.
-    '
-    '--------------------------------------------------------------------------------------------
+    ' The game runs on two parallel arrays: GameBoard below holds what stands on each square, and
+    ' GameBoardForm.CellPictures holds the picture showing it. BoardItem, the board dimensions and
+    ' the cell-encoding helpers live in Board.vb.
+    ' -------------------------------------------------------------------------------------------
 
-    ' BoardItem, the board dimensions and the cell-encoding helpers live in Board.vb.
-
-    ' zmienne
-    Public GameBoard(BoardCellCount) As Integer ' przechowuje aktualne ustawienie obiektów w polu gry
+    ''' <remarks>The current arrangement of everything on the playing field.</remarks>
+    Public GameBoard(BoardCellCount) As Integer
 
     ' The attempt on the level being played: every move in order, which is what Undo reverses and
-    ' what a solution is written from. The two collections below are the board snapshots the
-    ' movement code still records per move; nothing reads them any more except the debug check in
-    ' DiscardRecordedSnapshot.
+    ' what a solution is written from. The two collections after it hold one board snapshot per
+    ' move, read only by the debug check in DiscardRecordedSnapshot.
     Private ReadOnly RecordedMoves As New MoveHistory
     Private ReadOnly AllGameBoardStates As New System.Collections.ObjectModel.Collection(Of Integer())
     Private ReadOnly AllPushStates As New System.Collections.ObjectModel.Collection(Of Boolean)
-    Public PlayerLocation As Integer ' aktualna pozycja gracza
-    Public MoveHasJustBeenPerformed As Boolean ' czy gracz wykonał ruch (i czy ew. można cofnąć)
+
+    ''' <remarks>Where the player is standing, as an index into GameBoard.</remarks>
+    Public PlayerLocation As Integer
+
+    ''' <remarks>Whether the move just made pushed a box; recorded with the move.</remarks>
     Public PushHasJustBeenPerformed As Boolean
+
+    ''' <remarks>Whether the levelset being played was opened from a file.</remarks>
     Public ExternalCustomLevel As Boolean
+
     Private SizeOfCurrentLevelset As Integer
-    Public LevelCleared As Boolean ' czy etap spoza zestawu zaliczony?
-    Public CurrentlyPlayedLevelId As Integer ' numer aktualnie rozgrywanego etapu
-    Public MovesPerformedOnCurrentLevel As Integer ' ruchy wykonane w etapie
-    Public PushesPerformedOnCurrentLevel As Integer ' ruchy skrzynek wykonane w etapie
-    Public FileName As String ' nazwa pliku etapu
+
+    ''' <remarks>Number of the level being played.</remarks>
+    Public CurrentlyPlayedLevelId As Integer
+
+    ''' <remarks>Moves and pushes spent on the level being played.</remarks>
+    Public MovesPerformedOnCurrentLevel As Integer
+    Public PushesPerformedOnCurrentLevel As Integer
+
+    ''' <remarks>Path of the levelset file being played, when there is one.</remarks>
+    Public FileName As String
 
     ' --- Game state, as seen from the outside -------------------------------------------------
     ' The fields above are shared with the movement code in this module. Callers outside it -
@@ -166,58 +173,13 @@
     ''' move is written into the history that Undo and the solution text are built from.
     ''' </remarks>
     Public Function TryMovePlayer(direction As MoveDirection) As Boolean
-        Dim LocationBeforeMove As Integer = PlayerLocation
-
-        If Not PrzesunGracza(KeyFor(direction)) Then
-            Return False
-        End If
-
-        ' The player must have ended up exactly one square along. A board value the movement code
-        ' does not recognise - BlankOuter reached through a gap in a hand-made level, say - leaves
-        ' the player standing still while still reporting success, and recording that as a move
-        ' would make Undo walk them to a square they never occupied.
-        If PlayerLocation <> LocationBeforeMove + OffsetFor(direction) Then
-            MovesPerformedOnCurrentLevel -= 1
-            MoveHasJustBeenPerformed = Not RecordedMoves.IsEmpty
-            DiscardRecordedSnapshot()
+        If Not PrzesunGracza(direction) Then
             Return False
         End If
 
         RecordedMoves.Add(New MoveRecord(direction, PushHasJustBeenPerformed))
         Return True
     End Function
-
-    ''' <remarks>The cursor key the movement code expects for a direction.</remarks>
-    Private ReadOnly Property KeyFor(direction As MoveDirection) As System.Windows.Forms.Keys
-        Get
-            Select Case direction
-                Case MoveDirection.Up
-                    Return System.Windows.Forms.Keys.Up
-                Case MoveDirection.Down
-                    Return System.Windows.Forms.Keys.Down
-                Case MoveDirection.Left
-                    Return System.Windows.Forms.Keys.Left
-                Case Else
-                    Return System.Windows.Forms.Keys.Right
-            End Select
-        End Get
-    End Property
-
-    ''' <remarks>How far along the board one step in a direction moves, in cells.</remarks>
-    Private ReadOnly Property OffsetFor(direction As MoveDirection) As Integer
-        Get
-            Select Case direction
-                Case MoveDirection.Up
-                    Return -BoardWidth
-                Case MoveDirection.Down
-                    Return BoardWidth
-                Case MoveDirection.Left
-                    Return -1
-                Case Else
-                    Return 1
-            End Select
-        End Get
-    End Property
 
     Public Sub ClearUndoHistory()
         RecordedMoves.Clear()
@@ -254,9 +216,7 @@
 
         MovesPerformedOnCurrentLevel = 0
         PushesPerformedOnCurrentLevel = 0
-        MoveHasJustBeenPerformed = False
         PushHasJustBeenPerformed = False
-        LevelCleared = False
         ClearUndoHistory()
 
         Return True
@@ -397,29 +357,24 @@
         End If
 
         Dim LastMove As MoveRecord = RecordedMoves.TakeLast()
-        Dim Offset As Integer = OffsetFor(LastMove.Direction)
-        Dim CameFrom As Integer = PlayerLocation - Offset
+        Dim Player As Cell = Cell.FromIndex(PlayerLocation)
+        Dim CameFrom As Cell = Player.Neighbour(Opposite(LastMove.Direction))
 
         If LastMove.PushedBox Then
-            Dim BoxLocation As Integer = PlayerLocation + Offset
-            GameBoard(BoxLocation) = WithNothing(GameBoard(BoxLocation))
-            GameBoard(PlayerLocation) = WithBox(GameBoard(PlayerLocation))
+            ' The box is one square further along than the player, and gets pulled back with them.
+            Dim BoxCell As Cell = Player.Neighbour(LastMove.Direction)
+            GameBoard(BoxCell.Index) = WithNothing(GameBoard(BoxCell.Index))
+            GameBoard(Player.Index) = WithBox(GameBoard(Player.Index))
             PushesPerformedOnCurrentLevel -= 1
         Else
-            GameBoard(PlayerLocation) = WithNothing(GameBoard(PlayerLocation))
+            GameBoard(Player.Index) = WithNothing(GameBoard(Player.Index))
         End If
 
-        GameBoard(CameFrom) = WithPlayer(GameBoard(CameFrom))
-        PlayerLocation = CameFrom
+        GameBoard(CameFrom.Index) = WithPlayer(GameBoard(CameFrom.Index))
+        PlayerLocation = CameFrom.Index
         MovesPerformedOnCurrentLevel -= 1
 
         DiscardRecordedSnapshot()
-
-        ' Once the history is exhausted there is nothing left to undo, and the menu item that
-        ' reads this flag has to stop offering it.
-        If RecordedMoves.IsEmpty Then
-            MoveHasJustBeenPerformed = False
-        End If
     End Sub
 
     ''' <remarks>
