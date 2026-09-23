@@ -45,6 +45,12 @@ Public Module 倉庫番
 
     ' zmienne
     Public GameBoard(256) As Integer ' przechowuje aktualne ustawienie obiektów w polu gry
+
+    ' The attempt on the level being played: every move in order, which is what Undo reverses and
+    ' what a solution is written from. The two collections below are the board snapshots the
+    ' movement code still records per move; nothing reads them any more except the debug check in
+    ' DiscardRecordedSnapshot.
+    Private ReadOnly RecordedMoves As New MoveHistory
     Private ReadOnly AllGameBoardStates As New System.Collections.ObjectModel.Collection(Of Integer())
     Private ReadOnly AllPushStates As New System.Collections.ObjectModel.Collection(Of Boolean)
     Public PlayerLocation As Integer ' aktualna pozycja gracza
@@ -136,7 +142,24 @@ Public Module 倉庫番
 
     Public ReadOnly Property CanUndo() As Boolean
         Get
-            Return AllGameBoardStates.Count > 0
+            Return Not RecordedMoves.IsEmpty
+        End Get
+    End Property
+
+    ''' <remarks>
+    ''' The attempt on the current level in LURD notation - the notation Sokoban solutions are
+    ''' normally exchanged in, so this is what an exported solution consists of. Once the level is
+    ''' solved, this string is a solution to it.
+    ''' </remarks>
+    Public ReadOnly Property CurrentAttemptLurd() As String
+        Get
+            Return RecordedMoves.Lurd
+        End Get
+    End Property
+
+    Public ReadOnly Property CurrentAttemptPushCount() As Integer
+        Get
+            Return RecordedMoves.PushCount
         End Get
     End Property
 
@@ -204,16 +227,92 @@ Public Module 倉庫番
 
     ''' <remarks>
     ''' Attempts a move in the given direction, returning False when it is blocked. The entry
-    ''' point callers outside this module use to move the player.
+    ''' point callers outside this module use to move the player, and the one place a successful
+    ''' move is written into the history that Undo and the solution text are built from.
     ''' </remarks>
-    Public Function TryMovePlayer(ByVal moveDirection As System.Windows.Forms.Keys) As Boolean
-        Return PrzesunGracza(moveDirection)
+    Public Function TryMovePlayer(ByVal direction As MoveDirection) As Boolean
+        Dim LocationBeforeMove As Integer = PlayerLocation
+
+        If Not PrzesunGracza(KeyFor(direction)) Then
+            Return False
+        End If
+
+        ' The player must have ended up exactly one square along. A board value the movement code
+        ' does not recognise - BlankOuter reached through a gap in a hand-made level, say - leaves
+        ' the player standing still while still reporting success, and recording that as a move
+        ' would make Undo walk them to a square they never occupied.
+        If PlayerLocation <> LocationBeforeMove + OffsetFor(direction) Then
+            MovesPerformedOnCurrentLevel -= 1
+            MoveHasJustBeenPerformed = Not RecordedMoves.IsEmpty
+            DiscardRecordedSnapshot()
+            Return False
+        End If
+
+        RecordedMoves.Add(New MoveRecord(direction, PushHasJustBeenPerformed))
+        Return True
     End Function
 
+    ''' <remarks>The cursor key the movement code expects for a direction.</remarks>
+    Private ReadOnly Property KeyFor(ByVal direction As MoveDirection) As System.Windows.Forms.Keys
+        Get
+            Select Case direction
+                Case MoveDirection.Up
+                    Return System.Windows.Forms.Keys.Up
+                Case MoveDirection.Down
+                    Return System.Windows.Forms.Keys.Down
+                Case MoveDirection.Left
+                    Return System.Windows.Forms.Keys.Left
+                Case Else
+                    Return System.Windows.Forms.Keys.Right
+            End Select
+        End Get
+    End Property
+
+    ''' <remarks>How far along the board one step in a direction moves, in cells.</remarks>
+    Private ReadOnly Property OffsetFor(ByVal direction As MoveDirection) As Integer
+        Get
+            Select Case direction
+                Case MoveDirection.Up
+                    Return -BoardWidth
+                Case MoveDirection.Down
+                    Return BoardWidth
+                Case MoveDirection.Left
+                    Return -1
+                Case Else
+                    Return 1
+            End Select
+        End Get
+    End Property
+
     Public Sub ClearUndoHistory()
+        RecordedMoves.Clear()
         AllGameBoardStates.Clear()
         AllPushStates.Clear()
     End Sub
+
+    ' --- Reading the floor back out of a cell --------------------------------------------------
+    ' BoardItem folds two facts into one value: what the square is, and what is standing on it.
+    ' Undo has to put an occupant back onto a square without disturbing the square itself, so it
+    ' asks these three what the cell should read as once a given occupant is placed on it. The
+    ' floor is always recoverable, because each of the six occupiable values names it.
+
+    Private Function StandsOnGoal(ByVal cellValue As Integer) As Boolean
+        Return cellValue = CInt(BoardItem.PlaceForBox) OrElse
+               cellValue = CInt(BoardItem.BoxOnPlace) OrElse
+               cellValue = CInt(BoardItem.PlayerOnPlace)
+    End Function
+
+    Private Function WithPlayer(ByVal cellValue As Integer) As Integer
+        Return CInt(If(StandsOnGoal(cellValue), BoardItem.PlayerOnPlace, BoardItem.Player))
+    End Function
+
+    Private Function WithBox(ByVal cellValue As Integer) As Integer
+        Return CInt(If(StandsOnGoal(cellValue), BoardItem.BoxOnPlace, BoardItem.Box))
+    End Function
+
+    Private Function WithNothing(ByVal cellValue As Integer) As Integer
+        Return CInt(If(StandsOnGoal(cellValue), BoardItem.PlaceForBox, BoardItem.Blank))
+    End Function
 
     ''' <remarks>
     ''' Loads a level into the shared game state and resets the per-level counters. Returns False
@@ -789,26 +888,62 @@ Public Module 倉庫番
         Return True
     End Function
 
+    ''' <remarks>
+    ''' Takes back the last move by reversing it, rather than by restoring a copy of the board:
+    ''' the player steps back the way they came, and a box that was pushed is pulled back with
+    ''' them. Each square is re-encoded from the floor it already reports, so goals survive.
+    ''' </remarks>
     Public Sub Undo()
-        If (AllGameBoardStates.Count - 1) >= 0 Then
-            Array.Copy(AllGameBoardStates(AllGameBoardStates.Count - 1), GameBoard, GameBoard.Length)
-            AllGameBoardStates.RemoveAt(AllGameBoardStates.Count - 1)
-
-            PlayerLocation = GameBoardDetails.GetIndexOfPlayerOnBoard(GameBoard)
-
-            MovesPerformedOnCurrentLevel -= 1
-            If AllPushStates.Count > 0 Then
-                If AllPushStates(AllPushStates.Count - 1) Then
-                    PushesPerformedOnCurrentLevel -= 1
-                End If
-                AllPushStates.RemoveAt(AllPushStates.Count - 1)
-            End If
+        If RecordedMoves.IsEmpty Then
+            Exit Sub
         End If
+
+        Dim LastMove As MoveRecord = RecordedMoves.TakeLast()
+        Dim Offset As Integer = OffsetFor(LastMove.Direction)
+        Dim CameFrom As Integer = PlayerLocation - Offset
+
+        If LastMove.PushedBox Then
+            Dim BoxLocation As Integer = PlayerLocation + Offset
+            GameBoard(BoxLocation) = WithNothing(GameBoard(BoxLocation))
+            GameBoard(PlayerLocation) = WithBox(GameBoard(PlayerLocation))
+            PushesPerformedOnCurrentLevel -= 1
+        Else
+            GameBoard(PlayerLocation) = WithNothing(GameBoard(PlayerLocation))
+        End If
+
+        GameBoard(CameFrom) = WithPlayer(GameBoard(CameFrom))
+        PlayerLocation = CameFrom
+        MovesPerformedOnCurrentLevel -= 1
+
+        DiscardRecordedSnapshot()
 
         ' Once the history is exhausted there is nothing left to undo, and the menu item that
         ' reads this flag has to stop offering it.
-        If AllGameBoardStates.Count = 0 Then
+        If RecordedMoves.IsEmpty Then
             MoveHasJustBeenPerformed = False
+        End If
+    End Sub
+
+    ''' <remarks>
+    ''' Drops the board snapshot the movement code records alongside each move. In a debug build
+    ''' the snapshot is first compared against the board the reversal above produced, so that any
+    ''' divergence between the two is caught where it happens.
+    ''' </remarks>
+    Private Sub DiscardRecordedSnapshot()
+        If AllGameBoardStates.Count > 0 Then
+#If DEBUG Then
+            Dim Expected() As Integer = AllGameBoardStates(AllGameBoardStates.Count - 1)
+            For Index As Integer = BoardFirstIndex To BoardCellCount
+                System.Diagnostics.Debug.Assert(
+                    GameBoard(Index) = Expected(Index),
+                    "Reversing the last move produced a different board than the recorded snapshot.")
+            Next
+#End If
+            AllGameBoardStates.RemoveAt(AllGameBoardStates.Count - 1)
+        End If
+
+        If AllPushStates.Count > 0 Then
+            AllPushStates.RemoveAt(AllPushStates.Count - 1)
         End If
     End Sub
 

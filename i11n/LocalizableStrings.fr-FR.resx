@@ -288,4 +288,28 @@
   <data name="QuerySelectLevel" xml:space="preserve">
     <value />
   </data>
+  <data name="LabelLevelSolvedTitle" xml:space="preserve">
+    <value>Niveau résolu</value>
+  </data>
+  <data name="LabelSolutionLength" xml:space="preserve">
+    <value>Longueur de la solution : </value>
+  </data>
+  <data name="ButtonNextLevel" xml:space="preserve">
+    <value>&amp;Suivant</value>
+  </data>
+  <data name="ButtonRepeatLevel" xml:space="preserve">
+    <value>&amp;Recommencer</value>
+  </data>
+  <data name="ButtonSaveSolution" xml:space="preserve">
+    <value>&amp;Enregistrer la solution sous...</value>
+  </data>
+  <data name="DialogSaveSolution" xml:space="preserve">
+    <value>Enregistrer la solution</value>
+  </data>
+  <data name="DialogSolutionFileFilter" xml:space="preserve">
+    <value>Fichiers de solution (*.lurd)|*.lurd|Fichiers texte (*.txt)|*.txt|Tous les fichiers (*.*)|*.*</value>
+  </data>
+  <data name="AlertSolutionSaveFailure" xml:space="preserve">
+    <value>Impossible d'enregistrer la solution à cet emplacement.</value>
+  </data>
 </root>

@@ -200,6 +200,13 @@
     </Compile>
     <Compile Include="LevelParser.vb" />
     <Compile Include="LevelProperties.vb" />
+    <Compile Include="LevelSolvedForm.Designer.vb">
+      <DependentUpon>LevelSolvedForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="LevelSolvedForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MoveHistory.vb" />
     <Compile Include="Levelset.vb" />
     <Compile Include="levelsets\LevelsetResource.Designer.vb">
       <AutoGen>True</AutoGen>

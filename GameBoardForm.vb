@@ -142,16 +142,36 @@ Public Class GameBoardForm
     End Sub
 
 
+    ''' <remarks>
+    ''' Which cursor key means which direction is a property of the input device, so the mapping
+    ''' lives here rather than in the game itself.
+    ''' </remarks>
+    Private Shared Function TryGetMoveDirection(ByVal pressedKey As Keys,
+                                                ByRef direction As MoveDirection) As Boolean
+        Select Case pressedKey
+            Case Keys.Up
+                direction = MoveDirection.Up
+            Case Keys.Down
+                direction = MoveDirection.Down
+            Case Keys.Left
+                direction = MoveDirection.Left
+            Case Keys.Right
+                direction = MoveDirection.Right
+            Case Else
+                Return False
+        End Select
+
+        Return True
+    End Function
+
     Private Sub FrmMain_KeyDown(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-        Dim KeyCode As Windows.Forms.Keys = eventArgs.KeyCode
-        If KeyCode <> System.Windows.Forms.Keys.Left AndAlso
-           KeyCode <> System.Windows.Forms.Keys.Right AndAlso
-           KeyCode <> System.Windows.Forms.Keys.Up AndAlso
-           KeyCode <> System.Windows.Forms.Keys.Down Then
+        Dim Direction As MoveDirection
+
+        If Not TryGetMoveDirection(eventArgs.KeyCode, Direction) Then
             Exit Sub
         End If
 
-        If Not TryMovePlayer(KeyCode) Then
+        If Not TryMovePlayer(Direction) Then
             Interaction.Beep()
             Exit Sub
         End If
@@ -175,13 +195,13 @@ Public Class GameBoardForm
             ' Banked before advancing, for every solved level including the last one of a set.
             RecordProgressForSolvedLevel()
 
-            MsgBox(Localizer.GetString("AlertLevelSolved"),
-                   MsgBoxStyle.OkOnly Or
-                   MsgBoxStyle.Information Or
-                   MsgBoxStyle.ApplicationModal,
-                   System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            ' Read before the level changes: advancing and restarting both clear the history the
+            ' solution is written from.
+            Dim Choice As LevelSolvedChoice = AskWhatToDoNext()
 
-            If Not AdvanceToNextLevel() Then
+            If Choice = LevelSolvedChoice.RepeatLevel Then
+                RestartLevel()
+            ElseIf Not AdvanceToNextLevel() Then
                 MsgBox(Localizer.GetString("AlertAllLevelsSolved"),
                        MsgBoxStyle.OkOnly Or
                        MsgBoxStyle.Information Or
@@ -199,6 +219,23 @@ Public Class GameBoardForm
             Call RefreshStatusBar()
         End While
     End Sub
+
+    ''' <remarks>
+    ''' Shows the solved-level dialog and returns what the player picked. The dialog is created
+    ''' fresh each time so that it carries the solution for the level just finished.
+    ''' </remarks>
+    Private Function AskWhatToDoNext() As LevelSolvedChoice
+        Using Solved As New LevelSolvedForm()
+            Solved.PresentSolvedLevel(CurrentAttemptLurd,
+                                      MovesPerformed,
+                                      PushesPerformed,
+                                      CurrentLevelsetDisplayName,
+                                      CurrentLevelNumber)
+            Solved.ShowDialog(Me)
+
+            Return Solved.Choice
+        End Using
+    End Function
 
 
     ''' <remarks>
