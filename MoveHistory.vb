@@ -1,4 +1,4 @@
-''' <remarks>
+﻿''' <remarks>
 ''' A direction of travel on the board, independent of whatever input device asked for it.
 ''' </remarks>
 Public Enum MoveDirection
@@ -19,7 +19,7 @@ Public Structure MoveRecord
     Private ReadOnly RecordedDirection As MoveDirection
     Private ReadOnly RecordedPush As Boolean
 
-    Public Sub New(ByVal direction As MoveDirection, ByVal pushedBox As Boolean)
+    Public Sub New(direction As MoveDirection, pushedBox As Boolean)
         RecordedDirection = direction
         RecordedPush = pushedBox
     End Sub
@@ -67,7 +67,7 @@ Public Structure MoveRecord
     ''' Reads one LURD character back into a move, or Nothing for any other character, so that
     ''' whitespace and annotations in a stored solution can be skipped by the caller.
     ''' </remarks>
-    Public Shared Function FromLurdCharacter(ByVal lurdCharacter As Char) As MoveRecord?
+    Public Shared Function FromLurdCharacter(lurdCharacter As Char) As MoveRecord?
         Dim PushedBox As Boolean = Char.IsUpper(lurdCharacter)
 
         Select Case Char.ToLowerInvariant(lurdCharacter)
@@ -84,7 +84,7 @@ Public Structure MoveRecord
         End Select
     End Function
 
-    Public Overrides Function Equals(ByVal obj As Object) As Boolean
+    Public Overrides Function Equals(obj As Object) As Boolean
         If TypeOf obj Is MoveRecord Then
             Return Equals(CType(obj, MoveRecord))
         End If
@@ -92,7 +92,7 @@ Public Structure MoveRecord
         Return False
     End Function
 
-    Public Overloads Function Equals(ByVal other As MoveRecord) As Boolean _
+    Public Overloads Function Equals(other As MoveRecord) As Boolean _
         Implements IEquatable(Of MoveRecord).Equals
         Return RecordedDirection = other.RecordedDirection AndAlso RecordedPush = other.RecordedPush
     End Function
@@ -101,11 +101,11 @@ Public Structure MoveRecord
         Return (CInt(RecordedDirection) << 1) Or If(RecordedPush, 1, 0)
     End Function
 
-    Public Shared Operator =(ByVal left As MoveRecord, ByVal right As MoveRecord) As Boolean
+    Public Shared Operator =(left As MoveRecord, right As MoveRecord) As Boolean
         Return left.Equals(right)
     End Operator
 
-    Public Shared Operator <>(ByVal left As MoveRecord, ByVal right As MoveRecord) As Boolean
+    Public Shared Operator <>(left As MoveRecord, right As MoveRecord) As Boolean
         Return Not left.Equals(right)
     End Operator
 End Structure
@@ -157,7 +157,7 @@ Public Class MoveHistory
         End Get
     End Property
 
-    Public Sub Add(ByVal recordedMove As MoveRecord)
+    Public Sub Add(recordedMove As MoveRecord)
         RecordedMoves.Add(recordedMove)
     End Sub
 

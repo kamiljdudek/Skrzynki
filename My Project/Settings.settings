@@ -8,22 +8,22 @@
     <Setting Name="Skin" Type="System.String" Scope="User">
       <Value Profile="(Default)">(Oryginalny)</Value>
     </Setting>
-    <Setting Name="ArrivedLevelKlasyczne" Type="System.Int32" Scope="User">
+    <Setting Name="ClassicArrivedLevel" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="ArrivedLevelSupertrudne" Type="System.Int32" Scope="User">
+    <Setting Name="ExtraDifficultArrivedLevel" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="MovesKlasyczne" Type="System.Int32" Scope="User">
+    <Setting Name="ClassicMoves" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="MovesSupertrudne" Type="System.Int32" Scope="User">
+    <Setting Name="ExtraDifficultMoves" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="PushesKlasyczne" Type="System.Int32" Scope="User">
+    <Setting Name="ClassicPushes" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="PushesSupertrudne" Type="System.Int32" Scope="User">
+    <Setting Name="ExtraDifficultPushes" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="LevelSet" Type="System.String" Scope="User">
@@ -38,8 +38,10 @@
     <Setting Name="LevelLoadConfirmation" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="BackgroundColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">64, 64, 64</Value>
+    <Setting Name="LegacyProgressMigrated" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="BackgroundColor" Type="System.Drawing.Color" Scope="User">      <Value Profile="(Default)">64, 64, 64</Value>
     </Setting>
   </Settings>
 </SettingsFile>

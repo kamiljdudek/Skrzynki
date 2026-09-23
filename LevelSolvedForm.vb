@@ -1,4 +1,4 @@
-Imports System.Globalization
+﻿Imports System.Globalization
 
 ''' <remarks>What the player chose to do after solving a level.</remarks>
 Public Enum LevelSolvedChoice
@@ -25,11 +25,11 @@ Public Class LevelSolvedForm
     ''' Hands the dialog everything it displays and saves. The solution has to be captured before
     ''' the level is advanced or restarted, because both clear the move history it comes from.
     ''' </remarks>
-    Public Sub PresentSolvedLevel(ByVal solution As String,
-                                  ByVal movesPerformed As Integer,
-                                  ByVal pushesPerformed As Integer,
-                                  ByVal levelsetName As String,
-                                  ByVal levelNumber As Integer)
+    Public Sub PresentSolvedLevel(solution As String,
+                                  movesPerformed As Integer,
+                                  pushesPerformed As Integer,
+                                  levelsetName As String,
+                                  levelNumber As Integer)
         SolutionLurd = If(solution, String.Empty)
         SuggestedFileName = BuildFileName(levelsetName, levelNumber)
 
@@ -48,8 +48,8 @@ Public Class LevelSolvedForm
     ''' A file name the player will recognise: the levelset and the level number, with anything
     ''' the file system would reject taken out.
     ''' </remarks>
-    Private Shared Function BuildFileName(ByVal levelsetName As String,
-                                          ByVal levelNumber As Integer) As String
+    Private Shared Function BuildFileName(levelsetName As String,
+                                          levelNumber As Integer) As String
         Dim Cleaned As New System.Text.StringBuilder()
 
         ' A set opened from a file is named after that file, extension and all; only the stem of

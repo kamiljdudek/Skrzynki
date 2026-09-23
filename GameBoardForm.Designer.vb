@@ -1,4 +1,4 @@
-<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class GameBoardForm
     Inherits System.Windows.Forms.Form
 
@@ -30,7 +30,7 @@ Partial Class GameBoardForm
         Me.MenuitemLevelsetClassic = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemLevelsetXS = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ZPlikuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuitemOpenLevelFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemSelectLevel = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuitemQuit = New System.Windows.Forms.ToolStripMenuItem()
@@ -83,7 +83,7 @@ Partial Class GameBoardForm
         '
         'MenuitemLevelset
         '
-        Me.MenuitemLevelset.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemLevelsetClassic, Me.MenuitemLevelsetXS, Me.ToolStripSeparator5, Me.ZPlikuToolStripMenuItem})
+        Me.MenuitemLevelset.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemLevelsetClassic, Me.MenuitemLevelsetXS, Me.ToolStripSeparator5, Me.MenuitemOpenLevelFile})
         Me.MenuitemLevelset.Name = "MenuitemLevelset"
         Me.MenuitemLevelset.Size = New System.Drawing.Size(109, 22)
         '
@@ -102,11 +102,11 @@ Partial Class GameBoardForm
         Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
         Me.ToolStripSeparator5.Size = New System.Drawing.Size(107, 6)
         '
-        'ZPlikuToolStripMenuItem
+        'MenuitemOpenLevelFile
         '
-        Me.ZPlikuToolStripMenuItem.Name = "ZPlikuToolStripMenuItem"
-        Me.ZPlikuToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.ZPlikuToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
+        Me.MenuitemOpenLevelFile.Name = "MenuitemOpenLevelFile"
+        Me.MenuitemOpenLevelFile.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
+        Me.MenuitemOpenLevelFile.Size = New System.Drawing.Size(110, 22)
         '
         'MenuitemSelectLevel
         '
@@ -345,6 +345,6 @@ Partial Class GameBoardForm
     Friend WithEvents ColorDialog1 As ColorDialog
     Friend WithEvents MenuitemConfirmRestarts As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
-    Friend WithEvents ZPlikuToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MenuitemOpenLevelFile As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator5 As ToolStripSeparator
 End Class

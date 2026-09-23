@@ -81,72 +81,72 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
-        Public Property ArrivedLevelKlasyczne() As Integer
+        Public Property ClassicArrivedLevel() As Integer
             Get
-                Return CType(Me("ArrivedLevelKlasyczne"),Integer)
+                Return CType(Me("ClassicArrivedLevel"),Integer)
             End Get
             Set
-                Me("ArrivedLevelKlasyczne") = value
+                Me("ClassicArrivedLevel") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
-        Public Property ArrivedLevelSupertrudne() As Integer
+        Public Property ExtraDifficultArrivedLevel() As Integer
             Get
-                Return CType(Me("ArrivedLevelSupertrudne"),Integer)
+                Return CType(Me("ExtraDifficultArrivedLevel"),Integer)
             End Get
             Set
-                Me("ArrivedLevelSupertrudne") = value
+                Me("ExtraDifficultArrivedLevel") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
-        Public Property MovesKlasyczne() As Integer
+        Public Property ClassicMoves() As Integer
             Get
-                Return CType(Me("MovesKlasyczne"),Integer)
+                Return CType(Me("ClassicMoves"),Integer)
             End Get
             Set
-                Me("MovesKlasyczne") = value
+                Me("ClassicMoves") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
-        Public Property MovesSupertrudne() As Integer
+        Public Property ExtraDifficultMoves() As Integer
             Get
-                Return CType(Me("MovesSupertrudne"),Integer)
+                Return CType(Me("ExtraDifficultMoves"),Integer)
             End Get
             Set
-                Me("MovesSupertrudne") = value
+                Me("ExtraDifficultMoves") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
-        Public Property PushesKlasyczne() As Integer
+        Public Property ClassicPushes() As Integer
             Get
-                Return CType(Me("PushesKlasyczne"),Integer)
+                Return CType(Me("ClassicPushes"),Integer)
             End Get
             Set
-                Me("PushesKlasyczne") = value
+                Me("ClassicPushes") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
-        Public Property PushesSupertrudne() As Integer
+        Public Property ExtraDifficultPushes() As Integer
             Get
-                Return CType(Me("PushesSupertrudne"),Integer)
+                Return CType(Me("ExtraDifficultPushes"),Integer)
             End Get
             Set
-                Me("PushesSupertrudne") = value
+                Me("ExtraDifficultPushes") = value
             End Set
         End Property
         
@@ -183,6 +183,18 @@ Namespace My
             End Get
             Set
                 Me("LevelRestartingAuthorization") = value
+            End Set
+        End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property LegacyProgressMigrated() As Boolean
+            Get
+                Return CType(Me("LegacyProgressMigrated"),Boolean)
+            End Get
+            Set
+                Me("LegacyProgressMigrated") = value
             End Set
         End Property
         

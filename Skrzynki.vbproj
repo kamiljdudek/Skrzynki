@@ -158,6 +158,9 @@
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
+    <Reference Include="System.Configuration">
+      <Name>System.Configuration</Name>
+    </Reference>
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
@@ -175,6 +178,7 @@
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
     <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
     <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
     <Import Include="System.Drawing" />
@@ -198,8 +202,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LocalizableStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Board.vb" />
     <Compile Include="LevelParser.vb" />
-    <Compile Include="LevelProperties.vb" />
+    <Compile Include="LevelsetLibrary.vb" />
+    <Compile Include="Localization.vb" />
+    <Compile Include="ProgressStore.vb" />
+    <Compile Include="Przesuwanie.vb" />
     <Compile Include="LevelSolvedForm.Designer.vb">
       <DependentUpon>LevelSolvedForm.vb</DependentUpon>
     </Compile>

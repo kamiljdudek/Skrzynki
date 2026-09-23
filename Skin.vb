@@ -1,4 +1,4 @@
-Module Skin
+﻿Module Skin
     ' One bitmap per BoardItem per skin, built once on first use and reused from then on. GetIcon
     ' runs for all BoardCellCount cells on every full board refresh, so converting the icons each
     ' time would allocate a Bitmap - and leak a GDI handle - per cell per refresh. The cache is
@@ -9,7 +9,7 @@ Module Skin
     Private Const SkinCheese As String = "Serowy"
     Private Const SkinExport As String = "Eksport"
 
-    Private Function LoadSkin(ByVal skinName As String) As System.Drawing.Bitmap()
+    Private Function LoadSkin(skinName As String) As System.Drawing.Bitmap()
         Dim Icons() As System.Drawing.Icon
 
         Select Case skinName
@@ -54,7 +54,7 @@ Module Skin
     ''' Bitmap for a board item under the currently selected skin. The returned bitmap is shared
     ''' and owned by this cache - callers must not dispose it.
     ''' </remarks>
-    Public Function GetIcon(ByVal Id As Integer) As System.Drawing.Bitmap
+    Public Function GetIcon(Id As Integer) As System.Drawing.Bitmap
         Dim SkinName As String = My.Settings.Skin
         If String.IsNullOrEmpty(SkinName) Then
             SkinName = SkinOriginal

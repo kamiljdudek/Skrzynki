@@ -1,4 +1,4 @@
-Public Module 倉庫番
+﻿Partial Public Module 倉庫番
     ' -------------------------------------------------------------------------------------------
     ' |                                         SKRZYNKI                                        |
     ' |                                 autor: Karol Kuczmarski                                 |
@@ -13,38 +13,10 @@ Public Module 倉庫番
     '
     '--------------------------------------------------------------------------------------------
 
-    Enum BoardItem
-        Blank = 0
-        Wall = 1
-        Box = 2
-        PlaceForBox = 3
-        BoxOnPlace = 4
-        Player = 5
-        PlayerOnPlace = 6
-        BlankOuter = 7
-    End Enum
-
-    ' This is a public localizer created to translate the UI on the fly.
-    <CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2211:NonConstantFieldsShouldNotBeVisible")>
-    Public Localizer As New System.Resources.ResourceManager("Skrzynki.LocalizableStrings", System.Reflection.Assembly.GetExecutingAssembly())
-
-    ' --- Board indexing convention ----------------------------------------------------------
-    ' The playing field is a fixed 16x16 grid held in a flat array. Cells occupy indices
-    ' BoardFirstIndex (1) through BoardCellCount (256); index 0 exists only because VB declares
-    ' arrays by upper bound, and is never read, written or drawn.
-    '
-    ' Row r and column c (both 0-based) live at index r * BoardWidth + c + 1.
-    '
-    ' GameBoard below and GameBoardForm.imgGameField are index-for-index parallel and share this
-    ' convention. Every loop over the board therefore runs BoardFirstIndex To BoardCellCount, and
-    ' anything that fills a board array must start writing at BoardFirstIndex.
-    Public Const BoardWidth As Integer = 16
-    Public Const BoardHeight As Integer = 16
-    Public Const BoardCellCount As Integer = BoardWidth * BoardHeight
-    Public Const BoardFirstIndex As Integer = 1
+    ' BoardItem, the board dimensions and the cell-encoding helpers live in Board.vb.
 
     ' zmienne
-    Public GameBoard(256) As Integer ' przechowuje aktualne ustawienie obiektów w polu gry
+    Public GameBoard(BoardCellCount) As Integer ' przechowuje aktualne ustawienie obiektów w polu gry
 
     ' The attempt on the level being played: every move in order, which is what Undo reverses and
     ' what a solution is written from. The two collections below are the board snapshots the
@@ -71,22 +43,22 @@ Public Module 倉庫番
 
     ''' <remarks>
     ''' Name of the levelset currently being played. A levelset opened from a file is registered
-    ''' under LevelParser.CustomLevelsetName rather than under My.Settings.LevelSet, so anything
+    ''' under LevelsetLibrary.CustomLevelsetName rather than under My.Settings.LevelSet, so anything
     ''' that needs to reach for the active set has to ask here instead of reading the setting.
     ''' </remarks>
     Public ReadOnly Property CurrentLevelsetName() As String
         Get
             If ExternalCustomLevel Then
-                Return LevelParser.CustomLevelsetName
+                Return LevelsetLibrary.CustomLevelsetName
             End If
             Return My.Settings.LevelSet
         End Get
     End Property
 
     ''' <remarks>Contents of one board cell. Out-of-range indices read as BlankOuter.</remarks>
-    Public ReadOnly Property BoardCell(ByVal cellIndex As Integer) As Integer
+    Public ReadOnly Property BoardCell(cellIndex As Integer) As Integer
         Get
-            If cellIndex < BoardFirstIndex OrElse cellIndex > BoardCellCount Then
+            If Not IsOnBoard(cellIndex) Then
                 Return CInt(BoardItem.BlankOuter)
             End If
             Return GameBoard(cellIndex)
@@ -112,9 +84,9 @@ Public Module 倉庫番
     End Property
 
     ''' <remarks>Size of any known levelset, or 0 when there is no such set.</remarks>
-    Public ReadOnly Property NumberOfLevelsIn(ByVal levelsetName As String) As Integer
+    Public ReadOnly Property NumberOfLevelsIn(levelsetName As String) As Integer
         Get
-            Dim Levelset As Levelset = LevelParser.GetLevelset(levelsetName)
+            Dim Levelset As Levelset = LevelsetLibrary.GetLevelset(levelsetName)
             If Levelset Is Nothing Then
                 Return 0
             End If
@@ -181,47 +153,10 @@ Public Module 倉庫番
         End Get
     End Property
 
-    ''' <remarks>
-    ''' The translated name of a built-in levelset, as shown to the player. Falls back to the
-    ''' internal key when a set has no translation of its own.
-    ''' </remarks>
-    Public ReadOnly Property LocalizedLevelsetName(ByVal levelsetName As String) As String
+    ''' <remarks>Path of the levelset file currently open, if the game is playing one.</remarks>
+    Public ReadOnly Property CustomLevelsetFileName() As String
         Get
-            Dim Translated As String = Nothing
-
-            Select Case levelsetName
-                Case "Classic"
-                    Translated = Localizer.GetString("LevelSetClassic")
-                Case "XS"
-                    Translated = Localizer.GetString("LevelSetXS")
-            End Select
-
-            If String.IsNullOrEmpty(Translated) Then
-                Return levelsetName
-            End If
-            Return Translated
-        End Get
-    End Property
-
-    ''' <remarks>
-    ''' How the active levelset is named to the player: the file name for a set opened from disk,
-    ''' the translated set name otherwise.
-    ''' </remarks>
-    Public ReadOnly Property CurrentLevelsetDisplayName() As String
-        Get
-            If ExternalCustomLevel AndAlso Not String.IsNullOrEmpty(FileName) Then
-                Return System.IO.Path.GetFileName(FileName)
-            End If
-            Return LocalizedLevelsetName(My.Settings.LevelSet)
-        End Get
-    End Property
-
-    ''' <remarks>The window title for the whole game, built in one place.</remarks>
-    Public ReadOnly Property CurrentGameTitle() As String
-        Get
-            Return Localizer.GetString("GameName") &
-                " (" & CurrentLevelsetDisplayName & "): #" &
-                CurrentLevelNumber.ToString(System.Globalization.CultureInfo.InvariantCulture)
+            Return FileName
         End Get
     End Property
 
@@ -230,7 +165,7 @@ Public Module 倉庫番
     ''' point callers outside this module use to move the player, and the one place a successful
     ''' move is written into the history that Undo and the solution text are built from.
     ''' </remarks>
-    Public Function TryMovePlayer(ByVal direction As MoveDirection) As Boolean
+    Public Function TryMovePlayer(direction As MoveDirection) As Boolean
         Dim LocationBeforeMove As Integer = PlayerLocation
 
         If Not PrzesunGracza(KeyFor(direction)) Then
@@ -253,7 +188,7 @@ Public Module 倉庫番
     End Function
 
     ''' <remarks>The cursor key the movement code expects for a direction.</remarks>
-    Private ReadOnly Property KeyFor(ByVal direction As MoveDirection) As System.Windows.Forms.Keys
+    Private ReadOnly Property KeyFor(direction As MoveDirection) As System.Windows.Forms.Keys
         Get
             Select Case direction
                 Case MoveDirection.Up
@@ -269,7 +204,7 @@ Public Module 倉庫番
     End Property
 
     ''' <remarks>How far along the board one step in a direction moves, in cells.</remarks>
-    Private ReadOnly Property OffsetFor(ByVal direction As MoveDirection) As Integer
+    Private ReadOnly Property OffsetFor(direction As MoveDirection) As Integer
         Get
             Select Case direction
                 Case MoveDirection.Up
@@ -290,38 +225,14 @@ Public Module 倉庫番
         AllPushStates.Clear()
     End Sub
 
-    ' --- Reading the floor back out of a cell --------------------------------------------------
-    ' BoardItem folds two facts into one value: what the square is, and what is standing on it.
-    ' Undo has to put an occupant back onto a square without disturbing the square itself, so it
-    ' asks these three what the cell should read as once a given occupant is placed on it. The
-    ' floor is always recoverable, because each of the six occupiable values names it.
-
-    Private Function StandsOnGoal(ByVal cellValue As Integer) As Boolean
-        Return cellValue = CInt(BoardItem.PlaceForBox) OrElse
-               cellValue = CInt(BoardItem.BoxOnPlace) OrElse
-               cellValue = CInt(BoardItem.PlayerOnPlace)
-    End Function
-
-    Private Function WithPlayer(ByVal cellValue As Integer) As Integer
-        Return CInt(If(StandsOnGoal(cellValue), BoardItem.PlayerOnPlace, BoardItem.Player))
-    End Function
-
-    Private Function WithBox(ByVal cellValue As Integer) As Integer
-        Return CInt(If(StandsOnGoal(cellValue), BoardItem.BoxOnPlace, BoardItem.Box))
-    End Function
-
-    Private Function WithNothing(ByVal cellValue As Integer) As Integer
-        Return CInt(If(StandsOnGoal(cellValue), BoardItem.PlaceForBox, BoardItem.Blank))
-    End Function
-
     ''' <remarks>
     ''' Loads a level into the shared game state and resets the per-level counters. Returns False
     ''' without touching any state when the levelset is missing, the level number is out of range,
     ''' or the level has no player on it - so callers can report the failure rather than crash on
     ''' a bad index later on.
     ''' </remarks>
-    Private Function LoadLevelIntoGameState(ByVal levelsetName As String, ByVal levelId As Integer) As Boolean
-        Dim Levelset As Levelset = LevelParser.GetLevelset(levelsetName)
+    Private Function LoadLevelIntoGameState(levelsetName As String, levelId As Integer) As Boolean
+        Dim Levelset As Levelset = LevelsetLibrary.GetLevelset(levelsetName)
         If Levelset Is Nothing Then
             Return False
         End If
@@ -371,21 +282,10 @@ Public Module 倉庫番
             Exit Sub
         End If
 
-        Dim UnlockedLevel As Integer = CurrentlyPlayedLevelId + 1
-        If UnlockedLevel <= GetArrivedLevel() Then
-            Exit Sub
-        End If
-
-        Select Case My.Settings.LevelSet
-            Case "Classic"
-                My.Settings.ArrivedLevelKlasyczne = UnlockedLevel
-                My.Settings.PushesKlasyczne += PushesPerformedOnCurrentLevel
-                My.Settings.MovesKlasyczne += MovesPerformedOnCurrentLevel
-            Case "XS"
-                My.Settings.ArrivedLevelSupertrudne = UnlockedLevel
-                My.Settings.PushesSupertrudne += PushesPerformedOnCurrentLevel
-                My.Settings.MovesSupertrudne += MovesPerformedOnCurrentLevel
-        End Select
+        ProgressStore.RecordSolvedLevel(My.Settings.LevelSet,
+                                        CurrentlyPlayedLevelId + 1,
+                                        MovesPerformedOnCurrentLevel,
+                                        PushesPerformedOnCurrentLevel)
     End Sub
 
     ''' <remarks>
@@ -399,410 +299,7 @@ Public Module 倉庫番
 
         Return LoadLevelIntoGameState(CurrentLevelsetName, CurrentlyPlayedLevelId + 1)
     End Function
-
-    ''' <remarks>
-    ''' Function PrzesunGracza: używana, kiedy gracz wciśnie klawisz kursora; zwraca True, jeśli
-    ''' przesunięcie jest możliwe (jednocześnie je wykonuje); kierunek jestokreślony parametrem moveDirection
-    ''' </remarks>
-    Public Function PrzesunGracza(ByVal moveDirection As System.Windows.Forms.Keys) As Boolean
-        If LevelCleared Then
-            PrzesunGracza = False
-            Exit Function
-        End If
-
-        PushHasJustBeenPerformed = False
-        Dim StateBeforeMove(256) As Integer
-        Array.Copy(GameBoard, StateBeforeMove, GameBoard.Length)
-
-        Select Case moveDirection
-            Case System.Windows.Forms.Keys.Left
-                Select Case GameBoard(PlayerLocation - 1)
-                    Case BoardItem.Blank
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation - 1) = BoardItem.Player
-                        PlayerLocation -= 1
-                    Case BoardItem.Wall
-                        PrzesunGracza = False
-                        Exit Function
-                    Case BoardItem.Box
-                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Left, PlayerLocation - 1, False) = False Then
-                            PrzesunGracza = False
-                            Exit Function
-                        End If
-
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation - 1) = BoardItem.Player
-                        PlayerLocation -= 1
-
-                        PushesPerformedOnCurrentLevel += 1
-                    Case BoardItem.PlaceForBox
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation - 1) = BoardItem.PlayerOnPlace
-                        PlayerLocation -= 1
-                    Case BoardItem.BoxOnPlace
-                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Left, PlayerLocation - 1, True) = False Then
-                            PrzesunGracza = False
-                            Exit Function
-                        End If
-
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation - 1) = BoardItem.PlayerOnPlace
-                        PlayerLocation -= 1
-
-                        PushesPerformedOnCurrentLevel += 1
-                End Select
-            Case System.Windows.Forms.Keys.Right
-                Select Case GameBoard(PlayerLocation + 1)
-                    Case BoardItem.Blank
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation + 1) = BoardItem.Player
-                        PlayerLocation += 1
-                    Case BoardItem.Wall
-                        PrzesunGracza = False
-                        Exit Function
-                    Case BoardItem.Box
-                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Right, PlayerLocation + 1, False) = False Then
-                            PrzesunGracza = False
-                            Exit Function
-                        End If
-
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation + 1) = BoardItem.Player
-                        PlayerLocation += 1
-
-                        PushesPerformedOnCurrentLevel += 1
-                    Case BoardItem.PlaceForBox
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation + 1) = BoardItem.PlayerOnPlace
-                        PlayerLocation += 1
-                    Case BoardItem.BoxOnPlace
-                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Right, PlayerLocation + 1, True) = False Then
-                            PrzesunGracza = False
-                            Exit Function
-                        End If
-
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation + 1) = BoardItem.PlayerOnPlace
-                        PlayerLocation += 1
-
-                        PushesPerformedOnCurrentLevel += 1
-                End Select
-            Case System.Windows.Forms.Keys.Up
-                Select Case GameBoard(PlayerLocation - 16)
-                    Case BoardItem.Blank
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation - 16) = BoardItem.Player
-                        PlayerLocation -= 16
-                    Case BoardItem.Wall
-                        PrzesunGracza = False
-                        Exit Function
-                    Case BoardItem.Box
-                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Up, PlayerLocation - 16, False) = False Then
-                            PrzesunGracza = False
-                            Exit Function
-                        End If
-
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation - 16) = BoardItem.Player
-                        PlayerLocation -= 16
-
-                        PushesPerformedOnCurrentLevel += 1
-                    Case BoardItem.PlaceForBox
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation - 16) = BoardItem.PlayerOnPlace
-                        PlayerLocation -= 16
-                    Case BoardItem.BoxOnPlace
-                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Up, PlayerLocation - 16, True) = False Then
-                            PrzesunGracza = False
-                            Exit Function
-                        End If
-
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation - 16) = BoardItem.PlayerOnPlace
-                        PlayerLocation -= 16
-
-                        PushesPerformedOnCurrentLevel += 1
-                End Select
-            Case System.Windows.Forms.Keys.Down
-                Select Case GameBoard(PlayerLocation + 16)
-                    Case BoardItem.Blank
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation + 16) = BoardItem.Player
-                        PlayerLocation += 16
-                    Case BoardItem.Wall
-                        PrzesunGracza = False
-                        Exit Function
-                    Case BoardItem.Box
-                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Down, PlayerLocation + 16, False) = False Then
-                            PrzesunGracza = False
-                            Exit Function
-                        End If
-
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation + 16) = BoardItem.Player
-                        PlayerLocation += 16
-
-                        PushesPerformedOnCurrentLevel += 1
-                    Case BoardItem.PlaceForBox
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation + 16) = BoardItem.PlayerOnPlace
-                        PlayerLocation += 16
-                    Case BoardItem.BoxOnPlace
-                        If PrzesunSkrzynke(System.Windows.Forms.Keys.Down, PlayerLocation + 16, True) = False Then
-                            PrzesunGracza = False
-                            Exit Function
-                        End If
-
-                        If GameBoard(PlayerLocation) = BoardItem.PlayerOnPlace Then
-                            GameBoard(PlayerLocation) = BoardItem.PlaceForBox
-                        Else
-                            GameBoard(PlayerLocation) = BoardItem.Blank
-                        End If
-
-                        GameBoard(PlayerLocation + 16) = BoardItem.PlayerOnPlace
-                        PlayerLocation += 16
-
-                        PushesPerformedOnCurrentLevel += 1
-                End Select
-        End Select
-
-        AllGameBoardStates.Add(StateBeforeMove)
-        AllPushStates.Add(PushHasJustBeenPerformed)
-        MoveHasJustBeenPerformed = True
-        MovesPerformedOnCurrentLevel += 1
-        PrzesunGracza = True
-    End Function
-
-    ''' <remarks>
-    ''' Function PrzesunSkrzynke: czy można przesunąć skrzynkę na drodze gracza? (parametry: Kierunek
-    ''' określa kierunek przesunięcia, PozycjaSkrzynki - którą skrzynkę należy przesunąć, zaś ZMiejsca
-    ''' - czy skrzynka ta jest lub nie jest na miejscu
-    ''' </remarks>
-    Public Function PrzesunSkrzynke(ByVal moveDirection As System.Windows.Forms.Keys, ByVal targetBoxLocation As Integer, ByVal fromProperlyPlacedLocation As Boolean) As Boolean
-        PushHasJustBeenPerformed = False
-        If fromProperlyPlacedLocation = True Then
-            Select Case moveDirection
-                Case System.Windows.Forms.Keys.Left
-                    Select Case GameBoard(targetBoxLocation - 1)
-                        Case BoardItem.Blank
-                            GameBoard(targetBoxLocation - 1) = BoardItem.Box
-                        Case BoardItem.Wall
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.Box
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.BoxOnPlace
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.PlaceForBox
-                            GameBoard(targetBoxLocation - 1) = BoardItem.BoxOnPlace
-                    End Select
-                Case System.Windows.Forms.Keys.Right
-                    Select Case GameBoard(targetBoxLocation + 1)
-                        Case BoardItem.Blank
-                            GameBoard(targetBoxLocation + 1) = BoardItem.Box
-                        Case BoardItem.Wall
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.Box
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.BoxOnPlace
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.PlaceForBox
-                            GameBoard(targetBoxLocation + 1) = BoardItem.BoxOnPlace
-                    End Select
-                Case System.Windows.Forms.Keys.Up
-                    Select Case GameBoard(targetBoxLocation - 16)
-                        Case BoardItem.Blank
-                            GameBoard(targetBoxLocation - 16) = BoardItem.Box
-                        Case BoardItem.Wall
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.Box
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.BoxOnPlace
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.PlaceForBox
-                            GameBoard(targetBoxLocation - 16) = BoardItem.BoxOnPlace
-                    End Select
-                Case System.Windows.Forms.Keys.Down
-                    Select Case GameBoard(targetBoxLocation + 16)
-                        Case BoardItem.Blank
-                            GameBoard(targetBoxLocation + 16) = BoardItem.Box
-                        Case BoardItem.Wall
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.Box
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.BoxOnPlace
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.PlaceForBox
-                            GameBoard(targetBoxLocation + 16) = BoardItem.BoxOnPlace
-                    End Select
-            End Select
-        Else
-            Select Case moveDirection
-                Case System.Windows.Forms.Keys.Left
-                    Select Case GameBoard(targetBoxLocation - 1)
-                        Case BoardItem.Blank
-                            GameBoard(targetBoxLocation - 1) = BoardItem.Box
-                            GameBoard(targetBoxLocation) = BoardItem.Blank
-                        Case BoardItem.Wall
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.Box
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.BoxOnPlace
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.PlaceForBox
-                            GameBoard(targetBoxLocation - 1) = BoardItem.BoxOnPlace
-                            GameBoard(targetBoxLocation) = BoardItem.Blank
-                    End Select
-                Case System.Windows.Forms.Keys.Right
-                    Select Case GameBoard(targetBoxLocation + 1)
-                        Case BoardItem.Blank
-                            GameBoard(targetBoxLocation + 1) = BoardItem.Box
-                            GameBoard(targetBoxLocation) = BoardItem.Blank
-                        Case BoardItem.Wall
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.Box
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.BoxOnPlace
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.PlaceForBox
-                            GameBoard(targetBoxLocation + 1) = BoardItem.BoxOnPlace
-                            GameBoard(targetBoxLocation) = BoardItem.Blank
-                    End Select
-                Case System.Windows.Forms.Keys.Up
-                    Select Case GameBoard(targetBoxLocation - 16)
-                        Case BoardItem.Blank
-                            GameBoard(targetBoxLocation - 16) = BoardItem.Box
-                            GameBoard(targetBoxLocation) = BoardItem.Blank
-                        Case BoardItem.Wall
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.Box
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.BoxOnPlace
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.PlaceForBox
-                            GameBoard(targetBoxLocation - 16) = BoardItem.BoxOnPlace
-                            GameBoard(targetBoxLocation) = BoardItem.Blank
-                    End Select
-                Case System.Windows.Forms.Keys.Down
-                    Select Case GameBoard(targetBoxLocation + 16)
-                        Case BoardItem.Blank
-                            GameBoard(targetBoxLocation + 16) = BoardItem.Box
-                            GameBoard(targetBoxLocation) = BoardItem.Blank
-                        Case BoardItem.Wall
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.Box
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.BoxOnPlace
-                            PrzesunSkrzynke = False
-                            Exit Function
-                        Case BoardItem.PlaceForBox
-                            GameBoard(targetBoxLocation + 16) = BoardItem.BoxOnPlace
-                            GameBoard(targetBoxLocation) = BoardItem.Blank
-                    End Select
-            End Select
-        End If
-
-        PushHasJustBeenPerformed = True
-        PrzesunSkrzynke = True
-    End Function
-    Public Function NewGame(ByVal whichLevel As Integer) As Boolean
+    Public Function NewGame(whichLevel As Integer) As Boolean
         If Not LoadLevelIntoGameState(My.Settings.LevelSet, whichLevel) Then
             Return False
         End If
@@ -816,7 +313,8 @@ Public Module 倉庫番
     ''' host needs to make before showing a board.
     ''' </remarks>
     Public Function StartGame() As Boolean
-        LevelParser.LoadAllLevelsets()
+        ProgressStore.MigrateLegacyProgress()
+        LevelsetLibrary.LoadAllLevelsets()
         Return SelectBuiltInLevelset(My.Settings.LevelSet)
     End Function
 
@@ -824,7 +322,7 @@ Public Module 倉庫番
     ''' Switches to one of the built-in levelsets, starting either at its first level or at the
     ''' furthest the player has reached, according to the BeginFromArrivedLevel setting.
     ''' </remarks>
-    Public Function SelectBuiltInLevelset(ByVal levelsetName As String) As Boolean
+    Public Function SelectBuiltInLevelset(levelsetName As String) As Boolean
         Dim PreviousLevelset As String = My.Settings.LevelSet
         My.Settings.LevelSet = levelsetName
 
@@ -851,34 +349,34 @@ Public Module 倉庫番
     ''' first level. Nothing about the game in progress changes unless the whole thing succeeds,
     ''' so a bad file leaves the current level untouched.
     ''' </remarks>
-    Public Function OpenLevelsetFromFile(ByVal levelFileName As String) As Boolean
-        Dim LevelsRead As ArrayList
+    Public Function OpenLevelsetFromFile(levelFileName As String) As Boolean
+        Dim LevelsRead As List(Of String)
 
         Try
-            LevelsRead = LevelParser.PullAllLevels(levelFileName, True)
+            LevelsRead = SplitIntoLevelTexts(levelFileName, True)
         Catch ex As System.IO.IOException
             Return False
         Catch ex As UnauthorizedAccessException
             Return False
         End Try
 
-        Dim LevelsetCustom As New Levelset(LevelParser.CustomLevelsetName)
+        Dim LevelsetCustom As New Levelset(LevelsetLibrary.CustomLevelsetName)
         LevelsetCustom.AddAllLevels(LevelsRead)
         If LevelsetCustom.NumberOfLevels < 1 Then
             Return False
         End If
 
-        Dim PreviouslyRegistered As Levelset = LevelParser.GetLevelset(LevelParser.CustomLevelsetName)
+        Dim PreviouslyRegistered As Levelset = LevelsetLibrary.GetLevelset(LevelsetLibrary.CustomLevelsetName)
         If PreviouslyRegistered IsNot Nothing Then
-            LevelParser.Levelsets.Remove(LevelParser.CustomLevelsetName)
+            LevelsetLibrary.Levelsets.Remove(LevelsetLibrary.CustomLevelsetName)
         End If
-        LevelParser.Levelsets.Add(LevelParser.CustomLevelsetName, LevelsetCustom)
+        LevelsetLibrary.Levelsets.Add(LevelsetLibrary.CustomLevelsetName, LevelsetCustom)
 
         ' Always starts at level 1 of the new set, whatever level the previous set was on.
-        If Not LoadLevelIntoGameState(LevelParser.CustomLevelsetName, 1) Then
-            LevelParser.Levelsets.Remove(LevelParser.CustomLevelsetName)
+        If Not LoadLevelIntoGameState(LevelsetLibrary.CustomLevelsetName, 1) Then
+            LevelsetLibrary.Levelsets.Remove(LevelsetLibrary.CustomLevelsetName)
             If PreviouslyRegistered IsNot Nothing Then
-                LevelParser.Levelsets.Add(LevelParser.CustomLevelsetName, PreviouslyRegistered)
+                LevelsetLibrary.Levelsets.Add(LevelsetLibrary.CustomLevelsetName, PreviouslyRegistered)
             End If
             Return False
         End If
@@ -955,13 +453,9 @@ Public Module 倉庫番
     ''' to play. It reaches one past the end of a set once that set has been completed, so callers
     ''' that need a level number should use FurthestPlayableLevel instead.
     ''' </remarks>
-    Public ReadOnly Property GetArrivedLevel() As Integer
+    Public ReadOnly Property ArrivedLevel() As Integer
         Get
-            If My.Settings.LevelSet = "Classic" Then
-                GetArrivedLevel = My.Settings.ArrivedLevelKlasyczne
-            Else
-                GetArrivedLevel = My.Settings.ArrivedLevelSupertrudne
-            End If
+            Return ProgressStore.GetLevelMarker(My.Settings.LevelSet)
         End Get
     End Property
 
@@ -971,13 +465,13 @@ Public Module 倉庫番
     ''' </remarks>
     Public ReadOnly Property FurthestPlayableLevel() As Integer
         Get
-            Return ClampToLevelset(GetArrivedLevel(), My.Settings.LevelSet)
+            Return ClampToLevelset(ArrivedLevel(), My.Settings.LevelSet)
         End Get
     End Property
 
     ''' <remarks>Clamps a progress marker to a level number that exists in the named set.</remarks>
-    Public ReadOnly Property ClampToLevelset(ByVal levelNumber As Integer,
-                                             ByVal levelsetName As String) As Integer
+    Public ReadOnly Property ClampToLevelset(levelNumber As Integer,
+                                             levelsetName As String) As Integer
         Get
             Dim LevelCount As Integer = NumberOfLevelsIn(levelsetName)
             If LevelCount < 1 Then

@@ -3,9 +3,11 @@
 Public Class GameBoardForm
     ' Parallel to GameBoard: see the board indexing convention in 倉庫番.vb. Cells occupy
     ' BoardFirstIndex through BoardCellCount; index 0 is unused.
-    ReadOnly imgGameField(BoardCellCount) As System.Windows.Forms.PictureBox
+    ReadOnly CellPictures(BoardCellCount) As System.Windows.Forms.PictureBox
 
     Private Const CellSizeInPixels As Integer = 32
+
+    Private StatisticsWindow As StatsOptsForm
 
     Private Sub ApplyLocalizationResources()
         Me.MenuitemAbout.Text = Localizer.GetString("MenuitemAbout")
@@ -21,7 +23,7 @@ Public Class GameBoardForm
         Me.MenuitemRefresh.Text = Localizer.GetString("MenuitemRefresh")
         Me.MenuitemRestart.Text = Localizer.GetString("MenuitemRestart")
         Me.MenuitemSelectLevel.Text = Localizer.GetString("MenuitemSelectLevel")
-        Me.ZPlikuToolStripMenuItem.Text = Localizer.GetString("MenuitemOpenLevelFile")
+        Me.MenuitemOpenLevelFile.Text = Localizer.GetString("MenuitemOpenLevelFile")
         Me.MenuitemTools.Text = Localizer.GetString("MenuitemTools")
         Me.MenuitemUndo.Text = Localizer.GetString("MenuitemUndo")
         Me.MenuitemView.Text = Localizer.GetString("MenuitemView")
@@ -44,7 +46,7 @@ Public Class GameBoardForm
     ''' Builds the grid of cells and sizes the form around it. The grid occupies the client area
     ''' between the menu strip and the status strip, so that all BoardHeight rows are visible.
     ''' </remarks>
-    Private Sub GenerateGameField()
+    Private Sub BuildBoardCells()
         Dim BoardTop As Integer = Me.MenuStrip1.Height
 
         Me.ClientSize = New Size(
@@ -55,15 +57,15 @@ Public Class GameBoardForm
             Dim Row As Integer = (pic - BoardFirstIndex) \ BoardWidth
             Dim Column As Integer = (pic - BoardFirstIndex) Mod BoardWidth
 
-            imgGameField(pic) = New PictureBox
-            With imgGameField(pic)
+            CellPictures(pic) = New PictureBox
+            With CellPictures(pic)
                 .Size = New Size(CellSizeInPixels, CellSizeInPixels)
                 .Location = New Point(
                     Column * CellSizeInPixels,
                     BoardTop + Row * CellSizeInPixels)
                 .BackColor = My.Settings.BackgroundColor
             End With
-            Me.Controls.Add(imgGameField(pic))
+            Me.Controls.Add(CellPictures(pic))
         Next
     End Sub
 
@@ -87,7 +89,7 @@ Public Class GameBoardForm
         ' to anything.
         SetProgress(Me.LevelsetProgressBar, CurrentLevelNumber, NumberOfLevelsInCurrentLevelset)
 
-        Call RefreshMenuState()
+        RefreshMenuState()
     End Sub
 
     ''' <remarks>
@@ -103,9 +105,9 @@ Public Class GameBoardForm
     ''' Sets a progress bar without letting a stale or oversized value throw: ProgressBar rejects
     ''' a Value above its Maximum, and Maximum must stay at least 1 for the bar to be meaningful.
     ''' </remarks>
-    Private Shared Sub SetProgress(ByVal bar As ToolStripProgressBar,
-                                   ByVal value As Integer,
-                                   ByVal maximum As Integer)
+    Private Shared Sub SetProgress(bar As ToolStripProgressBar,
+                                   value As Integer,
+                                   maximum As Integer)
         bar.Maximum = Math.Max(1, maximum)
         bar.Value = Math.Max(bar.Minimum, Math.Min(value, bar.Maximum))
     End Sub
@@ -114,26 +116,26 @@ Public Class GameBoardForm
     ''' Redraws one cell. Indices outside the board are ignored rather than throwing: the
     ''' neighbours of a player standing on the top or bottom row fall off the ends of the array.
     ''' </remarks>
-    Private Sub RefreshCell(ByVal cellIndex As Integer)
-        If cellIndex < BoardFirstIndex OrElse cellIndex > BoardCellCount Then
+    Private Sub RefreshCell(cellIndex As Integer)
+        If Not IsOnBoard(cellIndex) Then
             Exit Sub
         End If
 
         If BoardCell(cellIndex) < CInt(BoardItem.BlankOuter) Then
-            Me.imgGameField(cellIndex).Image = Skrzynki.Skin.GetIcon(BoardCell(cellIndex))
+            Me.CellPictures(cellIndex).Image = Skrzynki.Skin.GetIcon(BoardCell(cellIndex))
         Else
-            Me.imgGameField(cellIndex).Image = Nothing
+            Me.CellPictures(cellIndex).Image = Nothing
         End If
     End Sub
 
     Public Sub RefreshBoard()
         For Counter As Integer = BoardFirstIndex To BoardCellCount
-            Me.imgGameField(Counter).BackColor = My.Settings.BackgroundColor
+            Me.CellPictures(Counter).BackColor = My.Settings.BackgroundColor
             RefreshCell(Counter)
         Next Counter
     End Sub
 
-    Public Sub RefreshBoardNearItemsOnly()
+    Public Sub RefreshCellsAroundPlayer()
         RefreshCell(CurrentPlayerLocation - BoardWidth)
         RefreshCell(CurrentPlayerLocation - 1)
         RefreshCell(CurrentPlayerLocation)
@@ -146,7 +148,7 @@ Public Class GameBoardForm
     ''' Which cursor key means which direction is a property of the input device, so the mapping
     ''' lives here rather than in the game itself.
     ''' </remarks>
-    Private Shared Function TryGetMoveDirection(ByVal pressedKey As Keys,
+    Private Shared Function TryGetMoveDirection(pressedKey As Keys,
                                                 ByRef direction As MoveDirection) As Boolean
         Select Case pressedKey
             Case Keys.Up
@@ -164,21 +166,21 @@ Public Class GameBoardForm
         Return True
     End Function
 
-    Private Sub FrmMain_KeyDown(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+    Private Sub GameBoardForm_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         Dim Direction As MoveDirection
 
-        If Not TryGetMoveDirection(eventArgs.KeyCode, Direction) Then
+        If Not TryGetMoveDirection(e.KeyCode, Direction) Then
             Exit Sub
         End If
 
         If Not TryMovePlayer(Direction) Then
-            Interaction.Beep()
+            System.Media.SystemSounds.Beep.Play()
             Exit Sub
         End If
 
-        Call RefreshBoardNearItemsOnly()
-        Call RefreshStatusBar()
-        Call CompleteLevelWhileSolved()
+        RefreshCellsAroundPlayer()
+        RefreshStatusBar()
+        CompleteLevelWhileSolved()
     End Sub
 
     ''' <remarks>
@@ -215,8 +217,8 @@ Public Class GameBoardForm
                 End If
             End If
 
-            Call RefreshBoard()
-            Call RefreshStatusBar()
+            RefreshBoard()
+            RefreshStatusBar()
         End While
     End Sub
 
@@ -239,13 +241,13 @@ Public Class GameBoardForm
 
 
     ''' <remarks>
-    ''' The only Load handler. Everything here runs in order, and the steps after GenerateGameField
+    ''' The only Load handler. Everything here runs in order, and the steps after BuildBoardCells
     ''' depend on the cells it builds - VB does not define the order two handlers of one event run
     ''' in, so this sequence must stay in a single handler.
     ''' </remarks>
     Private Sub GameBoardForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Call ApplyLocalizationResources()
-        Call GenerateGameField()
+        ApplyLocalizationResources()
+        BuildBoardCells()
 
         Me.Icon = My.Resources.ico101
         Me.BackColor = Color.Black
@@ -267,10 +269,10 @@ Public Class GameBoardForm
         Me.Visible = True
 
         ' A level that arrives already solved has to be noticed here too, not only after a move.
-        Call CompleteLevelWhileSolved()
+        CompleteLevelWhileSolved()
     End Sub
 
-    Private Sub GameBoardForm_Close(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Closed
+    Private Sub GameBoardForm_Close(sender As Object, e As EventArgs) Handles MyBase.Closed
         My.Settings.Save()
         Application.Exit()
     End Sub
@@ -281,15 +283,26 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemAbout_Click(sender As Object, e As EventArgs) Handles MenuitemAbout.Click
-        SplashScreen.ShowDialog(Me)
+        Using About As New SplashScreen()
+            About.ShowDialog(Me)
+        End Using
     End Sub
 
     Private Sub MenuitemRefresh_Click(sender As Object, e As EventArgs) Handles MenuitemRefresh.Click
-        Call RefreshBoard()
+        RefreshBoard()
     End Sub
 
+    ''' <remarks>
+    ''' The statistics window is modeless and there is only ever one of it. A form shown with
+    ''' Show disposes itself when closed, so the reference is replaced once that has happened.
+    ''' </remarks>
     Private Sub MenuitemOptions_Click(sender As Object, e As EventArgs) Handles MenuitemOptions.Click
-        StatsOptsForm.Show()
+        If StatisticsWindow Is Nothing OrElse StatisticsWindow.IsDisposed Then
+            StatisticsWindow = New StatsOptsForm()
+        End If
+
+        StatisticsWindow.Show(Me)
+        StatisticsWindow.BringToFront()
     End Sub
 
     Private Sub MenuitemRestart_Click(sender As Object, e As EventArgs) Handles MenuitemRestart.Click
@@ -311,7 +324,7 @@ Public Class GameBoardForm
         End If
 
         Me.MenuitemUndo.Enabled = False
-        Call RefreshStatusBar()
+        RefreshStatusBar()
     End Sub
 
     Private Sub MenuitemColor_Click(sender As Object, e As EventArgs) Handles MenuitemColor.Click
@@ -397,15 +410,15 @@ Public Class GameBoardForm
         End If
 
         RefreshBoard()
-        Call RefreshStatusBar()
-        Call CompleteLevelWhileSolved()
+        RefreshStatusBar()
+        CompleteLevelWhileSolved()
     End Sub
 
     ''' <remarks>
     ''' The custom set is registered, and the game switched over to it, only once it is known to
     ''' hold a playable level, so an unusable file leaves the game in progress untouched.
     ''' </remarks>
-    Private Sub MenuitemOpenLevel_Click(sender As Object, e As EventArgs) Handles ZPlikuToolStripMenuItem.Click
+    Private Sub MenuitemOpenLevelFile_Click(sender As Object, e As EventArgs) Handles MenuitemOpenLevelFile.Click
         If OpenFileDialog1.ShowDialog() <> DialogResult.OK Then
             Exit Sub
         End If
@@ -419,7 +432,7 @@ Public Class GameBoardForm
 
         MenuitemLevelsetClassic.Checked = False
         MenuitemLevelsetXS.Checked = False
-        ZPlikuToolStripMenuItem.Checked = True
+        MenuitemOpenLevelFile.Checked = True
 
         If My.Settings.LevelLoadConfirmation = True Then
             MsgBox((Localizer.GetString("AlertLevelFromFileLoadSuccess") & SelectedFileName),
@@ -430,8 +443,8 @@ Public Class GameBoardForm
         End If
 
         RefreshBoard()
-        Call RefreshStatusBar()
-        Call CompleteLevelWhileSolved()
+        RefreshStatusBar()
+        CompleteLevelWhileSolved()
     End Sub
 
     Private Shared Sub ShowLevelFileError()
@@ -441,15 +454,15 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemLevelset_Click(sender As Object, e As EventArgs) Handles MenuitemLevelset.Click
-        Call RefreshLevelsetChecks()
+        RefreshLevelsetChecks()
     End Sub
 
     Private Sub MenuitemLevelset_Hover(sender As Object, e As EventArgs) Handles MenuitemLevelset.MouseHover
-        Call RefreshLevelsetChecks()
+        RefreshLevelsetChecks()
     End Sub
 
     Private Sub RefreshLevelsetChecks()
-        ZPlikuToolStripMenuItem.Checked = IsPlayingCustomLevelset()
+        MenuitemOpenLevelFile.Checked = IsPlayingCustomLevelset()
         MenuitemLevelsetClassic.Checked =
             Not IsPlayingCustomLevelset() AndAlso My.Settings.LevelSet = "Classic"
         MenuitemLevelsetXS.Checked =
@@ -461,7 +474,7 @@ Public Class GameBoardForm
     ''' BeginFromArrivedLevel is set, and restores the previous set if the requested one cannot
     ''' be loaded.
     ''' </remarks>
-    Private Sub SwitchToBuiltInLevelset(ByVal levelsetName As String)
+    Private Sub SwitchToBuiltInLevelset(levelsetName As String)
         If Not SelectBuiltInLevelset(levelsetName) Then
             MsgBox(Localizer.GetString("AlertLevelsetLoadFailure"),
                    MsgBoxStyle.OkOnly Or
@@ -471,18 +484,18 @@ Public Class GameBoardForm
             Exit Sub
         End If
 
-        Call RefreshLevelsetChecks()
+        RefreshLevelsetChecks()
         RefreshBoard()
-        Call RefreshStatusBar()
-        Call CompleteLevelWhileSolved()
+        RefreshStatusBar()
+        CompleteLevelWhileSolved()
     End Sub
 
     Private Sub MenuitemLevelsetClassic_Click(sender As Object, e As EventArgs) Handles MenuitemLevelsetClassic.Click
-        Call SwitchToBuiltInLevelset("Classic")
+        SwitchToBuiltInLevelset("Classic")
     End Sub
 
     Private Sub MenuitemLevelsetXS_Click(sender As Object, e As EventArgs) Handles MenuitemLevelsetXS.Click
-        Call SwitchToBuiltInLevelset("XS")
+        SwitchToBuiltInLevelset("XS")
     End Sub
 
     Private Sub MenuitemHide_Click(sender As Object, e As EventArgs) Handles MenuitemHide.Click
