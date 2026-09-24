@@ -53,7 +53,7 @@
     ''' under LevelsetLibrary.CustomLevelsetName rather than under My.Settings.LevelSet, so anything
     ''' that needs to reach for the active set has to ask here instead of reading the setting.
     ''' </remarks>
-    Public ReadOnly Property CurrentLevelsetName() As String
+    Private ReadOnly Property CurrentLevelsetName() As String
         Get
             If ExternalCustomLevel Then
                 Return LevelsetLibrary.CustomLevelsetName
@@ -136,12 +136,6 @@
         End Get
     End Property
 
-    Public ReadOnly Property CurrentAttemptPushCount() As Integer
-        Get
-            Return RecordedMoves.PushCount
-        End Get
-    End Property
-
     Public ReadOnly Property IsCurrentLevelSolved() As Boolean
         Get
             Return GameBoardDetails.IsBoardSolved(GameBoard)
@@ -167,7 +161,7 @@
         End Get
     End Property
 
-    Public Sub ClearUndoHistory()
+    Private Sub ClearUndoHistory()
         RecordedMoves.Clear()
         AllGameBoardStates.Clear()
         AllPushStates.Clear()
@@ -394,7 +388,7 @@
     ''' to play. It reaches one past the end of a set once that set has been completed, so callers
     ''' that need a level number should use FurthestPlayableLevel instead.
     ''' </remarks>
-    Public ReadOnly Property ArrivedLevel() As Integer
+    Private ReadOnly Property ArrivedLevel() As Integer
         Get
             Return ProgressStore.GetLevelMarker(My.Settings.LevelSet)
         End Get

@@ -162,6 +162,7 @@ Partial Class GameBoardForm
         '
         'MenuitemConfirmRestarts
         '
+        Me.MenuitemConfirmRestarts.CheckOnClick = True
         Me.MenuitemConfirmRestarts.Name = "MenuitemConfirmRestarts"
         Me.MenuitemConfirmRestarts.Size = New System.Drawing.Size(110, 22)
         '

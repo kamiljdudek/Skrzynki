@@ -1,6 +1,6 @@
-﻿Imports System.Globalization
-
-Public Class GameBoardForm
+﻿' The menu handlers for choosing levels and levelsets are in GameBoardForm.LevelSelection.vb, and
+' those of the View menu in GameBoardForm.ViewMenu.vb.
+Partial Public Class GameBoardForm
     ' Parallel to GameBoard: see the board indexing convention in 倉庫番.vb. Cells occupy
     ' BoardFirstIndex through BoardCellCount; index 0 is unused.
     ReadOnly CellPictures(BoardCellCount) As System.Windows.Forms.PictureBox
@@ -8,6 +8,14 @@ Public Class GameBoardForm
     Private Const CellSizeInPixels As Integer = 32
 
     Private StatisticsWindow As StatsOptsForm
+
+    Private Shared ReadOnly MessageTitle As String =
+        System.Reflection.Assembly.GetExecutingAssembly.GetName.Name
+
+    ''' <remarks>Every message box the game shows: application-modal and titled with its name.</remarks>
+    Private Shared Function ShowMessage(text As String, style As MsgBoxStyle) As MsgBoxResult
+        Return MsgBox(text, style Or MsgBoxStyle.ApplicationModal, MessageTitle)
+    End Function
 
     Private Sub ApplyLocalizationResources()
         Me.MenuitemAbout.Text = Localizer.GetString("MenuitemAbout")
@@ -30,9 +38,6 @@ Public Class GameBoardForm
         Me.MenuitemSkinOrig.Text = Localizer.GetString("LabelSkinOriginal")
         Me.MenuitemSkinExport.Text = Localizer.GetString("LabelSkinExport")
         Me.MenuitemSkinCheese.Text = Localizer.GetString("LabelSkinCheese")
-        Me.MenuitemOptions.Text = Localizer.GetString("MenuitemOptions")
-        Me.MenuitemSelectLevel.Text = Localizer.GetString("MenuitemSelectLevel")
-        Me.MenuitemLevelset.Text = Localizer.GetString("MenuitemSelectLevelSet")
         Me.MenuitemSkins.Text = Localizer.GetString("LabelSkin")
         Me.MenuitemColor.Text = Localizer.GetString("MenuitemColor")
         Me.MenuitemHide.Text = Localizer.GetString("MenuitemHide")
@@ -130,7 +135,6 @@ Public Class GameBoardForm
 
     Public Sub RefreshBoard()
         For Counter As Integer = BoardFirstIndex To BoardCellCount
-            Me.CellPictures(Counter).BackColor = My.Settings.BackgroundColor
             RefreshCell(Counter)
         Next Counter
     End Sub
@@ -204,11 +208,7 @@ Public Class GameBoardForm
             If Choice = LevelSolvedChoice.RepeatLevel Then
                 RestartLevel()
             ElseIf Not AdvanceToNextLevel() Then
-                MsgBox(Localizer.GetString("AlertAllLevelsSolved"),
-                       MsgBoxStyle.OkOnly Or
-                       MsgBoxStyle.Information Or
-                       MsgBoxStyle.ApplicationModal,
-                       System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+                ShowMessage(Localizer.GetString("AlertAllLevelsSolved"), MsgBoxStyle.Information)
 
                 ' Finishing a set opened from a file drops back to the built-in one named in the
                 ' settings.
@@ -257,11 +257,7 @@ Public Class GameBoardForm
         Dim SuccessfulNewGame As Boolean = StartGame()
 
         If Not SuccessfulNewGame Then
-            MsgBox(Localizer.GetString("AlertLevelsetLoadFailure"),
-                   MsgBoxStyle.OkOnly Or
-                   MsgBoxStyle.Critical Or
-                   MsgBoxStyle.ApplicationModal,
-                   System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+            ShowMessage(Localizer.GetString("AlertLevelsetLoadFailure"), MsgBoxStyle.Critical)
         End If
 
         RefreshBoard()
@@ -288,10 +284,6 @@ Public Class GameBoardForm
         End Using
     End Sub
 
-    Private Sub MenuitemRefresh_Click(sender As Object, e As EventArgs) Handles MenuitemRefresh.Click
-        RefreshBoard()
-    End Sub
-
     ''' <remarks>
     ''' The statistics window is modeless and there is only ever one of it. A form shown with
     ''' Show disposes itself when closed, so the reference is replaced once that has happened.
@@ -306,277 +298,20 @@ Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemRestart_Click(sender As Object, e As EventArgs) Handles MenuitemRestart.Click
-        If My.Settings.LevelRestartingAuthorization = True Then
-            Dim TempX As MsgBoxResult =
-                MsgBox(Localizer.GetString("QueryRestartLevel"),
-                        MsgBoxStyle.YesNo Or
-                        MsgBoxStyle.Question Or
-                        MsgBoxStyle.ApplicationModal,
-                        System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-
-            If TempX = MsgBoxResult.Yes Then
-                RestartLevel()
-                RefreshBoard()
-            End If
-        Else
-            RestartLevel()
-            RefreshBoard()
+        If My.Settings.LevelRestartingAuthorization AndAlso
+           ShowMessage(Localizer.GetString("QueryRestartLevel"),
+                       MsgBoxStyle.YesNo Or MsgBoxStyle.Question) <> MsgBoxResult.Yes Then
+            Exit Sub
         End If
 
-        Me.MenuitemUndo.Enabled = False
+        RestartLevel()
+        RefreshBoard()
         RefreshStatusBar()
-    End Sub
-
-    Private Sub MenuitemColor_Click(sender As Object, e As EventArgs) Handles MenuitemColor.Click
-        If ColorDialog1.ShowDialog() = DialogResult.OK Then
-            My.Settings.BackgroundColor = ColorDialog1.Color
-            RefreshBoard()
-        End If
     End Sub
 
     Private Sub MenuitemUndo_Click(sender As Object, e As EventArgs) Handles MenuitemUndo.Click
         Undo()
         RefreshBoard()
         RefreshStatusBar()
-        'LOLMe.MenuitemUndo.Enabled = False
-    End Sub
-
-    Private Sub MenuitemOriginal_Click(sender As Object, e As EventArgs)
-        MenuitemSkinCheese.Checked = False
-        MenuitemSkinExport.Checked = False
-        MenuitemSkinOrig.Checked = True
-        My.Settings.Skin = "(Oryginalny)"
-        RefreshBoard()
-    End Sub
-
-    Private Sub MenuitemExport_Click(sender As Object, e As EventArgs)
-        MenuitemSkinCheese.Checked = False
-        MenuitemSkinExport.Checked = True
-        MenuitemSkinOrig.Checked = False
-        My.Settings.Skin = "Eksport"
-        RefreshBoard()
-    End Sub
-
-    Private Sub MenuitemCheese_Click(sender As Object, e As EventArgs)
-        MenuitemSkinCheese.Checked = True
-        MenuitemSkinExport.Checked = False
-        MenuitemSkinOrig.Checked = False
-        My.Settings.Skin = "Serowy"
-        RefreshBoard()
-    End Sub
-
-    Private Sub MenuitemSelectLevel_Click(sender As Object, e As EventArgs) Handles MenuitemSelectLevel.Click
-        Dim IB As String = InputBox(Localizer.GetString("QuerySelectLevel"),
-                                    System.Reflection.Assembly.GetExecutingAssembly.GetName.Name,
-                                    FurthestPlayableLevel.ToString(CultureInfo.InvariantCulture))
-        If String.IsNullOrWhiteSpace(IB) Then
-            Exit Sub
-        End If
-
-        ' A whole number and nothing else: the level number is not a localized quantity, and
-        ' anything with a decimal separator or trailing text is a typo rather than a level.
-        Dim RequestedLevel As Integer
-        If Not Integer.TryParse(IB.Trim(),
-                                NumberStyles.Integer,
-                                CultureInfo.InvariantCulture,
-                                RequestedLevel) Then
-            MsgBox(Localizer.GetString("AlertNotANumber"),
-                   MsgBoxStyle.OkOnly Or
-                   MsgBoxStyle.Critical Or
-                   MsgBoxStyle.ApplicationModal,
-                   System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-            Exit Sub
-        End If
-
-        If RequestedLevel > FurthestPlayableLevel AndAlso
-           RequestedLevel <= NumberOfLevelsInCurrentLevelset Then
-            MsgBox(Localizer.GetString("AlertLevelNotReachedYet"),
-                   MsgBoxStyle.OkOnly Or
-                   MsgBoxStyle.Critical Or
-                   MsgBoxStyle.ApplicationModal,
-                   System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-            Exit Sub
-        End If
-
-        ' NewGame clears the undo history and the move counters along with loading the board, and
-        ' rejects a level number outside the set.
-        If Not NewGame(RequestedLevel) Then
-            MsgBox(Localizer.GetString("AlertLevelDoesNotExist"),
-                   MsgBoxStyle.OkOnly Or
-                   MsgBoxStyle.Critical Or
-                   MsgBoxStyle.ApplicationModal,
-                   System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-            Exit Sub
-        End If
-
-        RefreshBoard()
-        RefreshStatusBar()
-        CompleteLevelWhileSolved()
-    End Sub
-
-    ''' <remarks>
-    ''' The custom set is registered, and the game switched over to it, only once it is known to
-    ''' hold a playable level, so an unusable file leaves the game in progress untouched.
-    ''' </remarks>
-    Private Sub MenuitemOpenLevelFile_Click(sender As Object, e As EventArgs) Handles MenuitemOpenLevelFile.Click
-        If OpenFileDialog1.ShowDialog() <> DialogResult.OK Then
-            Exit Sub
-        End If
-
-        Dim SelectedFileName As String = OpenFileDialog1.FileName
-
-        If Not OpenLevelsetFromFile(SelectedFileName) Then
-            ShowLevelFileError()
-            Exit Sub
-        End If
-
-        MenuitemLevelsetClassic.Checked = False
-        MenuitemLevelsetXS.Checked = False
-        MenuitemOpenLevelFile.Checked = True
-
-        If My.Settings.LevelLoadConfirmation = True Then
-            MsgBox((Localizer.GetString("AlertLevelFromFileLoadSuccess") & SelectedFileName),
-                   MsgBoxStyle.OkOnly Or
-                   MsgBoxStyle.Information Or
-                   MsgBoxStyle.ApplicationModal,
-                   System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-        End If
-
-        RefreshBoard()
-        RefreshStatusBar()
-        CompleteLevelWhileSolved()
-    End Sub
-
-    Private Shared Sub ShowLevelFileError()
-        MsgBox(Localizer.GetString("AlertLevelEmptyOrBad"),
-               MsgBoxStyle.Exclamation Or MsgBoxStyle.ApplicationModal,
-               System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-    End Sub
-
-    Private Sub MenuitemLevelset_Click(sender As Object, e As EventArgs) Handles MenuitemLevelset.Click
-        RefreshLevelsetChecks()
-    End Sub
-
-    Private Sub MenuitemLevelset_Hover(sender As Object, e As EventArgs) Handles MenuitemLevelset.MouseHover
-        RefreshLevelsetChecks()
-    End Sub
-
-    Private Sub RefreshLevelsetChecks()
-        MenuitemOpenLevelFile.Checked = IsPlayingCustomLevelset()
-        MenuitemLevelsetClassic.Checked =
-            Not IsPlayingCustomLevelset() AndAlso My.Settings.LevelSet = "Classic"
-        MenuitemLevelsetXS.Checked =
-            Not IsPlayingCustomLevelset() AndAlso My.Settings.LevelSet = "XS"
-    End Sub
-
-    ''' <remarks>
-    ''' Switches levelsets. SelectBuiltInLevelset resumes at the furthest level reached when
-    ''' BeginFromArrivedLevel is set, and restores the previous set if the requested one cannot
-    ''' be loaded.
-    ''' </remarks>
-    Private Sub SwitchToBuiltInLevelset(levelsetName As String)
-        If Not SelectBuiltInLevelset(levelsetName) Then
-            MsgBox(Localizer.GetString("AlertLevelsetLoadFailure"),
-                   MsgBoxStyle.OkOnly Or
-                   MsgBoxStyle.Critical Or
-                   MsgBoxStyle.ApplicationModal,
-                   System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
-            Exit Sub
-        End If
-
-        RefreshLevelsetChecks()
-        RefreshBoard()
-        RefreshStatusBar()
-        CompleteLevelWhileSolved()
-    End Sub
-
-    Private Sub MenuitemLevelsetClassic_Click(sender As Object, e As EventArgs) Handles MenuitemLevelsetClassic.Click
-        SwitchToBuiltInLevelset("Classic")
-    End Sub
-
-    Private Sub MenuitemLevelsetXS_Click(sender As Object, e As EventArgs) Handles MenuitemLevelsetXS.Click
-        SwitchToBuiltInLevelset("XS")
-    End Sub
-
-    Private Sub MenuitemHide_Click(sender As Object, e As EventArgs) Handles MenuitemHide.Click
-        SkrzynkiTrayIcon.Visible = True
-        SkrzynkiTrayIcon.Text = Localizer.GetString("LabelTrayDescription")
-        SkrzynkiTrayIcon.BalloonTipText = Localizer.GetString("LabelTrayDescription")
-        Me.Visible = False
-    End Sub
-
-    Private Sub SkrzynkiTrayIcon_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles SkrzynkiTrayIcon.MouseDoubleClick
-        SkrzynkiTrayIcon.Visible = False
-        Me.Visible = True
-    End Sub
-
-    Private Sub SkrzynkiTrayIcon_MouseClick(sender As Object, e As MouseEventArgs) Handles SkrzynkiTrayIcon.MouseClick
-        SkrzynkiTrayIcon.Visible = False
-        Me.Visible = True
-    End Sub
-
-    Private Sub MenuitemSkinOrig_Click(sender As Object, e As EventArgs) Handles MenuitemSkinOrig.Click
-        MenuitemSkinOrig.Checked = True
-        MenuitemSkinCheese.Checked = False
-        MenuitemSkinExport.Checked = False
-        My.Settings.Skin = "(Oryginalny)"
-        RefreshBoard()
-    End Sub
-
-    Private Sub MenuitemSkinExport_Click(sender As Object, e As EventArgs) Handles MenuitemSkinExport.Click
-        MenuitemSkinOrig.Checked = False
-        MenuitemSkinCheese.Checked = False
-        MenuitemSkinExport.Checked = True
-        My.Settings.Skin = "Eksport"
-        RefreshBoard()
-    End Sub
-
-    Private Sub MenuitemSkinCheese_Click(sender As Object, e As EventArgs) Handles MenuitemSkinCheese.Click
-        MenuitemSkinOrig.Checked = False
-        MenuitemSkinCheese.Checked = True
-        MenuitemSkinExport.Checked = False
-        My.Settings.Skin = "Serowy"
-        RefreshBoard()
-    End Sub
-
-    Private Sub MenuitemSkins_Click(sender As Object, e As EventArgs) Handles MenuitemSkins.MouseHover
-        If My.Settings.Skin = "(Oryginalny)" Then
-            MenuitemSkinOrig.Checked = True
-            MenuitemSkinCheese.Checked = False
-            MenuitemSkinExport.Checked = False
-        ElseIf My.Settings.Skin = "Serowy" Then
-            MenuitemSkinOrig.Checked = False
-            MenuitemSkinCheese.Checked = True
-            MenuitemSkinExport.Checked = False
-        Else
-            MenuitemSkinOrig.Checked = False
-            MenuitemSkinCheese.Checked = False
-            MenuitemSkinExport.Checked = True
-        End If
-    End Sub
-
-    Private Sub MenuitemView_Click(sender As Object, e As EventArgs) Handles MenuitemView.Click
-        If My.Settings.LevelRestartingAuthorization = True Then
-            MenuitemConfirmRestarts.Checked = True
-        Else
-            MenuitemConfirmRestarts.Checked = False
-        End If
-    End Sub
-
-
-    Private Sub MenuitemConfirmRestarts_CheckStateChanged(sender As Object, e As EventArgs) Handles MenuitemConfirmRestarts.CheckStateChanged
-        If MenuitemConfirmRestarts.Checked = True Then
-            My.Settings.LevelRestartingAuthorization = True
-        Else
-            My.Settings.LevelRestartingAuthorization = False
-        End If
-    End Sub
-
-    Private Sub MenuitemConfirmRestarts_Click(sender As Object, e As EventArgs) Handles MenuitemConfirmRestarts.Click
-        If MenuitemConfirmRestarts.Checked = True Then
-            MenuitemConfirmRestarts.Checked = False
-        Else
-            MenuitemConfirmRestarts.Checked = True
-        End If
     End Sub
 End Class

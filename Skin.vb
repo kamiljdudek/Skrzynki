@@ -5,9 +5,10 @@
     ' keyed by skin name and lives for the life of the process.
     Private ReadOnly SkinCache As New System.Collections.Generic.Dictionary(Of String, System.Drawing.Bitmap())
 
-    Private Const SkinOriginal As String = "(Oryginalny)"
-    Private Const SkinCheese As String = "Serowy"
-    Private Const SkinExport As String = "Eksport"
+    ' The values stored in My.Settings.Skin.
+    Public Const SkinOriginal As String = "(Oryginalny)"
+    Public Const SkinCheese As String = "Serowy"
+    Public Const SkinExport As String = "Eksport"
 
     Private Function LoadSkin(skinName As String) As System.Drawing.Bitmap()
         Dim Icons() As System.Drawing.Icon

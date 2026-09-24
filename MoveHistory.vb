@@ -130,20 +130,6 @@ Public Class MoveHistory
         End Get
     End Property
 
-    Public ReadOnly Property PushCount As Integer
-        Get
-            Dim Pushes As Integer = 0
-
-            For Each RecordedMove As MoveRecord In RecordedMoves
-                If RecordedMove.PushedBox Then
-                    Pushes += 1
-                End If
-            Next
-
-            Return Pushes
-        End Get
-    End Property
-
     ''' <remarks>The whole attempt so far in LURD notation.</remarks>
     Public ReadOnly Property Lurd As String
         Get

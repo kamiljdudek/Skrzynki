@@ -38,7 +38,7 @@
         LevelsetComboBox.Items.Add(Localizer.GetString("LevelSetClassic"))
         LevelsetComboBox.Items.Add(Localizer.GetString("LevelSetXS"))
 
-        If My.Settings.LevelSet = "Classic" Then
+        If My.Settings.LevelSet = ProgressStore.ClassicLevelsetName Then
             LevelsetComboBox.SelectedItem = Localizer.GetString("LevelSetClassic")
         Else
             LevelsetComboBox.SelectedItem = Localizer.GetString("LevelSetXS")
