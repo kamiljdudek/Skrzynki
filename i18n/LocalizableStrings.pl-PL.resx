@@ -123,8 +123,8 @@
   <data name="AlertLevelDoesNotExist" xml:space="preserve">
     <value>Etap o takim numerze nie istnieje</value>
   </data>
-  <data name="AlertLevelEmptyOrBad" xml:space="preserve">
-    <value>Plik etapów jest pusty lub wadliwy</value>
+  <data name="AlertNoPlayableLevels" xml:space="preserve">
+    <value>W tym pliku nie ma żadnego etapu, w który można zagrać.</value>
   </data>
   <data name="AlertLevelsetLoadFailure" xml:space="preserve">
     <value>Błąd podczas wczytywania zestawu etapów</value>
@@ -150,17 +150,17 @@
   <data name="CheckBoxBeginFromArrivedLevel" xml:space="preserve">
     <value>Zaczynaj od najdalszego osiągniętego etapu</value>
   </data>
-  <data name="LabelAchievedLevel" xml:space="preserve">
-    <value>Osiągnięty etap: </value>
+  <data name="LabelAchievedLevelFormat" xml:space="preserve">
+    <value>Osiągnięty etap: {0}</value>
   </data>
   <data name="LabelLevelSet" xml:space="preserve">
     <value>Zestaw:</value>
   </data>
-  <data name="LabelMoves" xml:space="preserve">
-    <value>Ruchy: </value>
+  <data name="LabelMovesFormat" xml:space="preserve">
+    <value>Ruchy: {0}</value>
   </data>
-  <data name="LabelPushes" xml:space="preserve">
-    <value>Pchnięcia: </value>
+  <data name="LabelPushesFormat" xml:space="preserve">
+    <value>Pchnięcia: {0}</value>
   </data>
   <data name="LabelSkin" xml:space="preserve">
     <value>Skórka</value>
@@ -177,8 +177,8 @@
   <data name="LabelSplashOS" xml:space="preserve">
     <value>dla Windows</value>
   </data>
-  <data name="LabelSplashVersionName" xml:space="preserve">
-    <value>Wersja: </value>
+  <data name="LabelSplashVersionFormat" xml:space="preserve">
+    <value>Wersja: {0}</value>
   </data>
   <data name="LabelStats" xml:space="preserve">
     <value>Statystyki i opcje</value>
@@ -252,8 +252,8 @@
   <data name="LabelLevelSolvedTitle" xml:space="preserve">
     <value>Etap ukończony</value>
   </data>
-  <data name="LabelSolutionLength" xml:space="preserve">
-    <value>Długość rozwiązania: </value>
+  <data name="LabelSolutionLengthFormat" xml:space="preserve">
+    <value>Długość rozwiązania: {0}</value>
   </data>
   <data name="ButtonNextLevel" xml:space="preserve">
     <value>&amp;Następny</value>
@@ -278,5 +278,23 @@
   </data>
   <data name="ButtonCancel" xml:space="preserve">
     <value>Anuluj</value>
+  </data>
+  <data name="AlertLevelFileUnreadable" xml:space="preserve">
+    <value>Nie udało się odczytać pliku etapów.</value>
+  </data>
+  <data name="AlertLevelsSkipped" xml:space="preserve">
+    <value>Niektóre etapy z tego pliku zostały pominięte:</value>
+  </data>
+  <data name="AlertLevelsSkippedTooLargeFormat" xml:space="preserve">
+    <value>• za duże (ponad {0}×{0} pól): {1}</value>
+  </data>
+  <data name="AlertLevelsSkippedNotValidFormat" xml:space="preserve">
+    <value>• nieprawidłowe: {0}</value>
+  </data>
+  <data name="LabelTrayHint" xml:space="preserve">
+    <value>Kliknij ikonę, aby wrócić do gry.</value>
+  </data>
+  <data name="TrayMenuShow" xml:space="preserve">
+    <value>&amp;Pokaż</value>
   </data>
 </root>

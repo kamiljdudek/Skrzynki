@@ -52,13 +52,20 @@
     <Compile Include="Board\Cell.vb" />
     <Compile Include="Game\Game.vb" />
     <Compile Include="Game\IProgressStore.vb" />
+    <Compile Include="Game\LevelsetOpenResult.vb" />
     <Compile Include="Game\MoveDirection.vb" />
     <Compile Include="Game\MoveHistory.vb" />
     <Compile Include="Game\MovementRules.vb" />
+    <Compile Include="Game\PlayerMovedEventArgs.vb" />
+    <Compile Include="Game\StartingLevel.vb" />
     <Compile Include="Levels\LevelParser.vb" />
     <Compile Include="Levels\Levelset.vb" />
     <Compile Include="Levels\LevelsetLibrary.vb" />
+    <Compile Include="Levels\SkippedLevel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="..\SharedAssemblyInfo.vb">
+      <Link>My Project\SharedAssemblyInfo.vb</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml">

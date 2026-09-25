@@ -32,6 +32,11 @@ Partial Public Class Game
             Return False
         End If
 
+        Dim Changed As New List(Of Cell) From {PlayerCell, Ahead}
+        If PushedBox Then
+            Changed.Add(Ahead.Neighbour(direction))
+        End If
+
         ' Both squares are re-encoded from the floor they already report, so goals survive the
         ' move. The square ahead still reads as a box when one has just been pushed off it, and
         ' its floor is recoverable from that too.
@@ -45,7 +50,7 @@ Partial Public Class Game
         End If
         RecordedMoves.Add(New MoveRecord(direction, PushedBox))
 
-        RaiseEvent PlayerMoved(Me, EventArgs.Empty)
+        RaiseEvent PlayerMoved(Me, New PlayerMovedEventArgs(Changed))
         Return True
     End Function
 

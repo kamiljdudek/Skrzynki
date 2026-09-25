@@ -125,25 +125,17 @@
     <Reference Include="System.Configuration">
       <Name>System.Configuration</Name>
     </Reference>
-    <Reference Include="System.Data">
-      <Name>System.Data</Name>
-    </Reference>
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
     <Reference Include="System.Windows.Forms">
       <Name>System.Windows.Forms</Name>
     </Reference>
-    <Reference Include="System.Xml">
-      <Name>System.XML</Name>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
-    <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
-    <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
     <Import Include="System.Drawing" />
     <Import Include="System.Windows.Forms" />
@@ -223,6 +215,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="My Project\Settings.vb" />
+    <Compile Include="SharedAssemblyInfo.vb">
+      <Link>My Project\SharedAssemblyInfo.vb</Link>
+    </Compile>
     <Compile Include="Rendering\BoardView.vb">
       <SubType>Component</SubType>
     </Compile>

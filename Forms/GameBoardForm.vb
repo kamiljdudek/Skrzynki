@@ -57,6 +57,8 @@ Partial Public Class GameBoardForm
         Me.MenuitemColor.Text = My.Resources.LocalizableStrings.MenuitemColor
         Me.MenuitemHide.Text = My.Resources.LocalizableStrings.MenuitemHide
         Me.SkrzynkiTrayIcon.Text = My.Resources.LocalizableStrings.GameName
+        Me.TrayMenuShow.Text = My.Resources.LocalizableStrings.TrayMenuShow
+        Me.TrayMenuExit.Text = My.Resources.LocalizableStrings.MenuitemQuit
         Me.MenuitemConfirmRestarts.Text = My.Resources.LocalizableStrings.MenuitemConfirmRestarts
         OpenLevelFileDialog.Filter = My.Resources.LocalizableStrings.DialogFileFilter
         OpenLevelFileDialog.Title = My.Resources.LocalizableStrings.DialogOpenLevelFile
@@ -137,8 +139,12 @@ Partial Public Class GameBoardForm
         CompleteLevelWhileSolved()
     End Sub
 
-    Private Sub CurrentGame_PlayerMoved(sender As Object, e As EventArgs) Handles CurrentGame.PlayerMoved
-        BoardDisplay.Invalidate()
+    ''' <remarks>
+    ''' A move changes at most three squares, and only those are repainted: on a large board a full
+    ''' repaint for every step would make a held arrow key stutter.
+    ''' </remarks>
+    Private Sub CurrentGame_PlayerMoved(sender As Object, e As PlayerMovedEventArgs) Handles CurrentGame.PlayerMoved
+        BoardDisplay.InvalidateCells(e.ChangedCells)
         RefreshStatusBar()
         CompleteLevelWhileSolved()
     End Sub
@@ -148,11 +154,10 @@ Partial Public Class GameBoardForm
     ''' progress bars and the menu items whose availability depends on that state.
     ''' </remarks>
     Private Sub RefreshStatusBar()
-        MovesLabel.Text = UiText.Format($"{My.Resources.LocalizableStrings.LabelMoves}{CurrentGame.MovesPerformed}")
-        PushesLabel.Text = UiText.Format($"{My.Resources.LocalizableStrings.LabelPushes}{CurrentGame.PushesPerformed}")
+        MovesLabel.Text = UiText.Format(My.Resources.LocalizableStrings.LabelMovesFormat, CurrentGame.MovesPerformed)
+        PushesLabel.Text = UiText.Format(My.Resources.LocalizableStrings.LabelPushesFormat, CurrentGame.PushesPerformed)
 
-        Me.Text = String.Format(Globalization.CultureInfo.CurrentCulture,
-                                My.Resources.LocalizableStrings.GameTitleFormat,
+        Me.Text = UiText.Format(My.Resources.LocalizableStrings.GameTitleFormat,
                                 My.Resources.LocalizableStrings.GameName,
                                 LevelsetDisplayName(),
                                 CurrentGame.CurrentLevelNumber)
@@ -313,9 +318,6 @@ Partial Public Class GameBoardForm
     ''' </remarks>
     Private Sub GameBoardForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ApplyLocalizationResources()
-
-        Me.Icon = My.Resources.ico101
-        Me.BackColor = Color.Black
 
         BoardDisplay.BackColor = My.Settings.BackgroundColor
         BoardDisplay.Skin = SkinIcons.FromSetting(My.Settings.Skin)

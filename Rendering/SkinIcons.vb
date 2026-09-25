@@ -1,3 +1,6 @@
+Imports System.Drawing.Drawing2D
+Imports System.Drawing.Imaging
+
 ''' <remarks>The looks the board can be drawn in. My.Settings.Skin holds the name of one of these.</remarks>
 Public Enum BoardSkin
     Original
@@ -79,8 +82,48 @@ Friend NotInheritable Class SkinIcons
     End Function
 
     ''' <remarks>
-    ''' The icon for a board item in the given skin, or Nothing for an item that is not drawn. The
-    ''' bitmap is shared and owned by this cache - callers must not dispose it.
+    ''' The skin's icons redrawn at the given size, indexed by BoardItem, for a board that shows them
+    ''' at that size. The bitmaps are new and belong to the caller, who disposes them.
+    '''
+    ''' Whole multiples of the icons' own size are scaled with the nearest neighbour, which keeps
+    ''' pixel art sharp; any other size is smoothed. The bitmaps are premultiplied, the format
+    ''' GDI+ copies fastest.
+    ''' </remarks>
+    Public Shared Function CreateScaledIcons(skin As BoardSkin, size As Integer) As Bitmap()
+        Dim LastIcon As Integer = CInt(BoardItem.PlayerOnPlace)
+        Dim Scaled(LastIcon) As Bitmap
+        Dim Target As New Rectangle(0, 0, size, size)
+
+        Using Sampling As New ImageAttributes()
+            ' Smoothing samples beyond the edges of the source; tiling it there keeps transparency
+            ' from bleeding into the border of every scaled icon.
+            Sampling.SetWrapMode(WrapMode.TileFlipXY)
+
+            For Item As Integer = 0 To LastIcon
+                Dim Original As Bitmap = GetIcon(CType(Item, BoardItem), skin)
+
+                Scaled(Item) = New Bitmap(size, size, PixelFormat.Format32bppPArgb)
+                Using Canvas As Graphics = Graphics.FromImage(Scaled(Item))
+                    If size Mod IconSize = 0 Then
+                        Canvas.InterpolationMode = InterpolationMode.NearestNeighbor
+                        Canvas.PixelOffsetMode = PixelOffsetMode.Half
+                    Else
+                        Canvas.InterpolationMode = InterpolationMode.HighQualityBicubic
+                        Canvas.PixelOffsetMode = PixelOffsetMode.HighQuality
+                    End If
+
+                    Canvas.DrawImage(Original, Target, 0, 0, Original.Width, Original.Height,
+                                     GraphicsUnit.Pixel, Sampling)
+                End Using
+            Next
+        End Using
+
+        Return Scaled
+    End Function
+
+    ''' <remarks>
+    ''' The icon for a board item in the given skin, at the icons' own size, or Nothing for an item
+    ''' that is not drawn. The bitmap is shared and owned by this cache - callers must not dispose it.
     ''' </remarks>
     Public Shared Function GetIcon(item As BoardItem, skin As BoardSkin) As Bitmap
         Dim Bitmaps() As Bitmap = Nothing

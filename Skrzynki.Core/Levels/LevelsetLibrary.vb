@@ -41,26 +41,4 @@ Public NotInheritable Class LevelsetLibrary
 
         Return Levelset.NumberOfLevels
     End Function
-
-    ''' <remarks>
-    ''' The highest level the player may open in the named set: the progress marker, which runs
-    ''' one past the end of a finished set, clamped to a level that exists.
-    ''' </remarks>
-    Public Function FurthestPlayableLevel(levelsetName As String, progress As IProgressStore) As Integer
-        If progress Is Nothing Then
-            Throw New ArgumentNullException(NameOf(progress))
-        End If
-
-        Return ClampToLevelset(progress.GetLevelMarker(levelsetName), levelsetName)
-    End Function
-
-    ''' <remarks>Clamps a level number to one that exists in the named set.</remarks>
-    Public Function ClampToLevelset(levelNumber As Integer, levelsetName As String) As Integer
-        Dim LevelCount As Integer = NumberOfLevelsIn(levelsetName)
-        If LevelCount < 1 Then
-            Return 1
-        End If
-
-        Return Math.Max(1, Math.Min(levelNumber, LevelCount))
-    End Function
 End Class

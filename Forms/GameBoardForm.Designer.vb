@@ -61,9 +61,13 @@ Partial Class GameBoardForm
         Me.LevelsetProgressBar = New System.Windows.Forms.ToolStripProgressBar()
         Me.OpenLevelFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.SkrzynkiTrayIcon = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.TrayMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.TrayMenuShow = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TrayMenuExit = New System.Windows.Forms.ToolStripMenuItem()
         Me.BackgroundColorDialog = New System.Windows.Forms.ColorDialog()
         Me.GameMenuStrip.SuspendLayout()
         Me.GameStatusStrip.SuspendLayout()
+        Me.TrayMenu.SuspendLayout()
         Me.SuspendLayout()
         '
         'GameMenuStrip
@@ -282,7 +286,24 @@ Partial Class GameBoardForm
         'SkrzynkiTrayIcon
         '
         Me.SkrzynkiTrayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info
+        Me.SkrzynkiTrayIcon.ContextMenuStrip = Me.TrayMenu
         Me.SkrzynkiTrayIcon.Icon = CType(resources.GetObject("SkrzynkiTrayIcon.Icon"), System.Drawing.Icon)
+        '
+        'TrayMenu
+        '
+        Me.TrayMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TrayMenuShow, Me.TrayMenuExit})
+        Me.TrayMenu.Name = "TrayMenu"
+        Me.TrayMenu.Size = New System.Drawing.Size(104, 48)
+        '
+        'TrayMenuShow
+        '
+        Me.TrayMenuShow.Name = "TrayMenuShow"
+        Me.TrayMenuShow.Size = New System.Drawing.Size(103, 22)
+        '
+        'TrayMenuExit
+        '
+        Me.TrayMenuExit.Name = "TrayMenuExit"
+        Me.TrayMenuExit.Size = New System.Drawing.Size(103, 22)
         '
         'GameBoardForm
         '
@@ -293,6 +314,7 @@ Partial Class GameBoardForm
         Me.Controls.Add(Me.GameStatusStrip)
         Me.Controls.Add(Me.GameMenuStrip)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.Icon = Global.Skrzynki.My.Resources.Resources.ico101
         Me.MainMenuStrip = Me.GameMenuStrip
         Me.MaximizeBox = False
         Me.Name = "GameBoardForm"
@@ -301,6 +323,7 @@ Partial Class GameBoardForm
         Me.GameMenuStrip.PerformLayout()
         Me.GameStatusStrip.ResumeLayout(False)
         Me.GameStatusStrip.PerformLayout()
+        Me.TrayMenu.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -339,6 +362,9 @@ Partial Class GameBoardForm
     Friend WithEvents LevelsetProgressBar As ToolStripProgressBar
     Friend WithEvents OpenLevelFileDialog As OpenFileDialog
     Friend WithEvents SkrzynkiTrayIcon As NotifyIcon
+    Friend WithEvents TrayMenu As ContextMenuStrip
+    Friend WithEvents TrayMenuShow As ToolStripMenuItem
+    Friend WithEvents TrayMenuExit As ToolStripMenuItem
     Friend WithEvents BackgroundColorDialog As ColorDialog
     Friend WithEvents MenuitemConfirmRestarts As ToolStripMenuItem
     Friend WithEvents SeparatorViewCommands As ToolStripSeparator

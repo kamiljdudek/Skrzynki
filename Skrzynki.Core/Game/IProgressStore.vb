@@ -4,7 +4,7 @@
 '''
 ''' The level marker names the *next* level to play, so it reaches one past the end of a set once
 ''' that set is finished. Callers that need a level number that exists should go through
-''' LevelsetLibrary.FurthestPlayableLevel rather than reading the marker directly.
+''' Game.FurthestPlayableLevel rather than reading the marker directly.
 ''' </remarks>
 Public Interface IProgressStore
     Function GetLevelMarker(levelsetName As String) As Integer

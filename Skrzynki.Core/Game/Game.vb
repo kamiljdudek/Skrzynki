@@ -54,8 +54,11 @@ Partial Public Class Game
     ''' </remarks>
     Public Event LevelLoaded As EventHandler
 
-    ''' <remarks>Raised whenever the player has moved, or a move has been taken back.</remarks>
-    Public Event PlayerMoved As EventHandler
+    ''' <remarks>
+    ''' Raised whenever the player has moved, or a move has been taken back, with the squares that
+    ''' changed.
+    ''' </remarks>
+    Public Event PlayerMoved As EventHandler(Of PlayerMovedEventArgs)
 
     Public Sub New(levelsets As LevelsetLibrary, progress As IProgressStore)
         If levelsets Is Nothing Then
@@ -176,9 +179,25 @@ Partial Public Class Game
             If IsPlayingCustomLevelset Then
                 Return NumberOfLevelsInCurrentLevelset
             End If
-            Return Library.FurthestPlayableLevel(SelectedBuiltInLevelset, Progress)
+            Return FurthestPlayableLevel(Library.GetLevelset(SelectedBuiltInLevelset), Progress)
         End Get
     End Property
+
+    ''' <remarks>
+    ''' The highest level of a set the player may open: the progress marker - which names the next
+    ''' level to play, so it runs one past the end of a finished set - clamped to a level that
+    ''' exists. Shared, because the statistics window asks the same of sets not being played.
+    ''' </remarks>
+    Public Shared Function FurthestPlayableLevel(levelset As Levelset, progress As IProgressStore) As Integer
+        If progress Is Nothing Then
+            Throw New ArgumentNullException(NameOf(progress))
+        End If
+        If levelset Is Nothing OrElse levelset.NumberOfLevels < 1 Then
+            Return 1
+        End If
+
+        Return Math.Max(1, Math.Min(progress.GetLevelMarker(levelset.Name), levelset.NumberOfLevels))
+    End Function
 
     ' --- Choosing what to play -------------------------------------------------------------
 
@@ -226,11 +245,10 @@ Partial Public Class Game
     End Function
 
     ''' <remarks>
-    ''' Switches to one of the built-in levelsets, starting at its first level or, when asked to,
-    ''' at the furthest level the player has reached. Nothing changes if the set cannot be loaded.
+    ''' Switches to one of the built-in levelsets, starting where asked. Nothing changes if the set
+    ''' cannot be loaded.
     ''' </remarks>
-    Public Function SelectBuiltInLevelset(levelsetName As String,
-                                          startAtFurthestLevel As Boolean) As Boolean
+    Public Function SelectBuiltInLevelset(levelsetName As String, startAt As StartingLevel) As Boolean
         Dim Selected As Levelset = Library.GetLevelset(levelsetName)
         If Selected Is Nothing Then
             Return False
@@ -240,13 +258,13 @@ Partial Public Class Game
         Dim PreviousSelection As String = SelectedBuiltInLevelset
         SelectedBuiltInLevelset = levelsetName
 
-        Dim StartingLevel As Integer = 1
-        If startAtFurthestLevel Then
-            StartingLevel = Library.FurthestPlayableLevel(levelsetName, Progress)
+        Dim FirstLevel As Integer = 1
+        If startAt = StartingLevel.FurthestReached Then
+            FirstLevel = FurthestPlayableLevel(Selected, Progress)
         End If
 
         ' Saved progress can point past the end of the set; the first level always exists.
-        If Not LoadLevel(Selected, StartingLevel) AndAlso Not LoadLevel(Selected, 1) Then
+        If Not LoadLevel(Selected, FirstLevel) AndAlso Not LoadLevel(Selected, 1) Then
             SelectedBuiltInLevelset = PreviousSelection
             Return False
         End If
@@ -257,20 +275,25 @@ Partial Public Class Game
     ''' <remarks>
     ''' Reads a level file and switches play over to its first level. Nothing about the game in
     ''' progress changes unless that succeeds, so a bad file leaves the current level untouched.
+    ''' The result says what happened and carries the set as read, levels left out and all.
     ''' </remarks>
-    Public Function OpenLevelsetFromFile(levelFileName As String) As Boolean
+    Public Function OpenLevelsetFromFile(levelFileName As String) As LevelsetOpenResult
         Dim FromFile As Levelset
 
         Try
             FromFile = Levelset.FromFile(levelFileName)
         Catch ex As System.IO.IOException
-            Return False
+            Return New LevelsetOpenResult(LevelsetOpenOutcome.Unreadable, Nothing)
         Catch ex As UnauthorizedAccessException
-            Return False
+            Return New LevelsetOpenResult(LevelsetOpenOutcome.Unreadable, Nothing)
         End Try
 
         ' Always starts at level 1 of the new set, whatever level the previous set was on.
-        Return LoadLevel(FromFile, 1)
+        If Not LoadLevel(FromFile, 1) Then
+            Return New LevelsetOpenResult(LevelsetOpenOutcome.NoPlayableLevels, FromFile)
+        End If
+
+        Return New LevelsetOpenResult(LevelsetOpenOutcome.Opened, FromFile)
     End Function
 
     ''' <remarks>
@@ -291,8 +314,8 @@ Partial Public Class Game
     '''
     ''' The marker names the next level to play, so completing level N sets it to N + 1 and
     ''' completing the last level of a set takes it one past the end - which is what distinguishes
-    ''' a finished set from merely standing on its final level. LevelsetLibrary.FurthestPlayableLevel
-    ''' clamps it back to a level number for anything that has to play or display one.
+    ''' a finished set from merely standing on its final level. FurthestPlayableLevel clamps it
+    ''' back to a level number for anything that has to play or display one.
     '''
     ''' Progress is only kept for the built-in sets; a levelset opened from a file has no
     ''' persisted statistics of its own.
@@ -319,6 +342,7 @@ Partial Public Class Game
 
         Dim LastMove As MoveRecord = RecordedMoves.TakeLast()
         Dim CameFrom As Cell = PlayerCell.Neighbour(LastMove.Direction.Opposite())
+        Dim Changed As New List(Of Cell) From {PlayerCell, CameFrom}
 
         If LastMove.PushedBox Then
             ' The box is one square further along than the player, and gets pulled back with them.
@@ -326,6 +350,7 @@ Partial Public Class Game
             CurrentBoard(BoxCell) = CurrentBoard(BoxCell).WithNothing()
             CurrentBoard(PlayerCell) = CurrentBoard(PlayerCell).WithBox()
             PushCount -= 1
+            Changed.Add(BoxCell)
         Else
             CurrentBoard(PlayerCell) = CurrentBoard(PlayerCell).WithNothing()
         End If
@@ -334,6 +359,6 @@ Partial Public Class Game
         PlayerCell = CameFrom
         MoveCount -= 1
 
-        RaiseEvent PlayerMoved(Me, EventArgs.Empty)
+        RaiseEvent PlayerMoved(Me, New PlayerMovedEventArgs(Changed))
     End Sub
 End Class

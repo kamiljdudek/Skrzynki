@@ -28,11 +28,11 @@ Public Class StatsOptsForm
 
         Dim Moves As Integer = Progress.GetMoves(LevelsetName)
         Dim Pushes As Integer = Progress.GetPushes(LevelsetName)
-        Dim ReachedLevel As Integer = Levelsets.FurthestPlayableLevel(LevelsetName, Progress)
+        Dim ReachedLevel As Integer = Game.FurthestPlayableLevel(Levelsets.GetLevelset(LevelsetName), Progress)
 
-        LabelMoves.Text = UiText.Format($"{My.Resources.LocalizableStrings.LabelMoves}{Moves}")
-        LabelPushes.Text = UiText.Format($"{My.Resources.LocalizableStrings.LabelPushes}{Pushes}")
-        LabelReachedLevel.Text = UiText.Format($"{My.Resources.LocalizableStrings.LabelAchievedLevel}{ReachedLevel}")
+        LabelMoves.Text = UiText.Format(My.Resources.LocalizableStrings.LabelMovesFormat, Moves)
+        LabelPushes.Text = UiText.Format(My.Resources.LocalizableStrings.LabelPushesFormat, Pushes)
+        LabelReachedLevel.Text = UiText.Format(My.Resources.LocalizableStrings.LabelAchievedLevelFormat, ReachedLevel)
 
         ' Taken from the levelset itself rather than assumed to be 60.
         Dim NumberOfLevels As Integer = Levelsets.NumberOfLevelsIn(LevelsetName)

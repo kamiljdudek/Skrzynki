@@ -123,8 +123,8 @@
   <data name="AlertLevelDoesNotExist" xml:space="preserve">
     <value>There is no such level</value>
   </data>
-  <data name="AlertLevelEmptyOrBad" xml:space="preserve">
-    <value>Level file is empty or corrupt</value>
+  <data name="AlertNoPlayableLevels" xml:space="preserve">
+    <value>The file holds no level that can be played.</value>
   </data>
   <data name="AlertLevelsetLoadFailure" xml:space="preserve">
     <value>The levelset could not be loaded.</value>
@@ -151,17 +151,17 @@
   <data name="CheckBoxBeginFromArrivedLevel" xml:space="preserve">
     <value>Start levelsets at the furthest level reached</value>
   </data>
-  <data name="LabelAchievedLevel" xml:space="preserve">
-    <value>Reached level: </value>
+  <data name="LabelAchievedLevelFormat" xml:space="preserve">
+    <value>Reached level: {0}</value>
   </data>
   <data name="LabelLevelSet" xml:space="preserve">
     <value>Levelset:</value>
   </data>
-  <data name="LabelMoves" xml:space="preserve">
-    <value>Moves: </value>
+  <data name="LabelMovesFormat" xml:space="preserve">
+    <value>Moves: {0}</value>
   </data>
-  <data name="LabelPushes" xml:space="preserve">
-    <value>Pushes: </value>
+  <data name="LabelPushesFormat" xml:space="preserve">
+    <value>Pushes: {0}</value>
   </data>
   <data name="LabelSkin" xml:space="preserve">
     <value>Skin</value>
@@ -178,8 +178,8 @@
   <data name="LabelSplashOS" xml:space="preserve">
     <value>for Windows</value>
   </data>
-  <data name="LabelSplashVersionName" xml:space="preserve">
-    <value>Version: </value>
+  <data name="LabelSplashVersionFormat" xml:space="preserve">
+    <value>Version: {0}</value>
   </data>
   <data name="LabelStats" xml:space="preserve">
     <value>Stats and options</value>
@@ -253,8 +253,8 @@
   <data name="LabelLevelSolvedTitle" xml:space="preserve">
     <value>Level solved</value>
   </data>
-  <data name="LabelSolutionLength" xml:space="preserve">
-    <value>Solution length: </value>
+  <data name="LabelSolutionLengthFormat" xml:space="preserve">
+    <value>Solution length: {0}</value>
   </data>
   <data name="ButtonNextLevel" xml:space="preserve">
     <value>&amp;Next</value>
@@ -279,5 +279,26 @@
   </data>
   <data name="ButtonCancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="AlertLevelFileUnreadable" xml:space="preserve">
+    <value>The level file could not be read.</value>
+  </data>
+  <data name="AlertLevelsSkipped" xml:space="preserve">
+    <value>Some levels in this file were left out:</value>
+    <comment>Followed by one line for each reason, AlertLevelsSkippedTooLargeFormat and AlertLevelsSkippedNotValidFormat.</comment>
+  </data>
+  <data name="AlertLevelsSkippedTooLargeFormat" xml:space="preserve">
+    <value>• too large (over {0}×{0} squares): {1}</value>
+    <comment>{0} is the largest board size, {1} how many levels were too large.</comment>
+  </data>
+  <data name="AlertLevelsSkippedNotValidFormat" xml:space="preserve">
+    <value>• not valid: {0}</value>
+    <comment>{0} is how many levels could not be read as a level.</comment>
+  </data>
+  <data name="LabelTrayHint" xml:space="preserve">
+    <value>Click the icon to bring the game back.</value>
+  </data>
+  <data name="TrayMenuShow" xml:space="preserve">
+    <value>&amp;Show</value>
   </data>
 </root>

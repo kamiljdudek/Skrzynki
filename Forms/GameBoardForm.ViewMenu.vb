@@ -47,16 +47,46 @@ Partial Public Class GameBoardForm
         My.Settings.LevelRestartingAuthorization = MenuitemConfirmRestarts.Checked
     End Sub
 
+    ''' <remarks>
+    ''' Hides the game to the notification area and says so with a notification, which also tells
+    ''' the player how to bring it back.
+    ''' </remarks>
     Private Sub MenuitemHide_Click(sender As Object, e As EventArgs) Handles MenuitemHide.Click
-        SkrzynkiTrayIcon.Visible = True
         SkrzynkiTrayIcon.Text = My.Resources.LocalizableStrings.LabelTrayDescription
-        SkrzynkiTrayIcon.BalloonTipText = My.Resources.LocalizableStrings.LabelTrayDescription
+        SkrzynkiTrayIcon.BalloonTipTitle = My.Resources.LocalizableStrings.LabelTrayDescription
+        SkrzynkiTrayIcon.BalloonTipText = My.Resources.LocalizableStrings.LabelTrayHint
+        SkrzynkiTrayIcon.Visible = True
         Me.Visible = False
+
+        ' Windows decides how long a notification stays; the timeout is only a suggestion.
+        SkrzynkiTrayIcon.ShowBalloonTip(5000)
     End Sub
 
-    ''' <remarks>Any click brings the window back; a double-click raises MouseClick too.</remarks>
+    ''' <remarks>
+    ''' A left click brings the window back; a double-click raises MouseClick too. The right button
+    ''' is left to the tray icon's menu.
+    ''' </remarks>
     Private Sub SkrzynkiTrayIcon_MouseClick(sender As Object, e As MouseEventArgs) Handles SkrzynkiTrayIcon.MouseClick
+        If e IsNot Nothing AndAlso e.Button = MouseButtons.Left Then
+            RestoreWindow()
+        End If
+    End Sub
+
+    ''' <remarks>Clicking the notification shown on hiding brings the window back as well.</remarks>
+    Private Sub SkrzynkiTrayIcon_BalloonTipClicked(sender As Object, e As EventArgs) Handles SkrzynkiTrayIcon.BalloonTipClicked
         RestoreWindow()
+    End Sub
+
+    Private Sub TrayMenuShow_Click(sender As Object, e As EventArgs) Handles TrayMenuShow.Click
+        RestoreWindow()
+    End Sub
+
+    ''' <remarks>
+    ''' Quits from the tray the same way as from the Game menu: closing the main window ends the
+    ''' application, which saves the settings on the way out.
+    ''' </remarks>
+    Private Sub TrayMenuExit_Click(sender As Object, e As EventArgs) Handles TrayMenuExit.Click
+        Me.Close()
     End Sub
 
     ''' <remarks>

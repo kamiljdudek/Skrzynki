@@ -8,8 +8,9 @@ Public Class SplashScreen
         Me.LabelGameName.Text = My.Application.Info.AssemblyName
         Me.LabelDescr.Text = My.Application.Info.Description
         Me.LabelPlatform.Text = My.Resources.LocalizableStrings.LabelSplashOS
-        Me.LabelVersion.Text = My.Resources.LocalizableStrings.LabelSplashVersionName &
-            System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileVersion
+        Me.LabelVersion.Text = UiText.Format(
+            My.Resources.LocalizableStrings.LabelSplashVersionFormat,
+            FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileVersion)
         Me.PictureBoxLogo.Image = My.Resources.ico101.ToBitmap()
     End Sub
     Private Sub SplashScreen_Click(sender As Object, e As EventArgs) Handles MyBase.Click

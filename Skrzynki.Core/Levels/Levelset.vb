@@ -1,3 +1,5 @@
+Imports System.Collections.ObjectModel
+
 ''' <remarks>
 ''' A named collection of levels. A levelset holds level data only; progress and statistics are
 ''' kept by the game's IProgressStore.
@@ -16,6 +18,7 @@ Public NotInheritable Class Levelset
     Public ReadOnly Property BoardSize As Integer
 
     Private ReadOnly Levels As New List(Of Board)
+    Private ReadOnly Skipped As New List(Of SkippedLevel)
 
     Private Sub New(levelsetName As String, sourceFileName As String, levelsetText As String)
         Name = levelsetName
@@ -32,12 +35,18 @@ Public NotInheritable Class Levelset
         Dim PlayableLevels As New List(Of List(Of String))
         Dim Size As Integer = Board.MinimumSize
 
-        For Each LevelText As String In LevelTexts
-            Dim Rows As List(Of String) = LevelParser.ReadLevelRows(LevelText)
+        For Position As Integer = 1 To LevelTexts.Count
+            Dim Rows As List(Of String) = LevelParser.ReadLevelRows(LevelTexts(Position - 1))
 
-            ' Levels that cannot be played, or that are too large to show, are skipped rather than
+            ' Levels that cannot be played, or that are too large to show, are left out rather than
             ' stored as Nothing, so that NumberOfLevels only ever counts levels that can be played.
-            If Rows Is Nothing OrElse LevelParser.LevelExtent(Rows) > Board.MaximumSize Then
+            ' Each one is noted, so the player can be told what was left out and why.
+            If Rows Is Nothing Then
+                Skipped.Add(New SkippedLevel(Position, LevelSkipReason.NotValid))
+                Continue For
+            End If
+            If LevelParser.LevelExtent(Rows) > Board.MaximumSize Then
+                Skipped.Add(New SkippedLevel(Position, LevelSkipReason.TooLarge))
                 Continue For
             End If
 
@@ -50,6 +59,13 @@ Public NotInheritable Class Levelset
             Levels.Add(LevelParser.LayOutLevel(Rows, Size))
         Next
     End Sub
+
+    ''' <remarks>The levels of the text that were left out of the set, in order, and why.</remarks>
+    Public ReadOnly Property SkippedLevels As ReadOnlyCollection(Of SkippedLevel)
+        Get
+            Return Skipped.AsReadOnly()
+        End Get
+    End Property
 
     ''' <remarks>A set built from level text held in memory, such as an embedded resource.</remarks>
     Public Shared Function FromText(levelsetName As String, levelsetText As String) As Levelset
