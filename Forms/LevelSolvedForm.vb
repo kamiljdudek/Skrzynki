@@ -33,12 +33,10 @@ Public Class LevelSolvedForm
         SolutionLurd = If(solution, String.Empty)
         SuggestedFileName = BuildFileName(levelsetName, levelNumber)
 
-        LabelMoves.Text = My.Resources.LocalizableStrings.LabelMoves &
-            movesPerformed.ToString(CultureInfo.CurrentCulture)
-        LabelPushes.Text = My.Resources.LocalizableStrings.LabelPushes &
-            pushesPerformed.ToString(CultureInfo.CurrentCulture)
-        LabelSolutionLength.Text = My.Resources.LocalizableStrings.LabelSolutionLength &
-            SolutionLurd.Length.ToString(CultureInfo.CurrentCulture)
+        LabelMoves.Text = UiText.Format($"{My.Resources.LocalizableStrings.LabelMoves}{movesPerformed}")
+        LabelPushes.Text = UiText.Format($"{My.Resources.LocalizableStrings.LabelPushes}{pushesPerformed}")
+        LabelSolutionLength.Text =
+            UiText.Format($"{My.Resources.LocalizableStrings.LabelSolutionLength}{SolutionLurd.Length}")
 
         ' Nothing to write out if the level arrived already solved.
         ButtonSaveSolution.Enabled = SolutionLurd.Length > 0
@@ -114,7 +112,8 @@ Public Class LevelSolvedForm
         End Try
     End Sub
 
-    Private Shared Sub ShowSaveFailure()
-        ShowMessage(My.Resources.LocalizableStrings.AlertSolutionSaveFailure, MsgBoxStyle.Critical)
+    Private Sub ShowSaveFailure()
+        Dialogs.ShowMessage(Me, My.Resources.LocalizableStrings.AlertSolutionSaveFailure,
+                            MessageBoxButtons.OK, MessageBoxIcon.Error)
     End Sub
 End Class

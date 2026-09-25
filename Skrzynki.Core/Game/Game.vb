@@ -10,27 +10,27 @@
 ''' <remarks>
 ''' One game in progress: the board, the attempt on the current level, and which levelset it comes
 ''' from. Everything it depends on is handed to it - the levelsets it can play and the store its
-''' progress goes to - so it reads no settings of its own. The movement rules are in
-''' MovementRules.vb; BoardItem, the board dimensions and the cell-encoding helpers are in Board.vb.
+''' progress goes to - so it reads no settings of its own. It announces every change to the board
+''' through LevelLoaded and PlayerMoved, so whoever shows it never has to guess when to redraw.
+''' The movement rules are in MovementRules.vb.
 ''' </remarks>
 Partial Public Class Game
     Private ReadOnly Library As LevelsetLibrary
     Private ReadOnly Progress As IProgressStore
 
-    ''' <remarks>The current arrangement of everything on the playing field.</remarks>
-    Private Cells() As BoardItem = EmptyBoard(MinimumBoardSize)
+    ''' <remarks>
+    ''' The current arrangement of everything on the playing field. (Qualified, because inside
+    ''' this class the name Board means the property below.)
+    ''' </remarks>
+    Private CurrentBoard As New Board(Skrzynki.Board.MinimumSize)
 
-    ''' <remarks>The side of the board being played on; see the indexing convention in Board.vb.</remarks>
-    Private SideLength As Integer = MinimumBoardSize
+    Private PlayerCell As Cell
 
     ''' <remarks>
     ''' The attempt on the level being played: every move in order, which is what Undo reverses
     ''' and what a solution is written from.
     ''' </remarks>
     Private ReadOnly RecordedMoves As New MoveHistory
-
-    ''' <remarks>Where the player is standing, as an index into Cells.</remarks>
-    Private PlayerLocation As Integer
 
     ''' <remarks>
     ''' The levelset being played: one of the built-in sets, or one opened from a file. Nothing
@@ -48,6 +48,15 @@ Partial Public Class Game
     Private MoveCount As Integer
     Private PushCount As Integer
 
+    ''' <remarks>
+    ''' Raised whenever a level is put on the board: another level, the same one restarted, or the
+    ''' first level of another set - whose board may be of another size.
+    ''' </remarks>
+    Public Event LevelLoaded As EventHandler
+
+    ''' <remarks>Raised whenever the player has moved, or a move has been taken back.</remarks>
+    Public Event PlayerMoved As EventHandler
+
     Public Sub New(levelsets As LevelsetLibrary, progress As IProgressStore)
         If levelsets Is Nothing Then
             Throw New ArgumentNullException(NameOf(levelsets))
@@ -63,28 +72,12 @@ Partial Public Class Game
     ' --- The state of play -----------------------------------------------------------------
 
     ''' <remarks>
-    ''' The side of the square board being played on. It changes only when play moves to another
-    ''' levelset, since every level of a set shares one board size.
+    ''' The board being played on, for looking at. A new board object is put in place each time a
+    ''' level loads, so anything holding on to it should pick it up again on LevelLoaded.
     ''' </remarks>
-    Public ReadOnly Property BoardSize() As Integer
+    Public ReadOnly Property Board() As IReadOnlyBoard
         Get
-            Return SideLength
-        End Get
-    End Property
-
-    ''' <remarks>Contents of one board cell. Out-of-range indices read as BlankOuter.</remarks>
-    Public ReadOnly Property BoardCell(cellIndex As Integer) As BoardItem
-        Get
-            If cellIndex < BoardFirstIndex OrElse cellIndex > Cells.Length - 1 Then
-                Return BoardItem.BlankOuter
-            End If
-            Return Cells(cellIndex)
-        End Get
-    End Property
-
-    Public ReadOnly Property CurrentPlayerLocation() As Integer
-        Get
-            Return PlayerLocation
+            Return CurrentBoard
         End Get
     End Property
 
@@ -100,6 +93,16 @@ Partial Public Class Game
                 Return 0
             End If
             Return CurrentLevelset.NumberOfLevels
+        End Get
+    End Property
+
+    ''' <remarks>
+    ''' The name of the set being played: a built-in set's internal name, or the file name of a
+    ''' set opened from disk. Nothing until a level has loaded.
+    ''' </remarks>
+    Public ReadOnly Property CurrentLevelsetName() As String
+        Get
+            Return CurrentLevelset?.Name
         End Get
     End Property
 
@@ -124,17 +127,7 @@ Partial Public Class Game
 
     Public ReadOnly Property IsPlayingCustomLevelset() As Boolean
         Get
-            Return CustomLevelsetFileName IsNot Nothing
-        End Get
-    End Property
-
-    ''' <remarks>Path of the levelset file currently open, if the game is playing one.</remarks>
-    Public ReadOnly Property CustomLevelsetFileName() As String
-        Get
-            If CurrentLevelset Is Nothing Then
-                Return Nothing
-            End If
-            Return CurrentLevelset.SourceFileName
+            Return CurrentLevelset?.SourceFileName IsNot Nothing
         End Get
     End Property
 
@@ -157,52 +150,21 @@ Partial Public Class Game
 
     Public ReadOnly Property IsCurrentLevelSolved() As Boolean
         Get
-            Return IsBoardSolved(Cells)
+            Return CurrentBoard.IsSolved()
         End Get
     End Property
 
     Public ReadOnly Property NumberOfGoalsOnCurrentLevel() As Integer
         Get
-            Return GetTotalNumberOfGoalsOnBoard(Cells)
+            Return CurrentBoard.CountGoals()
         End Get
     End Property
 
     Public ReadOnly Property NumberOfCoveredGoalsOnCurrentLevel() As Integer
         Get
-            Return GetNumberOfPlacedBoxesOnBoard(Cells)
+            Return CurrentBoard.CountCoveredGoals()
         End Get
     End Property
-
-    ' --- Choosing what to play -------------------------------------------------------------
-
-    ''' <remarks>
-    ''' Loads a level onto the board and starts a fresh attempt at it. Returns False without
-    ''' touching any state when there is no such level, so callers can report the failure rather
-    ''' than crash on a bad index later on.
-    ''' </remarks>
-    Private Function LoadLevel(levelset As Levelset, levelId As Integer) As Boolean
-        If levelset Is Nothing Then
-            Return False
-        End If
-
-        Dim StartingBoard() As BoardItem = levelset.GetLevel(levelId)
-        If StartingBoard Is Nothing Then
-            Return False
-        End If
-
-        ' GetLevel hands over a copy of its own, so it can be played on directly.
-        Cells = StartingBoard
-        SideLength = levelset.BoardSize
-        PlayerLocation = GetIndexOfPlayerOnBoard(Cells)
-        CurrentLevelset = levelset
-        LevelNumber = levelId
-
-        MoveCount = 0
-        PushCount = 0
-        RecordedMoves.Clear()
-
-        Return True
-    End Function
 
     ''' <remarks>
     ''' The highest level of the set being played that the player may pick: any level of a set
@@ -217,6 +179,38 @@ Partial Public Class Game
             Return Library.FurthestPlayableLevel(SelectedBuiltInLevelset, Progress)
         End Get
     End Property
+
+    ' --- Choosing what to play -------------------------------------------------------------
+
+    ''' <remarks>
+    ''' Loads a level onto the board and starts a fresh attempt at it. Returns False without
+    ''' touching any state when there is no such level, so callers can report the failure rather
+    ''' than crash on a bad index later on.
+    ''' </remarks>
+    Private Function LoadLevel(levelset As Levelset, levelId As Integer) As Boolean
+        Dim StartingBoard As Board = levelset?.GetLevel(levelId)
+        If StartingBoard Is Nothing Then
+            Return False
+        End If
+
+        Dim Player As Cell? = StartingBoard.FindPlayer()
+        If Not Player.HasValue Then
+            Return False
+        End If
+
+        ' GetLevel hands over a copy of its own, so it can be played on directly.
+        CurrentBoard = StartingBoard
+        PlayerCell = Player.Value
+        CurrentLevelset = levelset
+        LevelNumber = levelId
+
+        MoveCount = 0
+        PushCount = 0
+        RecordedMoves.Clear()
+
+        RaiseEvent LevelLoaded(Me, EventArgs.Empty)
+        Return True
+    End Function
 
     ''' <remarks>Starts the given level of the set being played, whichever that is.</remarks>
     Public Function PlayLevel(levelNumber As Integer) As Boolean
@@ -238,6 +232,13 @@ Partial Public Class Game
     Public Function SelectBuiltInLevelset(levelsetName As String,
                                           startAtFurthestLevel As Boolean) As Boolean
         Dim Selected As Levelset = Library.GetLevelset(levelsetName)
+        If Selected Is Nothing Then
+            Return False
+        End If
+
+        ' Recorded first, so that anyone reacting to LevelLoaded already sees the new set.
+        Dim PreviousSelection As String = SelectedBuiltInLevelset
+        SelectedBuiltInLevelset = levelsetName
 
         Dim StartingLevel As Integer = 1
         If startAtFurthestLevel Then
@@ -246,10 +247,10 @@ Partial Public Class Game
 
         ' Saved progress can point past the end of the set; the first level always exists.
         If Not LoadLevel(Selected, StartingLevel) AndAlso Not LoadLevel(Selected, 1) Then
+            SelectedBuiltInLevelset = PreviousSelection
             Return False
         End If
 
-        SelectedBuiltInLevelset = levelsetName
         Return True
     End Function
 
@@ -317,21 +318,22 @@ Partial Public Class Game
         End If
 
         Dim LastMove As MoveRecord = RecordedMoves.TakeLast()
-        Dim Player As Cell = Cell.FromIndex(PlayerLocation, SideLength)
-        Dim CameFrom As Cell = Player.Neighbour(Opposite(LastMove.Direction))
+        Dim CameFrom As Cell = PlayerCell.Neighbour(LastMove.Direction.Opposite())
 
         If LastMove.PushedBox Then
             ' The box is one square further along than the player, and gets pulled back with them.
-            Dim BoxCell As Cell = Player.Neighbour(LastMove.Direction)
-            Cells(BoxCell.Index) = WithNothing(Cells(BoxCell.Index))
-            Cells(Player.Index) = WithBox(Cells(Player.Index))
+            Dim BoxCell As Cell = PlayerCell.Neighbour(LastMove.Direction)
+            CurrentBoard(BoxCell) = CurrentBoard(BoxCell).WithNothing()
+            CurrentBoard(PlayerCell) = CurrentBoard(PlayerCell).WithBox()
             PushCount -= 1
         Else
-            Cells(Player.Index) = WithNothing(Cells(Player.Index))
+            CurrentBoard(PlayerCell) = CurrentBoard(PlayerCell).WithNothing()
         End If
 
-        Cells(CameFrom.Index) = WithPlayer(Cells(CameFrom.Index))
-        PlayerLocation = CameFrom.Index
+        CurrentBoard(CameFrom) = CurrentBoard(CameFrom).WithPlayer()
+        PlayerCell = CameFrom
         MoveCount -= 1
+
+        RaiseEvent PlayerMoved(Me, EventArgs.Empty)
     End Sub
 End Class

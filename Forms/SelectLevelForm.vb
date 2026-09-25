@@ -20,7 +20,7 @@ Public Class SelectLevelForm
     End Property
 
     Private Sub SelectLevelForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Text = MessageTitle
+        Me.Text = Dialogs.MessageTitle
         LabelPrompt.Text = My.Resources.LocalizableStrings.DialogSelectLevel
         ButtonOK.Text = My.Resources.LocalizableStrings.ButtonOK
         ButtonCancel.Text = My.Resources.LocalizableStrings.ButtonCancel

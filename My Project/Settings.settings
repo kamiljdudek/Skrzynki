@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Skin" Type="System.String" Scope="User">
-      <Value Profile="(Default)">(Oryginalny)</Value>
+      <Value Profile="(Default)">Original</Value>
     </Setting>
     <Setting Name="ClassicArrivedLevel" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>

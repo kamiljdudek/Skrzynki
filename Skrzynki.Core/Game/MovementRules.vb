@@ -5,7 +5,8 @@ Partial Public Class Game
     '
     ' The rules of Sokoban: the player steps onto the next square, and if a box is standing there
     ' it is pushed one square further. Each rule is stated once rather than once per direction,
-    ' because a direction is a row and column step that Cell.Neighbour applies.
+    ' because a direction is a row and column step that Cell.Neighbour applies. The edge of the
+    ' board needs no rule of its own: a square off the board reads as outside the level.
     ' -------------------------------------------------------------------------------------------
 
     ''' <summary>
@@ -18,17 +19,15 @@ Partial Public Class Game
     ''' be pushed blocks the way, in which case nothing on the board changes.
     ''' </returns>
     Public Function TryMovePlayer(direction As MoveDirection) As Boolean
-        Dim Player As Cell = Cell.FromIndex(PlayerLocation, SideLength)
-        Dim Ahead As Cell = Player.Neighbour(direction)
+        Dim Ahead As Cell = PlayerCell.Neighbour(direction)
 
-        ' Walls and the space outside the level both stop the player.
-        If Not Ahead.IsOnBoard OrElse Not IsWalkable(Cells(Ahead.Index)) Then
+        If Not CurrentBoard(Ahead).IsWalkable() Then
             Return False
         End If
 
         ' A push that turns out to be blocked returns before anything has been written, so the
         ' board is left exactly as it was.
-        Dim PushedBox As Boolean = HoldsBox(Cells(Ahead.Index))
+        Dim PushedBox As Boolean = CurrentBoard(Ahead).HoldsBox()
         If PushedBox AndAlso Not TryPushBox(direction, Ahead) Then
             Return False
         End If
@@ -36,9 +35,9 @@ Partial Public Class Game
         ' Both squares are re-encoded from the floor they already report, so goals survive the
         ' move. The square ahead still reads as a box when one has just been pushed off it, and
         ' its floor is recoverable from that too.
-        Cells(Player.Index) = WithNothing(Cells(Player.Index))
-        Cells(Ahead.Index) = WithPlayer(Cells(Ahead.Index))
-        PlayerLocation = Ahead.Index
+        CurrentBoard(PlayerCell) = CurrentBoard(PlayerCell).WithNothing()
+        CurrentBoard(Ahead) = CurrentBoard(Ahead).WithPlayer()
+        PlayerCell = Ahead
 
         MoveCount += 1
         If PushedBox Then
@@ -46,6 +45,7 @@ Partial Public Class Game
         End If
         RecordedMoves.Add(New MoveRecord(direction, PushedBox))
 
+        RaiseEvent PlayerMoved(Me, EventArgs.Empty)
         Return True
     End Function
 
@@ -61,18 +61,14 @@ Partial Public Class Game
     ''' </remarks>
     Private Function TryPushBox(direction As MoveDirection, boxCell As Cell) As Boolean
         Dim Beyond As Cell = boxCell.Neighbour(direction)
+        Dim BeyondItem As BoardItem = CurrentBoard(Beyond)
 
         ' A box needs somewhere to go: not off the level, not a wall, and not another box.
-        If Not Beyond.IsOnBoard Then
+        If Not BeyondItem.IsWalkable() OrElse BeyondItem.HoldsBox() Then
             Return False
         End If
 
-        Dim BeyondItem As BoardItem = Cells(Beyond.Index)
-        If Not IsWalkable(BeyondItem) OrElse HoldsBox(BeyondItem) Then
-            Return False
-        End If
-
-        Cells(Beyond.Index) = WithBox(BeyondItem)
+        CurrentBoard(Beyond) = BeyondItem.WithBox()
         Return True
     End Function
 End Class

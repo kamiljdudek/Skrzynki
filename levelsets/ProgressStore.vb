@@ -1,28 +1,4 @@
 ''' <remarks>
-''' Where a Game keeps the player's progress through the built-in levelsets. The interface is what
-''' lets a Game be run against something other than the user's settings.
-'''
-''' The level marker names the *next* level to play, so it reaches one past the end of a set once
-''' that set is finished. Callers that need a level number that exists should go through
-''' LevelsetLibrary.FurthestPlayableLevel rather than reading the marker directly.
-''' </remarks>
-Public Interface IProgressStore
-    Function GetLevelMarker(levelsetName As String) As Integer
-    Function GetMoves(levelsetName As String) As Integer
-    Function GetPushes(levelsetName As String) As Integer
-
-    ''' <remarks>
-    ''' Records one solved level: advances the marker and adds the effort spent. Does nothing when
-    ''' the marker would not move, so replaying a level already beaten cannot inflate the totals.
-    ''' Returns True when the progress was recorded.
-    ''' </remarks>
-    Function RecordSolvedLevel(levelsetName As String,
-                               unlockedLevel As Integer,
-                               moves As Integer,
-                               pushes As Integer) As Boolean
-End Interface
-
-''' <remarks>
 ''' Progress kept in My.Settings. Each of the built-in sets has its own settings, and this is the
 ''' only place that knows which settings belong to which set - so nothing else has to name them.
 ''' A set this store does not know, such as one opened from a file, keeps no progress at all.
@@ -34,8 +10,8 @@ Public NotInheritable Class ProgressStore
     ' below - ClassicArrivedLevel, ClassicMoves, ClassicPushes. Tracking a further set takes those
     ' three settings and one entry here.
     Private Shared ReadOnly SettingPrefixes As New Dictionary(Of String, String)(StringComparer.Ordinal) From {
-        {LevelsetLibrary.ClassicLevelsetName, "Classic"},
-        {LevelsetLibrary.ExtraDifficultLevelsetName, "ExtraDifficult"}
+        {BuiltInLevelsets.ClassicName, "Classic"},
+        {BuiltInLevelsets.ExtraDifficultName, "ExtraDifficult"}
     }
 
     Private Const LevelMarkerSetting As String = "ArrivedLevel"
@@ -51,9 +27,8 @@ Public NotInheritable Class ProgressStore
         For Each Prefix As String In SettingPrefixes.Values
             For Each Suffix As String In {LevelMarkerSetting, MovesSetting, PushesSetting}
                 If My.Settings.Properties(Prefix & Suffix) Is Nothing Then
-                    Throw New InvalidOperationException(
-                        "ProgressStore expects a setting named " & Prefix & Suffix &
-                        ", which My.Settings does not define.")
+                    Throw New InvalidOperationException(FormattableString.Invariant(
+                        $"ProgressStore expects a setting named {Prefix}{Suffix}, which My.Settings does not define."))
                 End If
             Next
         Next

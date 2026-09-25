@@ -7,51 +7,39 @@ Partial Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemRefresh_Click(sender As Object, e As EventArgs) Handles MenuitemRefresh.Click
-        RefreshBoard()
+        BoardDisplay.Invalidate()
     End Sub
 
     Private Sub MenuitemColor_Click(sender As Object, e As EventArgs) Handles MenuitemColor.Click
-        If BackgroundColorDialog.ShowDialog() = DialogResult.OK Then
+        BackgroundColorDialog.Color = My.Settings.BackgroundColor
+        If BackgroundColorDialog.ShowDialog(Me) = DialogResult.OK Then
             My.Settings.BackgroundColor = BackgroundColorDialog.Color
-            ApplyBackgroundColor()
+            BoardDisplay.BackColor = BackgroundColorDialog.Color
         End If
     End Sub
 
-    ''' <remarks>
-    ''' Kept out of RefreshBoard: the colour only changes here, and the cells are given it when
-    ''' they are built.
-    ''' </remarks>
-    Private Sub ApplyBackgroundColor()
-        For Counter As Integer = BoardFirstIndex To CellPictures.Length - 1
-            Me.CellPictures(Counter).BackColor = My.Settings.BackgroundColor
-        Next Counter
+    Private Sub ApplySkin(skin As BoardSkin)
+        My.Settings.Skin = skin.ToString()
+        BoardDisplay.Skin = skin
     End Sub
 
-    Private Sub ApplySkin(skinName As String)
-        My.Settings.Skin = skinName
-        RefreshBoard()
-    End Sub
-
-    ''' <remarks>
-    ''' Anything that is not one of the other two skins draws as the original, so it is checked as
-    ''' the original too - matching the fallback in Skin.GetIcon.
-    ''' </remarks>
     Private Sub MenuitemSkins_DropDownOpening(sender As Object, e As EventArgs) Handles MenuitemSkins.DropDownOpening
-        MenuitemSkinCheese.Checked = My.Settings.Skin = Skrzynki.Skin.SkinCheese
-        MenuitemSkinExport.Checked = My.Settings.Skin = Skrzynki.Skin.SkinExport
-        MenuitemSkinOrig.Checked = Not MenuitemSkinCheese.Checked AndAlso Not MenuitemSkinExport.Checked
+        Dim Current As BoardSkin = SkinIcons.FromSetting(My.Settings.Skin)
+        MenuitemSkinOrig.Checked = Current = BoardSkin.Original
+        MenuitemSkinCheese.Checked = Current = BoardSkin.Cheese
+        MenuitemSkinExport.Checked = Current = BoardSkin.Export
     End Sub
 
     Private Sub MenuitemSkinOrig_Click(sender As Object, e As EventArgs) Handles MenuitemSkinOrig.Click
-        ApplySkin(Skrzynki.Skin.SkinOriginal)
+        ApplySkin(BoardSkin.Original)
     End Sub
 
     Private Sub MenuitemSkinExport_Click(sender As Object, e As EventArgs) Handles MenuitemSkinExport.Click
-        ApplySkin(Skrzynki.Skin.SkinExport)
+        ApplySkin(BoardSkin.Export)
     End Sub
 
     Private Sub MenuitemSkinCheese_Click(sender As Object, e As EventArgs) Handles MenuitemSkinCheese.Click
-        ApplySkin(Skrzynki.Skin.SkinCheese)
+        ApplySkin(BoardSkin.Cheese)
     End Sub
 
     ''' <remarks>CheckOnClick toggles the item; this only carries the new state into the setting.</remarks>

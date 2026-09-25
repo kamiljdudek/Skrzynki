@@ -149,68 +149,64 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationEvents.vb" />
-    <Compile Include="AssemblyInfo.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Dialogs.vb" />
-    <Compile Include="GameBoardDetails.vb" />
-    <Compile Include="GameBoardForm.Designer.vb">
+    <ProjectReference Include="Skrzynki.Core\Skrzynki.Core.vbproj">
+      <Project>{03577D12-3F0B-41DA-A775-206869065709}</Project>
+      <Name>Skrzynki.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Forms\Dialogs.vb" />
+    <Compile Include="Forms\GameBoardForm.Designer.vb">
       <DependentUpon>GameBoardForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="GameBoardForm.vb">
+    <Compile Include="Forms\GameBoardForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GameBoardForm.LevelSelection.vb">
+    <Compile Include="Forms\GameBoardForm.LevelSelection.vb">
       <DependentUpon>GameBoardForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="GameBoardForm.ViewMenu.vb">
+    <Compile Include="Forms\GameBoardForm.ViewMenu.vb">
       <DependentUpon>GameBoardForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="i11n\LocalizableStrings.Designer.vb">
+    <Compile Include="Forms\LevelSolvedForm.Designer.vb">
+      <DependentUpon>LevelSolvedForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LevelSolvedForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SelectLevelForm.Designer.vb">
+      <DependentUpon>SelectLevelForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SelectLevelForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SplashScreen.Designer.vb">
+      <DependentUpon>SplashScreen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SplashScreen.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StatsOptsForm.Designer.vb">
+      <DependentUpon>StatsOptsForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StatsOptsForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UiText.vb" />
+    <Compile Include="i18n\LocalizableStrings.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LocalizableStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="Board.vb" />
-    <Compile Include="LevelParser.vb" />
-    <Compile Include="LevelsetLibrary.vb" />
-    <Compile Include="Localization.vb" />
-    <Compile Include="ProgressStore.vb" />
-    <Compile Include="MovementRules.vb" />
-    <Compile Include="LevelSolvedForm.Designer.vb">
-      <DependentUpon>LevelSolvedForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="LevelSolvedForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MoveHistory.vb" />
-    <Compile Include="Levelset.vb" />
+    <Compile Include="levelsets\BuiltInLevelsets.vb" />
     <Compile Include="levelsets\LevelsetResource.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LevelsetResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="SelectLevelForm.Designer.vb">
-      <DependentUpon>SelectLevelForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SelectLevelForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Settings.vb" />
-    <Compile Include="SplashScreen.Designer.vb">
-      <DependentUpon>SplashScreen.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SplashScreen.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StatsOptsForm.Designer.vb">
-      <DependentUpon>StatsOptsForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="StatsOptsForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Game.vb" />
+    <Compile Include="levelsets\ProgressStore.vb" />
+    <Compile Include="My Project\ApplicationEvents.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
@@ -226,62 +222,68 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Skin.vb" />
-    <EmbeddedResource Include="levelsets\LevelsetResource.resx">
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>LevelsetResource.Designer.vb</LastGenOutput>
+    <Compile Include="My Project\Settings.vb" />
+    <Compile Include="Rendering\BoardView.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rendering\SkinIcons.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\GameBoardForm.resx">
+      <DependentUpon>GameBoardForm.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SplashScreen.resx">
+    <EmbeddedResource Include="Forms\SplashScreen.resx">
       <DependentUpon>SplashScreen.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StatsOptsForm.resx">
+    <EmbeddedResource Include="Forms\StatsOptsForm.resx">
       <DependentUpon>StatsOptsForm.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="app.config" />
-    <None Include="LICENSE" />
-    <None Include="My Project\Application.myapp">
-      <Generator>MyApplicationCodeGenerator</Generator>
-      <LastGenOutput>Application.Designer.vb</LastGenOutput>
-    </None>
-    <None Include="Resources\LevelsetClassic.txt" />
-    <None Include="Resources\LevelsetXS.txt" />
-    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
-    <None Include="Resources\Classic.SOK.txt" />
-    <None Include="Resources\XS.SOK.txt" />
-    <None Include="icons\Eksport.png" />
-    <None Include="icons\Oryginalny.png" />
-    <None Include="icons\Serowy.png" />
-    <Content Include="Skrzynki.ico" />
-    <EmbeddedResource Include="GameBoardForm.resx">
-      <DependentUpon>GameBoardForm.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="i11n\LocalizableStrings.fr-FR.resx">
+    <EmbeddedResource Include="i18n\LocalizableStrings.fr-FR.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="i11n\LocalizableStrings.pl-PL.resx">
+    <EmbeddedResource Include="i18n\LocalizableStrings.pl-PL.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="i11n\LocalizableStrings.resx">
+    <EmbeddedResource Include="i18n\LocalizableStrings.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LocalizableStrings.Designer.vb</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="levelsets\LevelsetResource.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LevelsetResource.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="LICENSE" />
+    <None Include="My Project\app.manifest" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
     <None Include="My Project\Settings.settings">
       <CustomToolNamespace>My</CustomToolNamespace>
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="My Project\app.manifest" />
+    <None Include="Resources\Classic.SOK.txt" />
+    <None Include="Resources\XS.SOK.txt" />
+    <None Include="Resources\LevelsetClassic.txt" />
+    <None Include="Resources\LevelsetXS.txt" />
+    <None Include="icons\Eksport.png" />
+    <None Include="icons\Oryginalny.png" />
+    <None Include="icons\Serowy.png" />
+    <Content Include="Skrzynki.ico" />
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>

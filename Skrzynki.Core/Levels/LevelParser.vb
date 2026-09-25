@@ -1,22 +1,34 @@
 ''' <remarks>
-''' Reads levels written in SOK notation. A levelset is a sequence of level maps; anything between
-''' them that is not a map row - a title, a comment, a level number, a blank line - separates one
-''' level from the next and is otherwise ignored.
+''' Reads levelsets in the two formats the game opens:
+'''
+''' SOK notation, the common Sokoban format: a sequence of level maps, where anything between them
+''' that is not a map row - a title, a comment, a level number, a blank line - separates one level
+''' from the next and is otherwise ignored.
+'''
+''' The game's own *.box format: the number of levels on the first line, then each level as a line
+''' holding a single * followed by its rows, one character per square - ' for outside the level
+''' and the digit of the BoardItem for everything else. Each .box level is turned into SOK rows, so
+''' both formats go through the same checks and the same layout.
 ''' </remarks>
-Module LevelParser
+Friend NotInheritable Class LevelParser
+    Private Sub New()
+    End Sub
+
     ''' <remarks>
     ''' Splits text into lines on any line ending - CRLF, LF or CR alone - so that level files
     ''' written on Windows, Unix-like systems or classic Mac all load.
     ''' </remarks>
-    Private Function SplitIntoLines(text As String) As String()
+    Private Shared Function SplitIntoLines(text As String) As String()
         Return text.Split(New String() {vbCrLf, vbLf, vbCr}, StringSplitOptions.None)
     End Function
+
+    ' --- SOK -----------------------------------------------------------------------------------
 
     ''' <remarks>
     ''' Whether a line belongs to a level map: it holds nothing but map characters, and at least one
     ''' wall. The wall requirement is what keeps a blank line, or a line of floor, from counting.
     ''' </remarks>
-    Private Function IsMapRow(line As String) As Boolean
+    Private Shared Function IsMapRow(line As String) As Boolean
         If line.IndexOf("#"c) < 0 Then
             Return False
         End If
@@ -34,12 +46,12 @@ Module LevelParser
     ''' The SOK map characters. Some files write the floor as - or _ instead of a space, so that it
     ''' survives being pasted into mail and forums; those are read as a space.
     ''' </remarks>
-    Private Function IsMapCharacter(character As Char) As Boolean
+    Private Shared Function IsMapCharacter(character As Char) As Boolean
         Dim Item As BoardItem
         Return character = "-"c OrElse character = "_"c OrElse TryReadMapCharacter(character, Item)
     End Function
 
-    Private Function TryReadMapCharacter(character As Char, ByRef item As BoardItem) As Boolean
+    Private Shared Function TryReadMapCharacter(character As Char, ByRef item As BoardItem) As Boolean
         Select Case character
             Case " "c
                 item = BoardItem.Blank
@@ -62,8 +74,8 @@ Module LevelParser
         Return True
     End Function
 
-    ''' <remarks>Splits the text of a levelset into one block of map rows per level.</remarks>
-    Public Function SplitIntoLevelTexts(levelsetText As String) As List(Of String)
+    ''' <remarks>Splits the text of a SOK levelset into one block of map rows per level.</remarks>
+    Public Shared Function SplitIntoLevelTexts(levelsetText As String) As List(Of String)
         Dim LevelTexts As New List(Of String)
         Dim CurrentLevel As New System.Text.StringBuilder()
 
@@ -84,12 +96,84 @@ Module LevelParser
         Return LevelTexts
     End Function
 
+    ' --- .box ----------------------------------------------------------------------------------
+
+    ''' <remarks>
+    ''' Whether text is in the .box format: a level count alone on the first line, and at least one
+    ''' line holding nothing but the * that opens a level. SOK text never starts with a number.
+    ''' </remarks>
+    Public Shared Function IsBoxFormat(levelsetText As String) As Boolean
+        Dim Lines() As String = SplitIntoLines(levelsetText)
+        Dim Count As Integer
+
+        Return Lines.Length > 1 AndAlso
+               Integer.TryParse(Lines(0).Trim(),
+                                Globalization.NumberStyles.None,
+                                Globalization.CultureInfo.InvariantCulture,
+                                Count) AndAlso
+               Array.Exists(Lines, Function(line) line.Trim() = "*")
+    End Function
+
+    ''' <remarks>
+    ''' Splits a .box levelset into one block of SOK rows per level. The level count on the first
+    ''' line is not relied on: the levels are whatever follows each * line.
+    ''' </remarks>
+    Public Shared Function SplitBoxLevelTexts(levelsetText As String) As List(Of String)
+        Dim LevelTexts As New List(Of String)
+        Dim CurrentLevel As System.Text.StringBuilder = Nothing
+        Dim Lines() As String = SplitIntoLines(levelsetText)
+
+        For LineNumber As Integer = 1 To Lines.Length - 1
+            Dim Line As String = Lines(LineNumber)
+
+            If Line.Trim() = "*" Then
+                If CurrentLevel IsNot Nothing Then
+                    LevelTexts.Add(CurrentLevel.ToString())
+                End If
+                CurrentLevel = New System.Text.StringBuilder()
+            ElseIf CurrentLevel IsNot Nothing Then
+                CurrentLevel.AppendLine(BoxRowToSok(Line))
+            End If
+        Next
+
+        If CurrentLevel IsNot Nothing Then
+            LevelTexts.Add(CurrentLevel.ToString())
+        End If
+
+        Return LevelTexts
+    End Function
+
+    ''' <remarks>
+    ''' One .box row as a SOK row. Outside squares become spaces, which the layout treats as outside
+    ''' when they lead a row and drops when they trail it. Anything unrecognised is kept as it is,
+    ''' so that ReadLevelRows rejects the level.
+    ''' </remarks>
+    Private Shared Function BoxRowToSok(row As String) As String
+        Const SokCharacters As String = " #$.*@+ "
+        Dim Converted As New System.Text.StringBuilder(row.Length)
+
+        For Each Character As Char In row
+            Dim Digit As Integer = AscW(Character) - AscW("0"c)
+            If Character = "'"c Then
+                Converted.Append(" "c)
+            ElseIf Digit >= 0 AndAlso Digit < SokCharacters.Length Then
+                Converted.Append(SokCharacters(Digit))
+            Else
+                Converted.Append(Character)
+            End If
+        Next
+
+        Return Converted.ToString()
+    End Function
+
+    ' --- From rows to a board ------------------------------------------------------------------
+
     ''' <remarks>
     ''' Reads one level's map rows, with the floor written as spaces and trailing spaces dropped.
     ''' Returns Nothing when the level is empty, holds a character that is not part of a map, or
     ''' does not have exactly one player - so that a set never holds a level that cannot be played.
     ''' </remarks>
-    Public Function ReadLevelRows(levelText As String) As List(Of String)
+    Public Shared Function ReadLevelRows(levelText As String) As List(Of String)
         Dim Rows As New List(Of String)
         Dim Players As Integer = 0
 
@@ -105,7 +189,7 @@ Module LevelParser
                     Return Nothing
                 End If
 
-                If Item = BoardItem.Player OrElse Item = BoardItem.PlayerOnPlace Then
+                If Item.HoldsPlayer() Then
                     Players += 1
                 End If
             Next
@@ -121,7 +205,7 @@ Module LevelParser
     End Function
 
     ''' <remarks>The side of the smallest square board the level fits on.</remarks>
-    Public Function LevelExtent(rows As IList(Of String)) As Integer
+    Public Shared Function LevelExtent(rows As IList(Of String)) As Integer
         Dim Extent As Integer = rows.Count
         For Each Row As String In rows
             Extent = Math.Max(Extent, Row.Length)
@@ -133,7 +217,7 @@ Module LevelParser
     ''' Lays out a level's rows, as read by ReadLevelRows, on a board of the given size: centred,
     ''' and surrounded by BlankOuter. The board must be at least LevelExtent on a side.
     ''' </remarks>
-    Public Function LayOutLevel(rows As IList(Of String), boardSize As Integer) As BoardItem()
+    Public Shared Function LayOutLevel(rows As IList(Of String), boardSize As Integer) As Board
         Dim WidestRow As Integer = 0
         For Each Row As String In rows
             WidestRow = Math.Max(WidestRow, Row.Length)
@@ -142,7 +226,7 @@ Module LevelParser
         Dim ShiftRight As Integer = CInt(Math.Round((boardSize - CDbl(WidestRow)) / 2))
         Dim ShiftDown As Integer = CInt(Math.Round((boardSize - CDbl(rows.Count)) / 2))
 
-        Dim Cells() As BoardItem = EmptyBoard(boardSize)
+        Dim Laid As New Board(boardSize)
 
         For RowNumber As Integer = 0 To rows.Count - 1
             Dim Row As String = rows(RowNumber)
@@ -153,10 +237,10 @@ Module LevelParser
             For Column As Integer = LeadingSpaces To Row.Length - 1
                 Dim Item As BoardItem
                 TryReadMapCharacter(Row(Column), Item)
-                Cells(New Cell(ShiftDown + RowNumber, ShiftRight + Column, boardSize).Index) = Item
+                Laid(New Cell(ShiftDown + RowNumber, ShiftRight + Column)) = Item
             Next
         Next
 
-        Return Cells
+        Return Laid
     End Function
-End Module
+End Class

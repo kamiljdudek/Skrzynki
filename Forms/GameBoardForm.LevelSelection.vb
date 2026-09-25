@@ -1,5 +1,6 @@
 ' Choosing what to play: a level by number, a levelset opened from a file, or one of the
-' built-in levelsets.
+' built-in levelsets. Each command only tells the game what to load; the window follows the game's
+' LevelLoaded event from there.
 Partial Public Class GameBoardForm
 
     ''' <remarks>
@@ -21,16 +22,11 @@ Partial Public Class GameBoardForm
             RequestedLevel = Picker.SelectedLevel
         End Using
 
-        ' PlayLevel clears the undo history and the move counters along with loading the board.
         ' The picker keeps the number in range, so this fails only when no set is loaded at all.
         If Not CurrentGame.PlayLevel(RequestedLevel) Then
-            ShowMessage(My.Resources.LocalizableStrings.AlertLevelDoesNotExist, MsgBoxStyle.Critical)
-            Exit Sub
+            Dialogs.ShowMessage(Me, My.Resources.LocalizableStrings.AlertLevelDoesNotExist,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
-
-        RefreshBoard()
-        RefreshStatusBar()
-        CompleteLevelWhileSolved()
     End Sub
 
     ''' <remarks>
@@ -38,18 +34,14 @@ Partial Public Class GameBoardForm
     ''' unusable file leaves the game in progress untouched.
     ''' </remarks>
     Private Sub MenuitemOpenLevelFile_Click(sender As Object, e As EventArgs) Handles MenuitemOpenLevelFile.Click
-        If OpenLevelFileDialog.ShowDialog() <> DialogResult.OK Then
+        If OpenLevelFileDialog.ShowDialog(Me) <> DialogResult.OK Then
             Exit Sub
         End If
 
         If Not CurrentGame.OpenLevelsetFromFile(OpenLevelFileDialog.FileName) Then
-            ShowMessage(My.Resources.LocalizableStrings.AlertLevelEmptyOrBad, MsgBoxStyle.Exclamation)
-            Exit Sub
+            Dialogs.ShowMessage(Me, My.Resources.LocalizableStrings.AlertLevelEmptyOrBad,
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
-
-        RefreshBoard()
-        RefreshStatusBar()
-        CompleteLevelWhileSolved()
     End Sub
 
     Private Sub MenuitemLevelset_DropDownOpening(sender As Object, e As EventArgs) Handles MenuitemLevelset.DropDownOpening
@@ -58,9 +50,9 @@ Partial Public Class GameBoardForm
 
         MenuitemOpenLevelFile.Checked = Not PlayingBuiltIn
         MenuitemLevelsetClassic.Checked =
-            PlayingBuiltIn AndAlso BuiltInLevelset = LevelsetLibrary.ClassicLevelsetName
+            PlayingBuiltIn AndAlso BuiltInLevelset = BuiltInLevelsets.ClassicName
         MenuitemLevelsetXS.Checked =
-            PlayingBuiltIn AndAlso BuiltInLevelset = LevelsetLibrary.ExtraDifficultLevelsetName
+            PlayingBuiltIn AndAlso BuiltInLevelset = BuiltInLevelsets.ExtraDifficultName
     End Sub
 
     ''' <remarks>
@@ -79,20 +71,16 @@ Partial Public Class GameBoardForm
     ''' <remarks>A set that cannot be loaded leaves the game in progress untouched.</remarks>
     Private Sub SwitchToBuiltInLevelset(levelsetName As String)
         If Not StartBuiltInLevelset(levelsetName) Then
-            ShowMessage(My.Resources.LocalizableStrings.AlertLevelsetLoadFailure, MsgBoxStyle.Critical)
-            Exit Sub
+            Dialogs.ShowMessage(Me, My.Resources.LocalizableStrings.AlertLevelsetLoadFailure,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
-
-        RefreshBoard()
-        RefreshStatusBar()
-        CompleteLevelWhileSolved()
     End Sub
 
     Private Sub MenuitemLevelsetClassic_Click(sender As Object, e As EventArgs) Handles MenuitemLevelsetClassic.Click
-        SwitchToBuiltInLevelset(LevelsetLibrary.ClassicLevelsetName)
+        SwitchToBuiltInLevelset(BuiltInLevelsets.ClassicName)
     End Sub
 
     Private Sub MenuitemLevelsetXS_Click(sender As Object, e As EventArgs) Handles MenuitemLevelsetXS.Click
-        SwitchToBuiltInLevelset(LevelsetLibrary.ExtraDifficultLevelsetName)
+        SwitchToBuiltInLevelset(BuiltInLevelsets.ExtraDifficultName)
     End Sub
 End Class

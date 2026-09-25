@@ -30,9 +30,9 @@ Public Class StatsOptsForm
         Dim Pushes As Integer = Progress.GetPushes(LevelsetName)
         Dim ReachedLevel As Integer = Levelsets.FurthestPlayableLevel(LevelsetName, Progress)
 
-        LabelMoves.Text = My.Resources.LocalizableStrings.LabelMoves & Moves
-        LabelPushes.Text = My.Resources.LocalizableStrings.LabelPushes & Pushes
-        LabelReachedLevel.Text = My.Resources.LocalizableStrings.LabelAchievedLevel & ReachedLevel
+        LabelMoves.Text = UiText.Format($"{My.Resources.LocalizableStrings.LabelMoves}{Moves}")
+        LabelPushes.Text = UiText.Format($"{My.Resources.LocalizableStrings.LabelPushes}{Pushes}")
+        LabelReachedLevel.Text = UiText.Format($"{My.Resources.LocalizableStrings.LabelAchievedLevel}{ReachedLevel}")
 
         ' Taken from the levelset itself rather than assumed to be 60.
         Dim NumberOfLevels As Integer = Levelsets.NumberOfLevelsIn(LevelsetName)
@@ -56,7 +56,7 @@ Public Class StatsOptsForm
     End Sub
 
     Private Sub LevelsetComboBox_Format(sender As Object, e As ListControlConvertEventArgs) Handles LevelsetComboBox.Format
-        e.Value = LocalizedLevelsetName(CStr(e.ListItem))
+        e.Value = BuiltInLevelsets.DisplayName(CStr(e.ListItem))
     End Sub
 
     Private Sub LevelsetComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LevelsetComboBox.SelectedIndexChanged

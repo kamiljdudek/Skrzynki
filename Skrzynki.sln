@@ -6,6 +6,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Skrzynki", "Skrzynki.vbproj
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "SkrzynkiPackage", "SkrzynkiPackage\SkrzynkiPackage.wapproj", "{3B5CAA22-E54E-48B4-9C21-B3CB66DE15AC}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Skrzynki.Core", "Skrzynki.Core\Skrzynki.Core.vbproj", "{03577D12-3F0B-41DA-A775-206869065709}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,26 @@ Global
 		{3B5CAA22-E54E-48B4-9C21-B3CB66DE15AC}.Release|x86.ActiveCfg = Release|x86
 		{3B5CAA22-E54E-48B4-9C21-B3CB66DE15AC}.Release|x86.Build.0 = Release|x86
 		{3B5CAA22-E54E-48B4-9C21-B3CB66DE15AC}.Release|x86.Deploy.0 = Release|x86
+		{03577D12-3F0B-41DA-A775-206869065709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Debug|ARM.Build.0 = Debug|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Debug|x64.Build.0 = Debug|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Debug|x86.Build.0 = Debug|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Release|ARM.ActiveCfg = Release|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Release|ARM.Build.0 = Release|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Release|ARM64.Build.0 = Release|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Release|x64.ActiveCfg = Release|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Release|x64.Build.0 = Release|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Release|x86.ActiveCfg = Release|Any CPU
+		{03577D12-3F0B-41DA-A775-206869065709}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,4 +99,6 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2BDC26BF-DAA8-4AD1-8037-4BE65B8E1A7E}
 	EndGlobalSection
-EndGlobal
+EndProject("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Skrzynki.Core", "Skrzynki.Core\Skrzynki.Core.vbproj", "{03577D12-3F0B-41DA-A775-206869065709}"
+EndProject
+Global

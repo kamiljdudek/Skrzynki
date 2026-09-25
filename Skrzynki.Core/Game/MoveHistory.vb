@@ -1,21 +1,9 @@
-﻿''' <remarks>
-''' A direction of travel on the board, independent of whatever input device asked for it.
-''' </remarks>
-Public Enum MoveDirection
-    Up
-    Down
-    Left
-    Right
-End Enum
-
 ''' <remarks>
 ''' One move made by the player: the direction taken, and whether a box was pushed along with it.
 ''' Those two facts are enough to undo the move and to write it out in LURD notation, the format
 ''' Sokoban solutions are normally exchanged in.
 ''' </remarks>
-Public Structure MoveRecord
-    Implements IEquatable(Of MoveRecord)
-
+Friend Structure MoveRecord
     Private ReadOnly RecordedDirection As MoveDirection
     Private ReadOnly RecordedPush As Boolean
 
@@ -62,31 +50,6 @@ Public Structure MoveRecord
             Return Letter
         End Get
     End Property
-
-    Public Overrides Function Equals(obj As Object) As Boolean
-        If TypeOf obj Is MoveRecord Then
-            Return Equals(CType(obj, MoveRecord))
-        End If
-
-        Return False
-    End Function
-
-    Public Overloads Function Equals(other As MoveRecord) As Boolean _
-        Implements IEquatable(Of MoveRecord).Equals
-        Return RecordedDirection = other.RecordedDirection AndAlso RecordedPush = other.RecordedPush
-    End Function
-
-    Public Overrides Function GetHashCode() As Integer
-        Return (CInt(RecordedDirection) << 1) Or If(RecordedPush, 1, 0)
-    End Function
-
-    Public Shared Operator =(left As MoveRecord, right As MoveRecord) As Boolean
-        Return left.Equals(right)
-    End Operator
-
-    Public Shared Operator <>(left As MoveRecord, right As MoveRecord) As Boolean
-        Return Not left.Equals(right)
-    End Operator
 End Structure
 
 ''' <remarks>
@@ -94,8 +57,8 @@ End Structure
 ''' what a solution is written from, so it is the record of the attempt rather than a by-product
 ''' of one.
 ''' </remarks>
-Public Class MoveHistory
-    Private ReadOnly RecordedMoves As New System.Collections.Generic.List(Of MoveRecord)
+Friend NotInheritable Class MoveHistory
+    Private ReadOnly RecordedMoves As New List(Of MoveRecord)
 
     Public ReadOnly Property IsEmpty As Boolean
         Get

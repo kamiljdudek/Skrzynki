@@ -56,7 +56,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("(Oryginalny)")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Original")>  _
         Public Property Skin() As String
             Get
                 Return CType(Me("Skin"),String)

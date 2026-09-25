@@ -1,22 +1,11 @@
 ''' <remarks>
-''' The built-in levelsets, keyed by name. A set opened from a file is never registered here: the
-''' Game playing it holds it directly, so loading a file cannot disturb the built-in sets or their
-''' progress.
+''' The levelsets a game can switch between, keyed by name. A set opened from a file is never
+''' registered here: the Game playing it holds it directly, so loading a file cannot disturb the
+''' registered sets or their progress.
 ''' </remarks>
 Public NotInheritable Class LevelsetLibrary
-    Public Const ClassicLevelsetName As String = "Classic"
-    Public Const ExtraDifficultLevelsetName As String = "XS"
-
     Private ReadOnly Levelsets As New Dictionary(Of String, Levelset)(StringComparer.Ordinal)
     Private ReadOnly Names As New List(Of String)
-
-    ''' <remarks>The two sets that ship with the game, parsed from the embedded resources.</remarks>
-    Public Shared Function LoadBuiltIn() As LevelsetLibrary
-        Dim Library As New LevelsetLibrary()
-        Library.Add(Levelset.FromText(ClassicLevelsetName, My.Resources.LevelsetResource.Classic_SOK))
-        Library.Add(Levelset.FromText(ExtraDifficultLevelsetName, My.Resources.LevelsetResource.XS_SOK))
-        Return Library
-    End Function
 
     Public Sub Add(levelset As Levelset)
         If levelset Is Nothing Then
