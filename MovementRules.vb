@@ -18,7 +18,7 @@ Partial Public Class Game
     ''' be pushed blocks the way, in which case nothing on the board changes.
     ''' </returns>
     Public Function TryMovePlayer(direction As MoveDirection) As Boolean
-        Dim Player As Cell = Cell.FromIndex(PlayerLocation)
+        Dim Player As Cell = Cell.FromIndex(PlayerLocation, SideLength)
         Dim Ahead As Cell = Player.Neighbour(direction)
 
         ' Walls and the space outside the level both stop the player.

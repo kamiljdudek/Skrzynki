@@ -6,11 +6,14 @@ Partial Public Class GameBoardForm
     Private ReadOnly Progress As New ProgressStore()
     Private ReadOnly CurrentGame As New Game(Levelsets, Progress)
 
-    ' Parallel to the game's board: see the board indexing convention in Board.vb. Cells occupy
-    ' BoardFirstIndex through BoardCellCount; index 0 is unused.
-    Private ReadOnly CellPictures(BoardCellCount) As System.Windows.Forms.PictureBox
+    ' Parallel to the game's board: see the board indexing convention in Board.vb. Index 0 is
+    ' unused. Rebuilt whenever play moves to a set with a different board size.
+    Private CellPictures() As System.Windows.Forms.PictureBox = {}
 
-    Private Const CellSizeInPixels As Integer = 32
+    ' Cells are drawn at the icons' own size while the board fits the screen at that size, and
+    ' shrunk - icons and all - when it does not, down to a size that still reads.
+    Private Const LargestCellSize As Integer = 32
+    Private Const SmallestCellSize As Integer = 8
 
     Private StatisticsWindow As StatsOptsForm
 
@@ -45,30 +48,80 @@ Partial Public Class GameBoardForm
     End Sub
 
     ''' <remarks>
-    ''' Builds the grid of cells and sizes the form around it. The grid occupies the client area
-    ''' between the menu strip and the status strip, so that all BoardHeight rows are visible.
+    ''' Makes sure the grid of cells matches the size of the board being played, rebuilding it
+    ''' when play has moved to a set with a board of another size.
     ''' </remarks>
-    Private Sub BuildBoardCells()
+    Private Sub EnsureBoardCells()
+        Dim BoardSize As Integer = CurrentGame.BoardSize
+        If CellPictures.Length <> BoardSize * BoardSize + 1 Then
+            BuildBoardCells(BoardSize)
+        End If
+    End Sub
+
+    ''' <remarks>
+    ''' The largest cell, up to the icons' own size, at which the whole board and the window around
+    ''' it fit on the screen the window is on.
+    ''' </remarks>
+    Private Function FitCellSize(boardSize As Integer) As Integer
+        Dim WorkingArea As Rectangle = Screen.FromControl(Me).WorkingArea
+
+        ' Everything around the board: the window frame, the title bar, and both strips.
+        Dim ChromeWidth As Integer = Me.Width - Me.ClientSize.Width
+        Dim ChromeHeight As Integer = Me.Height - Me.ClientSize.Height +
+                                      GameMenuStrip.Height + GameStatusStrip.Height
+
+        Dim Fitting As Integer = Math.Min((WorkingArea.Width - ChromeWidth) \ boardSize,
+                                          (WorkingArea.Height - ChromeHeight) \ boardSize)
+
+        Return Math.Max(SmallestCellSize, Math.Min(LargestCellSize, Fitting))
+    End Function
+
+    ''' <remarks>
+    ''' Builds the grid of cells for a board of the given size and sizes the form around it. The
+    ''' grid occupies the client area between the menu strip and the status strip. Each picture is
+    ''' scaled to its cell, so a board shrunk to fit the screen shrinks its icons with it.
+    ''' </remarks>
+    Private Sub BuildBoardCells(boardSize As Integer)
+        Dim CellSize As Integer = FitCellSize(boardSize)
         Dim BoardTop As Integer = Me.GameMenuStrip.Height
 
+        Me.SuspendLayout()
+
+        For Each OldPicture As PictureBox In CellPictures
+            If OldPicture IsNot Nothing Then
+                Me.Controls.Remove(OldPicture)
+                OldPicture.Dispose()
+            End If
+        Next
+
         Me.ClientSize = New Size(
-            BoardWidth * CellSizeInPixels,
-            BoardTop + BoardHeight * CellSizeInPixels + Me.GameStatusStrip.Height)
+            boardSize * CellSize,
+            BoardTop + boardSize * CellSize + Me.GameStatusStrip.Height)
 
-        For pic As Integer = BoardFirstIndex To BoardCellCount
-            Dim Row As Integer = (pic - BoardFirstIndex) \ BoardWidth
-            Dim Column As Integer = (pic - BoardFirstIndex) Mod BoardWidth
+        Dim Pictures(boardSize * boardSize) As PictureBox
+        For Index As Integer = BoardFirstIndex To Pictures.Length - 1
+            Dim Position As Cell = Cell.FromIndex(Index, boardSize)
 
-            CellPictures(pic) = New PictureBox
-            With CellPictures(pic)
-                .Size = New Size(CellSizeInPixels, CellSizeInPixels)
-                .Location = New Point(
-                    Column * CellSizeInPixels,
-                    BoardTop + Row * CellSizeInPixels)
+            Pictures(Index) = New PictureBox
+            With Pictures(Index)
+                .Size = New Size(CellSize, CellSize)
+                .Location = New Point(Position.Column * CellSize, BoardTop + Position.Row * CellSize)
+                .SizeMode = PictureBoxSizeMode.Zoom
                 .BackColor = My.Settings.BackgroundColor
             End With
-            Me.Controls.Add(CellPictures(pic))
+            Me.Controls.Add(Pictures(Index))
         Next
+        CellPictures = Pictures
+
+        Me.ResumeLayout()
+        KeepOnScreen()
+    End Sub
+
+    ''' <remarks>A window that has just grown is moved back inside the screen it is on.</remarks>
+    Private Sub KeepOnScreen()
+        Dim WorkingArea As Rectangle = Screen.FromControl(Me).WorkingArea
+        Me.Left = Math.Max(WorkingArea.Left, Math.Min(Me.Left, WorkingArea.Right - Me.Width))
+        Me.Top = Math.Max(WorkingArea.Top, Math.Min(Me.Top, WorkingArea.Bottom - Me.Height))
     End Sub
 
     ''' <remarks>
@@ -137,7 +190,7 @@ Partial Public Class GameBoardForm
     ''' neighbours of a player standing on the top or bottom row fall off the ends of the array.
     ''' </remarks>
     Private Sub RefreshCell(cellIndex As Integer)
-        If Not IsOnBoard(cellIndex) Then
+        If cellIndex < BoardFirstIndex OrElse cellIndex > CellPictures.Length - 1 Then
             Exit Sub
         End If
 
@@ -149,19 +202,27 @@ Partial Public Class GameBoardForm
         End If
     End Sub
 
+    ''' <remarks>
+    ''' Redraws the whole board, first rebuilding the grid if play has moved to a board of another
+    ''' size - so every path that changes levelset gets the right grid by refreshing as usual.
+    ''' </remarks>
     Private Sub RefreshBoard()
-        For Counter As Integer = BoardFirstIndex To BoardCellCount
+        EnsureBoardCells()
+
+        For Counter As Integer = BoardFirstIndex To CellPictures.Length - 1
             RefreshCell(Counter)
         Next Counter
     End Sub
 
+    ''' <remarks>A move never changes the board size, so the grid is already the right one.</remarks>
     Private Sub RefreshCellsAroundPlayer()
         Dim Player As Integer = CurrentGame.CurrentPlayerLocation
-        RefreshCell(Player - BoardWidth)
+        Dim RowLength As Integer = CurrentGame.BoardSize
+        RefreshCell(Player - RowLength)
         RefreshCell(Player - 1)
         RefreshCell(Player)
         RefreshCell(Player + 1)
-        RefreshCell(Player + BoardWidth)
+        RefreshCell(Player + RowLength)
     End Sub
 
 
@@ -269,13 +330,12 @@ Partial Public Class GameBoardForm
 
 
     ''' <remarks>
-    ''' The only Load handler. Everything here runs in order, and the steps after BuildBoardCells
-    ''' depend on the cells it builds - VB does not define the order two handlers of one event run
-    ''' in, so this sequence must stay in a single handler.
+    ''' The only Load handler. Everything here runs in order: the first RefreshBoard builds the
+    ''' grid for the board the starting set uses, and what follows draws on it - VB does not define
+    ''' the order two handlers of one event run in, so this sequence must stay in a single handler.
     ''' </remarks>
     Private Sub GameBoardForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ApplyLocalizationResources()
-        BuildBoardCells()
 
         Me.Icon = My.Resources.ico101
         Me.BackColor = Color.Black

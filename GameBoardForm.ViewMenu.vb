@@ -22,7 +22,7 @@ Partial Public Class GameBoardForm
     ''' they are built.
     ''' </remarks>
     Private Sub ApplyBackgroundColor()
-        For Counter As Integer = BoardFirstIndex To BoardCellCount
+        For Counter As Integer = BoardFirstIndex To CellPictures.Length - 1
             Me.CellPictures(Counter).BackColor = My.Settings.BackgroundColor
         Next Counter
     End Sub

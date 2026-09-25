@@ -1,8 +1,11 @@
-''' <remarks>Questions asked of a whole board: where the player is, and how near it is to solved.</remarks>
+''' <remarks>
+''' Questions asked of a whole board, of whatever size: where the player is, and how near it is to
+''' solved. Each walks the board from BoardFirstIndex to the array's upper bound.
+''' </remarks>
 Module GameBoardDetails
     ''' <remarks>Index of the player on the board, or -1 when there is no player.</remarks>
     Public Function GetIndexOfPlayerOnBoard(board() As BoardItem) As Integer
-        For Index As Integer = BoardFirstIndex To BoardCellCount
+        For Index As Integer = BoardFirstIndex To board.Length - 1
             If board(Index) = BoardItem.Player OrElse board(Index) = BoardItem.PlayerOnPlace Then
                 Return Index
             End If
@@ -14,7 +17,7 @@ Module GameBoardDetails
     Public Function GetNumberOfPlacedBoxesOnBoard(board() As BoardItem) As Integer
         Dim PlacedBoxes As Integer = 0
 
-        For Index As Integer = BoardFirstIndex To BoardCellCount
+        For Index As Integer = BoardFirstIndex To board.Length - 1
             If board(Index) = BoardItem.BoxOnPlace Then
                 PlacedBoxes += 1
             End If
@@ -30,7 +33,7 @@ Module GameBoardDetails
     Public Function GetTotalNumberOfGoalsOnBoard(board() As BoardItem) As Integer
         Dim Goals As Integer = 0
 
-        For Index As Integer = BoardFirstIndex To BoardCellCount
+        For Index As Integer = BoardFirstIndex To board.Length - 1
             If StandsOnGoal(board(Index)) Then
                 Goals += 1
             End If

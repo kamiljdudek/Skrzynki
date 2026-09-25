@@ -18,7 +18,10 @@ Partial Public Class Game
     Private ReadOnly Progress As IProgressStore
 
     ''' <remarks>The current arrangement of everything on the playing field.</remarks>
-    Private ReadOnly Cells(BoardCellCount) As BoardItem
+    Private Cells() As BoardItem = EmptyBoard(MinimumBoardSize)
+
+    ''' <remarks>The side of the board being played on; see the indexing convention in Board.vb.</remarks>
+    Private SideLength As Integer = MinimumBoardSize
 
     ''' <remarks>
     ''' The attempt on the level being played: every move in order, which is what Undo reverses
@@ -59,10 +62,20 @@ Partial Public Class Game
 
     ' --- The state of play -----------------------------------------------------------------
 
+    ''' <remarks>
+    ''' The side of the square board being played on. It changes only when play moves to another
+    ''' levelset, since every level of a set shares one board size.
+    ''' </remarks>
+    Public ReadOnly Property BoardSize() As Integer
+        Get
+            Return SideLength
+        End Get
+    End Property
+
     ''' <remarks>Contents of one board cell. Out-of-range indices read as BlankOuter.</remarks>
     Public ReadOnly Property BoardCell(cellIndex As Integer) As BoardItem
         Get
-            If Not IsOnBoard(cellIndex) Then
+            If cellIndex < BoardFirstIndex OrElse cellIndex > Cells.Length - 1 Then
                 Return BoardItem.BlankOuter
             End If
             Return Cells(cellIndex)
@@ -177,7 +190,9 @@ Partial Public Class Game
             Return False
         End If
 
-        Array.Copy(StartingBoard, Cells, Cells.Length)
+        ' GetLevel hands over a copy of its own, so it can be played on directly.
+        Cells = StartingBoard
+        SideLength = levelset.BoardSize
         PlayerLocation = GetIndexOfPlayerOnBoard(Cells)
         CurrentLevelset = levelset
         LevelNumber = levelId
@@ -302,7 +317,7 @@ Partial Public Class Game
         End If
 
         Dim LastMove As MoveRecord = RecordedMoves.TakeLast()
-        Dim Player As Cell = Cell.FromIndex(PlayerLocation)
+        Dim Player As Cell = Cell.FromIndex(PlayerLocation, SideLength)
         Dim CameFrom As Cell = Player.Neighbour(Opposite(LastMove.Direction))
 
         If LastMove.PushedBox Then

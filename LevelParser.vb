@@ -85,61 +85,77 @@ Module LevelParser
     End Function
 
     ''' <remarks>
-    ''' Turns one level's map rows into a board, centred and surrounded by BlankOuter. Returns
-    ''' Nothing when the level does not fit a BoardWidth x BoardHeight grid, holds a character that
-    ''' is not part of a map, or does not have exactly one player - so that a set never holds a
-    ''' level that cannot be played.
+    ''' Reads one level's map rows, with the floor written as spaces and trailing spaces dropped.
+    ''' Returns Nothing when the level is empty, holds a character that is not part of a map, or
+    ''' does not have exactly one player - so that a set never holds a level that cannot be played.
     ''' </remarks>
-    Public Function ParseLevel(levelText As String) As BoardItem()
+    Public Function ReadLevelRows(levelText As String) As List(Of String)
         Dim Rows As New List(Of String)
+        Dim Players As Integer = 0
+
         For Each Line As String In SplitIntoLines(levelText)
             Dim Row As String = Line.Replace("-"c, " "c).Replace("_"c, " "c).TrimEnd()
-            If Row.Length > 0 Then
-                Rows.Add(Row)
+            If Row.Length = 0 Then
+                Continue For
             End If
-        Next
 
-        Dim WidestRow As Integer = 0
-        For Each Row As String In Rows
-            WidestRow = Math.Max(WidestRow, Row.Length)
-        Next
-
-        If Rows.Count < 1 OrElse Rows.Count > BoardHeight OrElse WidestRow > BoardWidth Then
-            Return Nothing
-        End If
-
-        Dim ShiftRight As Integer = CInt(Math.Round((BoardWidth - CDbl(WidestRow)) / 2))
-        Dim ShiftDown As Integer = CInt(Math.Round((BoardHeight - CDbl(Rows.Count)) / 2))
-
-        Dim Cells(BoardCellCount) As BoardItem
-        For Index As Integer = BoardFirstIndex To BoardCellCount
-            Cells(Index) = BoardItem.BlankOuter
-        Next
-
-        Dim Players As Integer = 0
-        For RowNumber As Integer = 0 To Rows.Count - 1
-            Dim Row As String = Rows(RowNumber)
-
-            ' Spaces before a row's first wall lie outside the level, not on its floor.
-            Dim LeadingSpaces As Integer = Row.Length - Row.TrimStart(" "c).Length
-
-            For Column As Integer = LeadingSpaces To Row.Length - 1
+            For Each Character As Char In Row
                 Dim Item As BoardItem
-                If Not TryReadMapCharacter(Row(Column), Item) Then
+                If Not TryReadMapCharacter(Character, Item) Then
                     Return Nothing
                 End If
 
                 If Item = BoardItem.Player OrElse Item = BoardItem.PlayerOnPlace Then
                     Players += 1
                 End If
-
-                Cells(New Cell(ShiftDown + RowNumber, ShiftRight + Column).Index) = Item
             Next
+
+            Rows.Add(Row)
         Next
 
-        If Players <> 1 Then
+        If Rows.Count = 0 OrElse Players <> 1 Then
             Return Nothing
         End If
+
+        Return Rows
+    End Function
+
+    ''' <remarks>The side of the smallest square board the level fits on.</remarks>
+    Public Function LevelExtent(rows As IList(Of String)) As Integer
+        Dim Extent As Integer = rows.Count
+        For Each Row As String In rows
+            Extent = Math.Max(Extent, Row.Length)
+        Next
+        Return Extent
+    End Function
+
+    ''' <remarks>
+    ''' Lays out a level's rows, as read by ReadLevelRows, on a board of the given size: centred,
+    ''' and surrounded by BlankOuter. The board must be at least LevelExtent on a side.
+    ''' </remarks>
+    Public Function LayOutLevel(rows As IList(Of String), boardSize As Integer) As BoardItem()
+        Dim WidestRow As Integer = 0
+        For Each Row As String In rows
+            WidestRow = Math.Max(WidestRow, Row.Length)
+        Next
+
+        Dim ShiftRight As Integer = CInt(Math.Round((boardSize - CDbl(WidestRow)) / 2))
+        Dim ShiftDown As Integer = CInt(Math.Round((boardSize - CDbl(rows.Count)) / 2))
+
+        Dim Cells() As BoardItem = EmptyBoard(boardSize)
+
+        For RowNumber As Integer = 0 To rows.Count - 1
+            Dim Row As String = rows(RowNumber)
+
+            ' Spaces before a row's first wall lie outside the level, not on its floor.
+            Dim LeadingSpaces As Integer = Row.Length - Row.TrimStart(" "c).Length
+
+            For Column As Integer = LeadingSpaces To Row.Length - 1
+                Dim Item As BoardItem
+                TryReadMapCharacter(Row(Column), Item)
+                Cells(New Cell(ShiftDown + RowNumber, ShiftRight + Column, boardSize).Index) = Item
+            Next
+        Next
 
         Return Cells
     End Function
