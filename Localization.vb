@@ -15,9 +15,9 @@ Module Localization
         Dim Translated As String = Nothing
 
         Select Case levelsetName
-            Case ProgressStore.ClassicLevelsetName
+            Case LevelsetLibrary.ClassicLevelsetName
                 Translated = Localizer.GetString("LevelSetClassic")
-            Case ProgressStore.ExtraDifficultLevelsetName
+            Case LevelsetLibrary.ExtraDifficultLevelsetName
                 Translated = Localizer.GetString("LevelSetXS")
         End Select
 

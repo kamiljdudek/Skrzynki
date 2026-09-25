@@ -32,12 +32,6 @@
     <Setting Name="LevelRestartingAuthorization" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="LevelLoadConfirmation" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="LegacyProgressMigrated" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="BackgroundColor" Type="System.Drawing.Color" Scope="User">      <Value Profile="(Default)">64, 64, 64</Value>
     </Setting>
   </Settings>

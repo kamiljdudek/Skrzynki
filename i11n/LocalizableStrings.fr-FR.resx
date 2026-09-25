@@ -126,9 +126,6 @@
   <data name="AlertLevelEmptyOrBad" xml:space="preserve">
     <value>Le fichier malformé ou endommagé</value>
   </data>
-  <data name="AlertLevelFromFileLoadSuccess" xml:space="preserve">
-    <value>Le fichier chargé avec succès</value>
-  </data>
   <data name="AlertLevelLoadFailure" xml:space="preserve">
     <value>Le fichier chargé sans succès</value>
   </data>
@@ -155,6 +152,12 @@
   </data>
   <data name="GameName" xml:space="preserve">
     <value>Boxes: Range les cases</value>
+  </data>
+  <data name="GameTitleFormat" xml:space="preserve">
+    <value>{0} ({1}): #{2}</value>
+  </data>
+  <data name="CheckBoxBeginFromArrivedLevel" xml:space="preserve">
+    <value>Reprendre au niveau le plus avancé</value>
   </data>
   <data name="LabelAboutForWindows" xml:space="preserve">
     <value />
@@ -211,7 +214,7 @@
     <value>Version: </value>
   </data>
   <data name="LabelStats" xml:space="preserve">
-    <value>Stats</value>
+    <value>Stats et options</value>
   </data>
   <data name="LabelTrayDescription" xml:space="preserve">
     <value>Cachée derrière les cases...</value>
@@ -253,7 +256,7 @@
     <value>&amp;Ouvrir un fichier d'ensemble...</value>
   </data>
   <data name="MenuitemOptions" xml:space="preserve">
-    <value>&amp;Stats</value>
+    <value>&amp;Stats et options</value>
   </data>
   <data name="MenuitemQuit" xml:space="preserve">
     <value>&amp;Quitter</value>

@@ -1,7 +1,7 @@
 ﻿' The menu handlers for choosing levels and levelsets are in GameBoardForm.LevelSelection.vb, and
 ' those of the View menu in GameBoardForm.ViewMenu.vb.
 Partial Public Class GameBoardForm
-    Private ReadOnly CurrentGame As New Game()
+    Private ReadOnly CurrentGame As New Game(LevelsetLibrary.LoadBuiltIn(), New ProgressStore())
 
     ' Parallel to the game's board: see the board indexing convention in Board.vb. Cells occupy
     ' BoardFirstIndex through BoardCellCount; index 0 is unused.
@@ -37,8 +37,8 @@ Partial Public Class GameBoardForm
         Me.MenuitemHide.Text = Localizer.GetString("MenuitemHide")
         Me.SkrzynkiTrayIcon.Text = Localizer.GetString("GameName")
         Me.MenuitemConfirmRestarts.Text = Localizer.GetString("MenuitemConfirmRestarts")
-        OpenFileDialog1.Filter = Localizer.GetString("DialogFileFilter")
-        OpenFileDialog1.Title = Localizer.GetString("DialogOpenLevelFile")
+        OpenLevelFileDialog.Filter = Localizer.GetString("DialogFileFilter")
+        OpenLevelFileDialog.Title = Localizer.GetString("DialogOpenLevelFile")
     End Sub
 
     ''' <remarks>
@@ -46,11 +46,11 @@ Partial Public Class GameBoardForm
     ''' between the menu strip and the status strip, so that all BoardHeight rows are visible.
     ''' </remarks>
     Private Sub BuildBoardCells()
-        Dim BoardTop As Integer = Me.MenuStrip1.Height
+        Dim BoardTop As Integer = Me.GameMenuStrip.Height
 
         Me.ClientSize = New Size(
             BoardWidth * CellSizeInPixels,
-            BoardTop + BoardHeight * CellSizeInPixels + Me.StatusStrip1.Height)
+            BoardTop + BoardHeight * CellSizeInPixels + Me.GameStatusStrip.Height)
 
         For pic As Integer = BoardFirstIndex To BoardCellCount
             Dim Row As Integer = (pic - BoardFirstIndex) \ BoardWidth
@@ -77,9 +77,11 @@ Partial Public Class GameBoardForm
         MovesLabel.Text = Localizer.GetString("LabelMoves") & CurrentGame.MovesPerformed
         PushesLabel.Text = Localizer.GetString("LabelPushes") & CurrentGame.PushesPerformed
 
-        Me.Text = Localizer.GetString("GameName") &
-            " (" & LevelsetDisplayName() & "): #" &
-            CurrentGame.CurrentLevelNumber.ToString(System.Globalization.CultureInfo.InvariantCulture)
+        Me.Text = String.Format(System.Globalization.CultureInfo.CurrentCulture,
+                                Localizer.GetString("GameTitleFormat"),
+                                Localizer.GetString("GameName"),
+                                LevelsetDisplayName(),
+                                CurrentGame.CurrentLevelNumber)
 
         ' Progress towards the goal squares, matching the rule that decides the level is solved.
         SetProgress(Me.LevelProgressBar,
@@ -104,7 +106,7 @@ Partial Public Class GameBoardForm
             Return System.IO.Path.GetFileName(CurrentGame.CustomLevelsetFileName)
         End If
 
-        Return LocalizedLevelsetName(My.Settings.LevelSet)
+        Return LocalizedLevelsetName(CurrentGame.BuiltInLevelsetName)
     End Function
 
     ''' <remarks>
@@ -223,8 +225,7 @@ Partial Public Class GameBoardForm
             ElseIf Not CurrentGame.AdvanceToNextLevel() Then
                 ShowMessage(Localizer.GetString("AlertAllLevelsSolved"), MsgBoxStyle.Information)
 
-                ' Finishing a set opened from a file drops back to the built-in one named in the
-                ' settings.
+                ' Finishing a set opened from a file drops back to the selected built-in one.
                 If Not CurrentGame.NewGame(1) Then
                     Exit While
                 End If
@@ -265,9 +266,9 @@ Partial Public Class GameBoardForm
         Me.Icon = My.Resources.ico101
         Me.BackColor = Color.Black
 
-        ' SelectBuiltInLevelset applies the BeginFromArrivedLevel setting and falls back to the
-        ' first level when saved progress points past the end of the set.
-        If Not CurrentGame.Start() Then
+        ' Resumes in the set the player was last in, falling back to its first level when saved
+        ' progress points past the end of the set.
+        If Not StartBuiltInLevelset(My.Settings.LevelSet) Then
             ShowMessage(Localizer.GetString("AlertLevelsetLoadFailure"), MsgBoxStyle.Critical)
         End If
 
@@ -299,7 +300,7 @@ Partial Public Class GameBoardForm
     ''' </remarks>
     Private Sub MenuitemOptions_Click(sender As Object, e As EventArgs) Handles MenuitemOptions.Click
         If StatisticsWindow Is Nothing OrElse StatisticsWindow.IsDisposed Then
-            StatisticsWindow = New StatsOptsForm()
+            StatisticsWindow = New StatsOptsForm(CurrentGame)
         End If
 
         StatisticsWindow.Show(Me)

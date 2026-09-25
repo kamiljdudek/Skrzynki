@@ -19,7 +19,7 @@ Partial Class SplashScreen
     Public WithEvents LabelPlatform As System.Windows.Forms.Label
     Public WithEvents LabelVersion As System.Windows.Forms.Label
     Friend WithEvents PictureBoxLogo As PictureBox
-    Friend WithEvents Label1 As Label
+    Friend WithEvents LabelGameName As Label
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Panel2 As Panel
     Public WithEvents LabelCopyright As System.Windows.Forms.Label
@@ -33,7 +33,7 @@ Partial Class SplashScreen
         Me.LabelVersion = New System.Windows.Forms.Label()
         Me.LabelCopyright = New System.Windows.Forms.Label()
         Me.PictureBoxLogo = New System.Windows.Forms.PictureBox()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.LabelGameName = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.LabelDescr = New System.Windows.Forms.Label()
@@ -91,16 +91,16 @@ Partial Class SplashScreen
         Me.PictureBoxLogo.TabIndex = 4
         Me.PictureBoxLogo.TabStop = False
         '
-        'Label1
+        'LabelGameName
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.BackColor = System.Drawing.Color.Transparent
-        Me.Label1.Font = New System.Drawing.Font("Segoe Script", 26.25!, System.Drawing.FontStyle.Bold)
-        Me.Label1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Label1.Location = New System.Drawing.Point(107, 37)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(0, 57)
-        Me.Label1.TabIndex = 5
+        Me.LabelGameName.AutoSize = True
+        Me.LabelGameName.BackColor = System.Drawing.Color.Transparent
+        Me.LabelGameName.Font = New System.Drawing.Font("Segoe Script", 26.25!, System.Drawing.FontStyle.Bold)
+        Me.LabelGameName.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.LabelGameName.Location = New System.Drawing.Point(107, 37)
+        Me.LabelGameName.Name = "LabelGameName"
+        Me.LabelGameName.Size = New System.Drawing.Size(0, 57)
+        Me.LabelGameName.TabIndex = 5
         '
         'Panel1
         '
@@ -138,7 +138,7 @@ Partial Class SplashScreen
         Me.ClientSize = New System.Drawing.Size(401, 248)
         Me.ControlBox = False
         Me.Controls.Add(Me.LabelDescr)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.LabelGameName)
         Me.Controls.Add(Me.LabelPlatform)
         Me.Controls.Add(Me.LabelVersion)
         Me.Controls.Add(Me.LabelCopyright)

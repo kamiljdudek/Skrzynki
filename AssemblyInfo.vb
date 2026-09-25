@@ -32,7 +32,7 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("4.0")>
 <Assembly: ComVisible(False)>
-<Assembly: NeutralResourcesLanguage("")>
+<Assembly: NeutralResourcesLanguage("en")>
 <Assembly: AssemblyFileVersion("4.0")>
 
 <assembly: CLSCompliant(true)>

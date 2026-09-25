@@ -167,7 +167,6 @@
     <Compile Include="GameBoardForm.ViewMenu.vb">
       <DependentUpon>GameBoardForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="GlobalSuppressions.vb" />
     <Compile Include="i11n\LocalizableStrings.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

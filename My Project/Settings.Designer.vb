@@ -176,30 +176,6 @@ Namespace My
 
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property LegacyProgressMigrated() As Boolean
-            Get
-                Return CType(Me("LegacyProgressMigrated"),Boolean)
-            End Get
-            Set
-                Me("LegacyProgressMigrated") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property LevelLoadConfirmation() As Boolean
-            Get
-                Return CType(Me("LevelLoadConfirmation"),Boolean)
-            End Get
-            Set
-                Me("LevelLoadConfirmation") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("64, 64, 64")>  _
         Public Property BackgroundColor() As Global.System.Drawing.Color
             Get

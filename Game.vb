@@ -9,10 +9,14 @@
 
 ''' <remarks>
 ''' One game in progress: the board, the attempt on the current level, and which levelset it comes
-''' from. The movement rules are in MovementRules.vb; BoardItem, the board dimensions and the
-''' cell-encoding helpers are in Board.vb.
+''' from. Everything it depends on is handed to it - the levelsets it can play and the store its
+''' progress goes to - so it reads no settings of its own. The movement rules are in
+''' MovementRules.vb; BoardItem, the board dimensions and the cell-encoding helpers are in Board.vb.
 ''' </remarks>
 Partial Public Class Game
+    Private ReadOnly Library As LevelsetLibrary
+    Private ReadOnly ProgressKeeper As IProgressStore
+
     ''' <remarks>The current arrangement of everything on the playing field.</remarks>
     Private ReadOnly Cells(BoardCellCount) As BoardItem
 
@@ -31,12 +35,40 @@ Partial Public Class Game
     ''' </remarks>
     Private CurrentLevelset As Levelset
 
-    ''' <remarks>Path of the levelset file being played; Nothing while playing a built-in set.</remarks>
-    Private LevelsetFileName As String
+    ''' <remarks>
+    ''' The built-in set last selected. Play returns to it when a set opened from a file is
+    ''' finished, and it is the set whose progress is recorded. Nothing until one is selected.
+    ''' </remarks>
+    Private SelectedBuiltInLevelset As String
 
     Private LevelNumber As Integer
     Private MoveCount As Integer
     Private PushCount As Integer
+
+    Public Sub New(levelsets As LevelsetLibrary, progress As IProgressStore)
+        If levelsets Is Nothing Then
+            Throw New ArgumentNullException(NameOf(levelsets))
+        End If
+        If progress Is Nothing Then
+            Throw New ArgumentNullException(NameOf(progress))
+        End If
+
+        Library = levelsets
+        ProgressKeeper = progress
+    End Sub
+
+    ''' <remarks>The built-in levelsets this game can play.</remarks>
+    Public ReadOnly Property Levelsets As LevelsetLibrary
+        Get
+            Return Library
+        End Get
+    End Property
+
+    Public ReadOnly Property Progress As IProgressStore
+        Get
+            Return ProgressKeeper
+        End Get
+    End Property
 
     ' --- The state of play -----------------------------------------------------------------
 
@@ -83,16 +115,26 @@ Partial Public Class Game
         End Get
     End Property
 
+    ''' <remarks>The built-in set last selected; see SelectedBuiltInLevelset.</remarks>
+    Public ReadOnly Property BuiltInLevelsetName() As String
+        Get
+            Return SelectedBuiltInLevelset
+        End Get
+    End Property
+
     Public ReadOnly Property IsPlayingCustomLevelset() As Boolean
         Get
-            Return LevelsetFileName IsNot Nothing
+            Return CustomLevelsetFileName IsNot Nothing
         End Get
     End Property
 
     ''' <remarks>Path of the levelset file currently open, if the game is playing one.</remarks>
     Public ReadOnly Property CustomLevelsetFileName() As String
         Get
-            Return LevelsetFileName
+            If CurrentLevelset Is Nothing Then
+                Return Nothing
+            End If
+            Return CurrentLevelset.SourceFileName
         End Get
     End Property
 
@@ -161,50 +203,38 @@ Partial Public Class Game
     End Function
 
     ''' <remarks>
-    ''' Prepares the levelsets and starts play in the set named by the settings. The one call a
-    ''' host needs to make before showing a board.
+    ''' The highest level the player may open in the named set: the progress marker, which runs
+    ''' one past the end of a finished set, clamped to a level that exists.
     ''' </remarks>
-    Public Function Start() As Boolean
-        ProgressStore.MigrateLegacyProgress()
-        LevelsetLibrary.LoadAllLevelsets()
-        Return SelectBuiltInLevelset(My.Settings.LevelSet)
+    Public Function FurthestPlayableLevel(levelsetName As String) As Integer
+        Return Library.ClampToLevelset(ProgressKeeper.GetLevelMarker(levelsetName), levelsetName)
     End Function
 
-    ''' <remarks>Starts the given level of the built-in levelset named by the settings.</remarks>
+    ''' <remarks>Starts the given level of the selected built-in levelset.</remarks>
     Public Function NewGame(whichLevel As Integer) As Boolean
-        If Not LoadLevel(GetLevelset(My.Settings.LevelSet), whichLevel) Then
-            Return False
-        End If
-
-        LevelsetFileName = Nothing
-        Return True
+        Return LoadLevel(Library.GetLevelset(SelectedBuiltInLevelset), whichLevel)
     End Function
 
     ''' <remarks>
-    ''' Switches to one of the built-in levelsets, starting either at its first level or at the
-    ''' furthest the player has reached, according to the BeginFromArrivedLevel setting. Restores
-    ''' the previous set if the requested one cannot be loaded.
+    ''' Switches to one of the built-in levelsets, starting at its first level or, when asked to,
+    ''' at the furthest level the player has reached. Nothing changes if the set cannot be loaded.
     ''' </remarks>
-    Public Function SelectBuiltInLevelset(levelsetName As String) As Boolean
-        Dim PreviousLevelset As String = My.Settings.LevelSet
-        My.Settings.LevelSet = levelsetName
+    Public Function SelectBuiltInLevelset(levelsetName As String,
+                                          startAtFurthestLevel As Boolean) As Boolean
+        Dim Selected As Levelset = Library.GetLevelset(levelsetName)
 
         Dim StartingLevel As Integer = 1
-        If My.Settings.BeginFromArrivedLevel Then
-            StartingLevel = ProgressStore.FurthestPlayableLevel(levelsetName)
-        End If
-
-        If NewGame(StartingLevel) Then
-            Return True
+        If startAtFurthestLevel Then
+            StartingLevel = FurthestPlayableLevel(levelsetName)
         End If
 
         ' Saved progress can point past the end of the set; the first level always exists.
-        If NewGame(1) Then
-            Return True
+        If Not LoadLevel(Selected, StartingLevel) AndAlso Not LoadLevel(Selected, 1) Then
+            Return False
         End If
 
-        My.Settings.LevelSet = PreviousLevelset
-        Return False
+        SelectedBuiltInLevelset = levelsetName
+        Return True
     End Function
 
     ''' <remarks>
@@ -212,26 +242,18 @@ Partial Public Class Game
     ''' progress changes unless that succeeds, so a bad file leaves the current level untouched.
     ''' </remarks>
     Public Function OpenLevelsetFromFile(levelFileName As String) As Boolean
-        Dim LevelsetText As String
+        Dim FromFile As Levelset
 
         Try
-            LevelsetText = System.IO.File.ReadAllText(levelFileName, System.Text.Encoding.ASCII)
+            FromFile = Levelset.FromFile(levelFileName)
         Catch ex As System.IO.IOException
             Return False
         Catch ex As UnauthorizedAccessException
             Return False
         End Try
 
-        Dim FromFile As New Levelset(System.IO.Path.GetFileName(levelFileName))
-        FromFile.AddAllLevels(SplitIntoLevelTexts(LevelsetText))
-
         ' Always starts at level 1 of the new set, whatever level the previous set was on.
-        If Not LoadLevel(FromFile, 1) Then
-            Return False
-        End If
-
-        LevelsetFileName = levelFileName
-        Return True
+        Return LoadLevel(FromFile, 1)
     End Function
 
     ''' <remarks>
@@ -263,7 +285,7 @@ Partial Public Class Game
             Exit Sub
         End If
 
-        ProgressStore.RecordSolvedLevel(My.Settings.LevelSet, LevelNumber + 1, MoveCount, PushCount)
+        ProgressKeeper.RecordSolvedLevel(SelectedBuiltInLevelset, LevelNumber + 1, MoveCount, PushCount)
     End Sub
 
     ' --- Taking a move back ----------------------------------------------------------------

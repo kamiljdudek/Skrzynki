@@ -29,6 +29,7 @@ Partial Class StatsOptsForm
         Me.LabelMoves = New System.Windows.Forms.Label()
         Me.LabelPushes = New System.Windows.Forms.Label()
         Me.LevelSetProgressBar = New System.Windows.Forms.ProgressBar()
+        Me.CheckBoxBeginFromArrivedLevel = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'LevelsetComboBox
@@ -63,10 +64,19 @@ Partial Class StatsOptsForm
         resources.ApplyResources(Me.LevelSetProgressBar, "LevelSetProgressBar")
         Me.LevelSetProgressBar.Name = "LevelSetProgressBar"
         '
+        'CheckBoxBeginFromArrivedLevel
+        '
+        Me.CheckBoxBeginFromArrivedLevel.Location = New System.Drawing.Point(15, 218)
+        Me.CheckBoxBeginFromArrivedLevel.Name = "CheckBoxBeginFromArrivedLevel"
+        Me.CheckBoxBeginFromArrivedLevel.Size = New System.Drawing.Size(204, 30)
+        Me.CheckBoxBeginFromArrivedLevel.TabIndex = 6
+        Me.CheckBoxBeginFromArrivedLevel.UseVisualStyleBackColor = True
+        '
         'StatsOptsForm
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.CheckBoxBeginFromArrivedLevel)
         Me.Controls.Add(Me.LevelSetProgressBar)
         Me.Controls.Add(Me.LabelPushes)
         Me.Controls.Add(Me.LabelMoves)
@@ -91,4 +101,5 @@ Partial Class StatsOptsForm
     Friend WithEvents LabelMoves As Label
     Friend WithEvents LabelPushes As Label
     Friend WithEvents LevelSetProgressBar As ProgressBar
+    Friend WithEvents CheckBoxBeginFromArrivedLevel As CheckBox
 End Class

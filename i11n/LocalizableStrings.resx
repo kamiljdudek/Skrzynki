@@ -126,9 +126,6 @@
   <data name="AlertLevelEmptyOrBad" xml:space="preserve">
     <value>Level file is empty or corrupt</value>
   </data>
-  <data name="AlertLevelFromFileLoadSuccess" xml:space="preserve">
-    <value>Loading custom file</value>
-  </data>
   <data name="AlertLevelLoadFailure" xml:space="preserve">
     <value>Error while loading level</value>
   </data>
@@ -155,6 +152,13 @@
   </data>
   <data name="GameName" xml:space="preserve">
     <value>Boxes: Skrzynki</value>
+  </data>
+  <data name="GameTitleFormat" xml:space="preserve">
+    <value>{0} ({1}): #{2}</value>
+    <comment>Window title. {0} is GameName, {1} the levelset being played, {2} the level number.</comment>
+  </data>
+  <data name="CheckBoxBeginFromArrivedLevel" xml:space="preserve">
+    <value>Start levelsets at the furthest level reached</value>
   </data>
   <data name="LabelAboutForWindows" xml:space="preserve">
     <value />
@@ -211,7 +215,7 @@
     <value>Version: </value>
   </data>
   <data name="LabelStats" xml:space="preserve">
-    <value>Stats</value>
+    <value>Stats and options</value>
   </data>
   <data name="LabelTrayDescription" xml:space="preserve">
     <value>Hiding behind the Boxes...</value>
@@ -253,7 +257,7 @@
     <value>O&amp;pen level file...</value>
   </data>
   <data name="MenuitemOptions" xml:space="preserve">
-    <value>&amp;Stats</value>
+    <value>&amp;Stats and options</value>
   </data>
   <data name="MenuitemQuit" xml:space="preserve">
     <value>&amp;Quit</value>

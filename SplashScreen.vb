@@ -5,7 +5,7 @@ Public Class SplashScreen
     End Sub
     Private Sub SplashScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.LabelCopyright.Text = My.Application.Info.Copyright
-        Me.Label1.Text = My.Application.Info.AssemblyName
+        Me.LabelGameName.Text = My.Application.Info.AssemblyName
         Me.LabelDescr.Text = My.Application.Info.Description
         Me.LabelPlatform.Text = Localizer.GetString("LabelSplashOS")
         Me.LabelVersion.Text = Localizer.GetString("LabelSplashVersionName") &

@@ -24,15 +24,15 @@ Partial Class GameBoardForm
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(GameBoardForm))
-        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.GameMenuStrip = New System.Windows.Forms.MenuStrip()
         Me.MenuitemGame = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemLevelset = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemLevelsetClassic = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemLevelsetXS = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
+        Me.SeparatorLevelsetFile = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuitemOpenLevelFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemSelectLevel = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.SeparatorGameQuit = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuitemQuit = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemView = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemSkins = New System.Windows.Forms.ToolStripMenuItem()
@@ -41,49 +41,49 @@ Partial Class GameBoardForm
         Me.MenuitemSkinCheese = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemColor = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemConfirmRestarts = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.SeparatorViewCommands = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuitemRefresh = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemHide = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemTools = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemUndo = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemRestart = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.SeparatorToolsOptions = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuitemOptions = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemHelpTopics = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuitemAppWebsite = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.SeparatorHelpAbout = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuitemAbout = New System.Windows.Forms.ToolStripMenuItem()
-        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.GameStatusStrip = New System.Windows.Forms.StatusStrip()
         Me.LevelProgressBar = New System.Windows.Forms.ToolStripProgressBar()
         Me.MovesLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.PushesLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LevelsetProgressBar = New System.Windows.Forms.ToolStripProgressBar()
-        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.OpenLevelFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.SkrzynkiTrayIcon = New System.Windows.Forms.NotifyIcon(Me.components)
-        Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
-        Me.MenuStrip1.SuspendLayout()
-        Me.StatusStrip1.SuspendLayout()
+        Me.BackgroundColorDialog = New System.Windows.Forms.ColorDialog()
+        Me.GameMenuStrip.SuspendLayout()
+        Me.GameStatusStrip.SuspendLayout()
         Me.SuspendLayout()
         '
-        'MenuStrip1
+        'GameMenuStrip
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemGame, Me.MenuitemView, Me.MenuitemTools, Me.MenuitemHelp})
-        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System
-        Me.MenuStrip1.Size = New System.Drawing.Size(510, 24)
-        Me.MenuStrip1.TabIndex = 0
+        Me.GameMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemGame, Me.MenuitemView, Me.MenuitemTools, Me.MenuitemHelp})
+        Me.GameMenuStrip.Location = New System.Drawing.Point(0, 0)
+        Me.GameMenuStrip.Name = "GameMenuStrip"
+        Me.GameMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System
+        Me.GameMenuStrip.Size = New System.Drawing.Size(510, 24)
+        Me.GameMenuStrip.TabIndex = 0
         '
         'MenuitemGame
         '
-        Me.MenuitemGame.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemLevelset, Me.MenuitemSelectLevel, Me.ToolStripSeparator2, Me.MenuitemQuit})
+        Me.MenuitemGame.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemLevelset, Me.MenuitemSelectLevel, Me.SeparatorGameQuit, Me.MenuitemQuit})
         Me.MenuitemGame.Name = "MenuitemGame"
         Me.MenuitemGame.Size = New System.Drawing.Size(12, 20)
         '
         'MenuitemLevelset
         '
-        Me.MenuitemLevelset.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemLevelsetClassic, Me.MenuitemLevelsetXS, Me.ToolStripSeparator5, Me.MenuitemOpenLevelFile})
+        Me.MenuitemLevelset.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemLevelsetClassic, Me.MenuitemLevelsetXS, Me.SeparatorLevelsetFile, Me.MenuitemOpenLevelFile})
         Me.MenuitemLevelset.Name = "MenuitemLevelset"
         Me.MenuitemLevelset.Size = New System.Drawing.Size(109, 22)
         '
@@ -97,10 +97,10 @@ Partial Class GameBoardForm
         Me.MenuitemLevelsetXS.Name = "MenuitemLevelsetXS"
         Me.MenuitemLevelsetXS.Size = New System.Drawing.Size(110, 22)
         '
-        'ToolStripSeparator5
+        'SeparatorLevelsetFile
         '
-        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(107, 6)
+        Me.SeparatorLevelsetFile.Name = "SeparatorLevelsetFile"
+        Me.SeparatorLevelsetFile.Size = New System.Drawing.Size(107, 6)
         '
         'MenuitemOpenLevelFile
         '
@@ -114,10 +114,10 @@ Partial Class GameBoardForm
         Me.MenuitemSelectLevel.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.L), System.Windows.Forms.Keys)
         Me.MenuitemSelectLevel.Size = New System.Drawing.Size(109, 22)
         '
-        'ToolStripSeparator2
+        'SeparatorGameQuit
         '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(106, 6)
+        Me.SeparatorGameQuit.Name = "SeparatorGameQuit"
+        Me.SeparatorGameQuit.Size = New System.Drawing.Size(106, 6)
         '
         'MenuitemQuit
         '
@@ -127,7 +127,7 @@ Partial Class GameBoardForm
         '
         'MenuitemView
         '
-        Me.MenuitemView.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemSkins, Me.MenuitemColor, Me.MenuitemConfirmRestarts, Me.ToolStripSeparator4, Me.MenuitemRefresh, Me.MenuitemHide})
+        Me.MenuitemView.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemSkins, Me.MenuitemColor, Me.MenuitemConfirmRestarts, Me.SeparatorViewCommands, Me.MenuitemRefresh, Me.MenuitemHide})
         Me.MenuitemView.Name = "MenuitemView"
         Me.MenuitemView.Size = New System.Drawing.Size(12, 20)
         '
@@ -166,10 +166,10 @@ Partial Class GameBoardForm
         Me.MenuitemConfirmRestarts.Name = "MenuitemConfirmRestarts"
         Me.MenuitemConfirmRestarts.Size = New System.Drawing.Size(110, 22)
         '
-        'ToolStripSeparator4
+        'SeparatorViewCommands
         '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(107, 6)
+        Me.SeparatorViewCommands.Name = "SeparatorViewCommands"
+        Me.SeparatorViewCommands.Size = New System.Drawing.Size(107, 6)
         '
         'MenuitemRefresh
         '
@@ -185,7 +185,7 @@ Partial Class GameBoardForm
         '
         'MenuitemTools
         '
-        Me.MenuitemTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemUndo, Me.MenuitemRestart, Me.ToolStripSeparator3, Me.MenuitemOptions})
+        Me.MenuitemTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemUndo, Me.MenuitemRestart, Me.SeparatorToolsOptions, Me.MenuitemOptions})
         Me.MenuitemTools.Name = "MenuitemTools"
         Me.MenuitemTools.Size = New System.Drawing.Size(12, 20)
         '
@@ -201,10 +201,10 @@ Partial Class GameBoardForm
         Me.MenuitemRestart.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
         Me.MenuitemRestart.Size = New System.Drawing.Size(108, 22)
         '
-        'ToolStripSeparator3
+        'SeparatorToolsOptions
         '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(105, 6)
+        Me.SeparatorToolsOptions.Name = "SeparatorToolsOptions"
+        Me.SeparatorToolsOptions.Size = New System.Drawing.Size(105, 6)
         '
         'MenuitemOptions
         '
@@ -214,7 +214,7 @@ Partial Class GameBoardForm
         '
         'MenuitemHelp
         '
-        Me.MenuitemHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemHelpTopics, Me.MenuitemAppWebsite, Me.ToolStripSeparator1, Me.MenuitemAbout})
+        Me.MenuitemHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuitemHelpTopics, Me.MenuitemAppWebsite, Me.SeparatorHelpAbout, Me.MenuitemAbout})
         Me.MenuitemHelp.Name = "MenuitemHelp"
         Me.MenuitemHelp.Size = New System.Drawing.Size(12, 20)
         '
@@ -230,10 +230,10 @@ Partial Class GameBoardForm
         Me.MenuitemAppWebsite.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
         Me.MenuitemAppWebsite.Size = New System.Drawing.Size(118, 22)
         '
-        'ToolStripSeparator1
+        'SeparatorHelpAbout
         '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(115, 6)
+        Me.SeparatorHelpAbout.Name = "SeparatorHelpAbout"
+        Me.SeparatorHelpAbout.Size = New System.Drawing.Size(115, 6)
         '
         'MenuitemAbout
         '
@@ -241,13 +241,13 @@ Partial Class GameBoardForm
         Me.MenuitemAbout.ShortcutKeys = CType((System.Windows.Forms.Keys.Shift Or System.Windows.Forms.Keys.F1), System.Windows.Forms.Keys)
         Me.MenuitemAbout.Size = New System.Drawing.Size(118, 22)
         '
-        'StatusStrip1
+        'GameStatusStrip
         '
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LevelProgressBar, Me.MovesLabel, Me.PushesLabel, Me.LevelsetProgressBar})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 495)
-        Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(510, 22)
-        Me.StatusStrip1.TabIndex = 1
+        Me.GameStatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LevelProgressBar, Me.MovesLabel, Me.PushesLabel, Me.LevelsetProgressBar})
+        Me.GameStatusStrip.Location = New System.Drawing.Point(0, 495)
+        Me.GameStatusStrip.Name = "GameStatusStrip"
+        Me.GameStatusStrip.Size = New System.Drawing.Size(510, 22)
+        Me.GameStatusStrip.TabIndex = 1
         '
         'LevelProgressBar
         '
@@ -279,10 +279,6 @@ Partial Class GameBoardForm
         Me.LevelsetProgressBar.Name = "LevelsetProgressBar"
         Me.LevelsetProgressBar.Size = New System.Drawing.Size(128, 16)
         '
-        'OpenFileDialog1
-        '
-        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
         'SkrzynkiTrayIcon
         '
         Me.SkrzynkiTrayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info
@@ -294,23 +290,23 @@ Partial Class GameBoardForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.ClientSize = New System.Drawing.Size(510, 517)
-        Me.Controls.Add(Me.StatusStrip1)
-        Me.Controls.Add(Me.MenuStrip1)
+        Me.Controls.Add(Me.GameStatusStrip)
+        Me.Controls.Add(Me.GameMenuStrip)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.MainMenuStrip = Me.MenuStrip1
+        Me.MainMenuStrip = Me.GameMenuStrip
         Me.MaximizeBox = False
         Me.Name = "GameBoardForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.MenuStrip1.ResumeLayout(False)
-        Me.MenuStrip1.PerformLayout()
-        Me.StatusStrip1.ResumeLayout(False)
-        Me.StatusStrip1.PerformLayout()
+        Me.GameMenuStrip.ResumeLayout(False)
+        Me.GameMenuStrip.PerformLayout()
+        Me.GameStatusStrip.ResumeLayout(False)
+        Me.GameStatusStrip.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
 
-    Friend WithEvents MenuStrip1 As MenuStrip
+    Friend WithEvents GameMenuStrip As MenuStrip
     Friend WithEvents MenuitemGame As ToolStripMenuItem
     Friend WithEvents MenuitemLevelset As ToolStripMenuItem
     Friend WithEvents MenuitemLevelsetClassic As ToolStripMenuItem
@@ -331,21 +327,21 @@ Partial Class GameBoardForm
     Friend WithEvents MenuitemHelp As ToolStripMenuItem
     Friend WithEvents MenuitemHelpTopics As ToolStripMenuItem
     Friend WithEvents MenuitemAppWebsite As ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents SeparatorHelpAbout As ToolStripSeparator
     Friend WithEvents MenuitemAbout As ToolStripMenuItem
     Friend WithEvents MenuitemQuit As ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
-    Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
-    Friend WithEvents StatusStrip1 As StatusStrip
+    Friend WithEvents SeparatorGameQuit As ToolStripSeparator
+    Friend WithEvents SeparatorToolsOptions As ToolStripSeparator
+    Friend WithEvents GameStatusStrip As StatusStrip
     Friend WithEvents MovesLabel As ToolStripStatusLabel
     Friend WithEvents PushesLabel As ToolStripStatusLabel
     Friend WithEvents LevelProgressBar As ToolStripProgressBar
     Friend WithEvents LevelsetProgressBar As ToolStripProgressBar
-    Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents OpenLevelFileDialog As OpenFileDialog
     Friend WithEvents SkrzynkiTrayIcon As NotifyIcon
-    Friend WithEvents ColorDialog1 As ColorDialog
+    Friend WithEvents BackgroundColorDialog As ColorDialog
     Friend WithEvents MenuitemConfirmRestarts As ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
+    Friend WithEvents SeparatorViewCommands As ToolStripSeparator
     Friend WithEvents MenuitemOpenLevelFile As ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator5 As ToolStripSeparator
+    Friend WithEvents SeparatorLevelsetFile As ToolStripSeparator
 End Class

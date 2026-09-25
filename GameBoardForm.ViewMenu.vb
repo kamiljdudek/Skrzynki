@@ -1,7 +1,8 @@
 ' The View menu: how the board looks, whether restarts ask first, and hiding to the tray.
+' Check marks are brought up to date as a menu opens - by mouse or by keyboard alike.
 Partial Public Class GameBoardForm
 
-    Private Sub MenuitemView_Click(sender As Object, e As EventArgs) Handles MenuitemView.Click
+    Private Sub MenuitemView_DropDownOpening(sender As Object, e As EventArgs) Handles MenuitemView.DropDownOpening
         MenuitemConfirmRestarts.Checked = My.Settings.LevelRestartingAuthorization
     End Sub
 
@@ -10,8 +11,8 @@ Partial Public Class GameBoardForm
     End Sub
 
     Private Sub MenuitemColor_Click(sender As Object, e As EventArgs) Handles MenuitemColor.Click
-        If ColorDialog1.ShowDialog() = DialogResult.OK Then
-            My.Settings.BackgroundColor = ColorDialog1.Color
+        If BackgroundColorDialog.ShowDialog() = DialogResult.OK Then
+            My.Settings.BackgroundColor = BackgroundColorDialog.Color
             ApplyBackgroundColor()
         End If
     End Sub
@@ -28,7 +29,6 @@ Partial Public Class GameBoardForm
 
     Private Sub ApplySkin(skinName As String)
         My.Settings.Skin = skinName
-        RefreshSkinChecks()
         RefreshBoard()
     End Sub
 
@@ -36,7 +36,7 @@ Partial Public Class GameBoardForm
     ''' Anything that is not one of the other two skins draws as the original, so it is checked as
     ''' the original too - matching the fallback in Skin.GetIcon.
     ''' </remarks>
-    Private Sub RefreshSkinChecks()
+    Private Sub MenuitemSkins_DropDownOpening(sender As Object, e As EventArgs) Handles MenuitemSkins.DropDownOpening
         MenuitemSkinCheese.Checked = My.Settings.Skin = Skrzynki.Skin.SkinCheese
         MenuitemSkinExport.Checked = My.Settings.Skin = Skrzynki.Skin.SkinExport
         MenuitemSkinOrig.Checked = Not MenuitemSkinCheese.Checked AndAlso Not MenuitemSkinExport.Checked
@@ -52,10 +52,6 @@ Partial Public Class GameBoardForm
 
     Private Sub MenuitemSkinCheese_Click(sender As Object, e As EventArgs) Handles MenuitemSkinCheese.Click
         ApplySkin(Skrzynki.Skin.SkinCheese)
-    End Sub
-
-    Private Sub MenuitemSkins_Hover(sender As Object, e As EventArgs) Handles MenuitemSkins.MouseHover
-        RefreshSkinChecks()
     End Sub
 
     ''' <remarks>CheckOnClick toggles the item; this only carries the new state into the setting.</remarks>

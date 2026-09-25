@@ -92,15 +92,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Loading custom file.
-        '''</summary>
-        Friend Shared ReadOnly Property AlertLevelFromFileLoadSuccess() As String
-            Get
-                Return ResourceManager.GetString("AlertLevelFromFileLoadSuccess", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Error while loading level.
         '''</summary>
         Friend Shared ReadOnly Property AlertLevelLoadFailure() As String
@@ -180,7 +171,25 @@ Namespace My.Resources
                 Return ResourceManager.GetString("GameName", resourceCulture)
             End Get
         End Property
-        
+
+        '''<summary>
+        '''  Looks up a localized string similar to {0} ({1}): #{2}.
+        '''</summary>
+        Friend Shared ReadOnly Property GameTitleFormat() As String
+            Get
+                Return ResourceManager.GetString("GameTitleFormat", resourceCulture)
+            End Get
+        End Property
+
+        '''<summary>
+        '''  Looks up a localized string similar to Start levelsets at the furthest level reached.
+        '''</summary>
+        Friend Shared ReadOnly Property CheckBoxBeginFromArrivedLevel() As String
+            Get
+                Return ResourceManager.GetString("CheckBoxBeginFromArrivedLevel", resourceCulture)
+            End Get
+        End Property
+
         '''<summary>
         '''  Looks up a localized string similar to .
         '''</summary>
@@ -344,7 +353,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Stats.
+        '''  Looks up a localized string similar to Stats and options.
         '''</summary>
         Friend Shared ReadOnly Property LabelStats() As String
             Get
@@ -470,7 +479,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to &amp;Stats.
+        '''  Looks up a localized string similar to &amp;Stats and options.
         '''</summary>
         Friend Shared ReadOnly Property MenuitemOptions() As String
             Get

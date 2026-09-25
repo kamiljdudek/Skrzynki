@@ -5,11 +5,12 @@ Imports System.Globalization
 Partial Public Class GameBoardForm
 
     ''' <remarks>
-    ''' Picks a level of the built-in set named by the settings - also while a file is being
-    ''' played, since NewGame always returns to that set.
+    ''' Picks a level of the selected built-in set - also while a file is being played, since
+    ''' NewGame always returns to that set.
     ''' </remarks>
     Private Sub MenuitemSelectLevel_Click(sender As Object, e As EventArgs) Handles MenuitemSelectLevel.Click
-        Dim FurthestPlayableLevel As Integer = ProgressStore.FurthestPlayableLevel(My.Settings.LevelSet)
+        Dim BuiltInLevelset As String = CurrentGame.BuiltInLevelsetName
+        Dim FurthestPlayableLevel As Integer = CurrentGame.FurthestPlayableLevel(BuiltInLevelset)
 
         Dim IB As String = InputBox(Localizer.GetString("QuerySelectLevel"),
                                     MessageTitle,
@@ -30,7 +31,7 @@ Partial Public Class GameBoardForm
         End If
 
         If RequestedLevel > FurthestPlayableLevel AndAlso
-           RequestedLevel <= NumberOfLevelsIn(My.Settings.LevelSet) Then
+           RequestedLevel <= CurrentGame.Levelsets.NumberOfLevelsIn(BuiltInLevelset) Then
             ShowMessage(Localizer.GetString("AlertLevelNotReachedYet"), MsgBoxStyle.Critical)
             Exit Sub
         End If
@@ -48,26 +49,17 @@ Partial Public Class GameBoardForm
     End Sub
 
     ''' <remarks>
-    ''' The custom set is registered, and the game switched over to it, only once it is known to
-    ''' hold a playable level, so an unusable file leaves the game in progress untouched.
+    ''' The game switches over to the file only once it is known to hold a playable level, so an
+    ''' unusable file leaves the game in progress untouched.
     ''' </remarks>
     Private Sub MenuitemOpenLevelFile_Click(sender As Object, e As EventArgs) Handles MenuitemOpenLevelFile.Click
-        If OpenFileDialog1.ShowDialog() <> DialogResult.OK Then
+        If OpenLevelFileDialog.ShowDialog() <> DialogResult.OK Then
             Exit Sub
         End If
 
-        Dim SelectedFileName As String = OpenFileDialog1.FileName
-
-        If Not CurrentGame.OpenLevelsetFromFile(SelectedFileName) Then
+        If Not CurrentGame.OpenLevelsetFromFile(OpenLevelFileDialog.FileName) Then
             ShowMessage(Localizer.GetString("AlertLevelEmptyOrBad"), MsgBoxStyle.Exclamation)
             Exit Sub
-        End If
-
-        RefreshLevelsetChecks()
-
-        If My.Settings.LevelLoadConfirmation = True Then
-            ShowMessage(Localizer.GetString("AlertLevelFromFileLoadSuccess") & SelectedFileName,
-                        MsgBoxStyle.Information)
         End If
 
         RefreshBoard()
@@ -75,46 +67,47 @@ Partial Public Class GameBoardForm
         CompleteLevelWhileSolved()
     End Sub
 
-    Private Sub MenuitemLevelset_Click(sender As Object, e As EventArgs) Handles MenuitemLevelset.Click
-        RefreshLevelsetChecks()
-    End Sub
-
-    Private Sub MenuitemLevelset_Hover(sender As Object, e As EventArgs) Handles MenuitemLevelset.MouseHover
-        RefreshLevelsetChecks()
-    End Sub
-
-    Private Sub RefreshLevelsetChecks()
+    Private Sub MenuitemLevelset_DropDownOpening(sender As Object, e As EventArgs) Handles MenuitemLevelset.DropDownOpening
         Dim PlayingBuiltIn As Boolean = Not CurrentGame.IsPlayingCustomLevelset
+        Dim BuiltInLevelset As String = CurrentGame.BuiltInLevelsetName
 
         MenuitemOpenLevelFile.Checked = Not PlayingBuiltIn
         MenuitemLevelsetClassic.Checked =
-            PlayingBuiltIn AndAlso My.Settings.LevelSet = ProgressStore.ClassicLevelsetName
+            PlayingBuiltIn AndAlso BuiltInLevelset = LevelsetLibrary.ClassicLevelsetName
         MenuitemLevelsetXS.Checked =
-            PlayingBuiltIn AndAlso My.Settings.LevelSet = ProgressStore.ExtraDifficultLevelsetName
+            PlayingBuiltIn AndAlso BuiltInLevelset = LevelsetLibrary.ExtraDifficultLevelsetName
     End Sub
 
     ''' <remarks>
-    ''' Switches levelsets. SelectBuiltInLevelset resumes at the furthest level reached when
-    ''' BeginFromArrivedLevel is set, and restores the previous set if the requested one cannot
-    ''' be loaded.
+    ''' Starts a built-in levelset - at the furthest level reached when BeginFromArrivedLevel is
+    ''' set - and remembers it as the one to come back to next time the game starts.
     ''' </remarks>
+    Private Function StartBuiltInLevelset(levelsetName As String) As Boolean
+        If Not CurrentGame.SelectBuiltInLevelset(levelsetName, My.Settings.BeginFromArrivedLevel) Then
+            Return False
+        End If
+
+        My.Settings.LevelSet = levelsetName
+        Return True
+    End Function
+
+    ''' <remarks>A set that cannot be loaded leaves the game in progress untouched.</remarks>
     Private Sub SwitchToBuiltInLevelset(levelsetName As String)
-        If Not CurrentGame.SelectBuiltInLevelset(levelsetName) Then
+        If Not StartBuiltInLevelset(levelsetName) Then
             ShowMessage(Localizer.GetString("AlertLevelsetLoadFailure"), MsgBoxStyle.Critical)
             Exit Sub
         End If
 
-        RefreshLevelsetChecks()
         RefreshBoard()
         RefreshStatusBar()
         CompleteLevelWhileSolved()
     End Sub
 
     Private Sub MenuitemLevelsetClassic_Click(sender As Object, e As EventArgs) Handles MenuitemLevelsetClassic.Click
-        SwitchToBuiltInLevelset(ProgressStore.ClassicLevelsetName)
+        SwitchToBuiltInLevelset(LevelsetLibrary.ClassicLevelsetName)
     End Sub
 
     Private Sub MenuitemLevelsetXS_Click(sender As Object, e As EventArgs) Handles MenuitemLevelsetXS.Click
-        SwitchToBuiltInLevelset(ProgressStore.ExtraDifficultLevelsetName)
+        SwitchToBuiltInLevelset(LevelsetLibrary.ExtraDifficultLevelsetName)
     End Sub
 End Class

@@ -126,9 +126,6 @@
   <data name="AlertLevelEmptyOrBad" xml:space="preserve">
     <value>Plik etapów jest pusty lub wadliwy</value>
   </data>
-  <data name="AlertLevelFromFileLoadSuccess" xml:space="preserve">
-    <value>Pomyślnie załadowano plik </value>
-  </data>
   <data name="AlertLevelLoadFailure" xml:space="preserve">
     <value>Błąd podczas wczytywania pliku</value>
   </data>
@@ -155,6 +152,12 @@
   </data>
   <data name="GameName" xml:space="preserve">
     <value>Skrzynki</value>
+  </data>
+  <data name="GameTitleFormat" xml:space="preserve">
+    <value>{0} ({1}): #{2}</value>
+  </data>
+  <data name="CheckBoxBeginFromArrivedLevel" xml:space="preserve">
+    <value>Zaczynaj od najdalszego osiągniętego etapu</value>
   </data>
   <data name="LabelAboutForWindows" xml:space="preserve">
     <value />
@@ -211,7 +214,7 @@
     <value>Wersja: </value>
   </data>
   <data name="LabelStats" xml:space="preserve">
-    <value>Statystyki...</value>
+    <value>Statystyki i opcje</value>
   </data>
   <data name="LabelTrayDescription" xml:space="preserve">
     <value>Skrzynki chowają się w kącie...</value>
@@ -253,7 +256,7 @@
     <value>Otwórz &amp;plik etapu...</value>
   </data>
   <data name="MenuitemOptions" xml:space="preserve">
-    <value>&amp;Statystyki</value>
+    <value>&amp;Statystyki i opcje</value>
   </data>
   <data name="MenuitemQuit" xml:space="preserve">
     <value>Zakońc&amp;z</value>

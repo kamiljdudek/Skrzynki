@@ -1,39 +1,73 @@
-﻿''' <remarks>
-''' Where per-levelset progress lives. Each of the two built-in sets has its own settings, and
-''' this is the only place that knows which settings belong to which set - so nothing else has to
-''' name them.
+''' <remarks>
+''' Where a Game keeps the player's progress through the built-in levelsets. The interface is what
+''' lets a Game be run against something other than the user's settings.
 '''
-''' A levelset opened from a file keeps no progress at all, and every member here ignores it.
-'''
-''' The stored level marker names the *next* level to play, so it reaches one past the end of a
-''' set once that set is finished. Callers that need a level number that exists should go through
-''' FurthestPlayableLevel rather than reading the marker directly.
+''' The level marker names the *next* level to play, so it reaches one past the end of a set once
+''' that set is finished. Callers that need a level number that exists should go through
+''' Game.FurthestPlayableLevel rather than reading the marker directly.
 ''' </remarks>
-Module ProgressStore
-    Public Const ClassicLevelsetName As String = "Classic"
-    Public Const ExtraDifficultLevelsetName As String = "XS"
+Public Interface IProgressStore
+    Function GetLevelMarker(levelsetName As String) As Integer
+    Function GetMoves(levelsetName As String) As Integer
+    Function GetPushes(levelsetName As String) As Integer
+
+    ''' <remarks>
+    ''' Records one solved level: advances the marker and adds the effort spent. Does nothing when
+    ''' the marker would not move, so replaying a level already beaten cannot inflate the totals.
+    ''' Returns True when the progress was recorded.
+    ''' </remarks>
+    Function RecordSolvedLevel(levelsetName As String,
+                               unlockedLevel As Integer,
+                               moves As Integer,
+                               pushes As Integer) As Boolean
+End Interface
+
+''' <remarks>
+''' Progress kept in My.Settings. Each of the built-in sets has its own settings, and this is the
+''' only place that knows which settings belong to which set - so nothing else has to name them.
+''' A set this store does not know, such as one opened from a file, keeps no progress at all.
+''' </remarks>
+Public NotInheritable Class ProgressStore
+    Implements IProgressStore
 
     ' Each tracked set has three settings, named with its prefix followed by one of the suffixes
     ' below - ClassicArrivedLevel, ClassicMoves, ClassicPushes. Tracking a further set takes those
     ' three settings and one entry here.
-    Private ReadOnly SettingPrefixes As New Dictionary(Of String, String)(StringComparer.Ordinal) From {
-        {ClassicLevelsetName, "Classic"},
-        {ExtraDifficultLevelsetName, "ExtraDifficult"}
+    Private Shared ReadOnly SettingPrefixes As New Dictionary(Of String, String)(StringComparer.Ordinal) From {
+        {LevelsetLibrary.ClassicLevelsetName, "Classic"},
+        {LevelsetLibrary.ExtraDifficultLevelsetName, "ExtraDifficult"}
     }
 
     Private Const LevelMarkerSetting As String = "ArrivedLevel"
     Private Const MovesSetting As String = "Moves"
     Private Const PushesSetting As String = "Pushes"
 
+    ''' <remarks>
+    ''' The settings are addressed by name, which the compiler cannot check, so every name is
+    ''' checked here instead: a missing one stops the game at startup rather than the first time
+    ''' a level is solved.
+    ''' </remarks>
+    Public Sub New()
+        For Each Prefix As String In SettingPrefixes.Values
+            For Each Suffix As String In {LevelMarkerSetting, MovesSetting, PushesSetting}
+                If My.Settings.Properties(Prefix & Suffix) Is Nothing Then
+                    Throw New InvalidOperationException(
+                        "ProgressStore expects a setting named " & Prefix & Suffix &
+                        ", which My.Settings does not define.")
+                End If
+            Next
+        Next
+    End Sub
+
     ''' <remarks>Whether the named set keeps progress at all.</remarks>
-    Public Function TracksProgress(levelsetName As String) As Boolean
+    Private Shared Function TracksProgress(levelsetName As String) As Boolean
         Return levelsetName IsNot Nothing AndAlso SettingPrefixes.ContainsKey(levelsetName)
     End Function
 
     ''' <remarks>One of a tracked set's settings, or the fallback for a set that keeps none.</remarks>
-    Private Function ReadSetting(levelsetName As String,
-                                 settingSuffix As String,
-                                 fallback As Integer) As Integer
+    Private Shared Function ReadSetting(levelsetName As String,
+                                        settingSuffix As String,
+                                        fallback As Integer) As Integer
         If Not TracksProgress(levelsetName) Then
             Return fallback
         End If
@@ -41,118 +75,29 @@ Module ProgressStore
         Return CInt(My.Settings(SettingPrefixes(levelsetName) & settingSuffix))
     End Function
 
-    Private Sub WriteSetting(levelsetName As String, settingSuffix As String, value As Integer)
+    Private Shared Sub WriteSetting(levelsetName As String, settingSuffix As String, value As Integer)
         My.Settings(SettingPrefixes(levelsetName) & settingSuffix) = value
     End Sub
 
-    ' --- Progress stored under earlier setting names ---------------------------------------------
-    ' A saved user.config may hold these six settings under the names on the left. The settings
-    ' system matches by name and would simply ignore them, leaving the player looking as though
-    ' their progress had been reset, so the values are copied across once.
-
-    Private ReadOnly LegacySettingNames As New Dictionary(Of String, String)(StringComparer.Ordinal) From {
-        {"ArrivedLevelKlasyczne", NameOf(My.MySettings.ClassicArrivedLevel)},
-        {"ArrivedLevelSupertrudne", NameOf(My.MySettings.ExtraDifficultArrivedLevel)},
-        {"MovesKlasyczne", NameOf(My.MySettings.ClassicMoves)},
-        {"MovesSupertrudne", NameOf(My.MySettings.ExtraDifficultMoves)},
-        {"PushesKlasyczne", NameOf(My.MySettings.ClassicPushes)},
-        {"PushesSupertrudne", NameOf(My.MySettings.ExtraDifficultPushes)}
-    }
-
-    ''' <remarks>
-    ''' Copies progress saved under the old setting names into the new ones, once. Any failure to
-    ''' read the stored configuration leaves the new settings at their defaults rather than
-    ''' stopping the game from starting - losing a statistic is not worth refusing to run over.
-    ''' </remarks>
-    Public Sub MigrateLegacyProgress()
-        If My.Settings.LegacyProgressMigrated Then
-            Exit Sub
-        End If
-
-        Try
-            Dim LegacyValues As Dictionary(Of String, Integer) = ReadLegacyValues()
-
-            For Each Legacy As KeyValuePair(Of String, String) In LegacySettingNames
-                Dim Value As Integer
-                If LegacyValues.TryGetValue(Legacy.Key, Value) Then
-                    My.Settings(Legacy.Value) = Value
-                End If
-            Next
-
-            My.Settings.LegacyProgressMigrated = True
-            My.Settings.Save()
-        Catch ex As System.Configuration.ConfigurationErrorsException
-            ' A stored configuration that cannot be read has no progress to rescue.
-        Catch ex As System.Xml.XmlException
-        Catch ex As System.IO.IOException
-        End Try
-    End Sub
-
-    ''' <remarks>Reads the old, now-unmapped settings straight out of the stored user.config.</remarks>
-    Private Function ReadLegacyValues() As Dictionary(Of String, Integer)
-        Dim Found As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
-
-        Dim StoredConfiguration As System.Configuration.Configuration =
-            System.Configuration.ConfigurationManager.OpenExeConfiguration(
-                System.Configuration.ConfigurationUserLevel.PerUserRoamingAndLocal)
-
-        If StoredConfiguration Is Nothing OrElse Not System.IO.File.Exists(StoredConfiguration.FilePath) Then
-            Return Found
-        End If
-
-        Dim Stored As New System.Xml.XmlDocument With {.XmlResolver = Nothing}
-        Stored.Load(StoredConfiguration.FilePath)
-
-        For Each SettingNode As System.Xml.XmlNode In Stored.GetElementsByTagName("setting")
-            Dim NameAttribute As System.Xml.XmlNode = SettingNode.Attributes.GetNamedItem("name")
-            If NameAttribute Is Nothing OrElse Not LegacySettingNames.ContainsKey(NameAttribute.Value) Then
-                Continue For
-            End If
-
-            Dim ValueNode As System.Xml.XmlNode = SettingNode.SelectSingleNode("value")
-            Dim Value As Integer
-            If ValueNode IsNot Nothing AndAlso
-               Integer.TryParse(ValueNode.InnerText,
-                                Globalization.NumberStyles.Integer,
-                                Globalization.CultureInfo.InvariantCulture,
-                                Value) Then
-                Found(NameAttribute.Value) = Value
-            End If
-        Next
-
-        Return Found
-    End Function
-
     ''' <remarks>The number of the next level to play; 1 for a set that keeps no progress.</remarks>
-    Public Function GetLevelMarker(levelsetName As String) As Integer
+    Public Function GetLevelMarker(levelsetName As String) As Integer _
+        Implements IProgressStore.GetLevelMarker
         Return ReadSetting(levelsetName, LevelMarkerSetting, 1)
     End Function
 
-    ''' <remarks>
-    ''' The highest level the player may open in the named set: the progress marker, which runs
-    ''' one past the end of a finished set, clamped to a level that exists.
-    ''' </remarks>
-    Public Function FurthestPlayableLevel(levelsetName As String) As Integer
-        Return ClampToLevelset(GetLevelMarker(levelsetName), levelsetName)
-    End Function
-
-    Public Function GetMoves(levelsetName As String) As Integer
+    Public Function GetMoves(levelsetName As String) As Integer Implements IProgressStore.GetMoves
         Return ReadSetting(levelsetName, MovesSetting, 0)
     End Function
 
-    Public Function GetPushes(levelsetName As String) As Integer
+    Public Function GetPushes(levelsetName As String) As Integer Implements IProgressStore.GetPushes
         Return ReadSetting(levelsetName, PushesSetting, 0)
     End Function
 
-    ''' <remarks>
-    ''' Records one solved level: advances the marker and adds the effort spent. Does nothing when
-    ''' the marker would not move, so replaying a level already beaten cannot inflate the totals.
-    ''' Returns True when the progress was recorded.
-    ''' </remarks>
     Public Function RecordSolvedLevel(levelsetName As String,
                                       unlockedLevel As Integer,
                                       moves As Integer,
-                                      pushes As Integer) As Boolean
+                                      pushes As Integer) As Boolean _
+        Implements IProgressStore.RecordSolvedLevel
         If Not TracksProgress(levelsetName) Then
             Return False
         End If
@@ -167,4 +112,4 @@ Module ProgressStore
 
         Return True
     End Function
-End Module
+End Class
