@@ -120,7 +120,7 @@ Friend NotInheritable Class LevelParser
     ''' </remarks>
     Public Shared Function SplitBoxLevelTexts(levelsetText As String) As List(Of String)
         Dim LevelTexts As New List(Of String)
-        Dim CurrentLevel As System.Text.StringBuilder = Nothing
+        Dim CurrentLevel As List(Of String) = Nothing
         Dim Lines() As String = SplitIntoLines(levelsetText)
 
         For LineNumber As Integer = 1 To Lines.Length - 1
@@ -128,19 +128,42 @@ Friend NotInheritable Class LevelParser
 
             If Line.Trim() = "*" Then
                 If CurrentLevel IsNot Nothing Then
-                    LevelTexts.Add(CurrentLevel.ToString())
+                    LevelTexts.Add(JoinWithoutMargin(CurrentLevel))
                 End If
-                CurrentLevel = New System.Text.StringBuilder()
+                CurrentLevel = New List(Of String)
             ElseIf CurrentLevel IsNot Nothing Then
-                CurrentLevel.AppendLine(BoxRowToSok(Line))
+                CurrentLevel.Add(BoxRowToSok(Line).TrimEnd())
             End If
         Next
 
         If CurrentLevel IsNot Nothing Then
-            LevelTexts.Add(CurrentLevel.ToString())
+            LevelTexts.Add(JoinWithoutMargin(CurrentLevel))
         End If
 
         Return LevelTexts
+    End Function
+
+    ''' <remarks>
+    ''' A .box level is stored already placed on its grid, so every row carries the margin to the
+    ''' left of the level. That margin is taken off - the columns of outside squares that all rows
+    ''' share - so the rows arrive as a SOK level would, and are centred the same way.
+    ''' </remarks>
+    Private Shared Function JoinWithoutMargin(rows As List(Of String)) As String
+        Dim Margin As Integer = Integer.MaxValue
+        For Each Row As String In rows
+            If Row.Length > 0 Then
+                Margin = Math.Min(Margin, Row.Length - Row.TrimStart(" "c).Length)
+            End If
+        Next
+
+        Dim Joined As New System.Text.StringBuilder()
+        For Each Row As String In rows
+            If Row.Length > 0 Then
+                Joined.AppendLine(Row.Substring(Margin))
+            End If
+        Next
+
+        Return Joined.ToString()
     End Function
 
     ''' <remarks>
