@@ -302,6 +302,7 @@ Partial Public Class GameBoardForm
             Solved.PresentSolvedLevel(CurrentGame.CurrentAttemptLurd,
                                       CurrentGame.MovesPerformed,
                                       CurrentGame.PushesPerformed,
+                                      CurrentGame.UndosPerformed,
                                       LevelsetDisplayName(),
                                       CurrentGame.CurrentLevelNumber)
             Solved.ShowDialog(Me)

@@ -24,10 +24,14 @@ Public Class LevelSolvedForm
     ''' <remarks>
     ''' Hands the dialog everything it displays and saves. The solution has to be captured before
     ''' the level is advanced or restarted, because both clear the move history it comes from.
+    '''
+    ''' The solution is as long as the number of moves, so it is not shown separately; the undos
+    ''' are, being the one part of the attempt the solution no longer shows.
     ''' </remarks>
     Public Sub PresentSolvedLevel(solution As String,
                                   movesPerformed As Integer,
                                   pushesPerformed As Integer,
+                                  undosPerformed As Integer,
                                   levelsetName As String,
                                   levelNumber As Integer)
         SolutionLurd = If(solution, String.Empty)
@@ -35,8 +39,7 @@ Public Class LevelSolvedForm
 
         LabelMoves.Text = UiText.Format(My.Resources.LocalizableStrings.LabelMovesFormat, movesPerformed)
         LabelPushes.Text = UiText.Format(My.Resources.LocalizableStrings.LabelPushesFormat, pushesPerformed)
-        LabelSolutionLength.Text =
-            UiText.Format(My.Resources.LocalizableStrings.LabelSolutionLengthFormat, SolutionLurd.Length)
+        LabelUndos.Text = UiText.Format(My.Resources.LocalizableStrings.LabelUndosFormat, undosPerformed)
 
         ' Nothing to write out if the level arrived already solved.
         ButtonSaveSolution.Enabled = SolutionLurd.Length > 0

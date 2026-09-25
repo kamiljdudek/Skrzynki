@@ -353,15 +353,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu Solution length: {0}.
-        '''</summary>
-        Friend Shared ReadOnly Property LabelSolutionLengthFormat() As String
-            Get
-                Return ResourceManager.GetString("LabelSolutionLengthFormat", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''Wyszukuje zlokalizowany ciąg podobny do ciągu for Windows.
         '''</summary>
         Friend Shared ReadOnly Property LabelSplashOS() As String
@@ -403,6 +394,15 @@ Namespace My.Resources
         Friend Shared ReadOnly Property LabelTrayHint() As String
             Get
                 Return ResourceManager.GetString("LabelTrayHint", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''Wyszukuje zlokalizowany ciąg podobny do ciągu Undos: {0}.
+        '''</summary>
+        Friend Shared ReadOnly Property LabelUndosFormat() As String
+            Get
+                Return ResourceManager.GetString("LabelUndosFormat", resourceCulture)
             End Get
         End Property
         

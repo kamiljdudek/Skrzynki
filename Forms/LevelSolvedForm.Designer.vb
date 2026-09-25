@@ -26,7 +26,7 @@ Partial Class LevelSolvedForm
         Me.LabelCongratulation = New System.Windows.Forms.Label()
         Me.LabelMoves = New System.Windows.Forms.Label()
         Me.LabelPushes = New System.Windows.Forms.Label()
-        Me.LabelSolutionLength = New System.Windows.Forms.Label()
+        Me.LabelUndos = New System.Windows.Forms.Label()
         Me.ButtonNextLevel = New System.Windows.Forms.Button()
         Me.ButtonRepeatLevel = New System.Windows.Forms.Button()
         Me.ButtonSaveSolution = New System.Windows.Forms.Button()
@@ -58,13 +58,13 @@ Partial Class LevelSolvedForm
         Me.LabelPushes.Size = New System.Drawing.Size(188, 19)
         Me.LabelPushes.TabIndex = 2
         '
-        'LabelSolutionLength
+        'LabelUndos
         '
-        Me.LabelSolutionLength.AutoSize = False
-        Me.LabelSolutionLength.Location = New System.Drawing.Point(16, 75)
-        Me.LabelSolutionLength.Name = "LabelSolutionLength"
-        Me.LabelSolutionLength.Size = New System.Drawing.Size(388, 19)
-        Me.LabelSolutionLength.TabIndex = 3
+        Me.LabelUndos.AutoSize = False
+        Me.LabelUndos.Location = New System.Drawing.Point(16, 75)
+        Me.LabelUndos.Name = "LabelUndos"
+        Me.LabelUndos.Size = New System.Drawing.Size(388, 19)
+        Me.LabelUndos.TabIndex = 3
         '
         'ButtonNextLevel
         '
@@ -103,7 +103,7 @@ Partial Class LevelSolvedForm
         Me.Controls.Add(Me.ButtonSaveSolution)
         Me.Controls.Add(Me.ButtonRepeatLevel)
         Me.Controls.Add(Me.ButtonNextLevel)
-        Me.Controls.Add(Me.LabelSolutionLength)
+        Me.Controls.Add(Me.LabelUndos)
         Me.Controls.Add(Me.LabelPushes)
         Me.Controls.Add(Me.LabelMoves)
         Me.Controls.Add(Me.LabelCongratulation)
@@ -120,7 +120,7 @@ Partial Class LevelSolvedForm
     Friend WithEvents LabelCongratulation As Label
     Friend WithEvents LabelMoves As Label
     Friend WithEvents LabelPushes As Label
-    Friend WithEvents LabelSolutionLength As Label
+    Friend WithEvents LabelUndos As Label
     Friend WithEvents ButtonNextLevel As Button
     Friend WithEvents ButtonRepeatLevel As Button
     Friend WithEvents ButtonSaveSolution As Button

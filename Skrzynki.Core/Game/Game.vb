@@ -47,6 +47,7 @@ Partial Public Class Game
     Private LevelNumber As Integer
     Private MoveCount As Integer
     Private PushCount As Integer
+    Private UndoCount As Integer
 
     ''' <remarks>
     ''' Raised whenever a level is put on the board: another level, the same one restarted, or the
@@ -118,6 +119,17 @@ Partial Public Class Game
     Public ReadOnly Property PushesPerformed() As Integer
         Get
             Return PushCount
+        End Get
+    End Property
+
+    ''' <remarks>
+    ''' How many moves have been taken back during the attempt. Undo lowers MovesPerformed and
+    ''' PushesPerformed again, so this is the only trace left of the steps that were tried and
+    ''' then retracted.
+    ''' </remarks>
+    Public ReadOnly Property UndosPerformed() As Integer
+        Get
+            Return UndoCount
         End Get
     End Property
 
@@ -225,6 +237,7 @@ Partial Public Class Game
 
         MoveCount = 0
         PushCount = 0
+        UndoCount = 0
         RecordedMoves.Clear()
 
         RaiseEvent LevelLoaded(Me, EventArgs.Empty)
@@ -358,6 +371,7 @@ Partial Public Class Game
         CurrentBoard(CameFrom) = CurrentBoard(CameFrom).WithPlayer()
         PlayerCell = CameFrom
         MoveCount -= 1
+        UndoCount += 1
 
         RaiseEvent PlayerMoved(Me, New PlayerMovedEventArgs(Changed))
     End Sub

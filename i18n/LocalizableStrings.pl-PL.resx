@@ -252,8 +252,8 @@
   <data name="LabelLevelSolvedTitle" xml:space="preserve">
     <value>Etap ukończony</value>
   </data>
-  <data name="LabelSolutionLengthFormat" xml:space="preserve">
-    <value>Długość rozwiązania: {0}</value>
+  <data name="LabelUndosFormat" xml:space="preserve">
+    <value>Cofnięcia: {0}</value>
   </data>
   <data name="ButtonNextLevel" xml:space="preserve">
     <value>&amp;Następny</value>
