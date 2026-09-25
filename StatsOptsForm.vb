@@ -16,11 +16,7 @@
 
         Dim Moves As Integer = ProgressStore.GetMoves(LevelsetName)
         Dim Pushes As Integer = ProgressStore.GetPushes(LevelsetName)
-        Dim ProgressMarker As Integer = ProgressStore.GetLevelMarker(LevelsetName)
-
-        ' The stored marker names the next level to play and runs one past the end of a completed
-        ' set, so it is clamped to a level that exists before being shown.
-        Dim ReachedLevel As Integer = ClampToLevelset(ProgressMarker, LevelsetName)
+        Dim ReachedLevel As Integer = ProgressStore.FurthestPlayableLevel(LevelsetName)
 
         LabelMoves.Text = Localizer.GetString("LabelMoves") & Moves
         LabelPushes.Text = Localizer.GetString("LabelPushes") & Pushes

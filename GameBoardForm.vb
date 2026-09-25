@@ -1,21 +1,15 @@
 ﻿' The menu handlers for choosing levels and levelsets are in GameBoardForm.LevelSelection.vb, and
 ' those of the View menu in GameBoardForm.ViewMenu.vb.
 Partial Public Class GameBoardForm
-    ' Parallel to GameBoard: see the board indexing convention in 倉庫番.vb. Cells occupy
+    Private ReadOnly CurrentGame As New Game()
+
+    ' Parallel to the game's board: see the board indexing convention in Board.vb. Cells occupy
     ' BoardFirstIndex through BoardCellCount; index 0 is unused.
     ReadOnly CellPictures(BoardCellCount) As System.Windows.Forms.PictureBox
 
     Private Const CellSizeInPixels As Integer = 32
 
     Private StatisticsWindow As StatsOptsForm
-
-    Private Shared ReadOnly MessageTitle As String =
-        System.Reflection.Assembly.GetExecutingAssembly.GetName.Name
-
-    ''' <remarks>Every message box the game shows: application-modal and titled with its name.</remarks>
-    Private Shared Function ShowMessage(text As String, style As MsgBoxStyle) As MsgBoxResult
-        Return MsgBox(text, style Or MsgBoxStyle.ApplicationModal, MessageTitle)
-    End Function
 
     Private Sub ApplyLocalizationResources()
         Me.MenuitemAbout.Text = Localizer.GetString("MenuitemAbout")
@@ -80,30 +74,46 @@ Partial Public Class GameBoardForm
     ''' anything that changes the game, so no caller has to remember which parts to update.
     ''' </remarks>
     Private Sub RefreshStatusBar()
-        MovesLabel.Text = Localizer.GetString("LabelMoves") & MovesPerformed
-        PushesLabel.Text = Localizer.GetString("LabelPushes") & PushesPerformed
+        MovesLabel.Text = Localizer.GetString("LabelMoves") & CurrentGame.MovesPerformed
+        PushesLabel.Text = Localizer.GetString("LabelPushes") & CurrentGame.PushesPerformed
 
-        Me.Text = CurrentGameTitle
+        Me.Text = Localizer.GetString("GameName") &
+            " (" & LevelsetDisplayName() & "): #" &
+            CurrentGame.CurrentLevelNumber.ToString(System.Globalization.CultureInfo.InvariantCulture)
 
         ' Progress towards the goal squares, matching the rule that decides the level is solved.
         SetProgress(Me.LevelProgressBar,
-                    NumberOfCoveredGoalsOnCurrentLevel,
-                    NumberOfGoalsOnCurrentLevel)
+                    CurrentGame.NumberOfCoveredGoalsOnCurrentLevel,
+                    CurrentGame.NumberOfGoalsOnCurrentLevel)
 
         ' Scaled to the size of the set actually loaded, which a set opened from a file may set
         ' to anything.
-        SetProgress(Me.LevelsetProgressBar, CurrentLevelNumber, NumberOfLevelsInCurrentLevelset)
+        SetProgress(Me.LevelsetProgressBar,
+                    CurrentGame.CurrentLevelNumber,
+                    CurrentGame.NumberOfLevelsInCurrentLevelset)
 
         RefreshMenuState()
     End Sub
+
+    ''' <remarks>
+    ''' How the levelset being played is named to the player: the file name for a set opened from
+    ''' disk, the translated set name otherwise.
+    ''' </remarks>
+    Private Function LevelsetDisplayName() As String
+        If CurrentGame.IsPlayingCustomLevelset Then
+            Return System.IO.Path.GetFileName(CurrentGame.CustomLevelsetFileName)
+        End If
+
+        Return LocalizedLevelsetName(My.Settings.LevelSet)
+    End Function
 
     ''' <remarks>
     ''' Menu availability follows the game state, so that the shortcut keys behave the same way
     ''' whether or not the menu holding them has been opened.
     ''' </remarks>
     Private Sub RefreshMenuState()
-        Me.MenuitemUndo.Enabled = CanUndo()
-        Me.MenuitemRestart.Enabled = NumberOfLevelsInCurrentLevelset > 0
+        Me.MenuitemUndo.Enabled = CurrentGame.CanUndo
+        Me.MenuitemRestart.Enabled = CurrentGame.NumberOfLevelsInCurrentLevelset > 0
     End Sub
 
     ''' <remarks>
@@ -126,10 +136,11 @@ Partial Public Class GameBoardForm
             Exit Sub
         End If
 
-        If BoardCell(cellIndex) < CInt(BoardItem.BlankOuter) Then
-            Me.CellPictures(cellIndex).Image = Skrzynki.Skin.GetIcon(BoardCell(cellIndex))
-        Else
+        Dim Item As BoardItem = CurrentGame.BoardCell(cellIndex)
+        If Item = BoardItem.BlankOuter Then
             Me.CellPictures(cellIndex).Image = Nothing
+        Else
+            Me.CellPictures(cellIndex).Image = Skrzynki.Skin.GetIcon(Item)
         End If
     End Sub
 
@@ -140,11 +151,12 @@ Partial Public Class GameBoardForm
     End Sub
 
     Public Sub RefreshCellsAroundPlayer()
-        RefreshCell(CurrentPlayerLocation - BoardWidth)
-        RefreshCell(CurrentPlayerLocation - 1)
-        RefreshCell(CurrentPlayerLocation)
-        RefreshCell(CurrentPlayerLocation + 1)
-        RefreshCell(CurrentPlayerLocation + BoardWidth)
+        Dim Player As Integer = CurrentGame.CurrentPlayerLocation
+        RefreshCell(Player - BoardWidth)
+        RefreshCell(Player - 1)
+        RefreshCell(Player)
+        RefreshCell(Player + 1)
+        RefreshCell(Player + BoardWidth)
     End Sub
 
 
@@ -177,7 +189,7 @@ Partial Public Class GameBoardForm
             Exit Sub
         End If
 
-        If Not TryMovePlayer(Direction) Then
+        If Not CurrentGame.TryMovePlayer(Direction) Then
             System.Media.SystemSounds.Beep.Play()
             Exit Sub
         End If
@@ -195,24 +207,25 @@ Partial Public Class GameBoardForm
     Private Sub CompleteLevelWhileSolved()
         Dim LevelsCompleted As Integer = 0
 
-        While IsCurrentLevelSolved() AndAlso LevelsCompleted <= NumberOfLevelsInCurrentLevelset
+        While CurrentGame.IsCurrentLevelSolved AndAlso
+              LevelsCompleted <= CurrentGame.NumberOfLevelsInCurrentLevelset
             LevelsCompleted += 1
 
             ' Banked before advancing, for every solved level including the last one of a set.
-            RecordProgressForSolvedLevel()
+            CurrentGame.RecordProgressForSolvedLevel()
 
             ' Read before the level changes: advancing and restarting both clear the history the
             ' solution is written from.
             Dim Choice As LevelSolvedChoice = AskWhatToDoNext()
 
             If Choice = LevelSolvedChoice.RepeatLevel Then
-                RestartLevel()
-            ElseIf Not AdvanceToNextLevel() Then
+                CurrentGame.RestartLevel()
+            ElseIf Not CurrentGame.AdvanceToNextLevel() Then
                 ShowMessage(Localizer.GetString("AlertAllLevelsSolved"), MsgBoxStyle.Information)
 
                 ' Finishing a set opened from a file drops back to the built-in one named in the
                 ' settings.
-                If Not NewGame(1) Then
+                If Not CurrentGame.NewGame(1) Then
                     Exit While
                 End If
             End If
@@ -228,11 +241,11 @@ Partial Public Class GameBoardForm
     ''' </remarks>
     Private Function AskWhatToDoNext() As LevelSolvedChoice
         Using Solved As New LevelSolvedForm()
-            Solved.PresentSolvedLevel(CurrentAttemptLurd,
-                                      MovesPerformed,
-                                      PushesPerformed,
-                                      CurrentLevelsetDisplayName,
-                                      CurrentLevelNumber)
+            Solved.PresentSolvedLevel(CurrentGame.CurrentAttemptLurd,
+                                      CurrentGame.MovesPerformed,
+                                      CurrentGame.PushesPerformed,
+                                      LevelsetDisplayName(),
+                                      CurrentGame.CurrentLevelNumber)
             Solved.ShowDialog(Me)
 
             Return Solved.Choice
@@ -254,9 +267,7 @@ Partial Public Class GameBoardForm
 
         ' SelectBuiltInLevelset applies the BeginFromArrivedLevel setting and falls back to the
         ' first level when saved progress points past the end of the set.
-        Dim SuccessfulNewGame As Boolean = StartGame()
-
-        If Not SuccessfulNewGame Then
+        If Not CurrentGame.Start() Then
             ShowMessage(Localizer.GetString("AlertLevelsetLoadFailure"), MsgBoxStyle.Critical)
         End If
 
@@ -268,14 +279,12 @@ Partial Public Class GameBoardForm
         CompleteLevelWhileSolved()
     End Sub
 
-    Private Sub GameBoardForm_Close(sender As Object, e As EventArgs) Handles MyBase.Closed
-        My.Settings.Save()
-        Application.Exit()
-    End Sub
-
+    ''' <remarks>
+    ''' Closing the main form ends the application, and the application framework saves the
+    ''' settings on the way out (SaveMySettingsOnExit in Application.myapp).
+    ''' </remarks>
     Private Sub MenuitemQuit_Click(sender As Object, e As EventArgs) Handles MenuitemQuit.Click
-        My.Settings.Save()
-        Application.Exit()
+        Me.Close()
     End Sub
 
     Private Sub MenuitemAbout_Click(sender As Object, e As EventArgs) Handles MenuitemAbout.Click
@@ -304,13 +313,13 @@ Partial Public Class GameBoardForm
             Exit Sub
         End If
 
-        RestartLevel()
+        CurrentGame.RestartLevel()
         RefreshBoard()
         RefreshStatusBar()
     End Sub
 
     Private Sub MenuitemUndo_Click(sender As Object, e As EventArgs) Handles MenuitemUndo.Click
-        Undo()
+        CurrentGame.Undo()
         RefreshBoard()
         RefreshStatusBar()
     End Sub

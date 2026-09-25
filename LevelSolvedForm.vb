@@ -115,10 +115,6 @@ Public Class LevelSolvedForm
     End Sub
 
     Private Shared Sub ShowSaveFailure()
-        MsgBox(Localizer.GetString("AlertSolutionSaveFailure"),
-               MsgBoxStyle.OkOnly Or
-               MsgBoxStyle.Critical Or
-               MsgBoxStyle.ApplicationModal,
-               System.Reflection.Assembly.GetExecutingAssembly.GetName.Name)
+        ShowMessage(Localizer.GetString("AlertSolutionSaveFailure"), MsgBoxStyle.Critical)
     End Sub
 End Class

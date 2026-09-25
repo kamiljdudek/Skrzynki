@@ -70,11 +70,7 @@ Partial Public Class GameBoardForm
         Me.Visible = False
     End Sub
 
-    Private Sub SkrzynkiTrayIcon_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles SkrzynkiTrayIcon.MouseDoubleClick
-        SkrzynkiTrayIcon.Visible = False
-        Me.Visible = True
-    End Sub
-
+    ''' <remarks>Any click brings the window back; a double-click raises MouseClick too.</remarks>
     Private Sub SkrzynkiTrayIcon_MouseClick(sender As Object, e As MouseEventArgs) Handles SkrzynkiTrayIcon.MouseClick
         SkrzynkiTrayIcon.Visible = False
         Me.Visible = True

@@ -1,4 +1,4 @@
-Partial Public Module 倉庫番
+Partial Public Class Game
     ' -------------------------------------------------------------------------------------------
     ' |                                   MOVEMENT RULES                                        |
     ' -------------------------------------------------------------------------------------------
@@ -18,40 +18,33 @@ Partial Public Module 倉庫番
     ''' be pushed blocks the way, in which case nothing on the board changes.
     ''' </returns>
     Public Function TryMovePlayer(direction As MoveDirection) As Boolean
-        PushHasJustBeenPerformed = False
-
         Dim Player As Cell = Cell.FromIndex(PlayerLocation)
         Dim Ahead As Cell = Player.Neighbour(direction)
 
         ' Walls and the space outside the level both stop the player.
-        If Not Ahead.IsOnBoard OrElse Not IsWalkable(GameBoard(Ahead.Index)) Then
+        If Not Ahead.IsOnBoard OrElse Not IsWalkable(Cells(Ahead.Index)) Then
             Return False
         End If
 
-        ' Taken before anything moves, so that a push which turns out to be blocked leaves the
-        ' board exactly as it was.
-        Dim StateBeforeMove(BoardCellCount) As Integer
-        Array.Copy(GameBoard, StateBeforeMove, GameBoard.Length)
-
-        If HoldsBox(GameBoard(Ahead.Index)) Then
-            If Not TryPushBox(direction, Ahead) Then
-                Return False
-            End If
-
-            PushesPerformedOnCurrentLevel += 1
+        ' A push that turns out to be blocked returns before anything has been written, so the
+        ' board is left exactly as it was.
+        Dim PushedBox As Boolean = HoldsBox(Cells(Ahead.Index))
+        If PushedBox AndAlso Not TryPushBox(direction, Ahead) Then
+            Return False
         End If
 
         ' Both squares are re-encoded from the floor they already report, so goals survive the
         ' move. The square ahead still reads as a box when one has just been pushed off it, and
         ' its floor is recoverable from that too.
-        GameBoard(Player.Index) = WithNothing(GameBoard(Player.Index))
-        GameBoard(Ahead.Index) = WithPlayer(GameBoard(Ahead.Index))
+        Cells(Player.Index) = WithNothing(Cells(Player.Index))
+        Cells(Ahead.Index) = WithPlayer(Cells(Ahead.Index))
         PlayerLocation = Ahead.Index
 
-        AllGameBoardStates.Add(StateBeforeMove)
-        AllPushStates.Add(PushHasJustBeenPerformed)
-        MovesPerformedOnCurrentLevel += 1
-        RecordedMoves.Add(New MoveRecord(direction, PushHasJustBeenPerformed))
+        MoveCount += 1
+        If PushedBox Then
+            PushCount += 1
+        End If
+        RecordedMoves.Add(New MoveRecord(direction, PushedBox))
 
         Return True
     End Function
@@ -74,14 +67,12 @@ Partial Public Module 倉庫番
             Return False
         End If
 
-        Dim BeyondValue As Integer = GameBoard(Beyond.Index)
-        If Not IsWalkable(BeyondValue) OrElse HoldsBox(BeyondValue) Then
+        Dim BeyondItem As BoardItem = Cells(Beyond.Index)
+        If Not IsWalkable(BeyondItem) OrElse HoldsBox(BeyondItem) Then
             Return False
         End If
 
-        GameBoard(Beyond.Index) = WithBox(BeyondValue)
-        PushHasJustBeenPerformed = True
-
+        Cells(Beyond.Index) = WithBox(BeyondItem)
         Return True
     End Function
-End Module
+End Class

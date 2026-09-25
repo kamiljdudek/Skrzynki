@@ -4,9 +4,7 @@
 ''' so the language follows the machine rather than being fixed at startup.
 ''' </remarks>
 Module Localization
-    <CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2211:NonConstantFieldsShouldNotBeVisible",
-                                  Justification:="Single-threaded UI application")>
-    Public Localizer As New System.Resources.ResourceManager(
+    Public ReadOnly Localizer As New System.Resources.ResourceManager(
         "Skrzynki.LocalizableStrings", System.Reflection.Assembly.GetExecutingAssembly())
 
     ''' <remarks>
@@ -28,24 +26,5 @@ Module Localization
         End If
 
         Return Translated
-    End Function
-
-    ''' <remarks>
-    ''' How the active levelset is named to the player: the file name for a set opened from disk,
-    ''' the translated set name otherwise.
-    ''' </remarks>
-    Public Function CurrentLevelsetDisplayName() As String
-        If IsPlayingCustomLevelset() AndAlso Not String.IsNullOrEmpty(CustomLevelsetFileName) Then
-            Return System.IO.Path.GetFileName(CustomLevelsetFileName)
-        End If
-
-        Return LocalizedLevelsetName(My.Settings.LevelSet)
-    End Function
-
-    ''' <remarks>The window title for the whole game, built in one place.</remarks>
-    Public Function CurrentGameTitle() As String
-        Return Localizer.GetString("GameName") &
-            " (" & CurrentLevelsetDisplayName() & "): #" &
-            CurrentLevelNumber.ToString(System.Globalization.CultureInfo.InvariantCulture)
     End Function
 End Module

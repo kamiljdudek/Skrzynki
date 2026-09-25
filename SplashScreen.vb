@@ -1,12 +1,10 @@
-﻿Imports System.Reflection
 Public Class SplashScreen
     Private Sub SplashScreen_KeyPress(sender As Object, e As KeyPressEventArgs) Handles MyBase.KeyPress
         e.Handled = True
         Me.Close()
     End Sub
     Private Sub SplashScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Label1.Text = Assembly.GetExecutingAssembly.GetName.Name
-        Me.LabelCopyright.Text = My.Application.Info.Copyright '& My.Application.Info.CompanyName
+        Me.LabelCopyright.Text = My.Application.Info.Copyright
         Me.Label1.Text = My.Application.Info.AssemblyName
         Me.LabelDescr.Text = My.Application.Info.Description
         Me.LabelPlatform.Text = Localizer.GetString("LabelSplashOS")

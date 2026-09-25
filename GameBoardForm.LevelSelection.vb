@@ -4,7 +4,13 @@ Imports System.Globalization
 ' built-in levelsets.
 Partial Public Class GameBoardForm
 
+    ''' <remarks>
+    ''' Picks a level of the built-in set named by the settings - also while a file is being
+    ''' played, since NewGame always returns to that set.
+    ''' </remarks>
     Private Sub MenuitemSelectLevel_Click(sender As Object, e As EventArgs) Handles MenuitemSelectLevel.Click
+        Dim FurthestPlayableLevel As Integer = ProgressStore.FurthestPlayableLevel(My.Settings.LevelSet)
+
         Dim IB As String = InputBox(Localizer.GetString("QuerySelectLevel"),
                                     MessageTitle,
                                     FurthestPlayableLevel.ToString(CultureInfo.InvariantCulture))
@@ -24,14 +30,14 @@ Partial Public Class GameBoardForm
         End If
 
         If RequestedLevel > FurthestPlayableLevel AndAlso
-           RequestedLevel <= NumberOfLevelsInCurrentLevelset Then
+           RequestedLevel <= NumberOfLevelsIn(My.Settings.LevelSet) Then
             ShowMessage(Localizer.GetString("AlertLevelNotReachedYet"), MsgBoxStyle.Critical)
             Exit Sub
         End If
 
         ' NewGame clears the undo history and the move counters along with loading the board, and
         ' rejects a level number outside the set.
-        If Not NewGame(RequestedLevel) Then
+        If Not CurrentGame.NewGame(RequestedLevel) Then
             ShowMessage(Localizer.GetString("AlertLevelDoesNotExist"), MsgBoxStyle.Critical)
             Exit Sub
         End If
@@ -52,7 +58,7 @@ Partial Public Class GameBoardForm
 
         Dim SelectedFileName As String = OpenFileDialog1.FileName
 
-        If Not OpenLevelsetFromFile(SelectedFileName) Then
+        If Not CurrentGame.OpenLevelsetFromFile(SelectedFileName) Then
             ShowMessage(Localizer.GetString("AlertLevelEmptyOrBad"), MsgBoxStyle.Exclamation)
             Exit Sub
         End If
@@ -78,11 +84,13 @@ Partial Public Class GameBoardForm
     End Sub
 
     Private Sub RefreshLevelsetChecks()
-        MenuitemOpenLevelFile.Checked = IsPlayingCustomLevelset()
+        Dim PlayingBuiltIn As Boolean = Not CurrentGame.IsPlayingCustomLevelset
+
+        MenuitemOpenLevelFile.Checked = Not PlayingBuiltIn
         MenuitemLevelsetClassic.Checked =
-            Not IsPlayingCustomLevelset() AndAlso My.Settings.LevelSet = ProgressStore.ClassicLevelsetName
+            PlayingBuiltIn AndAlso My.Settings.LevelSet = ProgressStore.ClassicLevelsetName
         MenuitemLevelsetXS.Checked =
-            Not IsPlayingCustomLevelset() AndAlso My.Settings.LevelSet = ProgressStore.ExtraDifficultLevelsetName
+            PlayingBuiltIn AndAlso My.Settings.LevelSet = ProgressStore.ExtraDifficultLevelsetName
     End Sub
 
     ''' <remarks>
@@ -91,7 +99,7 @@ Partial Public Class GameBoardForm
     ''' be loaded.
     ''' </remarks>
     Private Sub SwitchToBuiltInLevelset(levelsetName As String)
-        If Not SelectBuiltInLevelset(levelsetName) Then
+        If Not CurrentGame.SelectBuiltInLevelset(levelsetName) Then
             ShowMessage(Localizer.GetString("AlertLevelsetLoadFailure"), MsgBoxStyle.Critical)
             Exit Sub
         End If

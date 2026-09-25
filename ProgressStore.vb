@@ -13,10 +13,37 @@ Module ProgressStore
     Public Const ClassicLevelsetName As String = "Classic"
     Public Const ExtraDifficultLevelsetName As String = "XS"
 
+    ' Each tracked set has three settings, named with its prefix followed by one of the suffixes
+    ' below - ClassicArrivedLevel, ClassicMoves, ClassicPushes. Tracking a further set takes those
+    ' three settings and one entry here.
+    Private ReadOnly SettingPrefixes As New Dictionary(Of String, String)(StringComparer.Ordinal) From {
+        {ClassicLevelsetName, "Classic"},
+        {ExtraDifficultLevelsetName, "ExtraDifficult"}
+    }
+
+    Private Const LevelMarkerSetting As String = "ArrivedLevel"
+    Private Const MovesSetting As String = "Moves"
+    Private Const PushesSetting As String = "Pushes"
+
     ''' <remarks>Whether the named set keeps progress at all.</remarks>
     Public Function TracksProgress(levelsetName As String) As Boolean
-        Return levelsetName = ClassicLevelsetName OrElse levelsetName = ExtraDifficultLevelsetName
+        Return levelsetName IsNot Nothing AndAlso SettingPrefixes.ContainsKey(levelsetName)
     End Function
+
+    ''' <remarks>One of a tracked set's settings, or the fallback for a set that keeps none.</remarks>
+    Private Function ReadSetting(levelsetName As String,
+                                 settingSuffix As String,
+                                 fallback As Integer) As Integer
+        If Not TracksProgress(levelsetName) Then
+            Return fallback
+        End If
+
+        Return CInt(My.Settings(SettingPrefixes(levelsetName) & settingSuffix))
+    End Function
+
+    Private Sub WriteSetting(levelsetName As String, settingSuffix As String, value As Integer)
+        My.Settings(SettingPrefixes(levelsetName) & settingSuffix) = value
+    End Sub
 
     ' --- Progress stored under earlier setting names ---------------------------------------------
     ' A saved user.config may hold these six settings under the names on the left. The settings
@@ -96,28 +123,25 @@ Module ProgressStore
         Return Found
     End Function
 
+    ''' <remarks>The number of the next level to play; 1 for a set that keeps no progress.</remarks>
     Public Function GetLevelMarker(levelsetName As String) As Integer
-        If levelsetName = ExtraDifficultLevelsetName Then
-            Return My.Settings.ExtraDifficultArrivedLevel
-        End If
+        Return ReadSetting(levelsetName, LevelMarkerSetting, 1)
+    End Function
 
-        Return My.Settings.ClassicArrivedLevel
+    ''' <remarks>
+    ''' The highest level the player may open in the named set: the progress marker, which runs
+    ''' one past the end of a finished set, clamped to a level that exists.
+    ''' </remarks>
+    Public Function FurthestPlayableLevel(levelsetName As String) As Integer
+        Return ClampToLevelset(GetLevelMarker(levelsetName), levelsetName)
     End Function
 
     Public Function GetMoves(levelsetName As String) As Integer
-        If levelsetName = ExtraDifficultLevelsetName Then
-            Return My.Settings.ExtraDifficultMoves
-        End If
-
-        Return My.Settings.ClassicMoves
+        Return ReadSetting(levelsetName, MovesSetting, 0)
     End Function
 
     Public Function GetPushes(levelsetName As String) As Integer
-        If levelsetName = ExtraDifficultLevelsetName Then
-            Return My.Settings.ExtraDifficultPushes
-        End If
-
-        Return My.Settings.ClassicPushes
+        Return ReadSetting(levelsetName, PushesSetting, 0)
     End Function
 
     ''' <remarks>
@@ -137,15 +161,9 @@ Module ProgressStore
             Return False
         End If
 
-        If levelsetName = ExtraDifficultLevelsetName Then
-            My.Settings.ExtraDifficultArrivedLevel = unlockedLevel
-            My.Settings.ExtraDifficultMoves += moves
-            My.Settings.ExtraDifficultPushes += pushes
-        Else
-            My.Settings.ClassicArrivedLevel = unlockedLevel
-            My.Settings.ClassicMoves += moves
-            My.Settings.ClassicPushes += pushes
-        End If
+        WriteSetting(levelsetName, LevelMarkerSetting, unlockedLevel)
+        WriteSetting(levelsetName, MovesSetting, GetMoves(levelsetName) + moves)
+        WriteSetting(levelsetName, PushesSetting, GetPushes(levelsetName) + pushes)
 
         Return True
     End Function

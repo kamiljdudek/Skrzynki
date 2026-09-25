@@ -36,5 +36,3 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyFileVersion("4.0")>
 
 <assembly: CLSCompliant(true)>
-Namespace DesignLibrary
-End Namespace

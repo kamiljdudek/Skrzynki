@@ -1,7 +1,7 @@
 ''' <remarks>
 ''' What a single square of the board holds. The value folds two facts into one: what the square
-''' itself is, and what is standing on it. The digits match the characters a level map is written
-''' with, so BuildBoardState can read a map straight into these.
+''' itself is, and what is standing on it. LevelParser maps the characters of a SOK level onto
+''' these, and the skins number their icons by them.
 ''' </remarks>
 Public Enum BoardItem
     Blank = 0
@@ -27,7 +27,7 @@ Module Board
     '
     ' Row r and column c (both 0-based) live at index r * BoardWidth + c + 1.
     '
-    ' 倉庫番.GameBoard and GameBoardForm.CellPictures are index-for-index parallel and share this
+    ' Game.Cells and GameBoardForm.CellPictures are index-for-index parallel and share this
     ' convention. Every loop over the board therefore runs BoardFirstIndex To BoardCellCount, and
     ' anything that fills a board array must start writing at BoardFirstIndex.
     Public Const BoardWidth As Integer = 16
@@ -45,34 +45,34 @@ Module Board
     ' asks these what the cell should read as once a given occupant is placed on it. The floor is
     ' always recoverable, because each of the six occupiable values names it.
 
-    Public Function StandsOnGoal(cellValue As Integer) As Boolean
-        Return cellValue = CInt(BoardItem.PlaceForBox) OrElse
-               cellValue = CInt(BoardItem.BoxOnPlace) OrElse
-               cellValue = CInt(BoardItem.PlayerOnPlace)
+    Public Function StandsOnGoal(cell As BoardItem) As Boolean
+        Return cell = BoardItem.PlaceForBox OrElse
+               cell = BoardItem.BoxOnPlace OrElse
+               cell = BoardItem.PlayerOnPlace
     End Function
 
-    Public Function WithPlayer(cellValue As Integer) As Integer
-        Return CInt(If(StandsOnGoal(cellValue), BoardItem.PlayerOnPlace, BoardItem.Player))
+    Public Function WithPlayer(cell As BoardItem) As BoardItem
+        Return If(StandsOnGoal(cell), BoardItem.PlayerOnPlace, BoardItem.Player)
     End Function
 
-    Public Function WithBox(cellValue As Integer) As Integer
-        Return CInt(If(StandsOnGoal(cellValue), BoardItem.BoxOnPlace, BoardItem.Box))
+    Public Function WithBox(cell As BoardItem) As BoardItem
+        Return If(StandsOnGoal(cell), BoardItem.BoxOnPlace, BoardItem.Box)
     End Function
 
-    Public Function WithNothing(cellValue As Integer) As Integer
-        Return CInt(If(StandsOnGoal(cellValue), BoardItem.PlaceForBox, BoardItem.Blank))
+    Public Function WithNothing(cell As BoardItem) As BoardItem
+        Return If(StandsOnGoal(cell), BoardItem.PlaceForBox, BoardItem.Blank)
     End Function
 
     ' --- Asking what a square will allow -------------------------------------------------------
 
     ''' <remarks>Whether anything can stand on this square: a wall and the outside cannot.</remarks>
-    Public Function IsWalkable(cellValue As Integer) As Boolean
-        Return cellValue <> CInt(BoardItem.Wall) AndAlso cellValue <> CInt(BoardItem.BlankOuter)
+    Public Function IsWalkable(cell As BoardItem) As Boolean
+        Return cell <> BoardItem.Wall AndAlso cell <> BoardItem.BlankOuter
     End Function
 
     ''' <remarks>Whether a box is standing here, on plain floor or on a goal.</remarks>
-    Public Function HoldsBox(cellValue As Integer) As Boolean
-        Return cellValue = CInt(BoardItem.Box) OrElse cellValue = CInt(BoardItem.BoxOnPlace)
+    Public Function HoldsBox(cell As BoardItem) As Boolean
+        Return cell = BoardItem.Box OrElse cell = BoardItem.BoxOnPlace
     End Function
 
     ' --- Directions as data ---------------------------------------------------------------------

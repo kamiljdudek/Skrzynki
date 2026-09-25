@@ -1,0 +1,299 @@
+' -------------------------------------------------------------------------------------------
+' |                                         SKRZYNKI                                        |
+' |                                 autor: Karol Kuczmarski                                 |
+' -------------------------------------------------------------------------------------------
+'
+' A Sokoban puzzle. The boxes have to be arranged onto the marked places; only one box moves at
+' a time, and only by being pushed away from the player.
+' -------------------------------------------------------------------------------------------
+
+''' <remarks>
+''' One game in progress: the board, the attempt on the current level, and which levelset it comes
+''' from. The movement rules are in MovementRules.vb; BoardItem, the board dimensions and the
+''' cell-encoding helpers are in Board.vb.
+''' </remarks>
+Partial Public Class Game
+    ''' <remarks>The current arrangement of everything on the playing field.</remarks>
+    Private ReadOnly Cells(BoardCellCount) As BoardItem
+
+    ''' <remarks>
+    ''' The attempt on the level being played: every move in order, which is what Undo reverses
+    ''' and what a solution is written from.
+    ''' </remarks>
+    Private ReadOnly RecordedMoves As New MoveHistory
+
+    ''' <remarks>Where the player is standing, as an index into Cells.</remarks>
+    Private PlayerLocation As Integer
+
+    ''' <remarks>
+    ''' The levelset being played: one of the built-in sets, or one opened from a file. Nothing
+    ''' until a level has loaded.
+    ''' </remarks>
+    Private CurrentLevelset As Levelset
+
+    ''' <remarks>Path of the levelset file being played; Nothing while playing a built-in set.</remarks>
+    Private LevelsetFileName As String
+
+    Private LevelNumber As Integer
+    Private MoveCount As Integer
+    Private PushCount As Integer
+
+    ' --- The state of play -----------------------------------------------------------------
+
+    ''' <remarks>Contents of one board cell. Out-of-range indices read as BlankOuter.</remarks>
+    Public ReadOnly Property BoardCell(cellIndex As Integer) As BoardItem
+        Get
+            If Not IsOnBoard(cellIndex) Then
+                Return BoardItem.BlankOuter
+            End If
+            Return Cells(cellIndex)
+        End Get
+    End Property
+
+    Public ReadOnly Property CurrentPlayerLocation() As Integer
+        Get
+            Return PlayerLocation
+        End Get
+    End Property
+
+    Public ReadOnly Property CurrentLevelNumber() As Integer
+        Get
+            Return LevelNumber
+        End Get
+    End Property
+
+    Public ReadOnly Property NumberOfLevelsInCurrentLevelset() As Integer
+        Get
+            If CurrentLevelset Is Nothing Then
+                Return 0
+            End If
+            Return CurrentLevelset.NumberOfLevels
+        End Get
+    End Property
+
+    Public ReadOnly Property MovesPerformed() As Integer
+        Get
+            Return MoveCount
+        End Get
+    End Property
+
+    Public ReadOnly Property PushesPerformed() As Integer
+        Get
+            Return PushCount
+        End Get
+    End Property
+
+    Public ReadOnly Property IsPlayingCustomLevelset() As Boolean
+        Get
+            Return LevelsetFileName IsNot Nothing
+        End Get
+    End Property
+
+    ''' <remarks>Path of the levelset file currently open, if the game is playing one.</remarks>
+    Public ReadOnly Property CustomLevelsetFileName() As String
+        Get
+            Return LevelsetFileName
+        End Get
+    End Property
+
+    Public ReadOnly Property CanUndo() As Boolean
+        Get
+            Return Not RecordedMoves.IsEmpty
+        End Get
+    End Property
+
+    ''' <remarks>
+    ''' The attempt on the current level in LURD notation - the notation Sokoban solutions are
+    ''' normally exchanged in, so this is what an exported solution consists of. Once the level is
+    ''' solved, this string is a solution to it.
+    ''' </remarks>
+    Public ReadOnly Property CurrentAttemptLurd() As String
+        Get
+            Return RecordedMoves.Lurd
+        End Get
+    End Property
+
+    Public ReadOnly Property IsCurrentLevelSolved() As Boolean
+        Get
+            Return IsBoardSolved(Cells)
+        End Get
+    End Property
+
+    Public ReadOnly Property NumberOfGoalsOnCurrentLevel() As Integer
+        Get
+            Return GetTotalNumberOfGoalsOnBoard(Cells)
+        End Get
+    End Property
+
+    Public ReadOnly Property NumberOfCoveredGoalsOnCurrentLevel() As Integer
+        Get
+            Return GetNumberOfPlacedBoxesOnBoard(Cells)
+        End Get
+    End Property
+
+    ' --- Choosing what to play -------------------------------------------------------------
+
+    ''' <remarks>
+    ''' Loads a level onto the board and starts a fresh attempt at it. Returns False without
+    ''' touching any state when there is no such level, so callers can report the failure rather
+    ''' than crash on a bad index later on.
+    ''' </remarks>
+    Private Function LoadLevel(levelset As Levelset, levelId As Integer) As Boolean
+        If levelset Is Nothing Then
+            Return False
+        End If
+
+        Dim StartingBoard() As BoardItem = levelset.GetLevel(levelId)
+        If StartingBoard Is Nothing Then
+            Return False
+        End If
+
+        Array.Copy(StartingBoard, Cells, Cells.Length)
+        PlayerLocation = GetIndexOfPlayerOnBoard(Cells)
+        CurrentLevelset = levelset
+        LevelNumber = levelId
+
+        MoveCount = 0
+        PushCount = 0
+        RecordedMoves.Clear()
+
+        Return True
+    End Function
+
+    ''' <remarks>
+    ''' Prepares the levelsets and starts play in the set named by the settings. The one call a
+    ''' host needs to make before showing a board.
+    ''' </remarks>
+    Public Function Start() As Boolean
+        ProgressStore.MigrateLegacyProgress()
+        LevelsetLibrary.LoadAllLevelsets()
+        Return SelectBuiltInLevelset(My.Settings.LevelSet)
+    End Function
+
+    ''' <remarks>Starts the given level of the built-in levelset named by the settings.</remarks>
+    Public Function NewGame(whichLevel As Integer) As Boolean
+        If Not LoadLevel(GetLevelset(My.Settings.LevelSet), whichLevel) Then
+            Return False
+        End If
+
+        LevelsetFileName = Nothing
+        Return True
+    End Function
+
+    ''' <remarks>
+    ''' Switches to one of the built-in levelsets, starting either at its first level or at the
+    ''' furthest the player has reached, according to the BeginFromArrivedLevel setting. Restores
+    ''' the previous set if the requested one cannot be loaded.
+    ''' </remarks>
+    Public Function SelectBuiltInLevelset(levelsetName As String) As Boolean
+        Dim PreviousLevelset As String = My.Settings.LevelSet
+        My.Settings.LevelSet = levelsetName
+
+        Dim StartingLevel As Integer = 1
+        If My.Settings.BeginFromArrivedLevel Then
+            StartingLevel = ProgressStore.FurthestPlayableLevel(levelsetName)
+        End If
+
+        If NewGame(StartingLevel) Then
+            Return True
+        End If
+
+        ' Saved progress can point past the end of the set; the first level always exists.
+        If NewGame(1) Then
+            Return True
+        End If
+
+        My.Settings.LevelSet = PreviousLevelset
+        Return False
+    End Function
+
+    ''' <remarks>
+    ''' Reads a level file and switches play over to its first level. Nothing about the game in
+    ''' progress changes unless that succeeds, so a bad file leaves the current level untouched.
+    ''' </remarks>
+    Public Function OpenLevelsetFromFile(levelFileName As String) As Boolean
+        Dim LevelsetText As String
+
+        Try
+            LevelsetText = System.IO.File.ReadAllText(levelFileName, System.Text.Encoding.ASCII)
+        Catch ex As System.IO.IOException
+            Return False
+        Catch ex As UnauthorizedAccessException
+            Return False
+        End Try
+
+        Dim FromFile As New Levelset(System.IO.Path.GetFileName(levelFileName))
+        FromFile.AddAllLevels(SplitIntoLevelTexts(LevelsetText))
+
+        ' Always starts at level 1 of the new set, whatever level the previous set was on.
+        If Not LoadLevel(FromFile, 1) Then
+            Return False
+        End If
+
+        LevelsetFileName = levelFileName
+        Return True
+    End Function
+
+    ''' <remarks>
+    ''' Moves on to the level after the one just solved. Returns False when the set is finished or
+    ''' the next level cannot be loaded, leaving it to the caller to decide what happens next.
+    ''' </remarks>
+    Public Function AdvanceToNextLevel() As Boolean
+        Return LoadLevel(CurrentLevelset, LevelNumber + 1)
+    End Function
+
+    Public Function RestartLevel() As Boolean
+        Return LoadLevel(CurrentLevelset, LevelNumber)
+    End Function
+
+    ''' <remarks>
+    ''' Banks the moves and pushes spent on the level just completed and advances the furthest
+    ''' reached marker. Call once per solved level, including the last one of a set.
+    '''
+    ''' The marker names the next level to play, so completing level N sets it to N + 1 and
+    ''' completing the last level of a set takes it one past the end - which is what distinguishes
+    ''' a finished set from merely standing on its final level. FurthestPlayableLevel clamps it
+    ''' back to a level number for anything that has to play or display one.
+    '''
+    ''' Progress is only kept for the built-in sets; a levelset opened from a file has no
+    ''' persisted statistics of its own.
+    ''' </remarks>
+    Public Sub RecordProgressForSolvedLevel()
+        If IsPlayingCustomLevelset Then
+            Exit Sub
+        End If
+
+        ProgressStore.RecordSolvedLevel(My.Settings.LevelSet, LevelNumber + 1, MoveCount, PushCount)
+    End Sub
+
+    ' --- Taking a move back ----------------------------------------------------------------
+
+    ''' <remarks>
+    ''' Takes back the last move by reversing it, rather than by restoring a copy of the board:
+    ''' the player steps back the way they came, and a box that was pushed is pulled back with
+    ''' them. Each square is re-encoded from the floor it already reports, so goals survive.
+    ''' </remarks>
+    Public Sub Undo()
+        If RecordedMoves.IsEmpty Then
+            Exit Sub
+        End If
+
+        Dim LastMove As MoveRecord = RecordedMoves.TakeLast()
+        Dim Player As Cell = Cell.FromIndex(PlayerLocation)
+        Dim CameFrom As Cell = Player.Neighbour(Opposite(LastMove.Direction))
+
+        If LastMove.PushedBox Then
+            ' The box is one square further along than the player, and gets pulled back with them.
+            Dim BoxCell As Cell = Player.Neighbour(LastMove.Direction)
+            Cells(BoxCell.Index) = WithNothing(Cells(BoxCell.Index))
+            Cells(Player.Index) = WithBox(Cells(Player.Index))
+            PushCount -= 1
+        Else
+            Cells(Player.Index) = WithNothing(Cells(Player.Index))
+        End If
+
+        Cells(CameFrom.Index) = WithPlayer(Cells(CameFrom.Index))
+        PlayerLocation = CameFrom.Index
+        MoveCount -= 1
+    End Sub
+End Class

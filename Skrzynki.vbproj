@@ -153,6 +153,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Dialogs.vb" />
     <Compile Include="GameBoardDetails.vb" />
     <Compile Include="GameBoardForm.Designer.vb">
       <DependentUpon>GameBoardForm.vb</DependentUpon>
@@ -204,9 +205,7 @@
     <Compile Include="StatsOptsForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="倉庫番.vb">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Game.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>

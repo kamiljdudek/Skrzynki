@@ -56,18 +56,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property ShowSplashAtStartup() As Boolean
-            Get
-                Return CType(Me("ShowSplashAtStartup"),Boolean)
-            End Get
-            Set
-                Me("ShowSplashAtStartup") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("(Oryginalny)")>  _
         Public Property Skin() As String
             Get
