@@ -191,6 +191,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LevelsetResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="SelectLevelForm.Designer.vb">
+      <DependentUpon>SelectLevelForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SelectLevelForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Settings.vb" />
     <Compile Include="SplashScreen.Designer.vb">
       <DependentUpon>SplashScreen.vb</DependentUpon>

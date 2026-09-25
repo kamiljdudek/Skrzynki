@@ -35,9 +35,16 @@ Module Skin
             Dim ResourceName As String =
                 prefix & Item.ToString(System.Globalization.CultureInfo.InvariantCulture)
 
-            Using Icon As System.Drawing.Icon = CType(
+            Using Icon As System.Drawing.Icon = TryCast(
                 My.Resources.ResourceManager.GetObject(ResourceName, My.Resources.Culture),
                 System.Drawing.Icon)
+                ' Every skin has to supply every icon; a gap is a packaging mistake, reported by
+                ' name rather than as a null reference somewhere in the drawing code.
+                If Icon Is Nothing Then
+                    Throw New InvalidOperationException(
+                        "The skin resource " & ResourceName & " is missing or is not an icon.")
+                End If
+
                 Bitmaps(Item) = Icon.ToBitmap()
             End Using
         Next

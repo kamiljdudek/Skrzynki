@@ -8,7 +8,7 @@ Partial Public Class GameBoardForm
 
     ' Parallel to the game's board: see the board indexing convention in Board.vb. Cells occupy
     ' BoardFirstIndex through BoardCellCount; index 0 is unused.
-    ReadOnly CellPictures(BoardCellCount) As System.Windows.Forms.PictureBox
+    Private ReadOnly CellPictures(BoardCellCount) As System.Windows.Forms.PictureBox
 
     Private Const CellSizeInPixels As Integer = 32
 
@@ -231,8 +231,16 @@ Partial Public Class GameBoardForm
             ElseIf Not CurrentGame.AdvanceToNextLevel() Then
                 ShowMessage(My.Resources.LocalizableStrings.AlertAllLevelsSolved, MsgBoxStyle.Information)
 
-                ' Finishing a set opened from a file drops back to the selected built-in one.
-                If Not CurrentGame.PlayBuiltInLevel(1) Then
+                ' Finishing a set opened from a file drops back to the selected built-in one, the
+                ' same way as choosing it from the menu. Finishing a built-in set starts it over.
+                Dim Continued As Boolean
+                If CurrentGame.IsPlayingCustomLevelset Then
+                    Continued = StartBuiltInLevelset(CurrentGame.BuiltInLevelsetName)
+                Else
+                    Continued = CurrentGame.PlayBuiltInLevel(1)
+                End If
+
+                If Not Continued Then
                     Exit While
                 End If
             End If

@@ -126,20 +126,11 @@
   <data name="AlertLevelEmptyOrBad" xml:space="preserve">
     <value>Plik etapów jest pusty lub wadliwy</value>
   </data>
-  <data name="AlertLevelLoadFailure" xml:space="preserve">
-    <value>Błąd podczas wczytywania pliku</value>
-  </data>
-  <data name="AlertLevelNotReachedYet" xml:space="preserve">
-    <value>Ten etap nie jest jeszcze dostępny</value>
-  </data>
   <data name="AlertLevelsetLoadFailure" xml:space="preserve">
     <value>Błąd podczas wczytywania zestawu etapów</value>
   </data>
   <data name="AlertLevelSolved" xml:space="preserve">
     <value>Świetnie! 💖</value>
-  </data>
-  <data name="AlertNotANumber" xml:space="preserve">
-    <value>Wprowadzona wartość nie jest liczbą</value>
   </data>
   <data name="DialogFileFilter" xml:space="preserve">
     <value>Etapy gry Skrzynki (*.box)|*.box|Zestawy Sokoban (*.sok)|*.sok</value>
@@ -159,26 +150,8 @@
   <data name="CheckBoxBeginFromArrivedLevel" xml:space="preserve">
     <value>Zaczynaj od najdalszego osiągniętego etapu</value>
   </data>
-  <data name="LabelAboutForWindows" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelAboutInfo" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelAboutLicenceBlurb" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelAboutVersion" xml:space="preserve">
-    <value />
-  </data>
   <data name="LabelAchievedLevel" xml:space="preserve">
     <value>Osiągnięty etap: </value>
-  </data>
-  <data name="LabelBoxes" xml:space="preserve">
-    <value>Skrzynki:</value>
-  </data>
-  <data name="LabelColor" xml:space="preserve">
-    <value>Kolor tła:</value>
   </data>
   <data name="LabelLevelSet" xml:space="preserve">
     <value>Zestaw:</value>
@@ -186,14 +159,8 @@
   <data name="LabelMoves" xml:space="preserve">
     <value>Ruchy: </value>
   </data>
-  <data name="LabelOptions" xml:space="preserve">
-    <value />
-  </data>
   <data name="LabelPushes" xml:space="preserve">
     <value>Pchnięcia: </value>
-  </data>
-  <data name="LabelShortPauseAndNumberID" xml:space="preserve">
-    <value> - #</value>
   </data>
   <data name="LabelSkin" xml:space="preserve">
     <value>Skórka</value>
@@ -222,9 +189,6 @@
   <data name="LevelSetClassic" xml:space="preserve">
     <value>Klasyczne</value>
   </data>
-  <data name="LevelSetSasquatch01" xml:space="preserve">
-    <value />
-  </data>
   <data name="LevelSetXS" xml:space="preserve">
     <value>Super trudne XS</value>
   </data>
@@ -248,9 +212,6 @@
   </data>
   <data name="MenuitemHide" xml:space="preserve">
     <value>&amp;Ukryj</value>
-  </data>
-  <data name="MenuitemNewGame" xml:space="preserve">
-    <value>&amp;Nowa gra</value>
   </data>
   <data name="MenuitemOpenLevelFile" xml:space="preserve">
     <value>Otwórz &amp;plik etapu...</value>
@@ -288,9 +249,6 @@
   <data name="QueryRestartLevel" xml:space="preserve">
     <value>Czy na pewno chcesz zrestartować bieżący etap?</value>
   </data>
-  <data name="QuerySelectLevel" xml:space="preserve">
-    <value />
-  </data>
   <data name="LabelLevelSolvedTitle" xml:space="preserve">
     <value>Etap ukończony</value>
   </data>
@@ -314,5 +272,11 @@
   </data>
   <data name="AlertSolutionSaveFailure" xml:space="preserve">
     <value>Nie udało się zapisać rozwiązania w tym miejscu.</value>
+  </data>
+  <data name="ButtonOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>Anuluj</value>
   </data>
 </root>

@@ -1,42 +1,28 @@
-Imports System.Globalization
-
 ' Choosing what to play: a level by number, a levelset opened from a file, or one of the
 ' built-in levelsets.
 Partial Public Class GameBoardForm
 
     ''' <remarks>
     ''' Picks a level of the set being played: any level of a file, or one already reached in a
-    ''' built-in set.
+    ''' built-in set. The dialog starts on the furthest level reached, or on the current level of
+    ''' a file, where every level is open.
     ''' </remarks>
     Private Sub MenuitemSelectLevel_Click(sender As Object, e As EventArgs) Handles MenuitemSelectLevel.Click
-        Dim HighestOpenLevel As Integer = CurrentGame.HighestOpenLevel
-
-        Dim IB As String = InputBox(My.Resources.LocalizableStrings.DialogSelectLevel,
-                                    MessageTitle,
-                                    HighestOpenLevel.ToString(CultureInfo.InvariantCulture))
-        If String.IsNullOrWhiteSpace(IB) Then
-            Exit Sub
+        Dim SuggestedLevel As Integer = CurrentGame.HighestOpenLevel
+        If CurrentGame.IsPlayingCustomLevelset Then
+            SuggestedLevel = CurrentGame.CurrentLevelNumber
         End If
 
-        ' A whole number and nothing else: the level number is not a localized quantity, and
-        ' anything with a decimal separator or trailing text is a typo rather than a level.
         Dim RequestedLevel As Integer
-        If Not Integer.TryParse(IB.Trim(),
-                                NumberStyles.Integer,
-                                CultureInfo.InvariantCulture,
-                                RequestedLevel) Then
-            ShowMessage(My.Resources.LocalizableStrings.AlertNotANumber, MsgBoxStyle.Critical)
-            Exit Sub
-        End If
+        Using Picker As New SelectLevelForm(CurrentGame.HighestOpenLevel, SuggestedLevel)
+            If Picker.ShowDialog(Me) <> DialogResult.OK Then
+                Exit Sub
+            End If
+            RequestedLevel = Picker.SelectedLevel
+        End Using
 
-        If RequestedLevel > HighestOpenLevel AndAlso
-           RequestedLevel <= CurrentGame.NumberOfLevelsInCurrentLevelset Then
-            ShowMessage(My.Resources.LocalizableStrings.AlertLevelNotReachedYet, MsgBoxStyle.Critical)
-            Exit Sub
-        End If
-
-        ' PlayLevel clears the undo history and the move counters along with loading the board,
-        ' and rejects a level number outside the set.
+        ' PlayLevel clears the undo history and the move counters along with loading the board.
+        ' The picker keeps the number in range, so this fails only when no set is loaded at all.
         If Not CurrentGame.PlayLevel(RequestedLevel) Then
             ShowMessage(My.Resources.LocalizableStrings.AlertLevelDoesNotExist, MsgBoxStyle.Critical)
             Exit Sub

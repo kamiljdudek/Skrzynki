@@ -92,25 +92,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu Error while loading level.
-        '''</summary>
-        Friend Shared ReadOnly Property AlertLevelLoadFailure() As String
-            Get
-                Return ResourceManager.GetString("AlertLevelLoadFailure", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu You haven&apos;t reached that far yet.
-        '''</summary>
-        Friend Shared ReadOnly Property AlertLevelNotReachedYet() As String
-            Get
-                Return ResourceManager.GetString("AlertLevelNotReachedYet", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu Error at reading file.
+        '''Wyszukuje zlokalizowany ciąg podobny do ciągu The levelset could not be loaded..
         '''</summary>
         Friend Shared ReadOnly Property AlertLevelsetLoadFailure() As String
             Get
@@ -128,15 +110,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu Not a number.
-        '''</summary>
-        Friend Shared ReadOnly Property AlertNotANumber() As String
-            Get
-                Return ResourceManager.GetString("AlertNotANumber", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''Wyszukuje zlokalizowany ciąg podobny do ciągu The solution could not be saved to that location..
         '''</summary>
         Friend Shared ReadOnly Property AlertSolutionSaveFailure() As String
@@ -146,11 +119,29 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''Wyszukuje zlokalizowany ciąg podobny do ciągu Cancel.
+        '''</summary>
+        Friend Shared ReadOnly Property ButtonCancel() As String
+            Get
+                Return ResourceManager.GetString("ButtonCancel", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''Wyszukuje zlokalizowany ciąg podobny do ciągu &amp;Next.
         '''</summary>
         Friend Shared ReadOnly Property ButtonNextLevel() As String
             Get
                 Return ResourceManager.GetString("ButtonNextLevel", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''Wyszukuje zlokalizowany ciąg podobny do ciągu OK.
+        '''</summary>
+        Friend Shared ReadOnly Property ButtonOK() As String
+            Get
+                Return ResourceManager.GetString("ButtonOK", resourceCulture)
             End Get
         End Property
         
@@ -245,65 +236,11 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu .
-        '''</summary>
-        Friend Shared ReadOnly Property LabelAboutForWindows() As String
-            Get
-                Return ResourceManager.GetString("LabelAboutForWindows", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu .
-        '''</summary>
-        Friend Shared ReadOnly Property LabelAboutInfo() As String
-            Get
-                Return ResourceManager.GetString("LabelAboutInfo", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu .
-        '''</summary>
-        Friend Shared ReadOnly Property LabelAboutLicenceBlurb() As String
-            Get
-                Return ResourceManager.GetString("LabelAboutLicenceBlurb", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu .
-        '''</summary>
-        Friend Shared ReadOnly Property LabelAboutVersion() As String
-            Get
-                Return ResourceManager.GetString("LabelAboutVersion", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu Reached level:.
+        '''Wyszukuje zlokalizowany ciąg podobny do ciągu Reached level: .
         '''</summary>
         Friend Shared ReadOnly Property LabelAchievedLevel() As String
             Get
                 Return ResourceManager.GetString("LabelAchievedLevel", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu Skrzynki:.
-        '''</summary>
-        Friend Shared ReadOnly Property LabelBoxes() As String
-            Get
-                Return ResourceManager.GetString("LabelBoxes", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu Background color:.
-        '''</summary>
-        Friend Shared ReadOnly Property LabelColor() As String
-            Get
-                Return ResourceManager.GetString("LabelColor", resourceCulture)
             End Get
         End Property
         
@@ -326,7 +263,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu Moves:.
+        '''Wyszukuje zlokalizowany ciąg podobny do ciągu Moves: .
         '''</summary>
         Friend Shared ReadOnly Property LabelMoves() As String
             Get
@@ -335,29 +272,11 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu .
-        '''</summary>
-        Friend Shared ReadOnly Property LabelOptions() As String
-            Get
-                Return ResourceManager.GetString("LabelOptions", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu Pushes:.
+        '''Wyszukuje zlokalizowany ciąg podobny do ciągu Pushes: .
         '''</summary>
         Friend Shared ReadOnly Property LabelPushes() As String
             Get
                 Return ResourceManager.GetString("LabelPushes", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu  - #.
-        '''</summary>
-        Friend Shared ReadOnly Property LabelShortPauseAndNumberID() As String
-            Get
-                Return ResourceManager.GetString("LabelShortPauseAndNumberID", resourceCulture)
             End Get
         End Property
         
@@ -452,15 +371,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu .
-        '''</summary>
-        Friend Shared ReadOnly Property LevelSetSasquatch01() As String
-            Get
-                Return ResourceManager.GetString("LevelSetSasquatch01", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''Wyszukuje zlokalizowany ciąg podobny do ciągu XS Extra Difficult.
         '''</summary>
         Friend Shared ReadOnly Property LevelSetXS() As String
@@ -529,15 +439,6 @@ Namespace My.Resources
         Friend Shared ReadOnly Property MenuitemHide() As String
             Get
                 Return ResourceManager.GetString("MenuitemHide", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu &amp;New game.
-        '''</summary>
-        Friend Shared ReadOnly Property MenuitemNewGame() As String
-            Get
-                Return ResourceManager.GetString("MenuitemNewGame", resourceCulture)
             End Get
         End Property
         
@@ -646,15 +547,6 @@ Namespace My.Resources
         Friend Shared ReadOnly Property QueryRestartLevel() As String
             Get
                 Return ResourceManager.GetString("QueryRestartLevel", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''Wyszukuje zlokalizowany ciąg podobny do ciągu .
-        '''</summary>
-        Friend Shared ReadOnly Property QuerySelectLevel() As String
-            Get
-                Return ResourceManager.GetString("QuerySelectLevel", resourceCulture)
             End Get
         End Property
     End Class

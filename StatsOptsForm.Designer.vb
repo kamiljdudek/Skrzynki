@@ -89,7 +89,6 @@ Partial Class StatsOptsForm
         Me.Name = "StatsOptsForm"
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
-        Me.TopMost = True
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

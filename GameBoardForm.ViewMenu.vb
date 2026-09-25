@@ -75,7 +75,7 @@ Partial Public Class GameBoardForm
     ''' Brings the game window back from wherever it is - hidden in the tray, minimized, or behind
     ''' other windows. Also called when the game is launched a second time.
     ''' </remarks>
-    Public Sub RestoreWindow()
+    Friend Sub RestoreWindow()
         SkrzynkiTrayIcon.Visible = False
         Me.Visible = True
         If Me.WindowState = FormWindowState.Minimized Then
