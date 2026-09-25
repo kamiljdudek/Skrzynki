@@ -21,6 +21,12 @@ Public NotInheritable Class BoardView
                  ControlStyles.OptimizedDoubleBuffer Or
                  ControlStyles.UserPaint Or
                  ControlStyles.ResizeRedraw, True)
+
+        ' The view only shows the game; the keyboard belongs to the game window. A control that
+        ' can take the focus takes it as soon as the window opens, and Windows Forms then treats
+        ' the arrow keys as keys for moving between controls, so they never reach the game.
+        SetStyle(ControlStyles.Selectable, False)
+        TabStop = False
     End Sub
 
     ''' <remarks>The board to draw. Nothing draws an empty view.</remarks>
