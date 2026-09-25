@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AlertAllLevelsSolved" xml:space="preserve">
-    <value>Flawless victory: you managed to complete this levelset!</value>
+    <value>Victoire parfaite : vous avez terminé tous les niveaux de cette collection !</value>
   </data>
   <data name="AlertLevelDoesNotExist" xml:space="preserve">
     <value>Le niveau avec ce numéro n'existe pas</value>
@@ -196,22 +196,22 @@
     <value> - #</value>
   </data>
   <data name="LabelSkin" xml:space="preserve">
-    <value>Skin</value>
+    <value>Apparence</value>
   </data>
   <data name="LabelSkinCheese" xml:space="preserve">
-    <value>Cheese</value>
+    <value>Fromage</value>
   </data>
   <data name="LabelSkinExport" xml:space="preserve">
-    <value>Export</value>
+    <value>Exportation</value>
   </data>
   <data name="LabelSkinOriginal" xml:space="preserve">
-    <value>Skrzynki</value>
+    <value>Original</value>
   </data>
   <data name="LabelSplashOS" xml:space="preserve">
     <value>pour Windows</value>
   </data>
   <data name="LabelSplashVersionName" xml:space="preserve">
-    <value>Version: </value>
+    <value>Version : </value>
   </data>
   <data name="LabelStats" xml:space="preserve">
     <value>Stats et options</value>
@@ -220,7 +220,7 @@
     <value>Cachée derrière les cases...</value>
   </data>
   <data name="LevelSetClassic" xml:space="preserve">
-    <value>Classic Skrzynki</value>
+    <value>Skrzynki classique</value>
   </data>
   <data name="LevelSetSasquatch01" xml:space="preserve">
     <value />
@@ -232,10 +232,10 @@
     <value>A propos de...</value>
   </data>
   <data name="MenuitemColor" xml:space="preserve">
-    <value>Pic&amp;k a color...</value>
+    <value>Choisir une &amp;couleur...</value>
   </data>
   <data name="MenuitemConfirmRestarts" xml:space="preserve">
-    <value>&amp;Confirm level restarts</value>
+    <value>Confirmer le &amp;redémarrage du niveau</value>
   </data>
   <data name="MenuitemGame" xml:space="preserve">
     <value>&amp;Jeu</value>
@@ -244,7 +244,7 @@
     <value>&amp;?</value>
   </data>
   <data name="MenuitemHelpTopics" xml:space="preserve">
-    <value>Index</value>
+    <value>Rubriques d'aide</value>
   </data>
   <data name="MenuitemHide" xml:space="preserve">
     <value>Cac&amp;he</value>
@@ -274,7 +274,7 @@
     <value>En&amp;semble</value>
   </data>
   <data name="MenuitemTools" xml:space="preserve">
-    <value>&amp;Tools</value>
+    <value>&amp;Outils</value>
   </data>
   <data name="MenuitemUndo" xml:space="preserve">
     <value>Ann&amp;uler</value>

@@ -15,7 +15,7 @@
 ''' </remarks>
 Partial Public Class Game
     Private ReadOnly Library As LevelsetLibrary
-    Private ReadOnly ProgressKeeper As IProgressStore
+    Private ReadOnly Progress As IProgressStore
 
     ''' <remarks>The current arrangement of everything on the playing field.</remarks>
     Private ReadOnly Cells(BoardCellCount) As BoardItem
@@ -54,21 +54,8 @@ Partial Public Class Game
         End If
 
         Library = levelsets
-        ProgressKeeper = progress
+        Me.Progress = progress
     End Sub
-
-    ''' <remarks>The built-in levelsets this game can play.</remarks>
-    Public ReadOnly Property Levelsets As LevelsetLibrary
-        Get
-            Return Library
-        End Get
-    End Property
-
-    Public ReadOnly Property Progress As IProgressStore
-        Get
-            Return ProgressKeeper
-        End Get
-    End Property
 
     ' --- The state of play -----------------------------------------------------------------
 
@@ -203,16 +190,30 @@ Partial Public Class Game
     End Function
 
     ''' <remarks>
-    ''' The highest level the player may open in the named set: the progress marker, which runs
-    ''' one past the end of a finished set, clamped to a level that exists.
+    ''' The highest level of the set being played that the player may pick: any level of a set
+    ''' opened from a file, which keeps no progress, and up to the furthest level reached in a
+    ''' built-in one.
     ''' </remarks>
-    Public Function FurthestPlayableLevel(levelsetName As String) As Integer
-        Return Library.ClampToLevelset(ProgressKeeper.GetLevelMarker(levelsetName), levelsetName)
+    Public ReadOnly Property HighestOpenLevel() As Integer
+        Get
+            If IsPlayingCustomLevelset Then
+                Return NumberOfLevelsInCurrentLevelset
+            End If
+            Return Library.FurthestPlayableLevel(SelectedBuiltInLevelset, Progress)
+        End Get
+    End Property
+
+    ''' <remarks>Starts the given level of the set being played, whichever that is.</remarks>
+    Public Function PlayLevel(levelNumber As Integer) As Boolean
+        Return LoadLevel(CurrentLevelset, levelNumber)
     End Function
 
-    ''' <remarks>Starts the given level of the selected built-in levelset.</remarks>
-    Public Function NewGame(whichLevel As Integer) As Boolean
-        Return LoadLevel(Library.GetLevelset(SelectedBuiltInLevelset), whichLevel)
+    ''' <remarks>
+    ''' Starts the given level of the selected built-in levelset, leaving a set opened from a file
+    ''' if one is being played.
+    ''' </remarks>
+    Public Function PlayBuiltInLevel(levelNumber As Integer) As Boolean
+        Return LoadLevel(Library.GetLevelset(SelectedBuiltInLevelset), levelNumber)
     End Function
 
     ''' <remarks>
@@ -225,7 +226,7 @@ Partial Public Class Game
 
         Dim StartingLevel As Integer = 1
         If startAtFurthestLevel Then
-            StartingLevel = FurthestPlayableLevel(levelsetName)
+            StartingLevel = Library.FurthestPlayableLevel(levelsetName, Progress)
         End If
 
         ' Saved progress can point past the end of the set; the first level always exists.
@@ -261,11 +262,11 @@ Partial Public Class Game
     ''' the next level cannot be loaded, leaving it to the caller to decide what happens next.
     ''' </remarks>
     Public Function AdvanceToNextLevel() As Boolean
-        Return LoadLevel(CurrentLevelset, LevelNumber + 1)
+        Return PlayLevel(LevelNumber + 1)
     End Function
 
     Public Function RestartLevel() As Boolean
-        Return LoadLevel(CurrentLevelset, LevelNumber)
+        Return PlayLevel(LevelNumber)
     End Function
 
     ''' <remarks>
@@ -274,8 +275,8 @@ Partial Public Class Game
     '''
     ''' The marker names the next level to play, so completing level N sets it to N + 1 and
     ''' completing the last level of a set takes it one past the end - which is what distinguishes
-    ''' a finished set from merely standing on its final level. FurthestPlayableLevel clamps it
-    ''' back to a level number for anything that has to play or display one.
+    ''' a finished set from merely standing on its final level. LevelsetLibrary.FurthestPlayableLevel
+    ''' clamps it back to a level number for anything that has to play or display one.
     '''
     ''' Progress is only kept for the built-in sets; a levelset opened from a file has no
     ''' persisted statistics of its own.
@@ -285,7 +286,7 @@ Partial Public Class Game
             Exit Sub
         End If
 
-        ProgressKeeper.RecordSolvedLevel(SelectedBuiltInLevelset, LevelNumber + 1, MoveCount, PushCount)
+        Progress.RecordSolvedLevel(SelectedBuiltInLevelset, LevelNumber + 1, MoveCount, PushCount)
     End Sub
 
     ' --- Taking a move back ----------------------------------------------------------------

@@ -7,8 +7,8 @@ Public Class SplashScreen
         Me.LabelCopyright.Text = My.Application.Info.Copyright
         Me.LabelGameName.Text = My.Application.Info.AssemblyName
         Me.LabelDescr.Text = My.Application.Info.Description
-        Me.LabelPlatform.Text = Localizer.GetString("LabelSplashOS")
-        Me.LabelVersion.Text = Localizer.GetString("LabelSplashVersionName") &
+        Me.LabelPlatform.Text = My.Resources.LocalizableStrings.LabelSplashOS
+        Me.LabelVersion.Text = My.Resources.LocalizableStrings.LabelSplashVersionName &
             System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileVersion
         Me.PictureBoxLogo.Image = My.Resources.ico101.ToBitmap()
     End Sub

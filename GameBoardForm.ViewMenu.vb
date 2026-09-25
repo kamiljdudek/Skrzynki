@@ -61,14 +61,26 @@ Partial Public Class GameBoardForm
 
     Private Sub MenuitemHide_Click(sender As Object, e As EventArgs) Handles MenuitemHide.Click
         SkrzynkiTrayIcon.Visible = True
-        SkrzynkiTrayIcon.Text = Localizer.GetString("LabelTrayDescription")
-        SkrzynkiTrayIcon.BalloonTipText = Localizer.GetString("LabelTrayDescription")
+        SkrzynkiTrayIcon.Text = My.Resources.LocalizableStrings.LabelTrayDescription
+        SkrzynkiTrayIcon.BalloonTipText = My.Resources.LocalizableStrings.LabelTrayDescription
         Me.Visible = False
     End Sub
 
     ''' <remarks>Any click brings the window back; a double-click raises MouseClick too.</remarks>
     Private Sub SkrzynkiTrayIcon_MouseClick(sender As Object, e As MouseEventArgs) Handles SkrzynkiTrayIcon.MouseClick
+        RestoreWindow()
+    End Sub
+
+    ''' <remarks>
+    ''' Brings the game window back from wherever it is - hidden in the tray, minimized, or behind
+    ''' other windows. Also called when the game is launched a second time.
+    ''' </remarks>
+    Public Sub RestoreWindow()
         SkrzynkiTrayIcon.Visible = False
         Me.Visible = True
+        If Me.WindowState = FormWindowState.Minimized Then
+            Me.WindowState = FormWindowState.Normal
+        End If
+        Me.Activate()
     End Sub
 End Class

@@ -5,16 +5,15 @@ Imports System.Globalization
 Partial Public Class GameBoardForm
 
     ''' <remarks>
-    ''' Picks a level of the selected built-in set - also while a file is being played, since
-    ''' NewGame always returns to that set.
+    ''' Picks a level of the set being played: any level of a file, or one already reached in a
+    ''' built-in set.
     ''' </remarks>
     Private Sub MenuitemSelectLevel_Click(sender As Object, e As EventArgs) Handles MenuitemSelectLevel.Click
-        Dim BuiltInLevelset As String = CurrentGame.BuiltInLevelsetName
-        Dim FurthestPlayableLevel As Integer = CurrentGame.FurthestPlayableLevel(BuiltInLevelset)
+        Dim HighestOpenLevel As Integer = CurrentGame.HighestOpenLevel
 
-        Dim IB As String = InputBox(Localizer.GetString("QuerySelectLevel"),
+        Dim IB As String = InputBox(My.Resources.LocalizableStrings.DialogSelectLevel,
                                     MessageTitle,
-                                    FurthestPlayableLevel.ToString(CultureInfo.InvariantCulture))
+                                    HighestOpenLevel.ToString(CultureInfo.InvariantCulture))
         If String.IsNullOrWhiteSpace(IB) Then
             Exit Sub
         End If
@@ -26,20 +25,20 @@ Partial Public Class GameBoardForm
                                 NumberStyles.Integer,
                                 CultureInfo.InvariantCulture,
                                 RequestedLevel) Then
-            ShowMessage(Localizer.GetString("AlertNotANumber"), MsgBoxStyle.Critical)
+            ShowMessage(My.Resources.LocalizableStrings.AlertNotANumber, MsgBoxStyle.Critical)
             Exit Sub
         End If
 
-        If RequestedLevel > FurthestPlayableLevel AndAlso
-           RequestedLevel <= CurrentGame.Levelsets.NumberOfLevelsIn(BuiltInLevelset) Then
-            ShowMessage(Localizer.GetString("AlertLevelNotReachedYet"), MsgBoxStyle.Critical)
+        If RequestedLevel > HighestOpenLevel AndAlso
+           RequestedLevel <= CurrentGame.NumberOfLevelsInCurrentLevelset Then
+            ShowMessage(My.Resources.LocalizableStrings.AlertLevelNotReachedYet, MsgBoxStyle.Critical)
             Exit Sub
         End If
 
-        ' NewGame clears the undo history and the move counters along with loading the board, and
-        ' rejects a level number outside the set.
-        If Not CurrentGame.NewGame(RequestedLevel) Then
-            ShowMessage(Localizer.GetString("AlertLevelDoesNotExist"), MsgBoxStyle.Critical)
+        ' PlayLevel clears the undo history and the move counters along with loading the board,
+        ' and rejects a level number outside the set.
+        If Not CurrentGame.PlayLevel(RequestedLevel) Then
+            ShowMessage(My.Resources.LocalizableStrings.AlertLevelDoesNotExist, MsgBoxStyle.Critical)
             Exit Sub
         End If
 
@@ -58,7 +57,7 @@ Partial Public Class GameBoardForm
         End If
 
         If Not CurrentGame.OpenLevelsetFromFile(OpenLevelFileDialog.FileName) Then
-            ShowMessage(Localizer.GetString("AlertLevelEmptyOrBad"), MsgBoxStyle.Exclamation)
+            ShowMessage(My.Resources.LocalizableStrings.AlertLevelEmptyOrBad, MsgBoxStyle.Exclamation)
             Exit Sub
         End If
 
@@ -94,7 +93,7 @@ Partial Public Class GameBoardForm
     ''' <remarks>A set that cannot be loaded leaves the game in progress untouched.</remarks>
     Private Sub SwitchToBuiltInLevelset(levelsetName As String)
         If Not StartBuiltInLevelset(levelsetName) Then
-            ShowMessage(Localizer.GetString("AlertLevelsetLoadFailure"), MsgBoxStyle.Critical)
+            ShowMessage(My.Resources.LocalizableStrings.AlertLevelsetLoadFailure, MsgBoxStyle.Critical)
             Exit Sub
         End If
 

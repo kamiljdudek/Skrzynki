@@ -33,11 +33,11 @@ Public Class LevelSolvedForm
         SolutionLurd = If(solution, String.Empty)
         SuggestedFileName = BuildFileName(levelsetName, levelNumber)
 
-        LabelMoves.Text = Localizer.GetString("LabelMoves") &
+        LabelMoves.Text = My.Resources.LocalizableStrings.LabelMoves &
             movesPerformed.ToString(CultureInfo.CurrentCulture)
-        LabelPushes.Text = Localizer.GetString("LabelPushes") &
+        LabelPushes.Text = My.Resources.LocalizableStrings.LabelPushes &
             pushesPerformed.ToString(CultureInfo.CurrentCulture)
-        LabelSolutionLength.Text = Localizer.GetString("LabelSolutionLength") &
+        LabelSolutionLength.Text = My.Resources.LocalizableStrings.LabelSolutionLength &
             SolutionLurd.Length.ToString(CultureInfo.CurrentCulture)
 
         ' Nothing to write out if the level arrived already solved.
@@ -70,11 +70,11 @@ Public Class LevelSolvedForm
     End Function
 
     Private Sub LevelSolvedForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Text = Localizer.GetString("LabelLevelSolvedTitle")
-        LabelCongratulation.Text = Localizer.GetString("AlertLevelSolved")
-        ButtonNextLevel.Text = Localizer.GetString("ButtonNextLevel")
-        ButtonRepeatLevel.Text = Localizer.GetString("ButtonRepeatLevel")
-        ButtonSaveSolution.Text = Localizer.GetString("ButtonSaveSolution")
+        Me.Text = My.Resources.LocalizableStrings.LabelLevelSolvedTitle
+        LabelCongratulation.Text = My.Resources.LocalizableStrings.AlertLevelSolved
+        ButtonNextLevel.Text = My.Resources.LocalizableStrings.ButtonNextLevel
+        ButtonRepeatLevel.Text = My.Resources.LocalizableStrings.ButtonRepeatLevel
+        ButtonSaveSolution.Text = My.Resources.LocalizableStrings.ButtonSaveSolution
 
         Me.AcceptButton = ButtonNextLevel
         ButtonNextLevel.Select()
@@ -93,8 +93,8 @@ Public Class LevelSolvedForm
     End Sub
 
     Private Sub ButtonSaveSolution_Click(sender As Object, e As EventArgs) Handles ButtonSaveSolution.Click
-        SaveSolutionDialog.Title = Localizer.GetString("DialogSaveSolution")
-        SaveSolutionDialog.Filter = Localizer.GetString("DialogSolutionFileFilter")
+        SaveSolutionDialog.Title = My.Resources.LocalizableStrings.DialogSaveSolution
+        SaveSolutionDialog.Filter = My.Resources.LocalizableStrings.DialogSolutionFileFilter
         SaveSolutionDialog.FileName = SuggestedFileName
 
         If SaveSolutionDialog.ShowDialog(Me) <> DialogResult.OK Then
@@ -115,6 +115,6 @@ Public Class LevelSolvedForm
     End Sub
 
     Private Shared Sub ShowSaveFailure()
-        ShowMessage(Localizer.GetString("AlertSolutionSaveFailure"), MsgBoxStyle.Critical)
+        ShowMessage(My.Resources.LocalizableStrings.AlertSolutionSaveFailure, MsgBoxStyle.Critical)
     End Sub
 End Class

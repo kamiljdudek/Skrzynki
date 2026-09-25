@@ -63,27 +63,6 @@ Public Structure MoveRecord
         End Get
     End Property
 
-    ''' <remarks>
-    ''' Reads one LURD character back into a move, or Nothing for any other character, so that
-    ''' whitespace and annotations in a stored solution can be skipped by the caller.
-    ''' </remarks>
-    Public Shared Function FromLurdCharacter(lurdCharacter As Char) As MoveRecord?
-        Dim PushedBox As Boolean = Char.IsUpper(lurdCharacter)
-
-        Select Case Char.ToLowerInvariant(lurdCharacter)
-            Case "u"c
-                Return New MoveRecord(MoveDirection.Up, PushedBox)
-            Case "d"c
-                Return New MoveRecord(MoveDirection.Down, PushedBox)
-            Case "l"c
-                Return New MoveRecord(MoveDirection.Left, PushedBox)
-            Case "r"c
-                Return New MoveRecord(MoveDirection.Right, PushedBox)
-            Case Else
-                Return Nothing
-        End Select
-    End Function
-
     Public Overrides Function Equals(obj As Object) As Boolean
         If TypeOf obj Is MoveRecord Then
             Return Equals(CType(obj, MoveRecord))
@@ -117,12 +96,6 @@ End Structure
 ''' </remarks>
 Public Class MoveHistory
     Private ReadOnly RecordedMoves As New System.Collections.Generic.List(Of MoveRecord)
-
-    Public ReadOnly Property Count As Integer
-        Get
-            Return RecordedMoves.Count
-        End Get
-    End Property
 
     Public ReadOnly Property IsEmpty As Boolean
         Get

@@ -1,7 +1,10 @@
 ﻿' The menu handlers for choosing levels and levelsets are in GameBoardForm.LevelSelection.vb, and
 ' those of the View menu in GameBoardForm.ViewMenu.vb.
 Partial Public Class GameBoardForm
-    Private ReadOnly CurrentGame As New Game(LevelsetLibrary.LoadBuiltIn(), New ProgressStore())
+    ' Initialized in this order: the game is built from the two before it.
+    Private ReadOnly Levelsets As LevelsetLibrary = LevelsetLibrary.LoadBuiltIn()
+    Private ReadOnly Progress As New ProgressStore()
+    Private ReadOnly CurrentGame As New Game(Levelsets, Progress)
 
     ' Parallel to the game's board: see the board indexing convention in Board.vb. Cells occupy
     ' BoardFirstIndex through BoardCellCount; index 0 is unused.
@@ -12,33 +15,33 @@ Partial Public Class GameBoardForm
     Private StatisticsWindow As StatsOptsForm
 
     Private Sub ApplyLocalizationResources()
-        Me.MenuitemAbout.Text = Localizer.GetString("MenuitemAbout")
-        Me.MenuitemAppWebsite.Text = Localizer.GetString("MenuitemWebsite")
-        Me.MenuitemGame.Text = Localizer.GetString("MenuitemGame")
-        Me.MenuitemHelp.Text = Localizer.GetString("MenuitemHelp")
-        Me.MenuitemHelpTopics.Text = Localizer.GetString("MenuitemHelpTopics")
-        Me.MenuitemLevelset.Text = Localizer.GetString("MenuitemSelectLevelSet")
-        Me.MenuitemLevelsetClassic.Text = Localizer.GetString("LevelSetClassic")
-        Me.MenuitemLevelsetXS.Text = Localizer.GetString("LevelSetXS")
-        Me.MenuitemOptions.Text = Localizer.GetString("MenuitemOptions")
-        Me.MenuitemQuit.Text = Localizer.GetString("MenuitemQuit")
-        Me.MenuitemRefresh.Text = Localizer.GetString("MenuitemRefresh")
-        Me.MenuitemRestart.Text = Localizer.GetString("MenuitemRestart")
-        Me.MenuitemSelectLevel.Text = Localizer.GetString("MenuitemSelectLevel")
-        Me.MenuitemOpenLevelFile.Text = Localizer.GetString("MenuitemOpenLevelFile")
-        Me.MenuitemTools.Text = Localizer.GetString("MenuitemTools")
-        Me.MenuitemUndo.Text = Localizer.GetString("MenuitemUndo")
-        Me.MenuitemView.Text = Localizer.GetString("MenuitemView")
-        Me.MenuitemSkinOrig.Text = Localizer.GetString("LabelSkinOriginal")
-        Me.MenuitemSkinExport.Text = Localizer.GetString("LabelSkinExport")
-        Me.MenuitemSkinCheese.Text = Localizer.GetString("LabelSkinCheese")
-        Me.MenuitemSkins.Text = Localizer.GetString("LabelSkin")
-        Me.MenuitemColor.Text = Localizer.GetString("MenuitemColor")
-        Me.MenuitemHide.Text = Localizer.GetString("MenuitemHide")
-        Me.SkrzynkiTrayIcon.Text = Localizer.GetString("GameName")
-        Me.MenuitemConfirmRestarts.Text = Localizer.GetString("MenuitemConfirmRestarts")
-        OpenLevelFileDialog.Filter = Localizer.GetString("DialogFileFilter")
-        OpenLevelFileDialog.Title = Localizer.GetString("DialogOpenLevelFile")
+        Me.MenuitemAbout.Text = My.Resources.LocalizableStrings.MenuitemAbout
+        Me.MenuitemAppWebsite.Text = My.Resources.LocalizableStrings.MenuitemWebsite
+        Me.MenuitemGame.Text = My.Resources.LocalizableStrings.MenuitemGame
+        Me.MenuitemHelp.Text = My.Resources.LocalizableStrings.MenuitemHelp
+        Me.MenuitemHelpTopics.Text = My.Resources.LocalizableStrings.MenuitemHelpTopics
+        Me.MenuitemLevelset.Text = My.Resources.LocalizableStrings.MenuitemSelectLevelSet
+        Me.MenuitemLevelsetClassic.Text = My.Resources.LocalizableStrings.LevelSetClassic
+        Me.MenuitemLevelsetXS.Text = My.Resources.LocalizableStrings.LevelSetXS
+        Me.MenuitemOptions.Text = My.Resources.LocalizableStrings.MenuitemOptions
+        Me.MenuitemQuit.Text = My.Resources.LocalizableStrings.MenuitemQuit
+        Me.MenuitemRefresh.Text = My.Resources.LocalizableStrings.MenuitemRefresh
+        Me.MenuitemRestart.Text = My.Resources.LocalizableStrings.MenuitemRestart
+        Me.MenuitemSelectLevel.Text = My.Resources.LocalizableStrings.MenuitemSelectLevel
+        Me.MenuitemOpenLevelFile.Text = My.Resources.LocalizableStrings.MenuitemOpenLevelFile
+        Me.MenuitemTools.Text = My.Resources.LocalizableStrings.MenuitemTools
+        Me.MenuitemUndo.Text = My.Resources.LocalizableStrings.MenuitemUndo
+        Me.MenuitemView.Text = My.Resources.LocalizableStrings.MenuitemView
+        Me.MenuitemSkinOrig.Text = My.Resources.LocalizableStrings.LabelSkinOriginal
+        Me.MenuitemSkinExport.Text = My.Resources.LocalizableStrings.LabelSkinExport
+        Me.MenuitemSkinCheese.Text = My.Resources.LocalizableStrings.LabelSkinCheese
+        Me.MenuitemSkins.Text = My.Resources.LocalizableStrings.LabelSkin
+        Me.MenuitemColor.Text = My.Resources.LocalizableStrings.MenuitemColor
+        Me.MenuitemHide.Text = My.Resources.LocalizableStrings.MenuitemHide
+        Me.SkrzynkiTrayIcon.Text = My.Resources.LocalizableStrings.GameName
+        Me.MenuitemConfirmRestarts.Text = My.Resources.LocalizableStrings.MenuitemConfirmRestarts
+        OpenLevelFileDialog.Filter = My.Resources.LocalizableStrings.DialogFileFilter
+        OpenLevelFileDialog.Title = My.Resources.LocalizableStrings.DialogOpenLevelFile
     End Sub
 
     ''' <remarks>
@@ -74,12 +77,12 @@ Partial Public Class GameBoardForm
     ''' anything that changes the game, so no caller has to remember which parts to update.
     ''' </remarks>
     Private Sub RefreshStatusBar()
-        MovesLabel.Text = Localizer.GetString("LabelMoves") & CurrentGame.MovesPerformed
-        PushesLabel.Text = Localizer.GetString("LabelPushes") & CurrentGame.PushesPerformed
+        MovesLabel.Text = My.Resources.LocalizableStrings.LabelMoves & CurrentGame.MovesPerformed
+        PushesLabel.Text = My.Resources.LocalizableStrings.LabelPushes & CurrentGame.PushesPerformed
 
         Me.Text = String.Format(System.Globalization.CultureInfo.CurrentCulture,
-                                Localizer.GetString("GameTitleFormat"),
-                                Localizer.GetString("GameName"),
+                                My.Resources.LocalizableStrings.GameTitleFormat,
+                                My.Resources.LocalizableStrings.GameName,
                                 LevelsetDisplayName(),
                                 CurrentGame.CurrentLevelNumber)
 
@@ -146,13 +149,13 @@ Partial Public Class GameBoardForm
         End If
     End Sub
 
-    Public Sub RefreshBoard()
+    Private Sub RefreshBoard()
         For Counter As Integer = BoardFirstIndex To BoardCellCount
             RefreshCell(Counter)
         Next Counter
     End Sub
 
-    Public Sub RefreshCellsAroundPlayer()
+    Private Sub RefreshCellsAroundPlayer()
         Dim Player As Integer = CurrentGame.CurrentPlayerLocation
         RefreshCell(Player - BoardWidth)
         RefreshCell(Player - 1)
@@ -215,6 +218,9 @@ Partial Public Class GameBoardForm
 
             ' Banked before advancing, for every solved level including the last one of a set.
             CurrentGame.RecordProgressForSolvedLevel()
+            If StatisticsWindow IsNot Nothing AndAlso Not StatisticsWindow.IsDisposed Then
+                StatisticsWindow.RefreshStatistics()
+            End If
 
             ' Read before the level changes: advancing and restarting both clear the history the
             ' solution is written from.
@@ -223,10 +229,10 @@ Partial Public Class GameBoardForm
             If Choice = LevelSolvedChoice.RepeatLevel Then
                 CurrentGame.RestartLevel()
             ElseIf Not CurrentGame.AdvanceToNextLevel() Then
-                ShowMessage(Localizer.GetString("AlertAllLevelsSolved"), MsgBoxStyle.Information)
+                ShowMessage(My.Resources.LocalizableStrings.AlertAllLevelsSolved, MsgBoxStyle.Information)
 
                 ' Finishing a set opened from a file drops back to the selected built-in one.
-                If Not CurrentGame.NewGame(1) Then
+                If Not CurrentGame.PlayBuiltInLevel(1) Then
                     Exit While
                 End If
             End If
@@ -266,10 +272,11 @@ Partial Public Class GameBoardForm
         Me.Icon = My.Resources.ico101
         Me.BackColor = Color.Black
 
-        ' Resumes in the set the player was last in, falling back to its first level when saved
-        ' progress points past the end of the set.
-        If Not StartBuiltInLevelset(My.Settings.LevelSet) Then
-            ShowMessage(Localizer.GetString("AlertLevelsetLoadFailure"), MsgBoxStyle.Critical)
+        ' Resumes in the set the player was last in, or in the first built-in set when the saved
+        ' name is not one the game knows.
+        If Not StartBuiltInLevelset(My.Settings.LevelSet) AndAlso
+           Not StartBuiltInLevelset(Levelsets.LevelsetNames(0)) Then
+            ShowMessage(My.Resources.LocalizableStrings.AlertLevelsetLoadFailure, MsgBoxStyle.Critical)
         End If
 
         RefreshBoard()
@@ -300,7 +307,7 @@ Partial Public Class GameBoardForm
     ''' </remarks>
     Private Sub MenuitemOptions_Click(sender As Object, e As EventArgs) Handles MenuitemOptions.Click
         If StatisticsWindow Is Nothing OrElse StatisticsWindow.IsDisposed Then
-            StatisticsWindow = New StatsOptsForm(CurrentGame)
+            StatisticsWindow = New StatsOptsForm(Levelsets, Progress, CurrentGame.BuiltInLevelsetName)
         End If
 
         StatisticsWindow.Show(Me)
@@ -309,7 +316,7 @@ Partial Public Class GameBoardForm
 
     Private Sub MenuitemRestart_Click(sender As Object, e As EventArgs) Handles MenuitemRestart.Click
         If My.Settings.LevelRestartingAuthorization AndAlso
-           ShowMessage(Localizer.GetString("QueryRestartLevel"),
+           ShowMessage(My.Resources.LocalizableStrings.QueryRestartLevel,
                        MsgBoxStyle.YesNo Or MsgBoxStyle.Question) <> MsgBoxResult.Yes Then
             Exit Sub
         End If
